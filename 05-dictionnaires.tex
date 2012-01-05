@@ -1157,4 +1157,536 @@ $\Rightarrow$ \alert{Table de hachage:}
 \item Idée:
 \begin{itemize}
 \item Utiliser une table $T$ de taille $m<<|U|$
-\item stocker $x$ à la position $h(\attrib{x}{key})$, où $h$ est une fonction de \alert{hachage}: $$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+\item stocker $x$ à la position $h(\attrib{x}{key})$, où $h$ est une fonction de \alert{hachage}: $$h:U\rightarrow \{1,\ldots,m\}$$
+\end{itemize}
+\end{itemize}
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Hash-Insert}(T,x)$}
+    \li $T[h(\attrib{x}{key})]\gets x$
+\end{codebox}}
+~~~~~~~~\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Hash-Delete}(T,x)$}
+    \li $T[h(\attrib{x}{key})]\gets \const{NIL}$
+\end{codebox}}
+
+\bigskip
+
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Hash-Search}(T,x)$}
+    \li \Return $T[h(\attrib{x}{key})]$
+\end{codebox}}
+\end{small}
+\end{center}
+
+Est-ce que ces algorithmes sont corrects ?
+
+\end{frame}
+
+\begin{frame}{Table de hachage}
+
+\centerline{\includegraphics[width=7cm]{Figures/05-hashtable1.pdf}}
+
+\bigskip
+
+\begin{itemize}
+\item \alert{Collision:} que faire lorsque deux clés distinctes $k_1$ et $k_2$ sont telles que $h(k_1)=h(k_2)$ ?
+\item Cela se produit toujours lorsque le nombre de clés observées est plus grand que la taille du tableau $T$ $|K|>m$
+\item Deux solutions:
+\begin{itemize}
+\item le chaînage (adressage fermé)
+\item le sondage (adressage ouvert)
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Fréquence des collisions}
+
+\begin{itemize}
+\item Pour éviter les collisions:
+\begin{itemize}
+\item on veille à utiliser une fonction de hachage qui disperse le
+  plus possible les clés vers les différents compartiments.
+\item on utilise un nombre de compartiments suffisamment grand
+\end{itemize}
+\item Cependant, même dans ce cas, la probabilité de collision peut
+  être non négligeable.
+
+\bigskip
+
+\item \alert{Paradoxe des anniversaires}
+\begin{itemize}
+\item Quelle est la probabilité pour que, dans un groupe de $n$ personnes, au moins deux d'entre elles possèdent le même jour d'anniversaire?
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Paradoxe des anniversaires}
+
+\begin{itemize}
+\item Hypothèse:
+\begin{itemize}
+\item On néglige les années bissextiles
+\item Les 365 jours présentent la même probabilités d'être un jour d'anniversaire
+\end{itemize}
+\item Si $p$ est la probabilité d'une collision d'anniversaire:
+$$1-p = \frac{364}{365} \cdot \frac{363}{364} \cdot \frac{362}{365} \ldots \frac{365-n+1}{365} = \frac{365!}{(365-n)! 365^n}$$
+Exemples:
+\begin{itemize}
+\item $n=23 \Rightarrow p>0,5$
+\item $n=57 \Rightarrow p>0,99$
+\end{itemize}
+\bigskip
+
+\item Pour une table de hachage:
+\begin{itemize}
+\item $m=365$ et 57 clés $\Rightarrow$ plus de 99\% de chance de collision
+\item $m=1000000$ et 2500 clés $\Rightarrow$ plus de 95\% de chance de collision
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Résolution des collisions par chainage}
+
+Solution: mettre les éléments qui sont ``hachés'' vers la même
+position dans une liste liée (simple ou double)
+
+\bigskip
+
+\centerline{\includegraphics[width=10cm]{Figures/05-hashtable2.pdf}}
+
+\note{Une liste double est meilleure pour supprimer des éléments}
+\end{frame}
+
+\begin{frame}{Implémentation des opérations}
+
+~\bigskip
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Chained-Hash-Insert}(T,x)$}
+    \li $\proc{List-Insert}(T[h(\attrib{x}{key})],x)$
+\end{codebox}}
+~~~~~~~~\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Chained-Hash-Delete}(T,x)$}
+    \li $\proc{List-Delete}(T[h(\attrib{x}{key})],x)$
+\end{codebox}}
+
+\bigskip
+
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Chained-Hash-Search}(T,k)$}
+    \li \Return $\proc{List-Search}(T[h(k)],k)$
+\end{codebox}}
+\end{small}
+\end{center}
+
+\bigskip
+\bigskip
+
+\begin{itemize}
+\item Complexité:
+\begin{itemize}
+\item Insertion: $O(1)$
+\item Suppression: $O(1)$ si liste doublement liée, $O(n)$ pour une liste de taille $n$ si liste simplement liée.
+\item Recherche: $O(n)$ si liste de taille $n$.
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Analyse}
+
+%\medskip
+
+\begin{itemize}
+\item Recherche d'une clé $k$ dans la table:
+\begin{itemize}
+\item recherche positive: la clé $k$ se trouve dans la table
+\item recherche négative: la clé $k$ n'est pas dans la table
+\end{itemize}
+\medskip
+\item Le \alert{facteur de charge} d'une table de hachage est donné par $\alpha=\frac{n}{m}$ où:
+\begin{itemize}
+\item $n$ est le nombre d'éléments dans la table
+\item $m$ est la taille de la table (c'est-à-dire, le nombre de listes liées)
+\end{itemize}
+\medskip
+\item \alert{hachage uniforme simple}: Pour toute clé $k$,
+$$Proba\{h(k)=i\}=\frac{1}{m}, \forall i\in\{0,\ldots,m-1\}$$
+%% \item On suppose un hachage uniforme simple, c'est-à-dire toute clé a la même probabilité d'être envoyée par $h$ sur n'importe laquelle des positions
+
+%% \item Soit $n_j$ la longueur de la liste $T[j]$ ($j=0,\ldots,m-1$). On a $n=n_0+n_1+\ldots+n_{m-1}$.
+%% \item La valeur moyenne de $n_j$, est $$E\{n_j\}=\alpha=\frac{n}{m}.$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Analyse}
+\begin{itemize}
+\item Hypothèses:
+\begin{itemize}
+\item $h$ produit un hachage uniforme simple
+\item le calcul de $h(k)$ est $\Theta(1)$
+\item Insertion en début de liste
+\end{itemize}
+\item $\Rightarrow$ complexités moyennes:
+\begin{itemize}
+\item recherche négative: $\Theta(1+\alpha)$
+\item recherche positive: $\Theta(1+\alpha)$
+\end{itemize}
+\item Si $n=O(m)$, $$\alpha=\frac{O(n)}{m}=O(1)$$
+\item Toutes les opérations sont donc $O(1)$ en moyenne
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Analyse: recherche négative}
+\begin{itemize}
+\item La clé $k$ ne se trouve pas dans la table
+\item Par la propriété de hachage uniforme simple, elle a la même probabilité d'être envoyé vers chaque position dans la table.
+\item Recherche négative requière le parcours de la liste $T[h(k)]$ complète
+\item Cette liste a une longueur moyenne $E[n_{h(k)}]=\alpha$.
+\item Le nombre d'éléments à examiner lors d'une recherche négative est donc $\alpha$.
+\item En ajoutant le temps de calcul de la fonction de hachage, on arrive à une complexité moyenne $\Theta(1+\alpha)$.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Analyse: recherche positive}
+
+\begin{itemize}
+\item La clé $k$ se trouve dans la table
+\item Supposons qu'elle ait été inséré à la $i$-ième étape (parmi $n$).
+\begin{itemize}
+\item Le nombre d'éléments à examiner pour trouver la clé est le
+  nombre d'éléments insérés à la position $h(k)$ après $k$ plus 1 (la clé $k$ elle-même). 
+\item En moyenne, sur les $n-i$ insertions après $k$, il y en aura
+  $(n-i)/m$ qui correspondront à la position $h(k)$.
+\end{itemize}
+\item $k$ ayant pu être insérée à n'importe quelle étape parmi $n$ avec une probabilité $1/n$:
+\begin{small}
+$$\sum_{i=1}^n \frac{1}{n} (1+\frac{n-i}{m})=1+\frac{1}{m} \sum_{i=1}^n n-\sum_{i=1}^n i=1+\frac{1}{m} (n^2-\frac{n(n+1)}{2})=1+\frac{\alpha}{2}-\frac{\alpha}{2n}$$
+\end{small}
+\item En tenant compte du coût du hachage, le complexité en moyenne
+  est donc $\Theta(2+\alpha/2-\alpha/2n)=\Theta(1+\alpha)$.
+\end{itemize}
+
+%% Intuitivement:
+%% Supposons qu'on ait inséré $x$ à la $i$th étape (proba de chaque étape est $1/n$.
+
+%% Nombre de comparaison est = au nombre d'éléments inséré après $x$ dans
+%% la table, c'est-à-dire $(n-i+1)/m$ vu l'hypothèse d'uniform hashing
+
+%% Proba totale=$\sum_{i=1}^N 1/N (n-i+1)/m$...
+
+\end{frame}
+
+\begin{frame}{Fonctions de hachage}
+\begin{itemize}
+\item Idéalement, la fonction de hachage devrait satisfaire l'hypothèse de hachage uniforme simple
+\item Très difficile en pratique: la distribution de probabilité des clés n'est pas connue à l'avance et les clés peuvent ne pas être indépendantes
+
+\bigskip
+
+\item Fonctions de hachages supposent que les clés sont des nombres naturels
+\item Si ce n'est pas le cas, il faut utiliser une fonction de codage
+\item Exemple: codage de la chaîne de caractères $SDA$:
+\begin{itemize}
+\item Valeurs ASCII (128 possibles): $S=83$, $D=68$, $A=65$.
+\item $SDA$ interprété comme l'entier $(83\cdot 128^2)+(68\cdot 128^1)+(65\cdot 128^0)=1368641$.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Méthode de division}
+\begin{itemize}
+\item La fonction de hachage calcule le reste de la division entière de la clé par la taille de la table
+$$h(k)=k\bmod m.$$
+Exemple: $m=20$ et $k=91$ $\Rightarrow h(k)=11$.
+\item Avantage: simple et rapide (juste une opération de division)
+\item Inconvénient: certaines valeurs de $m$ doivent être évitées:
+\begin{itemize}
+\item Si $m=2^p$ pour un entier $p$, $h(k)$ est consistué des $p$ bits
+  les moins significatifs de $k$ et donc la valeur hachée ne dépent
+  pas de toute la clé.
+\item Si $k$ est une chaîne de caractère codée en base $2^p$ et $m=2^p-1$, permuter la chaîne ne modifie pas le valeur de hachage
+\end{itemize}
+\item Bonne valeur de $m$: un nombre premier pas trop près d'une puissance exacte de 2.
+\begin{itemize}
+\item Propriété: si $m$ est premier avec $b$, alors
+$$\{(a+b\cdot i) \bmod m|i=0,1,2,\ldots\}=\{0,1,2,\ldots,m-1\}$$
+\end{itemize}
+\end{itemize}
+\note{Dire que si $m$ est premier, alors la valeur hachée est une
+  permutation de $\{0,1,\ldots,m-1\}$}
+\end{frame}
+
+\begin{frame}{Méthode de multiplication}
+\begin{itemize}
+\item Fonction de hachage:
+$$h(k)=\lfloor m\cdot(k A \bmod 1)\rfloor$$
+où
+\begin{itemize}
+\item $m$ est la taille de la table de hachage
+\item $k$ est la clé
+\item $A$ est une constante telle que $0<A<1$.
+\item $k A \bmod 1=k A - \lfloor k A \rfloor$ est la partie
+  fractionnaire de $kA$.
+\end{itemize}
+\item Inconvenient: plus lent que la méthode de division
+\item Avantage: la valeur de $m$ n'est plus critique
+\item La méthode marche mieux pour certaines valeurs de $A$. Par
+  exemple:$$A=\frac{\sqrt{5}-1}{2}$$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Méthode de multiplication: implémentation}
+\begin{itemize}
+\item $m=2^p$ pour un entier $p$
+\item Les mots sont codés en $w$ bits et que les clés $k$ peuvent être codé par un seul mot.
+\item $A$ de la forme $S/2^w$ pour $0<s<2^w$
+\end{itemize}
+
+\centerline{\includegraphics[width=8cm]{Figures/05-hashtablemultiplication.pdf}}
+
+\end{frame}
+
+\begin{frame}{Adressage ouvert: principe}
+\begin{itemize}
+\item Tous les éléments sont stockés dans le tableau (pas de liste chaînées).
+\begin{itemize}
+\item[$\Rightarrow$] ne fonctionne que si $\alpha\leq 1$
+\end{itemize}
+\item Chaque case contient soit une clé, soit NIL.
+\item Pour insérer une clé $k$, on sonde les cases
+  systématiquement à partir de $h(k)$ jusqu'à en trouver une vide.
+\item On définit une nouvelle fonction de hachage qui dépend de la clé et du numéro du sondage:
+$$h:U\times\{0,1,\ldots,m-1\} \rightarrow \{0,1,\ldots,m-1\}$$
+et qui est tel que
+$$\langle h(k,0), h(k,1), \ldots, h(k,m-1)\rangle$$
+est une permutation de $\langle 0, 1, \ldots, m-1\rangle$.
+\item La table peut donc être totalement remplie et la suppression est difficile.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Adressage ouvert: recherche et insertion}
+
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Hash-Search}(T,k)$}
+    \li $i\gets 0$
+    \li \Repeat
+    \li $j\gets h(k,i)$
+    \li \If $T[j]\isequal k$
+    \li \Then \Return j\End
+    \li $i\gets i+1$
+    \li \Until $T[j]\isequal \const{NIL}$ or $i\isequal m$
+    \li \Return $\const{NIL}$
+\end{codebox}}~~~\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Hash-Insert}(T,k)$}
+    \li $i\gets 0$
+    \li \Repeat
+    \li $j\gets h(k,i)$
+    \li \If $T[j]\isequal \const{NIL}$
+    \li \Then  $T[j]=k$
+    \li \Return j
+    \li \Else $i\gets i+1$ \End
+    \li \Until $i\isequal m$
+    \li \Error ``hash table overflow''
+\end{codebox}}
+
+\end{center}
+
+\centerline{\includegraphics[width=7cm]{Figures/05-openaddressing.pdf}}
+
+\end{frame}
+
+\begin{frame}{Adressage ouvert: suppression}
+\begin{itemize}
+\item La suppression est possible mais pas facile
+\begin{itemize}
+\item On évitera l'utilisation de l'adressage ouvert si on prévoit de nombreuses suppressions de clés dans le dictionnaire
+\end{itemize}
+\item On ne peut pas naïvement mettre $\const{NIL}$ dans la case contenant la clé $k$ qu'on désire effacer (\emph{pourquoi ?})
+\item Solution:
+\begin{itemize}
+\item Utiliser une valeur spéciale $\const{DELETED}$ au lieu
+  de $\const{NIL}$ pour signifier qu'on a effacé une valeur dans cette case
+\item Lors d'une recherche: considérer un case contenant
+  $\const{DELETED}$ comme une case contenant une clé
+\item Lors d'une insertion: considérer une case contenant $\const{DELETED}$ comme une case vide.
+\end{itemize}
+\item Inconvénient: le temps de recherche ne dépend maintenant plus du facteur de charge $\alpha$ de la table (\emph{Pourquoi ?})
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Stratégies de sondage}
+\begin{itemize}
+\item Soit $h_k=\langle h(k,0), h(k,1), \ldots, h(k,m-1)\rangle$ la séquence de sondage correspondant à la clé $k$.
+\item Hachage uniforme:
+\begin{itemize}
+\item chacun des $m!$ permutations de $\langle
+  0,1,\ldots,m-1\rangle$ a la même probabilité d'être la séquence de
+  sondage d'une clé $k$.
+\item Difficile à implémenter.
+\end{itemize}
+\item En pratique, on se contente d'une garantie que la séquence de
+  sondage soit une permutation de $\langle
+  0,1,\ldots,m-1\rangle$.
+
+\bigskip
+
+\item Trois techniques pseudo-uniformes:
+\begin{itemize}
+\item sondage linéaire
+\item sondage quadratique
+\item double hachage
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Sondage linéaire}
+$$h(k,i)=(h'(k)+i) \bmod m,$$
+où $h'(k)$ est une fonction de hachage ordinaire à valeurs dans $\{0,1,\ldots,m-1\}$.
+
+\bigskip
+
+Propriétés:
+\begin{itemize}
+\item très facile à implémenter
+\item grappe forte: création de longues suites de cellules occupées
+\item pas très uniforme
+\end{itemize}
+
+\note{On sonde les positions qui suivent directement la case trouvée en cyclant sur le tableau
+
+longues suites augmentent les temps de calcul pour l'insertion et la recherche: on tombe souvent sur une collision}
+
+\end{frame}
+
+\begin{frame}{Sondage quadratique}
+
+$$h(k,i)=(h'(k)+c_1 i+ c_2 i^2) \bmod m,$$
+où $h'$ est une fonction de hachage ordinaire à valeurs dans $\{0,1,\ldots,m-1\}$, $c_1$ et $c_2$ sont deux constantes non nulles.
+
+\bigskip
+
+Propriétés:
+\begin{itemize}
+\item nécessité de bien choisir les constantes $c_1$ et $c_2$ (pour
+  avoir une permutation de $\langle 0,1,\ldots,m-1\rangle$
+\item grappe faible: $h(k,0)=h(k',0)\Rightarrow h(k,i)=h(k',i)$
+\item meilleur que le sondage linéaire
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Double hachage}
+
+\begin{columns}
+\begin{column}{9cm}
+
+$$h(k,i)=(h_1(k)+i h_2(k))\bmod m,$$
+où $h_1$ et $h_2$ sont des fonctions de hachage ordinaires à valeurs dans $\{0,1,\ldots,m-1\}$.
+
+\bigskip
+
+Propriétés:
+\begin{itemize}
+\item difficile à implémenter à cause du choix de $h_1$ et $h_2$ ($h_2(k)$ doit être premier avec $m$ pour avoir une permutation de $\langle 0,1,\ldots,m-1\rangle$).
+\item très proche du hachage uniforme
+\item bien meilleur que les sondages linéaire et quadratique
+\end{itemize}
+
+\bigskip
+
+\emph{Exemple: $h_1(k)=k\bmod 13$, $h_2(k)=1+(k\mod 11)$, insertion de la clé 14}
+
+\end{column}
+\begin{column}{2.5cm}
+\begin{center}
+\includegraphics[width=1.5cm]{Figures/05-doublehachage.pdf}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Adressage ouvert: élément d'analyse}
+Pour une table de hachage à adressage ouvert de taille $m$ contenant $n$ éléments ($\alpha=n/m<1$) et en supposant le hachage uniforme
+\begin{itemize}
+\item Le nombre moyen de sondages pour une recherche négative ou un
+  ajout est borné par $\frac{1}{1-\alpha}$
+\item Le nombre moyen de sondages pour une recherche positive est borné par $\frac{1}{\alpha} \log \frac{1}{1-\alpha}$
+\end{itemize}
+%(\emph{pas démontré dans ce cours})
+
+\bigskip
+
+$\Rightarrow$ Si $\alpha$ est constant ($n=O(m)$), la recherche est $O(1)$.
+\begin{itemize}
+\item Si $\alpha=0.5$, une recherche nécessite en moyenne 2 sondages ($1/(1-0.5)$).
+\item Si $\alpha=0.9$, une recherche nécessite en moyenne 10 sondages ($1/(1-0.9)$).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Le rehachage}
+\begin{itemize}
+\item Lorsque $\alpha$ se rapproche de 1, les performances s'effondrent.
+\item Solution: rehachage: création d'une table plus grande
+\begin{itemize}
+\item allocation d'une nouvelle table
+\item détermination d'une nouvelle fonction de hachage, tenant compte du nouveau $m$
+\item parcours des entrées de la table originale et insertion dans la nouvelle table
+\end{itemize}
+\item Si la taille est doublée, le coût asymptotique constant des opérations est conservé (voir slide \pageref{sec05:amortie}).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Comparaison des différentes structures}
+\begin{itemize}
+\item Tableau à accès directe et table hash:
+\begin{itemize}
+\item Accès et insertion très rapide: $O(1)$ (dans les deux cas)
+\item Mais structure statique et espace gaspillé (surtout pour le tableau à accès directe)
+\item Facile à coder
+\item Pas d'autre solution pour des clés non ordonnées
+\item Pas facile de trouver une bonne fonction de hachage
+\item Performances pas vraiment garanties
+\end{itemize}
+\item Tableau trié et ABR
+\begin{itemize}
+\item Accès plus lent (surtout pour le tableau trié)
+\item structure dynamique (dans les deux cas)
+\end{itemize}
+\end{itemize}
+VOIR LES SLIDES DE SEDGEWICK !!
+\end{frame}
+
+\begin{frame}{Ce qu'on n'a pas vu}
+
+\begin{itemize}
+\item D'autres types d'arbres équilibrés: red-black trees, ...
+\item Fonctions de hachages sophistiquées
+\item Démonstrations formelles de certaines complexités
+\end{itemize}
+
+\end{frame}
