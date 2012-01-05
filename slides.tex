@@ -1,0 +1,151 @@
+% A FAIRE VERIFIER ETC !!!
+
+% - regarder à ce que les définitions d'arbres soient cohérente entre le chapitre 3 et le chapitre 5 (notamment, arbre ordonné, arbre complet, etc.)
+% - ajouter les slides ``ce qu'on a vu'', ``ce qu'on n'a pas vu'' (ce qu'on aurait pu voir)
+
+% - ajouter des exemples d'application: table hash -> recherche genome, arbre binaire: scheduling des avions (voir le cours du MIT de Kellis et autres)
+
+% - ajouter le tas binomial dans le cours 4 ? Pour la concaténation de tas ?
+
+%\documentclass[12pt,handout]{beamer}
+\documentclass[t]{beamer}
+\usepackage[latin1]{inputenc}
+\usepackage[french]{babel}
+
+% PACKAGES
+% --------
+
+\usetheme{default}
+
+\usepackage{pst-node}
+\usepackage{clrscode3epg}
+\usepackage{multido}
+\usepackage{fancybox}
+\usepackage{graphics}
+\usepackage{verbatim}
+
+%\usepackage{pgfpages} 
+%\pgfpagesuselayout{4 on 1}[a4paper,border shrink=5mm,landscape]
+%\pgfpagesuselayout{2 on 1}[a4paper,border shrink=5mm,portrait]
+%\pgfpagesuselayout{resize to}[a4paper,border shrink=5mm,landscape]
+
+\usepackage{multirow}
+\usepackage{comment}
+
+% BEAMER OPTION
+% -------------
+% Dérivé du style de Julien Brusten et de Antonio Carzaniga
+
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage[footheight=1em]{beamerthemeboxes}
+
+\addfootboxtemplate{\color{white}}{~~~~~\color{lightgray}\insertpart
+     \hfill\insertframenumber~~~}
+
+\defbeamertemplate*{part page}{mypartpage}[1][]
+{
+\begin{centering}
+{\usebeamerfont{part name}\usebeamercolor[fg]{part name}
+Partie~\insertpartnumber}
+\vskip1em\par
+\begin{beamercolorbox}[rounded=true,shadow=true,sep=8pt,center,#1]{part title}
+\usebeamerfont{part title}\insertpart\par
+\end{beamercolorbox}
+\end{centering}
+}
+
+\setbeamertemplate{part page}[mypartpage][]
+
+\setbeamertemplate{itemize item}{\vbox{\hrule width1ex height1ex depth0pt}}
+
+\newhsbcolor{Lightgray}{0 0 .95}
+
+\setbeamersize{text margin left=.5cm,text margin right=.5cm,sidebar width left=0pt,sidebar width right=0pt}
+
+\makeatletter
+
+\numberwithin{section}{part}
+
+\AtBeginPart{%
+\beamer@tocsectionnumber=0\relax\addtocontents{toc}{\protect\beamer@partintoc{\the\c@part}{\beamer@partnameshort}{\the\c@page}}
+\frame{\partpage}
+}%
+
+
+%% number, shortname, page.
+\providecommand\beamer@partintoc[3]{%
+  \ifnum\c@tocdepth=-1\relax
+    % requesting onlyparts.
+    \makebox[6em]{Partie #1:} #2
+    \par
+  \fi
+}
+
+\define@key{beamertoc}{onlyparts}[]{%
+  \c@tocdepth=-1\relax
+
+}
+
+\makeatother%
+
+
+%\AtBeginPart{\frame{\partpage}}
+
+% debut du document
+
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkred}{rgb}{0.6,0,0}
+\definecolor{gold}{rgb}{1,0.84,0}
+
+\setbeamercolor{alerted text}{fg=beamer@blendedblue}
+
+\newcommand{\pgcd}{\mbox{pgcd}}
+\newcommand{\arete}[2]{#1\mbox{---}#2}
+
+\title{Structures de données et algorithmes}
+\author{Pierre Geurts}
+\date{
+{\small
+\begin{tabular}{lcl}
+E-mail & : & {\tt p.geurts@ulg.ac.be}\\
+URL    & : & {\tt http://www.montefiore.ulg.ac.be/}\\
+       &   & {\tt ~~~~\~{}geurts/sda.html}\\
+Bureau & : & R 141 (Montefiore)\\
+Téléphone & : & 04.366.48.15 | 04.366.99.64
+\end{tabular}
+}
+}
+
+\newcommand{\nats}{\mathbb{N}}
+\newcommand{\ints}{\mathbb{Z}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\rationals}{\mathbb{Q}}
+
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamertemplate{subsection in toc}[sections numbered]
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+%\input{00-organisation.tex}
+
+\begin{frame}{Contenu du cours}
+%Remarques organisationelles
+
+\tableofcontents[onlyparts]
+
+\end{frame}
+
+\input{01-intro.tex}
+\input{02-analyse.tex}
+\input{03-tri.tex}
+\input{04-structures_elementaires.tex}
+\input{05-dictionnaires.tex}
+\input{06-resolution.tex}
+\input{07-graphes.tex}
+
+\end{document}

@@ -1,0 +1,344 @@
+\part{Preuves}
+
+\begin{frame}
+\textcolor{darkgreen}{Définition :} Une {\em démonstration} est une 
+vérification d'une {\em proposition} par une séquence
+de {\em déductions logiques} à partir d'un ensemble d'{\em axiomes}.
+\note{\begin{itemize}
+\item démonstration=preuve
+\item On va discuter les 3 éléments qu'on vient d'introduire
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}{Propositions}
+
+\textcolor{darkgreen}{Définition :} 
+Une {\em proposition} est un énoncé qui est {\em soit vrai},
+{\em soit faux}.
+
+\textcolor{blue}{Exemples :}
+\begin{itemize}
+\item $2+ 3 = 5$. Proposition vraie.
+\item $(\forall n \in \nats)~n^2 + n + 41$ est un nombre premier. 
+Proposition fausse : pour $n = 40$, on a $n^2 + n + 41 = 40^2 + 40 + 41
+= 41^2$.
+\item (Conjecture d'Euler, 1769) $a^4 + b^4 + c^4 = d^4$ n'a pas de solution
+quand $a,b,c,d \in \nats^+$.  Proposition fausse (Elkies, 1988).
+Contre-exemple : $a = 95800,
+b = 217519, c =414560, d = 422481$.
+\item $(\exists a,b,c,d \in \nats^+)~a^4 + b^4 + c^4 = d^4$.  Proposition
+vraie. 
+\end{itemize}
+\note{\begin{itemize}
+\item Vague mais une proposition$\neq$ questions ou exclamation (mangez votre soupe)
+\item Introduire prédicat (=proposition dont la véracité dépend de la valeur d'un paramètre) et quantificateur (pour tout et il existe)
+\item dire qu'on ne peut pas vérifier ce genre de proposition en essayant toutes les valeurs de $n$ (ok pour le premier mais pas pour le deuxième)
+\item $N=$ensemble des naturels=ensemble des entiers positifs ou nul, $N^+=$ ensemble des naturels strictement positif, $Z$ ensemble des entiers (incluant les négatifs).
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item $(\forall n \in \ints)~(n \geq 2) \Rightarrow (n^2 \geq 4)$.
+Proposition vraie.
+\item $1 = 0 \Rightarrow (\forall n \in \nats)~n^2 + n + 41$ est un
+nombre premier.  Proposition vraie.
+\item $(\forall n \in \ints)~(n \geq 2) \Leftrightarrow (n^2 \geq 4)$.
+Proposition fausse.
+\end{itemize}
+\note{\begin{itemize}
+\item Introduire implication (table de vérité) et équivalence (si et seulement si).
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}{Axiomes}
+
+\begin{itemize}
+\item
+\textcolor{darkgreen}{Définition :} 
+Un {\em axiome} est une proposition qui est {\em supposée vraie}.
+\item
+\textcolor{blue}{Exemple :} 
+$(\forall a,b,c \in \ints)~(a = b$ et $b = c) \Rightarrow (a = c)$.
+\item
+Un ensemble d'axiomes est \textcolor{darkgreen}{\em consistant} 
+s'il n'existe pas de proposition
+dont on peut démontrer qu'elle est {\em à la fois vraie et fausse}.
+\item
+Un ensemble d'axiomes est \textcolor{darkgreen}{\em complet} 
+si, pour toute proposition, il
+est possible de démontrer qu'elle est vraie ou fausse.
+\item
+\textcolor{darkred}{Théorème d'incomplétude de Gödel (1931) :} 
+tout ensemble consistant 
+d'axiomes pour l'arithmétique sur les entiers est nécessairement
+incomplet.
+\item
+Dans ce cours, on considérera comme axiomes les notions des mathématiques
+de base.
+\end{itemize}
+
+\note{
+Axiomes: connaissances dont on part et qu'on suppose vraie avant de faire une démonstration. Ca peut inclure certaines hypothèses ou conjectures plus ou moins vraies mais aussi des théorèmes qu'on aurait déjà prouvés par ailleurs.
+}
+\end{frame}
+
+\begin{frame}{Autres types de proposition}
+\begin{itemize}
+\item Un \textcolor{darkgreen}{\em théorème} est une proposition qui peut être démontrée
+\item Un \textcolor{darkgreen}{\em lemme} est une proposition préliminaire utile pour faire la démonstration d'autres propositions plus importantes
+\item Un \textcolor{darkgreen}{\em corrolaire} est une proposition qui peut se déduire d'un théorème en quelques étapes logiques
+\item Une \textcolor{darkgreen}{\em conjecture} est une proposition pour laquelle on ne connaît pas encore de démonstration mais que l'on soupçonne d'être vraie, en l'absence de contre-exemple. \textcolor{blue}{Exemple:} tout entier pair strictement plus grand que 2 est la somme de deux nombres premiers (Conjecture de Golbach).
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Déductions logiques}
+
+\begin{itemize}
+\item
+\textcolor{darkgreen}{Définition :} 
+Les {\em règles de déductions logiques}, ou {\em règles d'inférence},
+sont des règles permettant de combiner des axiomes et des propositions
+vraies pour établir de nouvelles propositions vraies.
+\item
+\textcolor{blue}{Exemple :}
+\fbox{$\begin{array}{c} P \\ P \Rightarrow Q \\ \hline Q \end{array}$}
+(modus ponens). \\
+Le modus ponens est fortement lié à la proposition $(P \wedge (P 
+\Rightarrow Q)) \Rightarrow Q$, qui est une {\em tautologie}.\\
+%\begin{itemize}
+%\item $\begin{array}{c} P \Rightarrow Q \\ Q \Rightarrow R \\ \hline
+%P \rightarrow R \end{array}$
+%\item $\begin{array}{c} P \Rightarrow Q \\ \neg Q \\ \hline \neg P
+%\end{array}$
+%\end{itemize}
+(= une proposition qui est toujours vraie quelles que
+soient les valeurs de ses variables)
+\end{itemize}
+\note{
+\begin{itemize}
+\item au dessus: antécédent (supposé vrais), en dessous: conséquence ou conclusion 
+\item Sens de la règle: si on a une démonstration de tous les antécédents, alors on a une démonstration de la conclusion
+\item dire qu'on ne définira pas . On accepte toute règle qui paraît logique.
+\item En général, une règle d'inférence est lié à une tautologie, c'est-à-dire une formule du calcul des propositions qui est toujours vraies quelque-soit les valeurs associées aux propositions qu'elle combine
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}{Exemples de démonstrations}
+\textcolor{darkred}{Théorème :} La proposition suivante est une tautologie :
+\[
+(X \Rightarrow Y) \Leftrightarrow (\neg Y \Rightarrow \neg X).
+\]
+
+\uncover<2->{\textcolor{blue}{Démonstration :} 
+Montrons que $(X \Rightarrow Y)$ est logiquement équivalent
+à sa {\em contraposée}
+$(\neg Y \Rightarrow \neg X)$, quelles que soient les valeurs booléennes
+des variables $X$ et $Y$.
+\[
+\begin{array}{c|c|c|c}
+X & Y & X \Rightarrow Y & \neg Y \Rightarrow \neg X \\
+\hline
+V & V & V & V \\
+V & F & F & F \\
+F & V & V & V \\
+F & F & V & V
+\end{array}
+\]
+La proposition $(X \Rightarrow Y) \Leftrightarrow (\neg Y \Rightarrow \neg
+X)$ est donc vraie dans tous les cas, ce qui implique qu'elle est une 
+tautologie.
+\qed}
+\end{frame}
+
+\begin{frame}
+Les deux règles suivantes sont donc des règles d'inférence.
+\[
+\begin{array}{c} P \Rightarrow Q \\ \hline
+\neg Q \Rightarrow \neg P \end{array} ~~~~~~~~~~~~~~
+\begin{array}{c} \neg Q \Rightarrow \neg P \\ \hline P \Rightarrow Q.
+\end{array}
+\]
+\note{
+\begin{itemize}
+\item contraposée (modus tollens)
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}
+\textcolor{darkred}{Théorème :} 
+$(\forall a \in \ints)~(a \mbox{ est pair }) \Leftrightarrow
+(a^2 \mbox{ est pair}).$
+
+\bigskip
+\uncover<2->{
+\textcolor{blue}{Démonstration :} Soit $a$ un entier quelconque.
+%, et montrons que
+%$a$ est pair $\Rightarrow$ $a^2$ est pair, et que $a^2$ est pair
+%$\Rightarrow$ $a$ est pair.
+
+\bigskip
+
+\fbox{$a$ est pair $\Rightarrow$ $a^2$ est pair}
+Supposons que $a$ soit pair.  On a donc $a = 2b$, avec $b \in \ints$.
+Dès lors, on
+obtient $a^2 = (2b)^2 = 4b^2 = 2(2b^2)$.  Le nombre $a^2$ est donc pair.
+
+\bigskip
+
+\fbox{$a^2$ est pair $\Rightarrow$ $a$ est pair} Par le théorème précédent,
+il suffit de démontrer que $a$ est impair $\Rightarrow$ $a^2$ est impair.
+Supposons que $a$ soit impair.  On a donc $a = 2b + 1$, avec $b \in \ints$.
+Dès lors, on obtient
+$a^2 = (2b + 1)^2 = 4b^2 + 4b + 1 = 2(2b^2 + 2b) + 1$.  Le nombre
+$a^2$ est donc impair.
+\qed
+}
+\note{
+Autre manière de démontrer une ssi: par une succession logique de ssi
+A ssi B ssi C ssi D...
+(exemple: $n^2-1=0 ssi n=1 ou n=-1$)
+}
+\end{frame}
+
+\begin{frame}{Démonstrations par l'absurde}
+\textcolor{blue}{Principe :}
+\begin{itemize}
+\item On veut démontrer qu'une proposition $P$ est vraie.
+\item On suppose que $\neg P$ est vraie, et on montre que cette hypothèse
+conduit à une {\em contradiction}.
+\item Ainsi, $\neg P$ est fausse, ce qui implique que $P$ est vraie.
+\end{itemize}
+
+\bigskip
+
+\textcolor{blue}{Règle d'inférence correspondante :}
+\[
+\begin{array}{c}
+\neg P \Rightarrow \mbox{faux} \\ \hline
+P
+\end{array}
+\] 
+\end{frame}
+
+\begin{frame}{Exemple}
+\textcolor{darkred}{Théorème :} $\sqrt{2} \in \reals \backslash \rationals$.
+
+\bigskip
+\uncover<2->{
+\textcolor{blue}{Démonstration :}
+Par l'absurde, supposons que $\sqrt{2} \in \rationals$.  On a donc
+ \[ \sqrt{2} = \frac{a}{b},\] 
+où $a,b \in \ints$, $b \neq 0$ et où cette fraction est réduite.
+Cela implique $\displaystyle 2 = \frac{a^2}{b^2}$,
+et donc
+\[
+2 b^2 = a^2.
+\]
+Par conséquent, le nombre $a^2$ est pair, ce qui implique que $a$ est
+lui-même pair.
+}
+\note{
+$$Q=\{n/m: (n,m)\in Z\times N\setminus\{0\}\}$$
+
+Prouvé en 500 avant JC.
+}
+
+\end{frame}
+
+\begin{frame}
+Il existe donc $a' \in \ints$ tel que $a = 2a'$. On a
+donc $a^2 = 4a'^2$.  Donc, on a $2b^2 = 4a'^2$, ce qui implique que
+\[b^2 = 2a'^2.\]  Dès lors, $b^2$ est pair, et donc $b$ est lui-même pair.
+Il existe donc $b' \in \ints$ tel que $b = 2b'$. La fraction
+\[
+\frac{a}{b} = \frac{2a'}{2b'}
+\]
+n'est donc pas réduite.  C'est une contradiction.  Par conséquent,
+l'hypothèse selon laquelle $\sqrt{2} \in \rationals$ est fausse.
+Donc, on a $\sqrt{2} \in \reals \backslash \rationals$.
+\qed
+\end{frame}
+
+\begin{frame}{Écrire de bonnes démonstrations}
+En plus d'être logiquement correcte, une bonne démonstration doit être
+{\em claire}.   
+
+\bigskip
+
+\textcolor{blue}{Conseils pour l'écriture de bonnes démonstrations~:}
+
+\begin{itemize}
+\item Expliquez la manière dont vous allez procéder (par l'absurde, contraposition, induction,
+\ldots);
+\item Donnez une explication séquentielle;
+\item Expliquez votre raisonnement (passages d'une étape à l'autre,
+arithmétique, induction, \ldots);
+\item N'utilisez pas trop de symboles; utiliser du texte lorsque c'est possible;
+\item Simplifiez;
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item Introduisez des notations judicieusement, en prenant soin 
+définir leur signification;
+\item Si la démonstration est trop longue, structurez-la (par exemple
+établissez à l'aide de {\em lemmes} les faits dont vous aurez souvent besoin);
+\item N'essayez pas de camoufler les passages que vous avez du mal à 
+justifier;
+\item Terminez en expliquant à quelles conclusions on peut arriver.
+\end{itemize}
+\note{Attention aux démonstrations qui disent que certaines étapes sont évidentes. Cela cache parfois un passage un peu douteux.\\
+~\\
+Analogie entre une bonne démonstration et un bon programme. Le même genre de compétence est nécessaire pour écrire une bonne démonstration et un bon programme informatique et c'est un peu l'objectif de ce cours de vous inculquer cette rigueur et cette logique dans vos raisonnements.}
+\end{frame}
+
+\begin{frame}{Un faux théorème}
+
+Quelle est l'erreur dans la démonstration suivante ?
+
+\bigskip
+
+\textcolor{darkred}{Faux théorème :} $420 > 422$.
+
+\bigskip
+
+\textcolor{blue}{Démonstration erronée :}
+Démonstration géométrique.  Soit un rectangle de dimension $20 \times 21$.
+Son aire vaut donc $420$.
+
+\begin{center}
+\input{figs/rectangle.pstex_t}
+\end{center}
+\end{frame}
+
+\begin{frame}
+Découpage + glissement de $2$ unités vers la gauche~:
+%En découpant ce rectangle selon la diagonale et en faisant glisser la partie supérieure de $2$ unités vers la gauche, on obtient la figure suivante~:
+
+\begin{center}
+\input{figs/deplcement.pstex_t}
+\end{center}
+
+\begin{itemize}
+\item Aire du petit rectangle : $>4$.
+\item Aire du grand rectangle : $> (20+2) \times 19 = 418$.
+\item $\Rightarrow$ Aire totale : $> 422$.  
+Par conservation d'aire, on a donc $420 > 422$. \qed
+\end{itemize}
+\note{Plusieurs enseignements:
+\begin{itemize}
+\item Il faut faire attention aux preuves géométriques (souvent source d'erreurs)
+\item Mauvaise preuve d'un vrai théorème et mauvaise preuve d'un mauvais théorème
+\item Beaucoup d'exemples célèbres dans la littérature. Par exemple: 
+\end{itemize}
+}
+\end{frame}
+

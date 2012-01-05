@@ -1,0 +1,146 @@
+
+\part{Outils d'analyse}
+
+% DeuxiÃ¨me cours: outils d'analyse:
+% - correction d'algo: rappel bref aux invariants (exemple du insertion sort) -> 30 minutes
+% - complexité -> 1h30
+%    - rappel des notations O theta, etc. en se basant sur insertion sort
+%    - traitement d'algorithme récursif: merge-sort
+
+% - Trois questions à se poser face à un algorithme -> deuxiÃ¨me cours
+%    - est-il correct ?
+%    - Quel est sa complexité ?
+%    - Est-ce qu'on peut l'améliorer ? (Si 
+
+\begin{frame}{Plan}
+
+\begin{itemize}
+\item Correction d'un algorithme
+\item Complexité d'un algorithme
+\item Illustration (Fibonacci ?)
+\end{itemize}
+
+\end{frame}
+
+\section{Correction d'un algorithme}
+
+\subsection{Algorithme itératif}
+
+\begin{frame}
+Questions à se poser lors de la définition d'un algorithme:
+\begin{itemize}
+\item Mon algorithme est-il correct ?
+\item Mon algorithme est-il efficace en termes d'utilisation des
+  resources, temps CPU et/ou espace mémoire ?
+\end{itemize}
+
+Autre question importante seulement marginalement abordée dans ce cours:
+\begin{itemize}
+\item Modularité,fonctionnalité, robustesse, facilité d'usage, temps
+  de programmation, simplcité, extensibilité, fiabilité, terminaison,
+  existence d'une solution algorithmique
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Correctness}
+
+Pourquoi est-ce important?
+\begin{itemize}
+\item Un algorithme incorrect ne sert souvent à rien (*)
+\item Utilisation d'algorithmes dans une application critique:
+  médicale, ingénieurie (point, avion) etc.
+\item Exemples:
+\end{itemize}
+
+(*) Notons qu'un algorithme incorrect mais dont l'erreur peut-être
+évaluée peut être très utile (seulement marginalement dans ce cours)
+\end{frame}
+
+\begin{frame}{RAM model}
+
+\end{frame}
+
+\begin{frame}{Application à l'insertion sort}
+\end{frame}
+
+\subsection{Combinaison de fonctions}
+
+\begin{frame}{règle de la somme et du produit}
+Voir slides ``intro-pas-mal.ppt''
+\end{frame}
+
+\subsection{Algorithme récursif}
+
+\begin{frame}{Preuve par induction}
+
+\end{frame}
+
+\begin{frame}{Conclusion sur la correction}
+Dans la suite, on ne présentera des invariants ou des preuves par induction que lorsque ce sera nécessaire (cas non triviaux)
+\end{frame}
+
+\section{Complexité algorithmique}
+
+\subsection{Itératif}
+
+\begin{frame}{Efficacité}
+Pourquoi est-ce important?
+\begin{itemize}
+\item Un algorithme trop lent (dans certaines applications, un algorithm quadratique est déjà trop lent)
+\item Il faut pouvoir s'adapter à la croissance des données actuelles
+\end{itemize}
+
+\end{frame}
+
+%% Définition mathématique des trois types de complexité
+
+%% Soit Dn
+%% lâ€™ensemble des données de taille n. Soit I un sous ensemble de
+%% Dn et soit t(I) le nombre dâ€™opérations élémentaires pour exécuter I.
+
+%% Complexité dans le meilleur des cas
+%% meilleur(n) = min {t(I), I Dn}
+%% }
+
+%% Complexité dans le pire des cas
+%% pire(n) = max {t(I), I  Dn
+%% }
+
+%% Complexité en moyenne
+%% moyenne(n) = S Pr (I) t(I) où Pr(I) est la probabilité de I
+
+%% Note sur la complexité amortie
+%% En moyenne sur plusieurs instance...
+
+\subsection{Algorithmes récursifs}
+
+\begin{frame}
+
+\begin{itemize}
+\item Fibonacci
+\item Merge sort
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+Complexité en espace:
+\begin{itemize}
+\item ...
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pour en savoir plus (ou ce qu'on n'a pas vu)}
+
+\begin{itemize}
+\item Méthode systématique pour l'analyse de la complexité d'algorithmes récursifs (l'an prochain)
+\item Etude au cas moyen
+\end{itemize}
+
+\end{frame}
+
+%A la fin de chaque cours, je vais dire toutes les simplifications
+%qu'on a prise et encourager les étudiants à se poser certaines
+%questions. Exemple:
+

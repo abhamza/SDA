@@ -1,0 +1,716 @@
+
+\part{Structures de données élémentaires}
+
+% Structures de pile, file, liste liée (notion de liste liée comme une implémentation), arbre (?), files à priorité
+% complexité amortie ? ajout d'élément à une structure de ce type.
+
+\begin{frame}{Plan}
+
+\tableofcontents
+
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}{Concept}
+\begin{itemize}
+\item Une \alert{structure de données} est une manière d'organiser et de stocker l'information
+\begin{itemize}
+\item Pour en faciliter l'accès ou dans d'autres buts
+\end{itemize}
+\item Une structure de données a une \alert{interface} qui consiste en un ensemble de procédures pour ajouter, effacer, accéder, réorganiser, etc. les données.
+%\item L'interface définit un type de donnée abstrait (TDA).
+\item Une structure de données conserve des \alert{données} et éventuellement des \alert{méta-données}
+\begin{itemize}
+\item Par exemple: un tas utilise un tableau pour stocker les clés et une variable $\attrib{A}{heap-size}$ pour retenir le nombre d'éléments qui sont dans le tas.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Structures de données}
+
+Dans ce cours:
+\begin{itemize}
+\item Principalement des \alert{ensembles dynamiques}, amenés à croître, se
+  rétrécir et à changer au cours du temps.
+\item Les objets de ces ensembles comportent des attributs.
+\item Un de ces attributs est une \alert{clé} qui permet d'identifier
+  l'objet, les autres attributs sont la plupart du temps non
+  pertinents pour l'implémentation de la structure.
+\item Certains ensembles supposent qu'il existe un \alert{ordre total}
+  entre les clés.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Opérations standards sur les structures}
+
+\begin{itemize}
+\item Deux types: opérations de recherche/accès aux données et opérations de modifications
+\item Recherche: exemples:
+\begin{itemize}
+\item $\proc{Search}(S,k)$: retourne un pointeur $x$ vers un élément dans $S$ tel que $\attrib{x}{key}=k$, ou $\const{NIL}$ si un tel élément n'appartient pas à $S$.
+\item $\proc{Minimum}(S)$, $\proc{Maximum}(S)$: retourne un pointeur
+  vers l'élément avec la plus petite (resp. grande) clé.
+\item $\proc{Successor}(S,x)$,$\proc{Predecessor}(S,x)$ retourne un pointeur vers l'élément tout juste plus grand (resp. petit) que $x$ dans $S$, $\const{NIL}$ si $x$ est le maximum (resp. minimum).
+\end{itemize}
+\item Modification: exemples:
+\begin{itemize}
+\item $\proc{Insert}(S,x)$: insère l'élément $x$ dans $S$.
+\item $\proc{Delete}(S,x)$: retire l'élément $x$ de $S$.
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Implémentation d'une structure de données}
+\begin{itemize}
+\item Etant donné une interface, plusieurs implémentations sont possibles qui différent par le
+  \alert{complexité} des opérations
+\item Une interface définit un type de données abstrait.
+\item Les briques de base pour implémenter une structure de données
+  dépendent du langage d'implémentation
+\begin{itemize}
+\item Dans ce cours, les principaux outils du C: tableaux, structures
+  à la C (objets avec attributs), liste liées (simples, doubles,
+  circulaires), etc.
+\end{itemize}
+\item Une structure de données peut être implémentée à l'aide d'une
+  autre structure de données (de base ou non)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Quelques structures de données standards}
+
+\begin{itemize}
+\item Pile: accès selon une politique LIFO
+\item File: accès selon une politique FIFO
+\item Liste: accès
+\item Vecteur: 
+\item Séquence:
+\item Dictionaire
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Rappel: liste simplement et doublement liée}
+
+\centerline{\includegraphics[width=8cm]{Figures/04-listeliee.pdf}}
+
+\bigskip
+
+\begin{itemize}
+\item Structure de données composée d'une séquence d'éléménts de liste.
+\item Chaque élément $x$ de la liste est composé:
+\begin{itemize}
+\item d'un contenu utile $\attrib{x}{data}$ de type arbitraire (par exemple une clé),
+\item d'un pointeur $\attrib{x}{next}$ vers l'élément suivant dans la séquence
+\item \emph{Doublement liée: }d'une pointeur $\attrib{x}{prev}$ vers l'élément précédent dans la séquence
+\end{itemize}
+\item Soit $L$ une liste liée
+\begin{itemize}
+\item $\attrib{L}{head}$ pointe vers le premier élément de la liste
+\item \emph{Doublement liée:} $\attrib{L}{tail}$ pointe vers le dernier élément de la liste
+\end{itemize}
+\item Le dernier élément est celui qui possède un pointeur $\attrib{x}{next}$ vide, noté $\const{NIL}$
+\item \emph{Doublement liée:} Le premier élément est celui qui possède un pointeur $\attrib{x}{prev}$ vide
+%% \item Avantage
+%% \begin{itemize}
+%% \item L'insertion et la suppression d'éléments est réalisable en temps $O(1)$ en tête de liste, ainsi qu'à la suite d'un élément donné (à n'importe quel endroit pour une liste doublement liée).
+%% \item Les éléments de la liste peuvent être alloués dynamiquement
+%% \end{itemize}
+\end{itemize}
+\note{Mais l'espace mémoire est deux fois plus important qu'avec un tableau classique}
+\end{frame}
+
+\begin{frame}{Opérations sur une liste doublement liée}
+
+\begin{itemize}
+\item Interface:
+    \begin{itemize}
+%      \medskip
+    \item $\proc{List-Insert}(L,x)$ ajoute l'élément $x$ au début de la liste $L$
+%      \medskip
+    \item $\proc{List-Delete}(L,x)$ supprime l'élément $x$ de la liste $L$
+%      \medskip
+    \item $\proc{List-Search}(L,k)$ trouve une élément dont la clé $k$
+      est dans la liste $L$
+    \end{itemize}
+\end{itemize}
+
+%% \fcolorbox{white}{Lightgray}{%
+%%       \begin{codebox}
+%%         \Procname{$\proc{List-Init}(L)$}
+%%         \li $\id{prev}(\id{nil}(L))\gets\id{nil}(L)$
+%%         \li $\id{next}(\id{nil}(L))\gets\id{nil}(L)$
+%%       \end{codebox}}
+
+\begin{center}
+\begin{footnotesize}
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{List-Insert}(L,x)$}
+        \li $\attrib{x}{next}\gets \attrib{L}{head}$
+        \li \If $\attrib{L}{head}\ne \const{NIL}$
+        \li \Then $\attrib{L}{head}.\id{prev} \gets x$ \End
+        \li $\attrib{L}{head}\gets x$
+        \li $\attrib{x}{prev}\gets \const{NIL}$
+      \end{codebox}}
+~~~~~
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{List-Delete}(L,x)$}
+        \li \If $\attrib{x}{prev}\ne \const{NIL}$
+        \li \Then $\attrib{x}{next}.\id{prev}\gets \attrib{x}{next}$
+        \li \Else $\attrib{L}{head}\gets \attrib{x}{next}$\End
+        \li \If $\attrib{x}{next}\ne \const{NIL}$
+        \li \Then $\attrib{x}{next}.\id{prev}\gets \attrib{x}{prev}$ \End
+      \end{codebox}}
+
+\bigskip
+
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{List-Search}(L,k)$}
+        \li $x\gets \attrib{L}{head}$
+        \li \While $x\ne \const{NIL}\wedge\attrib{x}{key}\ne k$
+        \li \Do $x\gets \attrib{x}{next}$
+            \End
+        \li \Return $x$
+      \end{codebox}}
+\end{footnotesize}
+\end{center}
+
+Complexité: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche.
+\end{frame}
+
+\section{Pile}
+
+\begin{frame}{Pile}
+\begin{itemize}
+\item Ensemble dynamique d'objets accessibles selon une discipline
+  \alert{LIFO} (``Last-in first-out'').
+\item Interface
+\begin{itemize}
+\item $\proc{Stack-Empty}(S)$ renvoie vrai si et seulement si la pile est vide
+\item $\proc{Push}(S,x)$ pousse la valeur $x$ sur la pile $S$
+\item $\proc{Pop}(S)$ extrait et renvoie la valeur sur le sommet de la pile $S$
+\end{itemize}
+\item Applications:
+\begin{itemize}
+\item Option 'undo' dans un traitement de texte
+\item Langage postscript
+\item Appel de fonctions dans un compilateur
+\item \ldots
+\end{itemize}
+\item Implémentations:
+\begin{itemize}
+\item avec un tableau (taille fixée a priori)
+\item au moyen d'une liste liée (allouée de manière dynamique)
+\item \ldots
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Implémentation par un tableau}
+
+\begin{itemize}
+\item $S$ est un tableau qui contient les éléments de la pile
+\item $\attrib{S}{top}$ est la position courante de l'élément au sommet de $S$
+
+\medskip
+
+    \begin{center}
+      \begin{small}
+      \fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{Stack-Empty}(S)$}
+          \li \If $\attrib{S}{top}\isequal 0$
+          \li \Then \Return \const{true}
+          \li \Else \Return \const{false}
+          \End
+        \end{codebox}}
+
+      \bigskip
+      \fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{Push}(S,x)$}
+          \li $\attrib{S}{top}\gets \attrib{S}{top}+1$
+          \li $S[\attrib{S}{top}]\gets x$
+        \end{codebox}}
+      \hfill
+      \fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{Pop(S)}$}
+          \li \If $\proc{Stack-Empty}(S)$
+          \li \Then \Error ``underflow''
+          \li \Else $\attrib{S}{top}\gets \attrib{S}{top}-1$
+          \li       \Return $S[top(S)+1]$
+          \End
+        \end{codebox}}
+      \end{small}
+    \end{center}
+\item Complexité en temps \alert{et en espace}: $O(1)$\\
+(L'espace mémoire occupé ne dépend pas du nombre d'objets)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Implémentation par une liste liée}
+
+\begin{itemize}
+\item $S$ est une liste simplement liée
+
+\medskip
+
+    \begin{center}
+      \begin{small}
+      \fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{Stack-Empty}(S)$}
+          \li \If $\attrib{S}{head}\isequal \const{NIL}$
+          \li \Then \Return \const{true}
+          \li \Else \Return \const{false}
+          \End
+        \end{codebox}}
+
+      \bigskip
+      \fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{Push}(S,x)$}
+          \li $\attrib{x}{next}\gets \attrib{S}{head}$
+          \li $\attrib{S}{head}\gets x$
+        \end{codebox}}
+      \hfill
+      \fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{Pop(S)}$}
+          \li \If $\proc{Stack-Empty}(S)$
+          \li \Then \Error ``underflow''
+          \li \Else $x = S.head$
+          \li       $\attrib{S}{head}\gets \attrib{S}{head}.\id{next}$
+          \li       \Return $x$
+          \End
+        \end{codebox}}
+\end{small}
+    \end{center}
+\item Complexité en temps $O(1)$, complexité en espace $O(n)$ pour $n$ opérations
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Application}
+\begin{itemize}
+\item Vérifier l'appariement de parenthèses ($[]$,$()$ ou $\{\}$) dans une chaîne de caractères
+\begin{itemize}
+\item Exemples: $((x)+(y)]/2\rightarrow$ non, $[- (b) + \mbox{sqrt}(4*(a)*c)]/ (2*a) \rightarrow$ oui
+\end{itemize}
+\item Solution basée sur une pile:
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{ParenthesesMatch}(A)$}
+          \li $S\gets$ pile vide
+          \li \For $i\gets 1 \To \attrib{A}{length}$
+          \li \Do \If $A[i]$ est une parenthèse gauche
+          \li \Then $\proc{Push}(S,A[i])$
+          \li \ElseIf $A[i]$ est une parenthèse droite
+          \li \Then \If $\proc{Stack-Empty}(S)$
+          \li \Then \Return \const{False}
+          
+          \li \ElseIf  $\proc{Pop}(S)$ n'est pas du même type que $A[i]$
+          \li \Then \Return \const{False}
+          \End\End\End
+          \li \End \Return $\proc{Stack-Empty}(S)$
+          \End
+        \end{codebox}}
+\end{small}
+\end{center}
+\end{itemize}
+\end{frame}
+
+\section{File}
+
+\begin{frame}{File}
+\begin{itemize}
+\item Ensemble dynamique d'objets accessibles selon une discipline \alert{FIFO} (``First-in first-out'').
+\item Interface
+\begin{itemize}
+\item $\proc{Enqueue}(Q,s)$ ajoute l'élément $x$ à la fin de la file $Q$
+\item $\proc{Dequeue}(Q)$  retire l'élément à la tête de la file $Q$
+\end{itemize}
+
+\bigskip
+
+\item Implémentation par un tableau circulaire
+\begin{itemize}
+\item $Q$ est un tableau de taille fixe $\attrib{Q}{length}$
+\begin{itemize}
+\item Mettre plus de $\attrib{Q}{length}$ éléments dans la file provoque une erreur de dépassement
+\end{itemize}
+\item $\attrib{Q}{head}$  est la position à la tête de la file
+\item $\attrib{Q}{tail}$ est la première position vide à la fin de la file
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\proc{Enqueue} et \proc{Dequeue}}
+\begin{small}
+Etat initial:
+\bigskip
+\centerline{\includegraphics[width=6cm]{Figures/04-file1.pdf}}
+$\proc{Enqueue}(Q,17)$, $\proc{Enqueue}(Q,3)$, $\proc{Enqueue}(Q,5)$
+\bigskip
+\centerline{\includegraphics[width=6cm]{Figures/04-file2.pdf}}
+$\proc{Dequeue}(Q) \rightarrow 15$
+\bigskip
+\centerline{\includegraphics[width=6cm]{Figures/04-file3.pdf}}
+\end{small}
+\end{frame}
+
+\begin{frame}{\proc{Enqueue} et \proc{Dequeue}}
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Enqueue(Q,x)}$}
+    \li $Q[\attrib{Q}{tail}]\gets x$
+    \li \If $\attrib{Q}{tail}\isequal \attrib{Q}{length}$
+    \li       \Then $\attrib{Q}{tail}\gets 1$
+    \li       \Else $\attrib{Q}{tail}\gets\attrib{Q}{tail}+1$
+  \end{codebox}}
+~~~~~
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Dequeue(Q)}$}
+    \li $x\gets Q[\attrib{Q}{head}]$
+    \li \If $\attrib{Q}{head}\isequal \attrib{Q}{length}$
+    \li       \Then $\attrib{Q}{head}\gets 1$
+    \li       \Else $\attrib{Q}{head}\gets\attrib{Q}{head}+1$\End
+    \li \Return $x$
+  \end{codebox}}
+\end{small}
+\end{center}
+
+\bigskip
+
+\begin{itemize}
+\item Complexité en temps $O(1)$, complexité en espace $O(1)$.
+\item Exercice: ajouter la gestion d'erreur
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Implémentation par une liste liée}
+\begin{itemize}
+\item $Q$ est une liste simplement liée
+\item $\attrib{Q}{head}$ (resp. $\attrib{Q}{tail}$) pointe vers la tête (resp. la queue) de la liste
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Enqueue(Q,x)}$}
+    \li $\attrib{x}{next}\gets \const{NIL}$
+    \li \If $\attrib{Q}{head}\isequal \const{NIL}$
+    \li \Then $\attrib{Q}{head}\gets x$
+    \li \Else $\attrib{Q}{tail}.\id{next} \gets x$
+    \End
+    \li $\attrib{Q}{tail}\gets x$
+  \end{codebox}}
+~~~~~
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Dequeue(Q)}$}
+    \li \If $\attrib{Q}{head}\isequal \const{NIL}$
+    \li \Then \Error ``underflow''
+    \End
+    \li $x\gets \attrib{Q}{head}$
+    \li $\attrib{Q}{head}\gets\attrib{Q}{head}.\id{next}$
+    \li \If $\attrib{Q}{head}\isequal \const{NIL}$
+    \li \Then $\attrib{Q}{tail}\gets \const{NIL}$ \End
+    \li \Return $x$
+  \end{codebox}}
+\end{small}
+\end{center}
+
+\item Complexité en temps $O(1)$, complexité en espace $O(n)$ pour $n$ opérations
+\end{itemize}
+
+\end{frame}
+
+\section{Liste}
+
+\begin{frame}{Vecteur}
+
+\begin{itemize}
+\item Ensemble dynamique d'objets occupant des rangs entiers successifs, permettant la consultation, le remplacement, l'insertion et la suppression d'éléments à des rangs arbitraires
+\item Interface
+\begin{itemize}
+\item $\proc{Elem-At-Rank}(V,r)$ retourne l'élément au rang $r$ dans $V$.
+\item $\proc{Replace-At-Rank}(V,r,x)$ remplace l'élément situé au rang $r$ par $x$ et retourne cet objet. 
+\item $\proc{Insert-At-Rank}(V,r,x)$ insère l'élément $x$ au rang $r$, en augmentant le rang des objets suivants.
+\item $\proc{Remove-At-Rank}(V,r)$ extrait l'élément situé au rang $r$ et le retire de $r$, en diminuant le rang des objets suivants.
+\item $\proc{Vector-Size}(V)$ renvoie la taille du vecteur.
+\end{itemize}
+\item Applications: tableau dynamique, gestion des éléments d'un menu,\ldots
+\item Implémentation: liste liée, tableau extensible\ldots
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Implémentation par un tableau extensible}
+
+\begin{itemize}
+\item Les éléments sont stockés dans un tableau extensible $\attrib{V}{A}$ de taille initiale $\attrib{V}{c}$.
+\item En cas de dépassement, la capacité du tableau est \alert{doublée}.
+\item $\attrib{V}{n}$ retient le nombre de composantes.
+\item Insertion et suppression:
+
+\begin{center}
+\begin{footnotesize}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Insert-At-Rank}(V,r,x)$}
+    \li \If $\attrib{V}{n}\isequal \attrib{V}{c}$
+    \li \Then $\attrib{V}{c}\gets 2\cdot\attrib{V}{c}$
+    \li  $W\gets $ ``Tableau de taille $\attrib{V}{c}$''
+    \li  \For $i\gets 1 \To n$
+    \li \Do $W[i]\gets V[i]$ \End
+    \li $\attrib{V}{A}\gets W$\End
+    \li \For $i\gets \attrib{V}{n} \Downto r$
+    \li \Do $\attrib{V}{A}[i+1]\gets \attrib{V}{A}[i]$ \End
+    \li $\attrib{V}{A}[r]\gets x$
+    \li $\attrib{V}{n}\gets \attrib{V}{n}+1$
+  \end{codebox}}
+~~~~~
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Remove-At-Rank}(V,r)$}
+    \li $tmp\gets \attrib{V}{A}[r]$
+    \li \For $i\gets r \To \attrib{V}{n}-2$ \Do
+    \li $\attrib{V}{A}[i]\gets \attrib{V}{A}[i+1]$
+    \End
+    \li $\attrib{V}{n}\gets \attrib{V}{n}-1$
+    \li \Return $tmp$
+  \end{codebox}}
+\end{footnotesize}
+\end{center}
+
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Complexité en temps}\label{sec05:amortie}
+\begin{itemize}
+%\item Accès à un élément, remplacement de sa valeur: $O(1)$
+\item $\proc{Insert-At-Rank}$:
+\begin{itemize}
+\item $O(n)$ pour une opération individuelle, où $n$ est le nombre de composantes du vecteur
+\item $O(n^2)$ pour $n$ opérations d'insertion en \alert{début} de vecteur
+\item $O(n)$ pour $n$ opérations d'insertion en \alert{fin} de vecteur
+\end{itemize}
+\item Justification:
+\begin{itemize}
+\item Si la capacité du tableau passe de $c_0$ à $2^k c_0$ au cours des $n$ opérations, alors le coût des transferts entre tableaux s'élève à
+$$c_0+2 c_0+\ldots+2^{k-1} c_0=(2^k-1) c_0.$$
+Puisque $2^{k-1} c_0 < n \leq 2^k c_0$, ce coût est \alert{$O(n)$}.
+\item On dit que le \alert{coût amorti} par opération est $O(1)$
+\item Si on avait élargi le tableau avec un incrément constant $m$, le coût aurait été
+$$c_0+(c_0+m)+(c_0+2m)+\ldots+(c_0+(k-1)m)=kc_0+\frac{k(k-1)}{2}m.$$
+Puisque $c_0+(k-1)m<n\leq c_0+km$, ce coût aurait donc été \alert{$O(n^2)$}.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Complexité en temps}
+\begin{itemize}
+%\item Accès à un élément, remplacement de sa valeur: $O(1)$
+\item $\proc{Remove-At-Rank}$:
+\begin{itemize}
+\item $O(n)$ pour une opération individuelle, où $n$ est le nombre de composantes du vecteur
+\item $O(n^2)$ pour $n$ opérations de retrait en \alert{début} de vecteur
+\item $O(n)$ pour $n$ opérations de retrait en \alert{fin} de vecteur
+\end{itemize}
+\item Remarque: Un tableau circulaire permettrait d'améliorer l'efficacité des opérations d'ajout et de retrait en début de vecteur.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Liste}
+\end{frame}
+
+\section{File à priorité}
+
+% Implémentation par un tableau, implémentation par un tas.
+% Tas de Fibonacci ou binomial pour la fusion de deux tas ?
+
+\begin{frame}{File à priorité}
+\begin{itemize}
+\item Ensemble dynamique d'objets classés par ordre de \alert{priorité}
+\begin{itemize}
+\item Permet d'extraire un objet possédant la plus grande priorité
+\item En pratique, on représente les priorités par les clés
+\item Suppose un ordre total défini sur les clés
+\end{itemize}
+\item Interface:
+\begin{itemize}
+\item $\proc{Insert}(S,x)$: insère l'élément $x$ dans $S$.
+\item $\proc{Maximum}(S)$: renvoie l'élément de $S$ avec la plus grande clé.
+\item $\proc{Extract-Max}(S)$: supprime et renvoie l'élément de $S$ avec la plus grande clé.
+
+\end{itemize}
+\item Remarques:
+\begin{itemize}
+\item Extraire l'élément de clé maximale ou minimale sont des problèmes équivalents
+\item La file FIFO est une file à priorité où la clé correspond à l'ordre d'arrivée des élements.
+\end{itemize}
+\item Application: gestion des jobs sur un ordinateur partagé
+\end{itemize}
+\note{Ordre total=relation binaire avec les propriétés suivantes:
+\begin{itemize}
+\item totalité: $\forall p_1, p_2: p_1\leq p_2 \mbox{ ou }p_2\leq p_1$
+\item antisymétrie: $\forall p_1,p_2: p_1\leq p_2 \mbox{ et } p_2\leq p_1 \Rightarrow p_1=p_2$
+\item Transitivité...
+\end{itemize}
+
+\bigskip
+
+File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'arrivé des éléments
+}
+\end{frame}
+
+\begin{frame}{Implémentations}
+\begin{itemize}
+\item Implémentation à l'aide d'un tableau statique
+\begin{itemize}
+\item $Q$ est un tableau statique de taille fixée $\attrib{Q}{length}$.
+\item Les éléments de $Q$ sont triés par ordre \alert{croissant} de clé. $\attrib{Q}{top}$ pointe vers le dernier élément.
+\item Complexité en temps: extraction en $O(1)$ et insertion en $O(n)$ où $n$ est la taille de la file
+\item Complexité en espace: $O(1)$
+\end{itemize}
+\item Implémentation à l'aide d'une liste liée
+\begin{itemize}
+\item $Q$ est une liste liée où les éléments sont triés par ordre \alert{décroissant} de clé
+\item Complexité en temps: extraction en $O(1)$ et insertion en $O(n)$ où $n$ est la taille de la file
+\item Complexité en espace: $O(n)$
+\end{itemize}
+\item Exercice: comment obtenir $O(1)$ pour l'insertion et $O(n)$ pour l'extraction?
+%\item Peut-on faire mieux ?
+\end{itemize}
+ \note{Leur demander pourquoi on trie le tableau par ordre croissant de clé et pas par ordre décroissant: parce que retirer le premier élément veut dire qu'on doit décaler tous les autres et donc l'opération serait $O(n)$}
+\end{frame}
+
+\begin{frame}{Implémentation à l'aide d'un tas}
+\begin{itemize}
+\item La file est implémentée à l'aide d'un tas(-max) (voir slide \pageref{sec:03tas})
+\item Accès et extraction du maximum:
+
+\bigskip
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{
+  \begin{codebox}
+    \Procname{$\proc{Heap-Maximum}(A)$}
+    \li \Return $A[1]$
+\end{codebox}}~~~~~\fcolorbox{white}{Lightgray}{
+  \begin{codebox}
+    \Procname{$\proc{Heap-Extract-Max}(A)$}
+    \li \If $\attrib{A}{heap-size}$
+    \li \Then \Error ``heap underflow''
+    \End
+    \li $max \gets A[1]$
+    \li $A[1]\gets A[\attrib{A}{heap-size}]$
+    \li $\attrib{A}{heap-size}\gets \attrib{A}{heap-size}-1$
+    \li $\proc{Max-heapify}(A,1)$ \Comment reconstruit le tas
+    \li \Return $max$
+\end{codebox}}
+\end{small}
+\end{center}
+
+\bigskip
+
+\item Complexité: $O(1)$ et $O(\log n)$ respectivement (voir chapitre 3)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Implémentation à l'aide d'un tas}
+
+\begin{center}
+\includegraphics[width=8cm]{Figures/04-fileprio.pdf}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Implémentation à l'aide d'un tas: insertion}
+\begin{itemize}
+\item $\proc{Increase-Key}(S,x,k)$ augmente la valeur de la clé de $x$
+  à $k$ (on suppose que $k\geq$ à la valeur courante de la clé de $x$).
+
+\bigskip
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{
+  \begin{codebox}
+    \Procname{$\proc{Heap-Increase-Key}(A,i)$}
+    \li \If $key<A[i]$
+    \li \Then \Error ``new key is smaller than current key'' \End
+    \li $A[i]\gets key$
+    \li \While $i>1$ and $A[\proc{Parent}(i)]<A[i]$
+    \li \Do $\id{swap}(A[i],A[\proc{Parent}(i)])$
+    \li     $i\gets \proc{Parent}(i)$
+    \End
+\end{codebox}}
+\end{small}
+\end{center}
+
+\bigskip
+
+\item Complexité: $O(\log n)$ (la longueur de la branche de la racine à $i$ étant $O(\log n)$ pour un tas de taille $n$).
+\end{itemize}
+\note{Montrer un exemple sur le slide précédent: augmenter le poids de $A[9]$ de 4 à 15: on échange les noeuds 4 et 9, puis les noeuds 4 et 2.}
+\end{frame}
+
+\begin{frame}{Implémentation à l'aide d'un tas: insertion}
+\begin{itemize}
+\item Pour insérer un élément avec une clé $key$:
+\begin{itemize}
+\item l'insérer à la dernière position sur le tas avec une clé $-\infty$,
+\item augmenter sa clé de $-\infty$ à $key$ en utilisant la procédure précédente
+\end{itemize}
+
+\bigskip
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{
+  \begin{codebox}
+    \Procname{$\proc{Heap-Insert}(A,key)$}
+    \li $\attrib{A}{heap-size}\gets \attrib{A}{heap-size}+1$
+    \li $A[n]\gets -\infty$
+    \li $\proc{Heap-Increase-Key}(A,\attrib{A}{heap-size},key)$
+\end{codebox}}
+\end{small}
+\end{center}
+
+\bigskip
+
+\item Complexité: $O(\log n)$.
+\end{itemize}
+\note{}
+\end{frame}
+
+\begin{frame}{Autres structures}
+
+\begin{itemize}
+\item En fonction des besoins, on peut définir des structures hybrides
+\item Exemple: séquence: mix entre un liste et un vecteur
+\item Quid si on veut faire évoluer la taille de certaines des structures vues (exemple: un tas...)
+\end{itemize}
+
+\end{frame}

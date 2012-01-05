@@ -1,0 +1,1006 @@
+
+\part{Algorithmes de tri}
+
+%% % Superbe site web avec les differents algorithmes
+
+%% % http://www.sorting-algorithms.com/
+
+%% % Voir les slides de Carzaniga !!!
+
+
+\begin{frame}{Plan}
+
+\tableofcontents
+
+\end{frame}
+
+\section{Algorithmes de tri}
+
+\begin{frame}{Tri}
+
+\begin{itemize}
+\item Un des problèmes algorithmiques les plus fondamentaux.
+\item En général, on veut trier des enregistrements avec une clé et des
+  données attachées.
+\medskip
+\begin{center}
+\begin{tabular}{ccccccc}
+Record$_1$ & & Record$_2$ & & Record$_3$ & & Record$_n$\\
+\cline{1-1} \cline{3-3} \cline{5-5} \cline{7-7}
+\multicolumn{1}{|c|}{Key$_1$} & & \multicolumn{1}{|c|}{Key$_2$} & & \multicolumn{1}{|c|}{Key$_3$} & \ldots & \multicolumn{1}{|c|}{Key$_n$}\\
+ \cline{1-1} \cline{3-3} \cline{5-5} \cline{7-7}
+\multicolumn{1}{|c|}{Data$_1$} & & \multicolumn{1}{|c|}{Data$_2$} & & \multicolumn{1}{|c|}{Data$_3$} & & \multicolumn{1}{|c|}{Data$_n$}\\
+ \cline{1-1} \cline{3-3} \cline{5-5} \cline{7-7}
+\end{tabular}
+\end{center}
+\medskip
+\item Ici, on va ignorer ces données satellites et se focaliser sur
+  les algorithmes de tri
+
+\bigskip
+
+\item Le problème de tri:
+\begin{itemize}
+\item Entrée: une séquence de $n$ nombres $\langle a_1,a_2,\ldots,a_n\rangle$
+\item Sortie: une permutation de la séquence de départ $\langle a_1',a_2',\ldots,a_n'\rangle$ telle que $a_1'\leq a_2'\leq\ldots\leq a_n'$
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Applications}
+\begin{itemize}
+\item Tri des enregistrements dans une base de données
+\item Visualisation 3D: trier les objets du plus près au plus éloigné pour l'affichage
+\item ...
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Différents types de tri}
+
+\begin{itemize}
+\item {\bf Tri interne:} tri en mémoire centrale. Tris externes: données sur un disque externe.
+\item {\bf Tri de tableau:} tri qui trie un tableau. Extensible à toutes structure de données offrant un accès en temps (quasi) constant à ses éléments.
+\item {\bf Tri générique:} peut trier n'imporque quel type d'objets pour autant qu'on puisse comparer ces objets.
+\item {\bf Tri comparatif:} basé sur la comparaison entre les éléments (clés)
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Différents types de tri}
+\begin{itemize}
+\item {\bf Tri itératif:} basé sur un ou plusieurs parcours itératif du tableau
+\item {\bf Tri récursif:} basé sur une procédure récursive
+\item {\bf Tri en place:} ne nécessite qu'une quantité constante de mémoire supplémentaire.
+\item {\bf Tri  stable:} conserve l'ordre relatif des éléments égaux (au sens de la méthode de comparaison).
+\end{itemize}
+
+\note{Stable: expliquer ce que Ã§a veut dire en illustrant avec les colonnes dans excel: tri sur deux colonnes: un tri stable va maintenir l'ordre sur la deuxième colonne}
+\end{frame}
+
+\begin{frame}{Jusqu'ici}
+
+  \begin{center}
+    \def\arraystretch{1.5}
+  \begin{tabular}{@{}lccc@{}c@{}}
+    \emph{Algorithme}&\multicolumn{3}{c}{\emph{Complexité}}&\emph{En place?}\\
+    & \emph{\small Pire} & \emph{\small Moyenne} & \emph{Meilleure} & \\
+    \hline\hline
+    \proc{Insertion-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n)$&oui\\
+    \hline
+    \proc{Selection-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
+    \hline
+    \proc{Bubble-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
+    \hline
+    \proc{Merge-Sort}&$\Theta(n\log{n})$&$\Theta(n\log{n})$&$\Theta(n\log{n})$&non\\
+    \hline\hline
+    \hspace{1em}\alert{??}& &\alert{$\Theta(n\log{n})$}& &\alert{oui}\\
+    \hline
+    \hspace{1em}\alert{??}&\alert{$\Theta(n\log{n})$}& & &\alert{oui}\\
+    \hline\hline
+  \end{tabular}
+  \end{center}
+
+\end{frame}
+
+\section{Tri rapide}
+
+\begin{frame}{Tri rapide}
+\begin{itemize}
+\item {\em Quicksort} en anglais
+\item Inventé par Hoare en 1960
+\item Dans le top 10 des algorithmes du 20-ième siècle (SIAM)
+\item L'exemple le plus célèbre de la technique du ``diviser pour régner''
+\item Tri en place, comme tri par insertion, et contrairement au tri par fusion
+\item Complexité: $O(n^2)$ dans le pire des cas, $O(n\log n)$ en moyenne
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\proc{QuickSort}: principe}
+Pour trier un sous-tableau $A[p\twodots r]$:
+\begin{itemize}
+\item Partitionner $A[p\twodots r]$ en deux sous-tableaux: $A[p..q-1]$ et $A[q+1\twodots r]$ tels que tout élément de $A[p\twodots q-1]$ est $\leq A[q]$ et $A[q]\leq$ à tout élément de $A[q+1\twodots r]$.\\~\hfill\alert{\emph{(diviser)}}
+
+\item Appeler récursivement l'algorithme pour trier $A[p\twodots q-1]$ et $A[q+1\twodots r]$\\~\hfill\alert{\emph{(régner)}}
+\end{itemize}
+
+\bigskip
+
+Remarques:
+\begin{itemize}
+\item $A[q]$ est appelé le ``\alert{pivot}''
+\item Par rapport au tri par fusion, il n'y a pas d'opération de combinaison
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{\proc{QuickSort}: principe}
+
+\centerline{\includegraphics[width=8cm]{Figures/03-quicksort-illustration.pdf}}
+
+% Gaetano -> à modifier pour mettre les q,r, etc.
+
+\end{frame}
+
+\begin{frame}\frametitle{\proc{QuickSort} Algorithm}
+
+  \begin{center}
+%    \begin{small}
+
+    %% \fcolorbox{white}{Lightgray}{%
+    %% \begin{codebox}
+    %%   \Procname{$\proc{Partition}(A,\id{begin},\id{end})$}
+    %%   \li $q\gets \id{begin}$
+    %%   \li $v\gets A[\id{end}]$
+    %%   \li \For $i\gets \id{begin}+1$ \To $\id{end}-1$
+    %%   \li \Do \If $A[i]\le v$
+    %%   \li     \Then $\id{swap}(A[i], A[q])$
+    %%   \li           $q\gets q+1$
+    %%           \End
+    %%       \End
+    %%   \li $\id{swap}(A[\id{end}], A[q])$
+    %%   \li \Return $q$
+    %% \end{codebox}}
+
+    %% \bigskip
+    \fcolorbox{white}{Lightgray}{
+    \begin{codebox}
+      \Procname{$\proc{QuickSort}(A,\id{begin},\id{end})$}
+      \li \If $\id{begin}<\id{end}$
+      \li \Then $q\gets\proc{Partition}(A,\id{begin},\id{end})$
+      \li $\proc{QuickSort}(A,\id{begin},q-1)$
+      \li $\proc{QuickSort}(A,q+1,\id{end})$
+      \End
+    \end{codebox}}
+%    \end{small}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Partition}
+
+\begin{itemize}
+\item On démarre avec $q=1$
+\item On parcourt le tableau de gauche à droite, en commençant à la position 2
+\item Si l'élément $A[i]$ est plus petit ou égal au pivot, on l'échange avec la position $q$ courante et on déplace $q$ vers la droite
+\end{itemize}
+
+\begin{center}
+    \fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{Partition}(A,\id{begin},\id{end})$}
+      \li $q\gets \id{begin}$
+      \li $v\gets A[\id{end}]$
+      \li \For $i\gets \id{begin}+1$ \To $\id{end}-1$
+      \li \Do \If $A[i]\le v$
+      \li     \Then $\id{swap}(A[i], A[q])$
+      \li           $q\gets q+1$
+              \End
+          \End
+      \li $\id{swap}(A[\id{end}], A[q])$
+      \li \Return $q$
+    \end{codebox}}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Partition: illustration}
+
+\centerline{\includegraphics[width=6cm]{Figures/03-partition.pdf}}
+
+\end{frame}
+
+\begin{frame}{Correction}
+
+Invariant pour la boucle:
+\begin{enumerate}
+\item Toutes les valeurs dans $A[p\twodots i]$ sont $\leq$ au pivot
+\item Toutes les valeurs dans $A[i+1\twodots j-1]$ sont $>$ que le pivot
+\item $A[r]=pivot$
+\end{enumerate}
+
+\bigskip
+
+
+{\bf Initialisation:} $A[p\twodots i]$ et $A[i+1\twodots q]$ sont vides
+
+{\bf Maintenance:} 
+
+{\bf Terminaison:} $j=r$.
+
+
+\end{frame}
+
+\begin{frame}{Algorithme complet}
+  \begin{center}
+   \begin{small}
+
+    \fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{Partition}(A,\id{begin},\id{end})$}
+      \li $q\gets \id{begin}$
+      \li $v\gets A[\id{end}]$
+      \li \For $i\gets \id{begin}+1$ \To $\id{end}-1$
+      \li \Do \If $A[i]\le v$
+      \li     \Then $\id{swap}(A[i], A[q])$
+      \li           $q\gets q+1$
+              \End
+          \End
+      \li $\id{swap}(A[\id{end}], A[q])$
+      \li \Return $q$
+    \end{codebox}}
+
+    \bigskip
+    \fcolorbox{white}{Lightgray}{
+    \begin{codebox}
+      \Procname{$\proc{QuickSort}(A,\id{begin},\id{end})$}
+      \li \If $\id{begin}<\id{end}$
+      \li \Then $q\gets\proc{Partition}(A,\id{begin},\id{end})$
+      \li $\proc{QuickSort}(A,\id{begin},q-1)$
+      \li $\proc{QuickSort}(A,q+1,\id{end})$
+      \End
+    \end{codebox}}
+    \end{small}
+  \end{center}
+
+\end{frame}
+
+\begin{frame}{Illustration}
+
+\centerline{\includegraphics[width=8cm]{Figures/03-quicksort-illustration2.pdf}}
+
+% Gaetano: attention à modifier ou changer
+
+\end{frame}
+
+\begin{frame}{Complexité de $\proc{Partition}$}
+
+\begin{center}
+    \fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{Partition}(A,\id{begin},\id{end})$}
+      \li $q\gets \id{begin}$
+      \li $v\gets A[\id{end}]$
+      \li \For $i\gets \id{begin}+1$ \To $\id{end}-1$
+      \li \Do \If $A[i]\le v$
+      \li     \Then $\id{swap}(A[i], A[q])$
+      \li           $q\gets q+1$
+              \End
+          \End
+      \li $\id{swap}(A[\id{end}], A[q])$
+      \li \Return $q$
+    \end{codebox}}
+\end{center}
+
+$$T(n)=\Theta(n)$$
+
+\end{frame}
+
+\begin{frame}{Complexité de $\proc{QuickSort}$}
+
+\begin{center}
+    \fcolorbox{white}{Lightgray}{
+    \begin{codebox}
+      \Procname{$\proc{QuickSort}(A,\id{begin},\id{end})$}
+      \li \If $\id{begin}<\id{end}$
+      \li \Then $q\gets\proc{Partition}(A,\id{begin},\id{end})$
+      \li $\proc{QuickSort}(A,\id{begin},q-1)$
+      \li $\proc{QuickSort}(A,q+1,\id{end})$
+      \End
+    \end{codebox}}
+\end{center}
+
+\begin{itemize}
+\item Pire cas:
+\begin{itemize}
+\item $q=begin$ ou $q=end$
+\item Le partitionnement transforme un problème de taille $n$ en un problème de taille $n-1$
+$$T(n)=T(n-1)+\Theta(n)$$
+\medskip
+\item Même complexité que le tri par insertion:
+$$T(n)=\Theta(n^2)$$
+\end{itemize}
+\end{itemize}
+\note{complexité$=\sum_{i=1}^n i$
+
+\bigskip
+
+Ca se produit quand ? (tableau déjà trié)
+}
+\end{frame}
+
+\begin{frame}{Complexité de \proc{QuickSort}}
+
+\begin{center}
+    \fcolorbox{white}{Lightgray}{
+    \begin{codebox}
+      \Procname{$\proc{QuickSort}(A,\id{begin},\id{end})$}
+      \li \If $\id{begin}<\id{end}$
+      \li \Then $q\gets\proc{Partition}(A,\id{begin},\id{end})$
+      \li $\proc{QuickSort}(A,\id{begin},q-1)$
+      \li $\proc{QuickSort}(A,q+1,\id{end})$
+      \End
+    \end{codebox}}
+\end{center}
+
+\begin{itemize}
+\item Meilleur cas:
+\begin{itemize}
+\item $q=\lfloor n/2 \rfloor$
+\item Le partitionnement transforme un problème de taille $n$ en deux
+  problèmes de taille $\lceil n/2\rceil$ et $\lfloor n/2 \rfloor-1$ respectivement
+$$T(n)=2 T(n/2)+\Theta(n)$$
+\medskip
+\item Même complexité que le tri par fusion:
+$$T(n)=\Theta(n\log n)$$
+\end{itemize}
+\end{itemize}
+\note{complexité=$\sum_{i=1}^n i$}
+\end{frame}
+
+\begin{frame}{Complexité moyenne de \proc{QuickSort}}
+\begin{itemize}
+\item Complexité moyenne identique à la complexité du meilleur cas
+$$T(n)=\Theta(n\log n)$$
+\item Intuitivement:
+\begin{itemize}
+\item En moyenne, on s'attend à une alternance de ``bons'' et de
+  ``mauvais'' partitionnements
+\item La complexité d'un mauvais partitionnement suivi d'un bon est
+  identique à la complexité d'une bon partitionnement directement
+  (seule la constante est modifiée).
+\end{itemize}
+\end{itemize}
+\centerline{\includegraphics[width=10cm]{Figures/03-quicksort-casmoyen.pdf}}
+
+\note{Peut-être dire aussi qu'un partitionnement très déséquilibré (1/10 - 9/10) garde une complexité de $n\log n$}
+
+\end{frame}
+
+\begin{frame}{Variantes de \proc{Quicksort}}
+
+\begin{itemize}
+\item Choix du pivot:
+\begin{itemize}
+\item Prendre un élément au hasard plutôt que le dernier.
+\item Prendre la médiane de 3 éléments
+\item Diminue drastiquement les chances d'être dans le pire cas
+\end{itemize}
+\end{itemize}
+
+\begin{small}
+\begin{center}
+    \fcolorbox{white}{Lightgray}{%
+     \begin{codebox}
+       \Procname{$\proc{Randomized-Partition}(A,\id{begin},\id{end})$}
+       \li i=\proc{Random}(begin,end)
+       \li \id{swap}(A[end],A[i])
+       \li \Return $\proc{Partition}(A,begin,end)$
+     \end{codebox}}
+
+\bigskip
+
+    \fcolorbox{white}{Lightgray}{%
+     \begin{codebox}
+       \Procname{$\proc{Median-Of-3-Partition}(A,\id{begin},\id{end})$}
+       \li i=\proc{median}(A,begin,(begin+end)/2,end)
+       \li \id{swap}(A[end],A[i])
+       \li \Return $\proc{Partition}(A,begin,end)$
+     \end{codebox}}
+\end{center}
+\end{small}
+
+\end{frame}
+
+\begin{frame}{Variantes de \proc{Quicksort}}
+
+\begin{itemize}
+\item Petits sous-tableaux
+\begin{itemize}
+\item \proc{Quicksort} est trop lourd pour des petits tableaux
+\item Utiliser un tri naïf (par ex., par insertion) sur les sous-tableaux de longueur inférieure à $k$ ($k\approx 20$).
+\end{itemize}
+\end{itemize}
+
+\begin{small}
+\begin{center}
+    \fcolorbox{white}{Lightgray}{
+    \begin{codebox}
+      \Procname{$\proc{QuickSort}(A,\id{begin},\id{end})$}
+      \li \If $\id{begin}\leq end+\const{CUTOFF}-1$
+      \li \Then $\proc{InsertionSort}(A,\id{begin},\id{end})$
+      \li \Return \End
+      %\li \If $\id{begin}<\id{end}$
+      \li $q\gets\proc{Partition}(A,\id{begin},\id{end})$
+      \li $\proc{QuickSort}(A,\id{begin},q-1)$
+      \li $\proc{QuickSort}(A,q+1,\id{end})$
+      \End
+    \end{codebox}}
+
+\end{center}
+\end{small}
+
+\end{frame}
+
+\begin{frame}{Conclusion sur $\proc{QuickSort}$}
+
+\begin{itemize}
+\item Rapide en moyenne $\Theta(n\log n)$
+\item Pire cas en $\Theta(n^2)$ mais très improbable avec choix du pivot bien fait
+\item Bonne performance au niveau du cache
+\item Tri \alert{en place} (mais utilise de la mémoire pour la trace récursive)
+\item \alert{Pas stable}
+\item En pratique souvent un peu plus rapide que \proc{Merge-Sort}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Jusqu'ici}
+
+  \begin{center}
+    \def\arraystretch{1.5}
+  \begin{tabular}{@{}lccc@{}c@{}}
+    \emph{Algorithme}&\multicolumn{3}{c}{\emph{Complexité}}&\emph{En place?}\\
+    & \emph{\small Pire} & \emph{\small Moyenne} & \emph{Meilleure} & \\
+    \hline\hline
+    \proc{Insertion-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n)$&oui\\
+    \hline
+    \proc{Selection-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
+    \hline
+    \proc{Bubble-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
+    \hline
+    \proc{Merge-Sort}&$\Theta(n\log{n})$&$\Theta(n\log{n})$&$\Theta(n\log{n})$&non\\
+    \hline
+    \proc{QuickSort} & $\Theta(n^2)$ & $\Theta(n\log{n})$ & $\Theta(n\log{n})$ & oui\\
+    \hline\hline
+    \hspace{1em}\alert{??}&\alert{$\Theta(n\log{n})$}& & &\alert{oui}\\
+    \hline\hline
+  \end{tabular}
+  \end{center}
+
+\end{frame}
+
+\section{Tri par tas}
+
+\begin{frame}{Tri par tas: introduction}
+
+\begin{itemize}
+\item \emph{Heapsort} en anglais
+\item inventé par Williams en 1964
+\item basé sur une structure de donnée très utile, le \emph{tas}
+\item complexité bornée par $\Theta(n\log n)$ (dans tous les cas)
+\item tri en place
+\item mise en oeuvre très simple
+
+\bigskip
+
+\item Suite du cours:
+\begin{itemize}
+\item Introduction aux arbres
+\item Tas
+\item Tri par tas
+\end{itemize}
+\end{itemize}
+
+% Voir slides français.
+
+\note{On va d'abord voir le tas, puis le heapsort, On verra la semaine
+  prochaine comment utiliser le tas pour faire une file à priorités}
+\end{frame}
+
+\subsection{Introduction aux arbres}
+
+\begin{frame}{Arbres: définition}
+\begin{itemize}
+\item Définition: Un arbre (\emph{tree}) $T$ est un graphe dirigé $(N,E)$, où:
+\begin{itemize}
+\item $N$ est un ensemble de n\oe uds, et
+\item $E\subset N\times N$ est un ensemble d'arcs,
+\end{itemize}
+possédant les propriétés suivantes:
+\begin{itemize}
+\item T est connexe et acyclique
+\item Si $T$ n'est pas vide, alors il possède un n\oe ud distingué appelé racine (\emph{root node}). Cette racine est unique.
+\item Pour tout arc $(n_1,n_2)\in E$, le n\oe ud $n_1$ est le \alert{parent} de $n_2$.
+\begin{itemize}
+\item La racine de $T$ ne possède pas de parent.
+\item Les autres n\oe uds de $T$ possèdent un et un seul parent.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\centerline{\includegraphics[width=5cm]{Figures/03-exemple-arbre2.pdf}}
+
+\end{frame}
+
+\begin{frame}{Arbres: terminologie}
+\begin{itemize}
+\item Si $n_2$ est le parent de $n_1$, alors $n_1$ est le \alert{fils} (\emph{child}) de $n_2$.
+\item Deux n\oe uds $n_1$ et $n_2$ qui possèdent le même parent sont
+  des \alert{frères} (\emph{siblings}).
+\item Un n\oe ud qui possède au moins un fils est un n\oe ud \alert{interne}.
+\item Un n\oe ud externe (c'est-à-dire, non interne) est une \alert{feuille}
+  (\emph{leaf}) de l'arbre.
+\item Un n\oe ud $n_2$ est un \alert{ancêtre} (\emph{ancestor}) d'un n\oe ud
+  $n_1$ si $n_2$ est le parent de $n_1$ ou un ancêtre du parent de $n_1$.
+\item Un n\oe ud $n_2$ est un \alert{descendant} d'un n\oe ud $n_1$ si $n_1$ est un ancêtre de $n_2$.
+\end{itemize}
+
+\centerline{\includegraphics[width=5cm]{Figures/03-exemple-arbre2.pdf}}
+
+\end{frame}
+
+\begin{frame}{Arbres: terminologie}
+
+\begin{itemize}
+\item Un \alert{chemin} est une séquence de n\oe uds $n_1$, $n_2$, \ldots, $n_m$ telle que pour tout $i\in [1,m-1]$, $(n_i,n_{i+1})$ est un arc de l'arbre.\\
+Remarque: Il n'existe jamais de chemin reliant deux feuilles distinctes.
+\item La \alert{hauteur} (\emph{height}) d'un n\oe ud $n$ est le nombre d'arcs d'un plus long chemin de ce n\oe ud vers une feuille. La \emph{hauteur de l'arbre} est la hauteur de sa racine.
+\item La \alert{profondeur} (\emph{depth}) d'un no\oe ud $n$ est le nombre d'arcs sur le chemin qui le relie à la racine.
+\end{itemize}
+
+\centerline{\includegraphics[width=5cm]{Figures/03-exemple-arbre2.pdf}}
+
+\end{frame}
+
+\begin{frame}{Arbre binaire}
+
+\begin{itemize}
+\item Un arbre \alert{ordonné} est un arbre dans lequel les ensembles de fils de chacun de ses n\oe uds sont ordonnés.
+\item Un arbre \alert{binaire} est un arbre ordonné possédant les propriétés suivantes:
+\begin{itemize}
+\item Chacun de ses n\oe uds possède au plus deux fils.
+\item Chaque n\oe ud fils est soit un fils gauche, soit un fils droit.
+\item Le fils gauche précède le fils droit dans l'ordre des fils d'un n\oe ud.
+\end{itemize}
+\item Un arbre \alert{binaire propre} (\emph{full}) est un arbre binaire dans lequel tous les n\oe uds internes possèdent exactement deux fils.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Propriétés des arbres binaires propres}
+
+% fig: Dupont
+\centerline{\includegraphics[width=5cm]{Figures/03-exemple-arbre-binaire.pdf}}
+
+% text: Dupont
+\begin{itemize}
+\item Le nombre de n\oe uds externes est égal au nombre de n\oe uds internes plus 1.
+\item Le nombre de n\oe uds interne est égal à $\frac{n-1}{2}$, où
+  $n$ désigne le nombre de n\oe uds.
+\item Le nombre de n\oe uds à la profondeur (ou niveau) $i$ est $\leq 2^i$.
+\item La hauteur $h$ de l'arbre est $\leq$ au nombre de n\oe uds internes.
+\item Le lien entre hauteur et nombre de n\oe uds peut être résumé comme suit:
+$$n=\Omega(h)\mbox{ et }n=O(2^h)$$
+\end{itemize}
+\end{frame}
+
+\subsection{Tas}
+
+\begin{frame}{Tas: définition}\label{sec:03tas}
+
+Un tas binaire (\emph{binary heap}) est un arbre binaire ordonné tel que:
+\begin{itemize}
+\item Si $h$ dénote la hauteur de l'arbre:
+\begin{itemize}
+\item Pour tout $i\in [0,h-1]$, il y a exactement $2^i$ n\oe uds à la profondeur $i$.
+\item Une feuille a une profondeur $h$ ou $h-1$.
+\item Les feuilles de profondeur maximale ($h$) sont ``tassées'' sur la gauche.
+\end{itemize}
+\medskip
+
+\item Chacun de ses n\oe uds est associé à une clé.
+\item La clé de chaque n\oe ud est supérieure ou égale à celle de ses
+  fils (\alert{propriété d'ordre du tas}).
+\end{itemize}
+
+% fig: CLRS
+\centerline{\includegraphics[width=5cm]{Figures/03-tas-binaire.pdf}}
+
+\end{frame}
+
+\begin{frame}{Propriété d'un tas}
+\label{03:hauteurtas}
+\begin{itemize}
+\item Soit $T$ un arbre binaire complet contenant $n$ entrées et de hauteur $h$:
+\begin{itemize}
+\item $n$ est supérieur ou égal à la taille de l'arbre complet de hauteur $h-1$ plus un, soit $2^{h-1+1}-1+1=2^h$
+\item $n$ est inférieur ou égal à la taille de l'arbre complet de hauteur $h$, soit $2^{h+1}-1$
+\begin{eqnarray*}
+2^h\leq n\leq 2^{h+1} & \Leftrightarrow & 2^h\leq n < 2^{h+1}\\
+& \Leftrightarrow & h \leq \log_2 n < h+1 \\
+& \Leftrightarrow & h=\lceil \log_2 n\rceil
+\end{eqnarray*}
+\end{itemize}
+\end{itemize}
+
+% fig: CLRS
+\centerline{\includegraphics[width=5cm]{Figures/03-tas-binaire.pdf}}
+
+\end{frame}
+
+\begin{frame}{Tas: interface}
+
+Opérations définies sur un tas $H$:
+\begin{itemize}
+\item $\attrib{H}{heap-size}$: le nombre de clés dans $H$.
+\item $\proc{Build-Max-Heap}(A)$ construit un tas à partir du tableau $A$.
+\item $\proc{Heap-Insert}(H,key)$ insère $key$ dans le tas.
+\item $\proc{Heap-Extract-Max}(H)$ extrait la clé maximale.
+\end{itemize}
+
+\bigskip
+
+\centerline{\includegraphics[width=5cm]{Figures/03-tas-binaire.pdf}}
+
+\end{frame}
+
+\begin{frame}{Implémentation par un tableau}
+
+\centerline{\includegraphics[width=10cm]{Figures/03-tas-binaire-tableau.pdf}}
+
+\bigskip
+
+Un tas peut être représenté de manière compacte à l'aide d'un tableau $A$.
+
+\begin{itemize}
+\item La racine de l'abre est le premier élément du tableau.
+\item $\proc{Parent}(i)=\lfloor i/2\rfloor$
+\item $\proc{Left}(i)=2i$
+\item $\proc{Right}(i)=2i+1$
+\end{itemize}
+
+Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
+
+\end{frame}
+
+\begin{frame}{$\proc{Heap-Extract-Max}$}
+
+\begin{itemize}
+\item Procédure $\proc{Heap-Extract-Max}$:
+\begin{itemize}
+\item Extrait la clé maximale. Elle est toujours à la racine \emph{(Pourquoi ?)}
+\item Réarrange le tas pour maintenir la propriété d'ordre du tas
+\end{itemize}
+
+% FIG: Gaetano -> a refaire
+\centerline{\includegraphics[width=5cm]{Figures/03-heap-extract-max.pdf}}
+
+\item On remplace la racine par la feuille la plus à droite.
+\item Les sous-arbres de droite et de gauche sont des tas.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{$\proc{Max-Heapify}$}
+
+\begin{itemize}
+\item Procédure $\proc{Max-Heapify}(A,i)$:
+\begin{itemize}
+\item Suppose que le sous-arbre de gauche du n\oe ud $i$ est un tas
+\item Suppose que le sous-arbre de droite du n\oe ud $i$ est un tas
+\item But: réarranger le tas pour maintenir la propriété d'ordre du tas
+\end{itemize}
+\item Ex: $\proc{Max-Heapify}(A,2)$
+\centerline{\includegraphics[width=8cm]{Figures/03-max-heapify.pdf}}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{$\proc{Max-Heapify}$}
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{
+      \begin{codebox}
+        \Procname{$\proc{Max-Heapify}(A,i)$}
+        \li $l\gets\proc{Left}(i)$
+        \li $r\gets\proc{Right}(i)$
+        \li \If $l\le \attrib{A}{heap-size} \wedge A[l]>A[i]$
+        \li \Then $\id{largest}\gets l$
+        \li \Else $\id{largest}\gets i$
+        \End
+        \li \If $r\le \attrib{A}{heap-size} \wedge A[r]>A[\id{largest}]$
+        \li \Then $\id{largest}\gets r$
+        \End
+        \li \If $\id{largest}\ne i$
+        \li \Then $\id{swap}(A[i],A[\id{largest}])$
+        \li       $\proc{Max-Heapify}(A,\id{largest})$
+        \End
+      \end{codebox}}
+\end{small}
+\end{center}
+
+\bigskip
+
+\begin{itemize}
+\item Complexité ? La hauteur du n\oe ud: $T(n)=\Theta(\log n)$ (Transp. \pageref{03:hauteurtas})
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Construction d'un tas}
+
+\begin{center}
+\fcolorbox{white}{Lightgray}{
+      \begin{codebox}
+        \Procname{$\proc{Build-Max-Heap}(A)$}
+        \li $\attrib{A}{heap-size}\gets\attrib{A}{length}$
+        \li \For $i\gets\lfloor\id{length}(A)/2\rfloor$ \Downto $1$
+        \li \Do $\proc{Max-Heapify}(A,i)$
+        \End
+      \end{codebox}}
+\end{center}
+
+\bigskip
+
+\centerline{\includegraphics[width=10cm]{Figures/03-build-max-heap.pdf}}
+
+\bigskip
+
+\begin{itemize}
+\item La tableau initial est interprété comme un arbre binaire complet
+\item On tasse les n\oe uds internes de bas en haut et de droite à gauche
+\end{itemize}
+
+\note{Montrer sur le dessin comment ça marche}
+
+\end{frame}
+
+\begin{frame}{Complexité de $\proc{Build-Max-Heap}$}
+
+\begin{itemize}
+\item Borne simple:
+\begin{itemize}
+\item $O(n)$ appels à $\proc{Max-Heapify}$, chacun étant $O(\log n)$ $\Rightarrow O(n\log n)$.
+\end{itemize}
+
+\bigskip
+
+
+\item Analyse plus fine:
+\begin{itemize}
+\item Pour simplifier l'analyse, on suppose que l'arbre binaire est complet.
+\item On a donc $n=2^{h+1}-1$ pour un $h\geq 0$, qui est aussi la hauteur de l'arbre résultant
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Complexité de $\proc{Build-Max-Heap}$}
+\centerline{\includegraphics[width=9cm]{Figures/03-max-heapify-complex.pdf}}
+
+\begin{itemize}
+\item Il y a $2^i$ n\oe uds à la profondeur $i$ (= hauteur $h-i$).
+\item On doit appeler $\proc{Max-Heapify}$ sur chacun d'eux $\Rightarrow O(h-i)$.
+\item Nombre d'opérations en fonction de $h$:
+$$T(h)=\sum_{i=0}^{h-1} 2^i O(h-i)=O(\sum_{i=0}^{h-1} 2^i (h-i))$$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Complexité de $\proc{Build-Max-Heap}$}
+\begin{itemize}
+\item $\sum_{i=0}^{h-1} 2^i (h-i)=1\cdot 2^{h-1}+2\cdot 2^{h-2}+\ldots+(h-1)\cdot 2^1+h\cdot 2^0$
+
+\bigskip
+
+\begin{small}
+\begin{tabular}{ccccccccccl}
+$2^{h-1}$ & + & $2^{h-2}$ & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h}-1$\\
+ & + & $2^{h-2}$ & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h-1}-1$\\
+ & + & $2^{h-2}$ & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h-2}-1$\\
+ &   &        &   &      &   & \ldots &  &    & \ldots & \\
+ &   &        &   &     &    &        & & $2^0$ & = & $2^1-1$\\
+\hline
+ &   &        &   &     &    &        & &     & = & $\left(\sum_{i=1}^h 2^i\right)-h$
+\end{tabular}
+\end{small}
+
+\medskip
+
+(En utilisant $\sum_{i=0}^n x^i=\frac{x^{n+1}-1}{x-1}$)
+
+\bigskip
+
+\item On obtient donc $T(h)=O(2^{h+1}-h-2).$
+\item Puisque $h=log_2(n+1)-1=O(\log n)$, on a $$T(n)=O(n).$$
+\end{itemize}
+\end{frame}
+
+%\subsection{File à priorités}
+
+\subsection{Tri par tas}
+
+\begin{frame}{Tri par tas: algorithme}
+
+\begin{center}
+\fcolorbox{white}{Lightgray}{
+        \begin{codebox}
+          \Procname{$\proc{Heap-Sort}(A)$}
+          \li $\proc{Build-Max-Heap}(A)$
+          \li \For $i\gets\id{length}(A)$ \Downto $1$
+          \li \Do $\id{swap}(A[i],A[1])$
+          \li     $\id{heap-size}(A)\gets\id{heap-size}(A)-1$
+          \li     $\proc{Max-Heapify}(A,1)$
+          \End
+        \end{codebox}}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Tri par tas: illustration}
+Tableau initial: $A=[7,4,3,1,2]$
+
+\bigskip
+
+%Fig:CLRS
+\centerline{\includegraphics[width=7cm]{Figures/03-heapsort-exemple.pdf}}
+
+\end{frame}
+
+\begin{frame}{Complexité de \proc{Heap-Sort}}
+
+\begin{itemize}
+\item $\proc{Build-Max-Heap}$: $O(n)$
+\item Boucle $\For$: $n-1$ fois
+\item Echange d'éléments: $O(1)$
+\item $\proc{Max-Heapify}$: $O(\log n)$
+\end{itemize}
+Total: $O(n\log n)$ \alert{(pour le pire cas et le cas moyen)}
+
+\bigskip
+
+Le tri par tas est cependant généralement battu par le tri rapide
+\end{frame}
+
+\section{Synthèse}
+
+\begin{frame}{Résumé}
+
+ \begin{center}
+    \def\arraystretch{1.5}
+  \begin{tabular}{@{}lccc@{}c@{}}
+    \emph{Algorithme}&\multicolumn{3}{c}{\emph{Complexité}}&\emph{En place?}\\
+    & \emph{\small Pire} & \emph{\small Moyenne} & \emph{Meilleure} & \\
+    \hline\hline
+    \proc{Insertion-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n)$&oui\\
+    \hline
+    \proc{Selection-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
+    \hline
+    \proc{Bubble-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
+    \hline
+    \proc{Merge-Sort}&$\Theta(n\log{n})$&$\Theta(n\log{n})$&$\Theta(n\log{n})$&non\\
+    \hline
+    \proc{Quick-Sort} & $\Theta(n^2)$ & $\Theta(n\log{n})$ & $\Theta(n\log{n})$ & oui\\
+    \hline
+    \proc{Heap-Sort} & $\Theta(n\log{n})$ & $\Theta(n\log{n})$ & $\Theta(n\log{n})$ & oui\\
+    \hline\hline
+  \end{tabular}
+  \end{center}
+
+\end{frame}
+
+\begin{frame}{Peut-on faire mieux que $O(n\log n)$?}
+
+% Gaetano
+
+\begin{itemize}
+\item Non, si on se restreint aux tri \emph{comparatifs}, c'est-à-dire:
+\begin{itemize}
+\item Aucune hypothèse sur les éléments à trier
+\item Nécessité de les comparer entre eux
+\end{itemize}
+\item Complexité d'un problème algorithmique versus complexité d'un algorithme
+\item Dans ce cas, un algorithme de tri est:
+\begin{itemize}
+\item Une suite de comparaisons d'éléments suivant une certaine méthode
+\item Un processus qui transforme un tableau $[e_0,e_1,\ldots,e_{n-1}]$ en un autre tableau $[e_{\sigma_0},e_{\sigma_1},\ldots,e_{\sigma_{n-1}}]$ où $(\sigma_0,\sigma_1,\ldots,\sigma_{n-1})$ est une permutation de $(0,1,\ldots,n-1)$.
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Arbre de décision: exemple}
+
+Un algorithme de tri = un arbre binaire de décision
+
+\bigskip
+
+% FIGS: Gaetano
+\centerline{\includegraphics[width=10cm]{Figures/03-arbre-decision.pdf}}
+
+\bigskip
+
+(arbre de décision pour le tri par insertion du tableau $[e_0,e_1,e_2]$)
+
+\bigskip
+
+\emph{Exercice: construire l'arbre pour le tri par fusion}
+
+\end{frame}
+
+\begin{frame}{Arbre de décision: définition}
+
+Un algorithme de tri = un arbre binaire de décision
+
+\begin{itemize}
+\item feuille de l'arbre: une permutation des éléments du tableau initial
+\item tri: le chemin de la racine à la feuille correspondant au tableau trié
+\item hauteur de l'arbre: le pire cas pour le tri
+\item branche la plus courte: le meilleur cas pour le tri
+\item hauteur moyenne de l'arbre: la complexité en moyenne du tri
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Arbre de décision: propriété}
+\begin{itemize}
+\item Un arbre binaire de hauteur $h$ a au plus $2^h$ feuilles (récurrence)
+\item Le nombre de feuilles de l'arbre de décision est  $n!$ où  $n$ est la taille du tableau à trier
+% 
+\item On a donc:
+$$n!\leq 2^h \Rightarrow \log(n!)\leq h$$
+\item Formule de Stirling:
+$$n!=\sqrt{2\pi n} (\frac{n}{e})^n (1+\Theta(\frac{1}{n}))\Rightarrow n!\geq (\frac{n}{e})^n$$
+
+$$h\geq \log(n!)>\log((\frac{n}{e})^n)=n\log n - n\log e\Rightarrow h=\Omega(n\log n)$$
+
+\end{itemize}
+\bigskip
+
+\centerline{\bf Le problème du tri comparatif est $\Omega(n\log n)$}
+
+\note{Dire qu'il ne peut pas y en avoir moins que $n!$ feuilles sinon, un cas ne serait pas traiter}
+
+\end{frame}
+
+\begin{frame}{Ce qu'on a vu}
+
+\begin{itemize}
+\item Catégorisation des algorithmes de tri
+\item \proc{QuickSort} (tri en place en $O(n\log n))$
+\item Analyse du cas moyen d'un algorithme
+\item Notre première structure de données: le tas
+\item \proc{HeapSort}
+\item Borne inférieure sur les tris comparatifs
+
+\bigskip
+
+\item Liens:
+\begin{itemize}
+\item \url{http://www.sorting-algorithms.com/}
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Ce qu'on n'a pas vu}
+
+\begin{itemize}
+\item Analyse formelle de la complexité moyenne du $\proc{QuickSort}$.
+\item Invariant pour le tri par tas
+\item Méthodes de tri linéaire
+\item Méthode de sélection: trouver l'élément de rang $i$
+\end{itemize}
+
+\note{Demander comment il ferait ça de manière naive}
+\end{frame}

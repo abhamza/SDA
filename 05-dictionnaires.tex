@@ -1,0 +1,1692 @@
+
+\part{Dictionnaires}
+
+% Superbe site web avec les differents algorithmes
+
+% http://www.sorting-algorithms.com/
+
+
+% Plan
+
+% recherche séquentielle
+% recherche binaire (dichotomique) -> problème insertion reste lente
+% binary search trees -> insertion et recherche rapide mais seulement en moyenne
+% RB trees -> insertion et recherche rapide dans le pire cas
+% table à accès direct: tout en $O(1)$ mais prend beaucoup de mémoire
+% table hash: tout en ordre $O(1)$ mais structure non dynamique
+
+\begin{frame}{Plan}
+
+\tableofcontents
+
+\end{frame}
+
+
+\section{Introduction}
+
+\begin{frame}{Dictionnaires}
+\begin{itemize}
+\item Définition: un \alert{dictionnaire} est un ensemble dynamique
+  d'objets avec des clés comparables qui supportent les opérations
+  suivantes:
+\begin{itemize}
+\item $\proc{Search}(S,k)$ retourne un pointeur $x$ vers un élément dans $S$ tel que $\attrib{x}{key}=k$, ou $\const{NIL}$ si un tel élément n'appartient pas à $S$.
+\item $\proc{Insert}(S,x)$ insère l'élément $x$ dans le dictionnaire $S$.
+\item $\proc{Delete}(S,x)$ retire l'élément $x$ de $S$.
+\end{itemize}
+\item Pour faciliter la recherche, on peut supposer qu'il existe un ordre total sur les clés.
+\item Deux objectifs en général:
+\begin{itemize}
+\item minimiser le coût pour l'insertion et l'accès au données
+\item minimiser l'espace mémoire pour le stockage des données
+\end{itemize}
+\item Exemples d'applications:
+\begin{itemize}
+\item Table de symboles dans un compilateur
+\item Table de routage d'un DNS
+\item \ldots
+\end{itemize}
+\item Beaucoup d'implémentations possibles
+\end{itemize}
+\note{Ici:
+\begin{itemize}
+\item Pas d'ordre sur les clés (du moins, on ne l'exploite pas)
+\begin{itemize}
+\item tableau à accès direct
+\item table de hachage
+\end{itemize}
+\item Ordre sur les clés
+\begin{itemize}
+\item tableau trié
+\item arbre binaire de recherche
+\end{itemize}
+}
+\end{frame}
+
+\section{Arbres binaires de recherche}
+
+\begin{frame}{Liste liée}
+Première solution:
+\begin{itemize}
+\item On stocke les paires clé-valeur dans une liste liée
+\item Recherche et suppression par les fonctions $\proc{List-Search}$ et $\proc{List-Delete}$\\
+\item Insertion:
+\begin{itemize}
+\item On recherche la clé dans la liste ($\proc{List-Search}$)
+\item Si elle existe, on remplace la valeur
+\item Si elle n'existe pas, on la place en début de liste ($\proc{List-Insert}$)
+\end{itemize}
+\item Complexité:
+% remplacer ça par une table
+\begin{itemize}
+\item Insertion: $O(N)$
+\item Recherche: $O(N)$
+\item Suppression: $O(N)$
+\end{itemize}
+\item Peut-on améliorer la recherche ?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Vecteur trié}
+
+Deuxième solution:
+\begin{itemize}
+\item On suppose qu'il existe un ordre total sur les clés
+\item On stocke les éléments dans un \alert{vecteur} qu'on maintient trié
+\item Recherche dichotomique (approche ``diviser-pour-régner'')
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Binary-Search}(V,k,low,high)$}
+    \li \If $low>high$
+    \li \Then \Return \const{NIL} \End
+    \li $mid\gets \lfloor (low+high)/2\rfloor$
+    \li $x\gets \proc{Elem-At-Rank}(V,mid)$
+    \li \If $k\isequal x.key$
+    \li \Then \Return $x$
+    \li \ElseIf $k>x.key$
+    \li \Then \Return $\proc{Binary-Search}(V,k,mid+1,high)$
+    \li \Else \Return $\proc{Binary-Search}(V,k,low,mid-1)$
+    \End
+\end{codebox}}
+\end{small}
+\end{center}
+Complexité: $O(\log n)$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Vecteur trié}
+\begin{itemize}
+\item Insertion: recherche de la position par $\proc{Binary-Search}$ puis insertion dans le vecteur par $\proc{Insert-At-Rank}$ (=décalage des éléments vers la droite).
+\item Suppression: recherche puis suppression par $\proc{Remove-At-Rank}$ (=décalage des éléments vers la gauche).
+\item Complexité:
+\begin{itemize}
+\item Insertion: $O(N)$ (on doit décaler les éléments à droite de la clé)
+\item Recherche: $O(\log N)$ (recherche dichotomique)
+\item Suppression: $O(N)$ (on doit décaler les éléments à gauche de la clé)
+\end{itemize}
+
+\bigskip
+
+\item Peut-on obtenir à la fois une insertion et une recherche
+  efficace?\\$\Rightarrow$ Oui, en utilisant un arbre binaire de recherche
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Arbre binaire de recherche}
+\begin{columns}
+\begin{column}{7.5cm}
+\begin{itemize}
+\item Implémentation:
+\begin{itemize}
+\item $T$ représente l'arbre, qui consiste en un ensemble de n\oe uds
+\item $T.root$ est le n\oe ud racine de l'arbre $T$
+\end{itemize}
+\item N\oe ud $x$
+\begin{itemize}
+\item $\attrib{x}{parent}$ est le parent du n\oe ud $x$
+\item $\attrib{x}{key}$ est la clé stockée au n\oe ud $x$
+\item $\attrib{x}{left}$ est le fils de  gauche du n\oe ud $x$
+\item $\attrib{x}{right}$ est le fils de droite du n\oe ud $x$
+\end{itemize}
+\end{itemize}
+\end{column}
+\begin{column}{4cm}
+\begin{center}
+\includegraphics[width=3cm]{Figures/05-bstnode.pdf}
+\end{center}
+\end{column}
+\end{columns}
+
+\bigskip
+
+(Généralise la notion de liste liée)
+
+\end{frame}
+
+\begin{frame}{Arbres binaires de recherche}
+
+\centerline{\includegraphics[width=9cm]{Figures/05-arbresbinaires.pdf}}
+
+\begin{itemize}
+\item Propriété d'arbre binaire de recherche
+\begin{itemize}
+\item Soient deux n\oe uds $x$ et $y$.
+\item Si $y$ est dans le sous-arbre de gauche de $x$, alors $y.key\leq x.key$
+\item Si $y$ est dans le sous-arbre de droite de $x$, alors $y.key\leq x.key$
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Parcours infixe}
+
+\begin{center}
+\includegraphics[width=5cm]{Figures/05-onebst.pdf}
+\bigskip
+
+$\Rightarrow \langle 2, 5, 5, 6, 7, 8\rangle$
+\end{center}
+
+\begin{itemize}
+\item Parcours infixe: parcours en ordre des clés de l'arbre
+
+\bigskip
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Inorder-Tree-Walk}(x)$}
+    \li \If $x\neq \const{NIL}$
+    \li \Then $\proc{Inorder-Tree-Walk}(\attrib{x}{left})$
+    \li print $\attrib{x}{key}$
+    \li $\proc{Inorder-Tree-Walk}(\attrib{x}{right})$
+    \End
+\end{codebox}}
+\end{small}
+\end{center}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Parcours préfixe}
+
+\begin{center}
+\includegraphics[width=6cm]{Figures/05-onebst.pdf}
+\bigskip
+
+$\Rightarrow \langle 6, 5, 2, 5, 7, 8\rangle$
+\end{center}
+
+\begin{itemize}
+\item Parcours préfixe (préordre): chaque n\oe ud est visité \alert{avant} ses fils
+
+\bigskip
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Preorder-Tree-Walk}(x)$}
+    \li \If $x\neq \const{NIL}$
+    \li \Then print $\attrib{x}{key}$
+    \li $\proc{Preorder-Tree-Walk}(\attrib{x}{left})$
+    \li $\proc{Preorder-Tree-Walk}(\attrib{x}{right})$
+    \End
+\end{codebox}}
+\end{small}
+\end{center}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Parcours postfixe}
+
+\begin{center}
+\includegraphics[width=6cm]{Figures/05-onebst.pdf}
+\bigskip
+
+$\Rightarrow \langle 2, 5, 5, 8, 7, 6\rangle$
+\end{center}
+
+\begin{itemize}
+\item Parcours postfixe (postordre): chaque n\oe ud est visité \alert{après} ses fils
+
+\bigskip
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Postorder-Tree-Walk}(x)$}
+    \li \If $x\neq \const{NIL}$
+    \li \Then $\proc{Postorder-Tree-Walk}(\attrib{x}{left})$
+    \li $\proc{Postorder-Tree-Walk}(\attrib{x}{right})$
+    \li print $\attrib{x}{key}$
+    \End
+\end{codebox}}
+\end{small}
+\end{center}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Complexité des parcours}
+\begin{itemize}
+\item Tous les parcours sont $\Theta(n)$ en temps
+\begin{itemize}
+\item Soit $T(n)$ le nombre d'opérations pour un arbre avec $n$ n\oe uds
+\item On a $T(n)=\Omega(n)$ (on doit au moins parcourir chaque n\oe ud).
+\item Etant donné la récurrence, on a:
+$$T(n)=T(n_l)+T(n-n_L-1) + \Theta(1)$$
+\item On peut prouver par induction que $T(n)=O(n)$
+\item $T(n)=\Omega(n)$ et $T(n)=O(n)$ $\Rightarrow$ $T(n)=\Theta(n)$
+\end{itemize}
+\item Etant donné que la sortie est de longueur $n$, on ne pourra pas faire mieux
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Parcours en largeur}
+
+
+
+\begin{itemize}
+\item Parcours en largeur: on visite le n\oe ud le plus proche de la racine qui n'a pas déjà été visité. Correspond à une visite de n\oe ud de profondeur 1, puis 2, \ldots.
+\item Implémentation à l'aide d'une file
+\end{itemize}
+
+%\bigskip
+
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}
+\includegraphics[width=6cm]{Figures/05-onebst.pdf}
+\bigskip
+
+$\Rightarrow \langle 6,5,7,2,5,8\rangle$
+\end{center}
+\end{column}~~~~~~~
+\begin{column}{5cm}
+\begin{center}
+\begin{footnotesize}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Breadth-Tree-Walk}(x)$}
+    \li $Q\gets$''Empty queue''
+    \li $\proc{Enqueue}(Q,x)$
+    \li \While \textbf{not} $\proc{Queue-Empty}(Q)$
+    \li \Do $y\gets\proc{Dequeue}(Q)$
+    \li print $y.key$
+    \li \If $y.left\neq \const{NIL}$
+    \li \Then  $\proc{Enqueue}(Q,y.left)$ \End
+    \li \If $y.right\neq \const{NIL}$
+    \li \Then  $\proc{Enqueue}(Q,y.right)$ \End
+    \End
+\end{codebox}}
+\end{footnotesize}
+\end{center}
+\end{column}
+\end{columns}
+
+\medskip
+
+\emph{(Exercice: Implémenter le parcours en ordre de manière non récursive)}
+\note{Solution: il faut utiliser une pile mais une solution simple peut être trouvée avec une comparaison de pointeurs (voir les solutions du bouquin)
+}
+\end{frame}
+
+\begin{frame}{Recherche dans un arbre binaire}
+\begin{itemize}
+\item Recherche binaire
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Tree-Search}(x,k)$}
+    \li \If $x\isequal \const{NIL}$ or $k\isequal \attrib{x}{key}$
+    \li \Then \Return $x$\End
+    \li \If $k<\attrib{x}{key}$
+    \li \Then \Return $\proc{Tree-Search}(\attrib{x}{left},k)$
+    \li \Else \Return $\proc{Tree-Search}(\attrib{x}{right},k)$
+\end{codebox}}
+
+\medskip
+
+Appel initial (à partir d'un arbre $T$)\\
+\fcolorbox{white}{Lightgray}{%
+$\proc{Tree-Search}(\attrib{T}{root},k)$
+}
+\end{small}
+\end{center}
+
+\bigskip
+
+\item Complexité ? $T(n)=O(h)$, où $h$ est la hauteur de l'arbre
+\item Pire cas: $h=n$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Recherche dans un arbre binaire}
+\begin{itemize}
+\item $\proc{Tree-Search}$ est récursive terminale.
+\item Version itérative
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Iterative-Tree-Search}(T,k)$}
+    \li $x\gets \attrib{T}{root}$
+    \li \While $x\neq \const{NIL}$ and $k\neq \attrib{x}{key}$
+    \li \Do \If $k<\attrib{x}{key}$
+    \li \Then $x\gets \attrib{x}{left}$
+    \li \Else $x\gets \attrib{x}{right}$
+    \End\End
+    \li \Return x
+\end{codebox}}
+\end{small}
+\end{center}
+
+\bigskip
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Clés maximale et minimale}
+\begin{itemize}
+\item Etant donné la propriété d'arbre binaire
+\begin{itemize}
+\item La clé minimale se trouve dans le n\oe ud le plus à gauche
+\item La clé maximale se trouve dans le no\oe ud le plus à droite
+\end{itemize}
+
+\bigskip
+
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+\begin{codebox}
+          \Procname{$\proc{Tree-Minimum}(x)$}
+          \li \While $\attrib{x}{left}\ne\const{NIL}$
+          \li \Do $x\gets\attrib{x}{left}$
+              \End
+          \li \Return $x$
+        \end{codebox}}~~~~~\fcolorbox{white}{Lightgray}{%
+\begin{codebox}
+          \Procname{$\proc{Tree-Maximum}(x)$}
+          \li \While $\attrib{x}{right}\ne\const{NIL}$
+          \li \Do $x\gets\attrib{x}{right}$
+              \End
+          \li \Return $x$
+        \end{codebox}}
+\end{center}
+
+\bigskip
+
+\item Complexité: $O(h)$, où $h$ est la hauteur de l'arbre.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Successeur et prédécesseur}
+\begin{itemize}
+\item Etant donné un n\oe ud $x$, trouver le n\oe ud contenant la valeur de clé suivante (dans l'ordre)
+
+\begin{center}
+\includegraphics[width=7cm]{Figures/05-treesuccessor.pdf}
+
+\bigskip
+
+Ex: successeur de 15 $\rightarrow 17$, successeur de 4 $\rightarrow 6$.
+\end{center}
+
+
+\item Le successeur de $x$ est le minimum du sous-arbre de droite s'il existe
+\item Sinon, c'est le premier ancêtre $a$ de $x$ tel que $x$ tombe dans le sous-arbre de gauche de $a$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Successeur et prédécesseur}
+
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+      \Procname{$\proc{Tree-Successor}(x)$}
+      \li \If $\attrib{x}{right}\ne\const{NIL}$
+      \li \Return $\proc{Tree-Minimum}(\attrib{x}{right})$
+      \li $y\gets\attrib{x}{parent}$
+      \li \While $y\ne\const{NIL}$ and $x\isequal\attrib{x}{right}$
+      \li \Do $x\gets y$
+      \li     $y\gets\attrib{y}{parent}$
+      \End
+      \li \Return $y$
+    \end{codebox}}
+\end{small}
+\end{center}
+\end{column}
+\begin{column}{5cm}
+\begin{center}
+
+  \bigskip
+
+\bigskip
+
+\includegraphics[width=5cm]{Figures/05-treesuccessor.pdf}
+\end{center}
+\end{column}
+\end{columns}
+
+\bigskip
+
+Complexité: $O(h)$, où $h$ est la hauteur de l'arbre
+
+\bigskip
+
+\emph{(Exercice: $\proc{Tree-Predecessor}$)}
+
+\note{Attention, algo assez tordu}
+
+\end{frame}
+
+\begin{frame}{Insertion}
+
+\begin{center}
+\includegraphics[width=8cm]{Figures/05-bstinsertion.pdf}
+\end{center}
+
+\begin{itemize}
+\item Pour insérer $x$, on recherche la clé $\attrib{x}{key}$ dans l'arbre
+\item Si on ne la trouve pas, on l'ajoute à l'endroit où la recherche s'est arrêtée.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Insertion}
+
+  \begin{columns}
+    \begin{column}{5cm}
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{
+      \begin{codebox}
+        \Procname{$\proc{Tree-Insert}(T, z)$}
+      \li $y\gets\const{NIL}$
+      \li $x\gets\attrib{T}{root}$
+      \li \While $x\ne\const{nil}$
+      \li \Do $y\gets x$
+      \li     \If $\attrib{z}{key}<\attrib{x}{key}$
+      \li     \Then $x\gets\attrib{x}{left}$
+      \li     \Else $x\gets\attrib{x}{right}$
+      \End
+      \End
+      \li $\attrib{z}{parent}\gets y$
+      \li \If $y\isequal \const{NIL}$
+      \li \Then \Comment Tree $T$ was empty
+      \li        $\attrib{T}{root}\gets z$
+      \li \ElseIf $\attrib{z}{key}<\attrib{y}{key}$
+      \li       \Then $\attrib{y}{left}\gets z$
+      \li       \Else $\attrib{y}{right}\gets z$
+      \End
+      \End
+      \end{codebox}}
+\end{small}
+\end{center}
+    \end{column}
+    \begin{column}{5cm}
+      \begin{center}
+      \includegraphics[width=5cm]{Figures/05-bstinsertion.pdf}
+      \end{center}
+    \end{column}
+  \end{columns}
+
+\note{$x$ trace le chemin, $y$ maintient le pointeur vers le parent de $x$.}
+\end{frame}
+
+\begin{frame}{Suppression}
+
+3 cas à considérer en fonction du n\oe ud $z$ à supprimer:
+\begin{itemize}
+\item $z$ n'a pas de fils gauche: remplacer $z$ par son fils droite
+\centerline{\includegraphics[width=5cm]{Figures/05-bstdelete-1.pdf}}
+\item $z$ n'a pas de fils droit: remplacer $z$ par son fils gauche
+\centerline{\includegraphics[width=5cm]{Figures/05-bstdelete-2.pdf}}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item $z$ a deux fils: rechercher le successeur $y$ de $z$.\\\emph{NB: $y$ est dans le sous-arbre de droite et n'a pas de fils gauche.}
+\begin{itemize}
+\item Si $y$ est le fils droit de $z$, remplacer $z$ par $y$ et conserver le fils droit de $y$
+\centerline{\includegraphics[width=5.5cm]{Figures/05-bstdelete-3.pdf}}
+\item Sinon, $y$ est dans le sous-arbre droit de $z$ mais n'en est pas la racine. On remplace $y$ par son propre fils droit et on remplace $z$ par $y$.
+\centerline{\includegraphics[width=8.5cm]{Figures/05-bstdelete-4.pdf}}
+\end{itemize}
+\end{itemize}
+\note{$y$ n'a pas de fils gauche sinon, le successeur de $z$ se trouverait dans le sous-arbre de gauche qui correspond à des valeurs plus petites que $y$ et plus grande que $z$.
+~\\
+}
+\end{frame}
+
+\begin{frame}{Suppression}
+\vspace{-1cm}
+\begin{columns}
+\begin{column}{6cm}
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Tree-Delete}(T,z)$}
+    \li \If $\attrib{z}{left}\isequal \const{NIL}$
+    \li \Then $\proc{Transplant}(T,z,z.right)$
+    \li \ElseIf $\attrib{z}{right}\isequal\const{NIL}$
+    \li \Then $\proc{Transplant}(T,z,z.left)$
+    \li \Else \Comment $z$ has two children
+    \li $y\gets\proc{Tree-Successor}(z)$
+    \li \If $\attrib{y}{parent}\ne z$
+    \li \Then $\proc{Transplant}(T,y,y.right)$
+    \li $\attrib{y}{right}\gets\attrib{z}{right}$
+    \li $\attrib{y}{right}.\id{parent} \gets y$
+    \End
+    \li \Comment Replace $z$ by $y$
+    \li $\proc{Transplant}(T,z,y)$
+    \li $\attrib{y}{left}\gets \attrib{z}{left}$
+    \li $\attrib{y}{left}.\id{parent}\gets y$
+    \End
+\end{codebox}}
+\end{small}
+\end{center}
+\end{column}
+\begin{column}{6cm}
+
+\bigskip
+
+\bigskip
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Transplant}(T,u,v)$}
+    \li\If $\attrib{u}{parent}\isequal \const{NIL}$
+    \li\Then $\attrib{T}{root}\gets v$
+    \li \ElseIf $u\isequal \attrib{u}{parent}.\id{left}$
+    \li \Then $\attrib{u}{parent}.\id{left}\gets v$
+    \li \Else $\attrib{u}{parent}.\id{right}\gets v$
+    \End
+    \li \If $v\ne\const{NIL}$
+    \li \Then $\attrib{v}{parent}=\attrib{u}{parent}$
+    \End
+  \end{codebox}}
+\end{small}
+\end{center}
+
+\end{column}
+\end{columns}
+
+Complexité: $O(h)$ pour un arbre de hauteur $h$\\(Tout est $O(1)$ sauf l'appel à $\proc{Tree-Successor}$).
+\end{frame}
+
+\begin{frame}{Arbres binaires de recherche}
+
+\begin{itemize}
+\item Toutes les opérations sont $O(h)$ où $h$ est la hauteur de l'arbre
+\item Si $n$ éléments ont été insérés dans l'arbre:
+\begin{itemize}
+\item Au pire, $h=n-1=O(n)$
+\begin{itemize}
+\item Elements insérés en ordre
+\end{itemize}
+\item Au mieux, $h=\lceil\log_2 n\rceil=O(\log n)$
+\begin{itemize}
+\item Pour un arbre binaire complet
+\end{itemize}
+\item En moyenne, on peut montrer que $h=O(\log n)$
+\begin{itemize}
+\item En supposant que les éléments ont été insérés en ordre aléatoire
+\end{itemize}
+\end{itemize}
+\item Problème:  le pire cas n'est pas rare
+
+\bigskip
+
+\item Deux solutions:
+\begin{itemize}
+\item Utiliser de la randomisation pour que le probabilité de rencontrer le pire cas soit négligeable
+\item Maintenir les arbres équilibrés
+\end{itemize}
+\end{itemize}
+\note{
+randomization: n'assure pas qu'on ne sera jamais dans le pire cas. Suppose qu'on puisse jouer sur l'ordre d'insertion
+
+Peut-être développer un peu l'insertion sur base des slides de Carzinaga...
+}
+\end{frame}
+
+\begin{frame}{Tri avec un arbre binaire de recherche}
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Binary-Search-Tree-Sort}(A)$}
+    \li $T\gets$ ``Empty binary search tree''
+    \li \For $i\gets 1$ \To $n$
+    \li \Do $\proc{Tree-Insert}(T,A[i])$\End
+    \li $\proc{Inorder-Tree-Walk}(\attrib{T}{root})$
+    \End
+  \end{codebox}
+  }
+\end{small}
+\end{center}
+
+\begin{itemize}
+\item Exemple: $A=[6,5,7,2,5,8]$
+
+~\hfill\includegraphics[width=5cm]{Figures/05-onebst.pdf}
+\item Complexité en temps identique au quicksort
+\begin{itemize}
+\item Insertion: en moyenne, $n\cdot O(\log n)=O(n\log n)$, pire cas: $O(n^2)$
+\item Parcours de l'arbre en ordre: $O(n)$
+\item Total: $O(n\log n)$ en moyenne, $O(n^2)$ pour le pire cas
+\end{itemize}
+\item Complexité en espace cependant plus importante, pour le stockage de la structure d'arbres.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Arbres équilibrés}
+\begin{itemize}
+\item Solution générale pour obtenir une complexité au pire cas en $O(n\log n)$:% maintenir en permanence un arbre plus ou moins complet
+\begin{itemize}
+\item Définir un \alert{invariant} sur la structure d'arbre
+\item Prouver que cette invariant garantit une hauteur $\Theta(\log n)$
+\item Implémenter les opérations d'insertion et suppression de manière à maintenir l'invariant
+\item Si ces opérations ne sont pas trop coûteuse (p.ex., $O(\log
+  n)$), on aura gagné
+\end{itemize}
+
+\bigskip
+
+\item Plusieurs types d'arbres équilibrés:
+\begin{itemize}
+\item Arbres AVL
+\begin{itemize}
+\item Invariant: Arbres $H$-équilibrés
+\end{itemize}
+\item Arbres 2-3-4
+\item Arbres rouges et noirs
+\item Splay trees, Scapegoat trees, treaps,\ldots
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Arbres $H$-équilibrés}
+\begin{itemize}
+\item \alert{Définition:}
+
+$$T\mbox{ est }H-\mbox{équilibré}\Leftrightarrow |h(g(T'))-h(d(T'))|\leq 1,$$
+pour tout sous-arbre $T'$ de $T$, et où $g(X)$, $d(X)$ et $h(X)$ sont resp. le sous-arbre gauche, le sous-arbre droit et la hauteur de l'arbre $X$.
+
+\medskip
+
+\emph{(Les hauteurs des deux sous-arbres d'un même n\oe ud diffèrent au plus de un)}
+
+\bigskip
+
+\item \alert{Propriété:}
+
+Pour tout arbre $H$-équilibré de taille $n$ et de hauteur $h$, on a 
+$$h=\Theta(\log n)$$
+
+Plus précisément, on peut prouver:
+ $$\log(n+1)\leq h+1< 1,44 \log(n+2)$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Arbres $H$-équilibrés}
+\alert{Démonstration}
+
+Etant donné un arbre $H$-équilibré de taille $n$ et de hauteur $h\geq 1$, pour $h$ fixé, $n$ est
+\begin{itemize}
+\item Maximum: quand l'arbre est complet, soit quand
+$n=2^{h+1}-1\Rightarrow n+1\leq 2^{h+1} \Rightarrow \log (n+1)\leq h+1$
+\item Minimum: quand $n=N(h)$ où $N(h)$ est la taille d'un arbre $H$-équilibré de hauteur $h$ qui a le moins d'éléments.
+\begin{itemize}
+\item $N(h)$ peut être défini par récurrence par $N(h)=1+N(h-1)+N(h-2)$ avec $N(0)=1$ et $N(1)=2$.
+\end{itemize}
+\end{itemize}
+\centerline{\includegraphics[width=5cm]{Figures/05-avlmaximum.pdf}}
+\end{frame}
+
+\begin{frame}{~}%{Borne plus simple}
+\begin{itemize}
+\item[]
+\begin{itemize}
+\item On a donc\\
+\begin{tabular}{cl}
+& $N(h)=1+N(h-1)+N(h-2)$\\
+$\Rightarrow$ & $N(h)>2 N(h-2)$ (car $N(h-1)>N(h-2)$)\\
+$\Rightarrow$ & $N(h)>2^{h/2}$\\
+$\Rightarrow$ & $h< 2\log N(h)$\\
+\end{tabular}
+\end{itemize}
+\item On en déduit que
+$$h=\Theta(\log n)$$\qed
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Borne supérieure plus précise}
+\begin{itemize}
+\item[]
+\begin{itemize}
+\item En notant $F(h)=N(h)+1$, on a $F(h)=F(h-1)+F(h-2)$ avec $F(0)=2$, $F(1)=3$
+\item $F$ est un récurrence de Fibonacci qui a pour solution
+ $$F(h)=\frac{1}{\sqrt{5}} (\phi^{h+3}-\phi'^{h+3})\mbox{ avec }\phi=\frac{1+\sqrt{5}}{2}\mbox{ et }\phi'=\frac{1-\sqrt{5}}{2}$$
+\item On a $$N(h)+1=\frac{1}{\sqrt{5}} (\phi^{h+3}-\phi'^{h+3})$$
+\item ce qui donne
+$$n+1\geq \frac{1}{\sqrt{5}} (\phi^{h+3}-\phi'^{h+3})> \frac{1}{\sqrt{5}} (\phi^{h+3}-1)$$
+(car $|\phi'|<1$)
+\item En prenant le $\log_{\phi}$ des deux membres:
+$$h+1<1,44\log (n+2)$$
+\end{itemize}
+%A VERIFIER
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Arbres AVL}
+
+\begin{itemize}
+\item \alert{Définition:} Un arbre AVL est un arbre binaire de
+  recherche $H$-équilibré
+\item Inventé par Adelson-Velskii et Landis en 1960
+\item Recherche:
+\begin{itemize}
+\item Par la fonction $\proc{Tree-Search}$ puisque c'est un arbre binaire
+\item Complexité $\Theta(\log n)$ étant donné la propriété
+\end{itemize}
+\item Insertion:
+\begin{itemize}
+\item On insère l'élément comme dans un arbre binaire classique
+\item On vérifie que l'invariant soit respecté
+\item Si ce n'est pas le cas, on modifie l'arbre
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Rotations}
+
+\centerline{\includegraphics[width=10cm]{Figures/05-rotations.pdf}}
+
+\bigskip
+
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{Left-Rotate}(x)$}
+      \li $r\gets\attrib{x}{right}$
+      \li $\attrib{x}{right}\gets\attrib{r}{left}$
+      \li $\attrib{r}{left}\gets x$
+      \li \Return $r$
+    \end{codebox}}
+~~~~~~~~~~~~~~~~~~~
+\fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{Right-Rotate}(x)$}
+      \li $l\gets\attrib{x}{left}$
+      \li $\attrib{x}{left}\gets\attrib{l}{right}$
+      \li $\attrib{l}{right}\gets x$
+      \li \Return $l$
+    \end{codebox}}
+\end{center}
+
+Les rotations maintiennent la propriété d'arbre binaire  de recherche
+
+\note{Deux types d'opération pour maintenir l'équilibre: rotations à gauche et à droite. Implémentée comme sur ce slide. Opération d'ordre $O(1)$.
+
+\bigskip
+
+Donner un exemple: $>1-2-3 \Rightarrow 1->2-3$ où $>$ indique la racine}
+\end{frame}
+
+\begin{frame}{Insertion dans un AVL}
+
+\centerline{\includegraphics[width=10cm]{Figures/05-avlinsertion.pdf}}
+
+\bigskip
+
+\begin{itemize}
+\item Insérer le nouvel élément comme dans un arbre binaire de recherche ordinaire
+\item L'insertion peut créer un déséquilibre (l'arbre n'est plus $H$-équilibré)
+\item Remonter depuis le nouveau n\oe ud jusqu'à la racine en
+  restaurant l'équilibre des sous-arbres rencontrés si nécessaire
+\end{itemize}
+
+\note{Implémentation récursive:
+%voir ici:http://www.enseignement.polytechnique.fr/profs/informatique/Luc.Maranget/421/poly/arbre-bin.html
+}
+
+\end{frame}
+
+% Insertion:
+% - si l'arbre est équilibré -> pas de risque de déséquilibrage
+% - si déséquilibre à gauche ou à droite -> possibilité de violation dans le cas d'une insertion à droite ou à gauche
+% - symétrique:
+%   deux cas: 1) -> 1 rotation corrige le tir
+%             2) -> 2 rotations corrigent le tir
+
+% Implémentation: on doit maintenir la hauteur des noeuds (data augmentation)
+% Au plus 2 rotations par insertion: Intuitivement, les opérations du slide précédent font que la hauteur du sous-arbre en $x$ n'est finalement pas augmentée suite à l'insertion. Tous les sous-arbres au dessus de $x$ sont maintenus équilibrés (et $x$ est le premier sous-arbre non $H$-équilibré).
+
+% Deletion: idem mais plus de rotations sont possibles
+
+\begin{frame}{Equilibrage}
+
+\begin{itemize}
+\item Soit $x$ le n\oe ud le plus bas violant l'invariant après l'insertion
+  \begin{itemize}
+  \item Tous ses sous-arbres sont $H$-équilibrés
+  \item Il y a une différence d'au plus 2 niveaux entre ses
+    sous-arbres gauche et droit
+  \end{itemize}
+\item Comment rétablir l'équilibre ?
+\item Deux cas possibles (selon insertion à droite ou à gauche):
+\end{itemize}
+\begin{center}
+Cas 1\hspace{4cm}Cas 2
+
+\medskip
+
+\includegraphics[width=8cm]{Figures/05-avlcas1-2.pdf}
+
+\medskip
+(Déséquilibre à droite)\hspace{1.3cm}(Déséquilibre à gauche)
+\end{center}
+
+\note{Tous ses sous-arbres sont $H$-équilibrés puisque c'est le plus bas qui viole l'invariant}
+
+\end{frame}
+
+\begin{frame}{Cas 1: déséquilibre à droite}
+\begin{itemize}
+\item Deux sous-cas possibles
+\end{itemize}
+
+\begin{center}
+Cas 1.1\hspace{4cm}Cas 1.2
+
+\medskip
+
+\includegraphics[width=8cm]{Figures/05-avlcas1.pdf}
+
+\medskip
+(Déséquilibre à l'extérieur)\hspace{1.3cm}(Déséquilibre à l'intérieur)
+\end{center}
+
+\bigskip
+
+\emph{(Pourquoi le cas B et C de hauteur $h$ n'est pas possible ?)}
+
+\note{Leur demander pourquoi ce sont les seuls deux cas.
+
+Pourquoi pas B et C de hauteur h ? Parce que sinon, ça voudrait dire que la hauteur du sous-arbre en y a augmenté
+
+}
+\end{frame}
+
+\begin{frame}{Cas 1.1: déséquilibre à droite, extérieur}
+\begin{itemize}
+\item Equilibre rétabli par une rotation à gauche de $x$
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=10cm]{Figures/05-avleqcas11.pdf}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Cas 1.2: déséquilibre à droite, intérieur}
+\begin{itemize}
+\item Une rotation à gauche ne permet pas de rétablir l'équilibre
+%\end{itemize}
+
+\begin{center}
+\includegraphics[width=10cm]{Figures/05-avlcas12-wrong.pdf}
+\end{center}
+\item Le sous-arbre $B$ contient au moins un élément (l'élément inséré)
+\begin{center}
+\includegraphics[width=7cm]{Figures/05-avlcas12-decomp.pdf}
+\end{center}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Cas 1.2: déséquilibre à droite, intérieur}
+\begin{itemize}
+\item Equilibre rétabli par deux rotations
+%\end{itemize}
+
+\begin{center}
+\includegraphics[width=10cm]{Figures/05-avlcas12-double.pdf}
+\end{center}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Cas 2: déséquilibre à gauche}
+\begin{itemize}
+\item Symétrique du cas 1
+\item Deux sous-cas possibles
+\end{itemize}
+
+\begin{center}
+Cas 2.1\hspace{4cm}Cas 2.2
+
+\medskip
+
+\includegraphics[width=8cm]{Figures/05-avlcas2.pdf}
+
+\medskip
+(Déséquilibre à l'extérieur)\hspace{1.3cm}(Déséquilibre à l'intérieur)
+\end{center}
+
+\begin{itemize}
+\item Résolus respectivement pas une rotation (à droite) et une double rotation.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Implémentation}
+\begin{itemize}
+\item Algorithme récursif: Pour insérer une clé dans un arbre $T$:
+\begin{itemize}
+\item On l'insère (récursivement) dans le sous-arbre approprié (gauche ou droit)
+\item Si l'arbre résultant $T$ devient déséquilibré, on effectue une rotation simple ou double selon le cas dans lequel on se trouve
+\end{itemize}
+\item L'arbre après rééquilibrage étant de la même hauteur qu'avant l'insertion, on aura à faire qu'au plus une rotation (simple ou double). 
+\item L'implémentation est facilitée si on maintient en chaque n\oe ud $x$ un attribut $\attrib{x}{h}$ avec la hauteur du sous-arbre en $x$.
+\item Complexité:
+\begin{itemize}
+\item $O(h)$ où $h$ est la hauteur de l'arbre,
+\item c'est-à-dire $O(\log n)$ vu que l'arbre est $H$-équilibré.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Suppression}
+\begin{itemize}
+\item Comme pour l'insertion, on doit rétablir l'équilibre suite à la suppression
+\item La suppression d'un n\oe ud peut déséquilibrer le parent de ce n\oe ud
+\item Contrairement à l'insertion, on peut devoir rééquilibrer plusieurs ancêtres du n\oe ud supprimé.
+\item Chaque rotation étant d'ordre $O(1)$, la complexité d'une suppression reste cependant $O(h)$ pour un arbre de hauteur $h$ et donc $O(\log n)$ pour un AVL.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Tri avec un AVL}
+
+\begin{itemize}
+\item Comme avec un arbre de binaire de recherche ordinaire, on peut trier avec un AVL
+\begin{itemize}
+\item On insère les éléments successivement dans l'arbre
+\item On effectue un parcours en ordre de l'arbre
+\end{itemize}
+\item Complexité en temps: $\Theta(n\log n)$ (comme pour le tri par tas)
+\item Complexité en espace: $\Theta(n)$ (pour la structure d'arbre temporaire)
+\item Tas versus AVL:
+\begin{itemize}
+\item Tas: optimisé pour retrouver et supprimer le minimum (ou le max)
+\item AVL: optimisé pour retrouver et supprimer un élément arbitraire 
+\item A ELABORER
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Liens}
+\begin{itemize}
+\item Liens:
+\begin{small}
+\begin{itemize}
+\item \url{http://www.csi.uottawa.ca/~stan/csi2514/applets/avl/BT.html}
+\item \url{http://www.cs.jhu.edu/~goodrich/dsa/trees/avltree.html}
+\end{itemize}
+\end{small}
+\end{itemize}
+\end{frame}
+
+\section{Table de hachage}
+
+\begin{frame}{Résumé}
+\begin{itemize}
+\item Complexité des différentes opérations dans les BST et les RB-trees
+\item Peut-on faire mieux ?
+\item Oui, en changeant radicalement la philosophie
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Tableau à accès direct}
+
+\begin{itemize}
+\item On suppose:
+\begin{itemize}
+\item que chaque élément a une clé tirée d'un univers $U=\{0,1,\ldots,m-1\}$ où $m$ n'est pas trop large
+\item qu'il ne peut pas y avoir deux éléments avec la même clé.
+\end{itemize}
+\item Le dictionnaire est implémenté par un tableau $T[0\ldots m-1]$:
+\begin{itemize}
+\item Chaque position dans la table correspond à une clé de $U$.
+\item S'il y a un élément $x$ avec la clé $k$, alors $T[k]$ contient un pointeur vers $x$.
+\item Sinon, $T[k]$ est vide ($T[k]=\const{NIL}$).
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Tableau à accès direct}
+
+\centerline{\includegraphics[width=9cm]{Figures/05-directtable.pdf}}
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Direct-Address-Search}(T,x)$}
+    \li \Return $T[k]$
+\end{codebox}}
+
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Direct-Address-Insert}(T,x)$}
+    \li \Return $T[\attrib{x}{key}]=x$
+\end{codebox}}
+
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Direct-Address-Delete}(T,x)$}
+    \li \Return $T[\attrib{x}{key}]=\const{NIL}$
+\end{codebox}}
+\end{small}
+\end{center}
+
+
+\end{frame}
+
+\begin{frame}{Tableau à accès direct}
+
+\begin{itemize}
+\item Complexité de toutes les opérations: $O(1)$
+\item Problème:
+\begin{itemize}
+\item Complexité en espace: $\Theta(|U|)$
+\item si l'univers de clés $U$ est large, stocker une table de taille $|U|$ peut être peu pratique, voire impossible
+\end{itemize}
+\item Souvent l'ensemble des clés réellement stockées, noté $K$, est petit comparé à $U$ et donc l'espace alloué est gaspillé.
+
+\bigskip\bigskip
+
+\item Comment bénéficier de l'accès rapide d'une table à accès direct avec une table de taille raisonnable ?\\
+
+\medskip
+
+$\Rightarrow$ \alert{Table de hachage:}
+\begin{itemize}
+\item Réduit le stockage à $\Theta(|K|)$
+\item Recherche en $O(1)$ (\alert{en moyenne} !)
+\end{itemize}
+\end{itemize}
+\note{Le prix à payer est qu'on a plus une complexité en $O(1)$ dans le pire cas mais en moyenne. Ce qui n'est pas un problème}
+\end{frame}
+
+\begin{frame}{Table de hachage}
+
+\begin{itemize}
+\item Idée:
+\begin{itemize}
+\item Utiliser une table $T$ de taille $m<<|U|$
+\item stocker $x$ à la position $h(\attrib{x}{key})$, où $h$ est une fonction de \alert{hachage}: $$h:U\rightarrow \{1,\ldots,m\}$$
+\end{itemize}
+\end{itemize}
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Hash-Insert}(T,x)$}
+    \li $T[h(\attrib{x}{key})]\gets x$
+\end{codebox}}
+~~~~~~~~\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Hash-Delete}(T,x)$}
+    \li $T[h(\attrib{x}{key})]\gets \const{NIL}$
+\end{codebox}}
+
+\bigskip
+
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Hash-Search}(T,x)$}
+    \li \Return $T[h(\attrib{x}{key})]$
+\end{codebox}}
+\end{small}
+\end{center}
+
+Est-ce que ces algorithmes sont corrects ?
+
+\end{frame}
+
+\begin{frame}{Table de hachage}
+
+\centerline{\includegraphics[width=7cm]{Figures/05-hashtable1.pdf}}
+
+\bigskip
+
+\begin{itemize}
+\item \alert{Collision:} que faire lorsque deux clés distinctes $k_1$ et $k_2$ sont telles que $h(k_1)=h(k_2)$ ?
+\item Cela se produit toujours lorsque le nombre de clés observées est plus grand que la taille du tableau $T$ $|K|>m$
+\item Deux solutions:
+\begin{itemize}
+\item le chaînage (adressage fermé)
+\item le sondage (adressage ouvert)
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Fréquence des collisions}
+
+\begin{itemize}
+\item Pour éviter les collisions:
+\begin{itemize}
+\item on veille à utiliser une fonction de hachage qui disperse le
+  plus possible les clés vers les différents compartiments.
+\item on utilise un nombre de compartiments suffisamment grand
+\end{itemize}
+\item Cependant, même dans ce cas, la probabilité de collision peut
+  être non négligeable.
+
+\bigskip
+
+\item \alert{Paradoxe des anniversaires}
+\begin{itemize}
+\item Quelle est la probabilité pour que, dans un groupe de $n$ personnes, au moins deux d'entre elles possèdent le même jour d'anniversaire?
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Paradoxe des anniversaires}
+
+\begin{itemize}
+\item Hypothèse:
+\begin{itemize}
+\item On néglige les années bissextiles
+\item Les 365 jours présentent la même probabilités d'être un jour d'anniversaire
+\end{itemize}
+\item Si $p$ est la probabilité d'une collision d'anniversaire:
+$$1-p = \frac{364}{365} \cdot \frac{363}{364} \cdot \frac{362}{365} \ldots \frac{365-n+1}{365} = \frac{365!}{(365-n)! 365^n}$$
+Exemples:
+\begin{itemize}
+\item $n=23 \Rightarrow p>0,5$
+\item $n=57 \Rightarrow p>0,99$
+\end{itemize}
+\bigskip
+
+\item Pour une table de hachage:
+\begin{itemize}
+\item $m=365$ et 57 clés $\Rightarrow$ plus de 99\% de chance de collision
+\item $m=1000000$ et 2500 clés $\Rightarrow$ plus de 95\% de chance de collision
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Résolution des collisions par chainage}
+
+Solution: mettre les éléments qui sont ``hachés'' vers la même
+position dans une liste liée (simple ou double)
+
+\bigskip
+
+\centerline{\includegraphics[width=10cm]{Figures/05-hashtable2.pdf}}
+
+\note{Une liste double est meilleure pour supprimer des éléments}
+\end{frame}
+
+\begin{frame}{Implémentation des opérations}
+
+~\bigskip
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Chained-Hash-Insert}(T,x)$}
+    \li $\proc{List-Insert}(T[h(\attrib{x}{key})],x)$
+\end{codebox}}
+~~~~~~~~\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Chained-Hash-Delete}(T,x)$}
+    \li $\proc{List-Delete}(T[h(\attrib{x}{key})],x)$
+\end{codebox}}
+
+\bigskip
+
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Chained-Hash-Search}(T,k)$}
+    \li \Return $\proc{List-Search}(T[h(k)],k)$
+\end{codebox}}
+\end{small}
+\end{center}
+
+\bigskip
+\bigskip
+
+\begin{itemize}
+\item Complexité:
+\begin{itemize}
+\item Insertion: $O(1)$
+\item Suppression: $O(1)$ si liste doublement liée, $O(n)$ pour une liste de taille $n$ si liste simplement liée.
+\item Recherche: $O(n)$ si liste de taille $n$.
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Analyse}
+
+%\medskip
+
+\begin{itemize}
+\item Recherche d'une clé $k$ dans la table:
+\begin{itemize}
+\item recherche positive: la clé $k$ se trouve dans la table
+\item recherche négative: la clé $k$ n'est pas dans la table
+\end{itemize}
+\medskip
+\item Le \alert{facteur de charge} d'une table de hachage est donné par $\alpha=\frac{n}{m}$ où:
+\begin{itemize}
+\item $n$ est le nombre d'éléments dans la table
+\item $m$ est la taille de la table (c'est-à-dire, le nombre de listes liées)
+\end{itemize}
+\medskip
+\item \alert{hachage uniforme simple}: Pour toute clé $k$,
+$$Proba\{h(k)=i\}=\frac{1}{m}, \forall i\in\{0,\ldots,m-1\}$$
+%% \item On suppose un hachage uniforme simple, c'est-à-dire toute clé a la même probabilité d'être envoyée par $h$ sur n'importe laquelle des positions
+
+%% \item Soit $n_j$ la longueur de la liste $T[j]$ ($j=0,\ldots,m-1$). On a $n=n_0+n_1+\ldots+n_{m-1}$.
+%% \item La valeur moyenne de $n_j$, est $$E\{n_j\}=\alpha=\frac{n}{m}.$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Analyse}
+\begin{itemize}
+\item Hypothèses:
+\begin{itemize}
+\item $h$ produit un hachage uniforme simple
+\item le calcul de $h(k)$ est $\Theta(1)$
+\item Insertion en début de liste
+\end{itemize}
+\item $\Rightarrow$ complexités moyennes:
+\begin{itemize}
+\item recherche négative: $\Theta(1+\alpha)$
+\item recherche positive: $\Theta(1+\alpha)$
+\end{itemize}
+\item Si $n=O(m)$, $$\alpha=\frac{O(n)}{m}=O(1)$$
+\item Toutes les opérations sont donc $O(1)$ en moyenne
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Analyse: recherche négative}
+\begin{itemize}
+\item La clé $k$ ne se trouve pas dans la table
+\item Par la propriété de hachage uniforme simple, elle a la même probabilité d'être envoyé vers chaque position dans la table.
+\item Recherche négative requière le parcours de la liste $T[h(k)]$ complète
+\item Cette liste a une longueur moyenne $E[n_{h(k)}]=\alpha$.
+\item Le nombre d'éléments à examiner lors d'une recherche négative est donc $\alpha$.
+\item En ajoutant le temps de calcul de la fonction de hachage, on arrive à une complexité moyenne $\Theta(1+\alpha)$.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Analyse: recherche positive}
+
+\begin{itemize}
+\item La clé $k$ se trouve dans la table
+\item Supposons qu'elle ait été inséré à la $i$-ième étape (parmi $n$).
+\begin{itemize}
+\item Le nombre d'éléments à examiner pour trouver la clé est le
+  nombre d'éléments insérés à la position $h(k)$ après $k$ plus 1 (la clé $k$ elle-même). 
+\item En moyenne, sur les $n-i$ insertions après $k$, il y en aura
+  $(n-i)/m$ qui correspondront à la position $h(k)$.
+\end{itemize}
+\item $k$ ayant pu être insérée à n'importe quelle étape parmi $n$ avec une probabilité $1/n$:
+\begin{small}
+$$\sum_{i=1}^n \frac{1}{n} (1+\frac{n-i}{m})=1+\frac{1}{m} \sum_{i=1}^n n-\sum_{i=1}^n i=1+\frac{1}{m} (n^2-\frac{n(n+1)}{2})=1+\frac{\alpha}{2}-\frac{\alpha}{2n}$$
+\end{small}
+\item En tenant compte du coût du hachage, le complexité en moyenne
+  est donc $\Theta(2+\alpha/2-\alpha/2n)=\Theta(1+\alpha)$.
+\end{itemize}
+
+%% Intuitivement:
+%% Supposons qu'on ait inséré $x$ à la $i$th étape (proba de chaque étape est $1/n$.
+
+%% Nombre de comparaison est = au nombre d'éléments inséré après $x$ dans
+%% la table, c'est-à-dire $(n-i+1)/m$ vu l'hypothèse d'uniform hashing
+
+%% Proba totale=$\sum_{i=1}^N 1/N (n-i+1)/m$...
+
+\end{frame}
+
+\begin{frame}{Fonctions de hachage}
+\begin{itemize}
+\item Idéalement, la fonction de hachage devrait satisfaire l'hypothèse de hachage uniforme simple
+\item Très difficile en pratique: la distribution de probabilité des clés n'est pas connue à l'avance et les clés peuvent ne pas être indépendantes
+
+\bigskip
+
+\item Fonctions de hachages supposent que les clés sont des nombres naturels
+\item Si ce n'est pas le cas, il faut utiliser une fonction de codage
+\item Exemple: codage de la chaîne de caractères $SDA$:
+\begin{itemize}
+\item Valeurs ASCII (128 possibles): $S=83$, $D=68$, $A=65$.
+\item $SDA$ interprété comme l'entier $(83\cdot 128^2)+(68\cdot 128^1)+(65\cdot 128^0)=1368641$.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Méthode de division}
+\begin{itemize}
+\item La fonction de hachage calcule le reste de la division entière de la clé par la taille de la table
+$$h(k)=k\bmod m.$$
+Exemple: $m=20$ et $k=91$ $\Rightarrow h(k)=11$.
+\item Avantage: simple et rapide (juste une opération de division)
+\item Inconvénient: certaines valeurs de $m$ doivent être évitées:
+\begin{itemize}
+\item Si $m=2^p$ pour un entier $p$, $h(k)$ est consistué des $p$ bits
+  les moins significatifs de $k$ et donc la valeur hachée ne dépent
+  pas de toute la clé.
+\item Si $k$ est une chaîne de caractère codée en base $2^p$ et $m=2^p-1$, permuter la chaîne ne modifie pas le valeur de hachage
+\end{itemize}
+\item Bonne valeur de $m$: un nombre premier pas trop près d'une puissance exacte de 2.
+\begin{itemize}
+\item Propriété: si $m$ est premier avec $b$, alors
+$$\{(a+b\cdot i) \bmod m|i=0,1,2,\ldots\}=\{0,1,2,\ldots,m-1\}$$
+\end{itemize}
+\end{itemize}
+\note{Dire que si $m$ est premier, alors la valeur hachée est une
+  permutation de $\{0,1,\ldots,m-1\}$}
+\end{frame}
+
+\begin{frame}{Méthode de multiplication}
+\begin{itemize}
+\item Fonction de hachage:
+$$h(k)=\lfloor m\cdot(k A \bmod 1)\rfloor$$
+où
+\begin{itemize}
+\item $m$ est la taille de la table de hachage
+\item $k$ est la clé
+\item $A$ est une constante telle que $0<A<1$.
+\item $k A \bmod 1=k A - \lfloor k A \rfloor$ est la partie
+  fractionnaire de $kA$.
+\end{itemize}
+\item Inconvenient: plus lent que la méthode de division
+\item Avantage: la valeur de $m$ n'est plus critique
+\item La méthode marche mieux pour certaines valeurs de $A$. Par
+  exemple:$$A=\frac{\sqrt{5}-1}{2}$$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Méthode de multiplication: implémentation}
+\begin{itemize}
+\item $m=2^p$ pour un entier $p$
+\item Les mots sont codés en $w$ bits et que les clés $k$ peuvent être codé par un seul mot.
+\item $A$ de la forme $S/2^w$ pour $0<s<2^w$
+\end{itemize}
+
+\centerline{\includegraphics[width=8cm]{Figures/05-hashtablemultiplication.pdf}}
+
+\end{frame}
+
+\begin{frame}{Adressage ouvert: principe}
+\begin{itemize}
+\item Tous les éléments sont stockés dans le tableau (pas de liste chaînées).
+\begin{itemize}
+\item[$\Rightarrow$] ne fonctionne que si $\alpha\leq 1$
+\end{itemize}
+\item Chaque case contient soit une clé, soit NIL.
+\item Pour insérer une clé $k$, on sonde les cases
+  systématiquement à partir de $h(k)$ jusqu'à en trouver une vide.
+\item On définit une nouvelle fonction de hachage qui dépend de la clé et du numéro du sondage:
+$$h:U\times\{0,1,\ldots,m-1\} \rightarrow \{0,1,\ldots,m-1\}$$
+et qui est tel que
+$$\langle h(k,0), h(k,1), \ldots, h(k,m-1)\rangle$$
+est une permutation de $\langle 0, 1, \ldots, m-1\rangle$.
+\item La table peut donc être totalement remplie et la suppression est difficile.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Adressage ouvert: recherche et insertion}
+
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Hash-Search}(T,k)$}
+    \li $i\gets 0$
+    \li \Repeat
+    \li $j\gets h(k,i)$
+    \li \If $T[j]\isequal k$
+    \li \Then \Return j\End
+    \li $i\gets i+1$
+    \li \Until $T[j]\isequal \const{NIL}$ or $i\isequal m$
+    \li \Return $\const{NIL}$
+\end{codebox}}~~~\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Hash-Insert}(T,k)$}
+    \li $i\gets 0$
+    \li \Repeat
+    \li $j\gets h(k,i)$
+    \li \If $T[j]\isequal \const{NIL}$
+    \li \Then  $T[j]=k$
+    \li \Return j
+    \li \Else $i\gets i+1$ \End
+    \li \Until $i\isequal m$
+    \li \Error ``hash table overflow''
+\end{codebox}}
+
+\end{center}
+
+\centerline{\includegraphics[width=7cm]{Figures/05-openaddressing.pdf}}
+
+\end{frame}
+
+\begin{frame}{Adressage ouvert: suppression}
+\begin{itemize}
+\item La suppression est possible mais pas facile
+\begin{itemize}
+\item On évitera l'utilisation de l'adressage ouvert si on prévoit de nombreuses suppressions de clés dans le dictionnaire
+\end{itemize}
+\item On ne peut pas naïvement mettre $\const{NIL}$ dans la case contenant la clé $k$ qu'on désire effacer (\emph{pourquoi ?})
+\item Solution:
+\begin{itemize}
+\item Utiliser une valeur spéciale $\const{DELETED}$ au lieu
+  de $\const{NIL}$ pour signifier qu'on a effacé une valeur dans cette case
+\item Lors d'une recherche: considérer un case contenant
+  $\const{DELETED}$ comme une case contenant une clé
+\item Lors d'une insertion: considérer une case contenant $\const{DELETED}$ comme une case vide.
+\end{itemize}
+\item Inconvénient: le temps de recherche ne dépend maintenant plus du facteur de charge $\alpha$ de la table (\emph{Pourquoi ?})
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Stratégies de sondage}
+\begin{itemize}
+\item Soit $h_k=\langle h(k,0), h(k,1), \ldots, h(k,m-1)\rangle$ la séquence de sondage correspondant à la clé $k$.
+\item Hachage uniforme:
+\begin{itemize}
+\item chacun des $m!$ permutations de $\langle
+  0,1,\ldots,m-1\rangle$ a la même probabilité d'être la séquence de
+  sondage d'une clé $k$.
+\item Difficile à implémenter.
+\end{itemize}
+\item En pratique, on se contente d'une garantie que la séquence de
+  sondage soit une permutation de $\langle
+  0,1,\ldots,m-1\rangle$.
+
+\bigskip
+
+\item Trois techniques pseudo-uniformes:
+\begin{itemize}
+\item sondage linéaire
+\item sondage quadratique
+\item double hachage
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Sondage linéaire}
+$$h(k,i)=(h'(k)+i) \bmod m,$$
+où $h'(k)$ est une fonction de hachage ordinaire à valeurs dans $\{0,1,\ldots,m-1\}$.
+
+\bigskip
+
+Propriétés:
+\begin{itemize}
+\item très facile à implémenter
+\item grappe forte: création de longues suites de cellules occupées
+\item pas très uniforme
+\end{itemize}
+
+\note{On sonde les positions qui suivent directement la case trouvée en cyclant sur le tableau
+
+longues suites augmentent les temps de calcul pour l'insertion et la recherche: on tombe souvent sur une collision}
+
+\end{frame}
+
+\begin{frame}{Sondage quadratique}
+
+$$h(k,i)=(h'(k)+c_1 i+ c_2 i^2) \bmod m,$$
+où $h'$ est une fonction de hachage ordinaire à valeurs dans $\{0,1,\ldots,m-1\}$, $c_1$ et $c_2$ sont deux constantes non nulles.
+
+\bigskip
+
+Propriétés:
+\begin{itemize}
+\item nécessité de bien choisir les constantes $c_1$ et $c_2$ (pour
+  avoir une permutation de $\langle 0,1,\ldots,m-1\rangle$
+\item grappe faible: $h(k,0)=h(k',0)\Rightarrow h(k,i)=h(k',i)$
+\item meilleur que le sondage linéaire
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Double hachage}
+
+\begin{columns}
+\begin{column}{9cm}
+
+$$h(k,i)=(h_1(k)+i h_2(k))\bmod m,$$
+où $h_1$ et $h_2$ sont des fonctions de hachage ordinaires à valeurs dans $\{0,1,\ldots,m-1\}$.
+
+\bigskip
+
+Propriétés:
+\begin{itemize}
+\item difficile à implémenter à cause du choix de $h_1$ et $h_2$ ($h_2(k)$ doit être premier avec $m$ pour avoir une permutation de $\langle 0,1,\ldots,m-1\rangle$).
+\item très proche du hachage uniforme
+\item bien meilleur que les sondages linéaire et quadratique
+\end{itemize}
+
+\bigskip
+
+\emph{Exemple: $h_1(k)=k\bmod 13$, $h_2(k)=1+(k\mod 11)$, insertion de la clé 14}
+
+\end{column}
+\begin{column}{2.5cm}
+\begin{center}
+\includegraphics[width=1.5cm]{Figures/05-doublehachage.pdf}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Adressage ouvert: élément d'analyse}
+Pour une table de hachage à adressage ouvert de taille $m$ contenant $n$ éléments ($\alpha=n/m<1$) et en supposant le hachage uniforme
+\begin{itemize}
+\item Le nombre moyen de sondages pour une recherche négative ou un
+  ajout est borné par $\frac{1}{1-\alpha}$
+\item Le nombre moyen de sondages pour une recherche positive est borné par $\frac{1}{\alpha} \log \frac{1}{1-\alpha}$
+\end{itemize}
+%(\emph{pas démontré dans ce cours})
+
+\bigskip
+
+$\Rightarrow$ Si $\alpha$ est constant ($n=O(m)$), la recherche est $O(1)$.
+\begin{itemize}
+\item Si $\alpha=0.5$, une recherche nécessite en moyenne 2 sondages ($1/(1-0.5)$).
+\item Si $\alpha=0.9$, une recherche nécessite en moyenne 10 sondages ($1/(1-0.9)$).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Le rehachage}
+\begin{itemize}
+\item Lorsque $\alpha$ se rapproche de 1, les performances s'effondrent.
+\item Solution: rehachage: création d'une table plus grande
+\begin{itemize}
+\item allocation d'une nouvelle table
+\item détermination d'une nouvelle fonction de hachage, tenant compte du nouveau $m$
+\item parcours des entrées de la table originale et insertion dans la nouvelle table
+\end{itemize}
+\item Si la taille est doublée, le coût asymptotique constant des opérations est conservé (voir slide \pageref{sec05:amortie}).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Comparaison des différentes structures}
+\begin{itemize}
+\item Tableau à accès directe et table hash:
+\begin{itemize}
+\item Accès et insertion très rapide: $O(1)$ (dans les deux cas)
+\item Mais structure statique et espace gaspillé (surtout pour le tableau à accès directe)
+\item Facile à coder
+\item Pas d'autre solution pour des clés non ordonnées
+\item Pas facile de trouver une bonne fonction de hachage
+\item Performances pas vraiment garanties
+\end{itemize}
+\item Tableau trié et ABR
+\begin{itemize}
+\item Accès plus lent (surtout pour le tableau trié)
+\item structure dynamique (dans les deux cas)
+\end{itemize}
+\end{itemize}
+VOIR LES SLIDES DE SEDGEWICK !!
+\end{frame}
+
+\begin{frame}{Ce qu'on n'a pas vu}
+
+\begin{itemize}
+\item D'autres types d'arbres équilibrés: red-black trees, ...
+\item Fonctions de hachages sophistiquées
+\item Démonstrations formelles de certaines complexités
+\end{itemize}
+
+\end{frame}
