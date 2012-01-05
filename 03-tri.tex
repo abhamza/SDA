@@ -19,9 +19,9 @@
 \begin{frame}{Tri}
 
 \begin{itemize}
-\item Un des problèmes algorithmiques les plus fondamentaux.
-\item En général, on veut trier des enregistrements avec une clé et des
-  données attachées.
+\item Un des problÃ¨mes algorithmiques les plus fondamentaux.
+\item En gÃ©nÃ©ral, on veut trier des enregistrements avec une clÃ© et des
+  donnÃ©es attachÃ©es.
 \medskip
 \begin{center}
 \begin{tabular}{ccccccc}
@@ -34,15 +34,15 @@ Record$_1$ & & Record$_2$ & & Record$_3$ & & Record$_n$\\
 \end{tabular}
 \end{center}
 \medskip
-\item Ici, on va ignorer ces données satellites et se focaliser sur
+\item Ici, on va ignorer ces donnÃ©es satellites et se focaliser sur
   les algorithmes de tri
 
 \bigskip
 
-\item Le problème de tri:
+\item Le problÃ¨me de tri:
 \begin{itemize}
-\item Entrée: une séquence de $n$ nombres $\langle a_1,a_2,\ldots,a_n\rangle$
-\item Sortie: une permutation de la séquence de départ $\langle a_1',a_2',\ldots,a_n'\rangle$ telle que $a_1'\leq a_2'\leq\ldots\leq a_n'$
+\item EntrÃ©e: une sÃ©quence de $n$ nombres $\langle a_1,a_2,\ldots,a_n\rangle$
+\item Sortie: une permutation de la sÃ©quence de dÃ©part $\langle a_1',a_2',\ldots,a_n'\rangle$ telle que $a_1'\leq a_2'\leq\ldots\leq a_n'$
 \end{itemize}
 \end{itemize}
 
@@ -50,33 +50,33 @@ Record$_1$ & & Record$_2$ & & Record$_3$ & & Record$_n$\\
 
 \begin{frame}{Applications}
 \begin{itemize}
-\item Tri des enregistrements dans une base de données
-\item Visualisation 3D: trier les objets du plus près au plus éloigné pour l'affichage
+\item Tri des enregistrements dans une base de donnÃ©es
+\item Visualisation 3D: trier les objets du plus prÃ¨s au plus Ã©loignÃ© pour l'affichage
 \item ...
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Différents types de tri}
+\begin{frame}{DiffÃ©rents types de tri}
 
 \begin{itemize}
-\item {\bf Tri interne:} tri en mémoire centrale. Tris externes: données sur un disque externe.
-\item {\bf Tri de tableau:} tri qui trie un tableau. Extensible à toutes structure de données offrant un accès en temps (quasi) constant à ses éléments.
-\item {\bf Tri générique:} peut trier n'imporque quel type d'objets pour autant qu'on puisse comparer ces objets.
-\item {\bf Tri comparatif:} basé sur la comparaison entre les éléments (clés)
+\item {\bf Tri interne:} tri en mÃ©moire centrale. Tris externes: donnÃ©es sur un disque externe.
+\item {\bf Tri de tableau:} tri qui trie un tableau. Extensible Ã  toutes structure de donnÃ©es offrant un accÃ¨s en temps (quasi) constant Ã  ses Ã©lÃ©ments.
+\item {\bf Tri gÃ©nÃ©rique:} peut trier n'imporque quel type d'objets pour autant qu'on puisse comparer ces objets.
+\item {\bf Tri comparatif:} basÃ© sur la comparaison entre les Ã©lÃ©ments (clÃ©s)
 
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Différents types de tri}
+\begin{frame}{DiffÃ©rents types de tri}
 \begin{itemize}
-\item {\bf Tri itératif:} basé sur un ou plusieurs parcours itératif du tableau
-\item {\bf Tri récursif:} basé sur une procédure récursive
-\item {\bf Tri en place:} ne nécessite qu'une quantité constante de mémoire supplémentaire.
-\item {\bf Tri  stable:} conserve l'ordre relatif des éléments égaux (au sens de la méthode de comparaison).
+\item {\bf Tri itÃ©ratif:} basÃ© sur un ou plusieurs parcours itÃ©ratif du tableau
+\item {\bf Tri rÃ©cursif:} basÃ© sur une procÃ©dure rÃ©cursive
+\item {\bf Tri en place:} ne nÃ©cessite qu'une quantitÃ© constante de mÃ©moire supplÃ©mentaire.
+\item {\bf Tri  stable:} conserve l'ordre relatif des Ã©lÃ©ments Ã©gaux (au sens de la mÃ©thode de comparaison).
 \end{itemize}
 
-\note{Stable: expliquer ce que Ã§a veut dire en illustrant avec les colonnes dans excel: tri sur deux colonnes: un tri stable va maintenir l'ordre sur la deuxième colonne}
+\note{Stable: expliquer ce que ÃƒÂ§a veut dire en illustrant avec les colonnes dans excel: tri sur deux colonnes: un tri stable va maintenir l'ordre sur la deuxiÃ¨me colonne}
 \end{frame}
 
 \begin{frame}{Jusqu'ici}
@@ -84,7 +84,7 @@ Record$_1$ & & Record$_2$ & & Record$_3$ & & Record$_n$\\
   \begin{center}
     \def\arraystretch{1.5}
   \begin{tabular}{@{}lccc@{}c@{}}
-    \emph{Algorithme}&\multicolumn{3}{c}{\emph{Complexité}}&\emph{En place?}\\
+    \emph{Algorithme}&\multicolumn{3}{c}{\emph{ComplexitÃ©}}&\emph{En place?}\\
     & \emph{\small Pire} & \emph{\small Moyenne} & \emph{Meilleure} & \\
     \hline\hline
     \proc{Insertion-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n)$&oui\\
@@ -109,28 +109,28 @@ Record$_1$ & & Record$_2$ & & Record$_3$ & & Record$_n$\\
 \begin{frame}{Tri rapide}
 \begin{itemize}
 \item {\em Quicksort} en anglais
-\item Inventé par Hoare en 1960
-\item Dans le top 10 des algorithmes du 20-ième siècle (SIAM)
-\item L'exemple le plus célèbre de la technique du ``diviser pour régner''
+\item InventÃ© par Hoare en 1960
+\item Dans le top 10 des algorithmes du 20-iÃ¨me siÃ¨cle (SIAM)
+\item L'exemple le plus cÃ©lÃ¨bre de la technique du ``diviser pour rÃ©gner''
 \item Tri en place, comme tri par insertion, et contrairement au tri par fusion
-\item Complexité: $O(n^2)$ dans le pire des cas, $O(n\log n)$ en moyenne
+\item ComplexitÃ©: $O(n^2)$ dans le pire des cas, $O(n\log n)$ en moyenne
 \end{itemize}
 \end{frame}
 
 \begin{frame}{\proc{QuickSort}: principe}
 Pour trier un sous-tableau $A[p\twodots r]$:
 \begin{itemize}
-\item Partitionner $A[p\twodots r]$ en deux sous-tableaux: $A[p..q-1]$ et $A[q+1\twodots r]$ tels que tout élément de $A[p\twodots q-1]$ est $\leq A[q]$ et $A[q]\leq$ à tout élément de $A[q+1\twodots r]$.\\~\hfill\alert{\emph{(diviser)}}
+\item Partitionner $A[p\twodots r]$ en deux sous-tableaux: $A[p..q-1]$ et $A[q+1\twodots r]$ tels que tout Ã©lÃ©ment de $A[p\twodots q-1]$ est $\leq A[q]$ et $A[q]\leq$ Ã  tout Ã©lÃ©ment de $A[q+1\twodots r]$.\\~\hfill\alert{\emph{(diviser)}}
 
-\item Appeler récursivement l'algorithme pour trier $A[p\twodots q-1]$ et $A[q+1\twodots r]$\\~\hfill\alert{\emph{(régner)}}
+\item Appeler rÃ©cursivement l'algorithme pour trier $A[p\twodots q-1]$ et $A[q+1\twodots r]$\\~\hfill\alert{\emph{(rÃ©gner)}}
 \end{itemize}
 
 \bigskip
 
 Remarques:
 \begin{itemize}
-\item $A[q]$ est appelé le ``\alert{pivot}''
-\item Par rapport au tri par fusion, il n'y a pas d'opération de combinaison
+\item $A[q]$ est appelÃ© le ``\alert{pivot}''
+\item Par rapport au tri par fusion, il n'y a pas d'opÃ©ration de combinaison
 \end{itemize}
 
 \end{frame}
@@ -139,7 +139,7 @@ Remarques:
 
 \centerline{\includegraphics[width=8cm]{Figures/03-quicksort-illustration.pdf}}
 
-% Gaetano -> à modifier pour mettre les q,r, etc.
+% Gaetano -> Ã  modifier pour mettre les q,r, etc.
 
 \end{frame}
 
@@ -180,9 +180,9 @@ Remarques:
 \begin{frame}{Partition}
 
 \begin{itemize}
-\item On démarre avec $q=1$
-\item On parcourt le tableau de gauche à droite, en commençant à la position 2
-\item Si l'élément $A[i]$ est plus petit ou égal au pivot, on l'échange avec la position $q$ courante et on déplace $q$ vers la droite
+\item On dÃ©marre avec $q=1$
+\item On parcourt le tableau de gauche Ã  droite, en commenÃ§ant Ã  la position 2
+\item Si l'Ã©lÃ©ment $A[i]$ est plus petit ou Ã©gal au pivot, on l'Ã©change avec la position $q$ courante et on dÃ©place $q$ vers la droite
 \end{itemize}
 
 \begin{center}
@@ -269,11 +269,11 @@ Invariant pour la boucle:
 
 \centerline{\includegraphics[width=8cm]{Figures/03-quicksort-illustration2.pdf}}
 
-% Gaetano: attention à modifier ou changer
+% Gaetano: attention Ã  modifier ou changer
 
 \end{frame}
 
-\begin{frame}{Complexité de $\proc{Partition}$}
+\begin{frame}{ComplexitÃ© de $\proc{Partition}$}
 
 \begin{center}
     \fcolorbox{white}{Lightgray}{%
@@ -296,7 +296,7 @@ $$T(n)=\Theta(n)$$
 
 \end{frame}
 
-\begin{frame}{Complexité de $\proc{QuickSort}$}
+\begin{frame}{ComplexitÃ© de $\proc{QuickSort}$}
 
 \begin{center}
     \fcolorbox{white}{Lightgray}{
@@ -314,22 +314,22 @@ $$T(n)=\Theta(n)$$
 \item Pire cas:
 \begin{itemize}
 \item $q=begin$ ou $q=end$
-\item Le partitionnement transforme un problème de taille $n$ en un problème de taille $n-1$
+\item Le partitionnement transforme un problÃ¨me de taille $n$ en un problÃ¨me de taille $n-1$
 $$T(n)=T(n-1)+\Theta(n)$$
 \medskip
-\item Même complexité que le tri par insertion:
+\item MÃªme complexitÃ© que le tri par insertion:
 $$T(n)=\Theta(n^2)$$
 \end{itemize}
 \end{itemize}
-\note{complexité$=\sum_{i=1}^n i$
+\note{complexitÃ©$=\sum_{i=1}^n i$
 
 \bigskip
 
-Ca se produit quand ? (tableau déjà trié)
+Ca se produit quand ? (tableau dÃ©jÃ  triÃ©)
 }
 \end{frame}
 
-\begin{frame}{Complexité de \proc{QuickSort}}
+\begin{frame}{ComplexitÃ© de \proc{QuickSort}}
 
 \begin{center}
     \fcolorbox{white}{Lightgray}{
@@ -347,33 +347,33 @@ Ca se produit quand ? (tableau déjà trié)
 \item Meilleur cas:
 \begin{itemize}
 \item $q=\lfloor n/2 \rfloor$
-\item Le partitionnement transforme un problème de taille $n$ en deux
-  problèmes de taille $\lceil n/2\rceil$ et $\lfloor n/2 \rfloor-1$ respectivement
+\item Le partitionnement transforme un problÃ¨me de taille $n$ en deux
+  problÃ¨mes de taille $\lceil n/2\rceil$ et $\lfloor n/2 \rfloor-1$ respectivement
 $$T(n)=2 T(n/2)+\Theta(n)$$
 \medskip
-\item Même complexité que le tri par fusion:
+\item MÃªme complexitÃ© que le tri par fusion:
 $$T(n)=\Theta(n\log n)$$
 \end{itemize}
 \end{itemize}
-\note{complexité=$\sum_{i=1}^n i$}
+\note{complexitÃ©=$\sum_{i=1}^n i$}
 \end{frame}
 
-\begin{frame}{Complexité moyenne de \proc{QuickSort}}
+\begin{frame}{ComplexitÃ© moyenne de \proc{QuickSort}}
 \begin{itemize}
-\item Complexité moyenne identique à la complexité du meilleur cas
+\item ComplexitÃ© moyenne identique Ã  la complexitÃ© du meilleur cas
 $$T(n)=\Theta(n\log n)$$
 \item Intuitivement:
 \begin{itemize}
-\item En moyenne, on s'attend à une alternance de ``bons'' et de
+\item En moyenne, on s'attend Ã  une alternance de ``bons'' et de
   ``mauvais'' partitionnements
-\item La complexité d'un mauvais partitionnement suivi d'un bon est
-  identique à la complexité d'une bon partitionnement directement
-  (seule la constante est modifiée).
+\item La complexitÃ© d'un mauvais partitionnement suivi d'un bon est
+  identique Ã  la complexitÃ© d'une bon partitionnement directement
+  (seule la constante est modifiÃ©e).
 \end{itemize}
 \end{itemize}
 \centerline{\includegraphics[width=10cm]{Figures/03-quicksort-casmoyen.pdf}}
 
-\note{Peut-être dire aussi qu'un partitionnement très déséquilibré (1/10 - 9/10) garde une complexité de $n\log n$}
+\note{Peut-Ãªtre dire aussi qu'un partitionnement trÃ¨s dÃ©sÃ©quilibrÃ© (1/10 - 9/10) garde une complexitÃ© de $n\log n$}
 
 \end{frame}
 
@@ -382,9 +382,9 @@ $$T(n)=\Theta(n\log n)$$
 \begin{itemize}
 \item Choix du pivot:
 \begin{itemize}
-\item Prendre un élément au hasard plutôt que le dernier.
-\item Prendre la médiane de 3 éléments
-\item Diminue drastiquement les chances d'être dans le pire cas
+\item Prendre un Ã©lÃ©ment au hasard plutÃ´t que le dernier.
+\item Prendre la mÃ©diane de 3 Ã©lÃ©ments
+\item Diminue drastiquement les chances d'Ãªtre dans le pire cas
 \end{itemize}
 \end{itemize}
 
@@ -418,7 +418,7 @@ $$T(n)=\Theta(n\log n)$$
 \item Petits sous-tableaux
 \begin{itemize}
 \item \proc{Quicksort} est trop lourd pour des petits tableaux
-\item Utiliser un tri naïf (par ex., par insertion) sur les sous-tableaux de longueur inférieure à $k$ ($k\approx 20$).
+\item Utiliser un tri naÃ¯f (par ex., par insertion) sur les sous-tableaux de longueur infÃ©rieure Ã  $k$ ($k\approx 20$).
 \end{itemize}
 \end{itemize}
 
@@ -446,9 +446,9 @@ $$T(n)=\Theta(n\log n)$$
 
 \begin{itemize}
 \item Rapide en moyenne $\Theta(n\log n)$
-\item Pire cas en $\Theta(n^2)$ mais très improbable avec choix du pivot bien fait
+\item Pire cas en $\Theta(n^2)$ mais trÃ¨s improbable avec choix du pivot bien fait
 \item Bonne performance au niveau du cache
-\item Tri \alert{en place} (mais utilise de la mémoire pour la trace récursive)
+\item Tri \alert{en place} (mais utilise de la mÃ©moire pour la trace rÃ©cursive)
 \item \alert{Pas stable}
 \item En pratique souvent un peu plus rapide que \proc{Merge-Sort}
 \end{itemize}
@@ -460,7 +460,7 @@ $$T(n)=\Theta(n\log n)$$
   \begin{center}
     \def\arraystretch{1.5}
   \begin{tabular}{@{}lccc@{}c@{}}
-    \emph{Algorithme}&\multicolumn{3}{c}{\emph{Complexité}}&\emph{En place?}\\
+    \emph{Algorithme}&\multicolumn{3}{c}{\emph{ComplexitÃ©}}&\emph{En place?}\\
     & \emph{\small Pire} & \emph{\small Moyenne} & \emph{Meilleure} & \\
     \hline\hline
     \proc{Insertion-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n)$&oui\\
@@ -486,11 +486,11 @@ $$T(n)=\Theta(n\log n)$$
 
 \begin{itemize}
 \item \emph{Heapsort} en anglais
-\item inventé par Williams en 1964
-\item basé sur une structure de donnée très utile, le \emph{tas}
-\item complexité bornée par $\Theta(n\log n)$ (dans tous les cas)
+\item inventÃ© par Williams en 1964
+\item basÃ© sur une structure de donnÃ©e trÃ¨s utile, le \emph{tas}
+\item complexitÃ© bornÃ©e par $\Theta(n\log n)$ (dans tous les cas)
 \item tri en place
-\item mise en oeuvre très simple
+\item mise en oeuvre trÃ¨s simple
 
 \bigskip
 
@@ -502,29 +502,29 @@ $$T(n)=\Theta(n\log n)$$
 \end{itemize}
 \end{itemize}
 
-% Voir slides français.
+% Voir slides franÃ§ais.
 
 \note{On va d'abord voir le tas, puis le heapsort, On verra la semaine
-  prochaine comment utiliser le tas pour faire une file à priorités}
+  prochaine comment utiliser le tas pour faire une file Ã  prioritÃ©s}
 \end{frame}
 
 \subsection{Introduction aux arbres}
 
-\begin{frame}{Arbres: définition}
+\begin{frame}{Arbres: dÃ©finition}
 \begin{itemize}
-\item Définition: Un arbre (\emph{tree}) $T$ est un graphe dirigé $(N,E)$, où:
+\item DÃ©finition: Un arbre (\emph{tree}) $T$ est un graphe dirigÃ© $(N,E)$, oÃ¹:
 \begin{itemize}
 \item $N$ est un ensemble de n\oe uds, et
 \item $E\subset N\times N$ est un ensemble d'arcs,
 \end{itemize}
-possédant les propriétés suivantes:
+possÃ©dant les propriÃ©tÃ©s suivantes:
 \begin{itemize}
 \item T est connexe et acyclique
-\item Si $T$ n'est pas vide, alors il possède un n\oe ud distingué appelé racine (\emph{root node}). Cette racine est unique.
+\item Si $T$ n'est pas vide, alors il possÃ¨de un n\oe ud distinguÃ© appelÃ© racine (\emph{root node}). Cette racine est unique.
 \item Pour tout arc $(n_1,n_2)\in E$, le n\oe ud $n_1$ est le \alert{parent} de $n_2$.
 \begin{itemize}
-\item La racine de $T$ ne possède pas de parent.
-\item Les autres n\oe uds de $T$ possèdent un et un seul parent.
+\item La racine de $T$ ne possÃ¨de pas de parent.
+\item Les autres n\oe uds de $T$ possÃ¨dent un et un seul parent.
 \end{itemize}
 \end{itemize}
 \end{itemize}
@@ -536,14 +536,14 @@ possédant les propriétés suivantes:
 \begin{frame}{Arbres: terminologie}
 \begin{itemize}
 \item Si $n_2$ est le parent de $n_1$, alors $n_1$ est le \alert{fils} (\emph{child}) de $n_2$.
-\item Deux n\oe uds $n_1$ et $n_2$ qui possèdent le même parent sont
-  des \alert{frères} (\emph{siblings}).
-\item Un n\oe ud qui possède au moins un fils est un n\oe ud \alert{interne}.
-\item Un n\oe ud externe (c'est-à-dire, non interne) est une \alert{feuille}
+\item Deux n\oe uds $n_1$ et $n_2$ qui possÃ¨dent le mÃªme parent sont
+  des \alert{frÃ¨res} (\emph{siblings}).
+\item Un n\oe ud qui possÃ¨de au moins un fils est un n\oe ud \alert{interne}.
+\item Un n\oe ud externe (c'est-Ã -dire, non interne) est une \alert{feuille}
   (\emph{leaf}) de l'arbre.
-\item Un n\oe ud $n_2$ est un \alert{ancêtre} (\emph{ancestor}) d'un n\oe ud
-  $n_1$ si $n_2$ est le parent de $n_1$ ou un ancêtre du parent de $n_1$.
-\item Un n\oe ud $n_2$ est un \alert{descendant} d'un n\oe ud $n_1$ si $n_1$ est un ancêtre de $n_2$.
+\item Un n\oe ud $n_2$ est un \alert{ancÃªtre} (\emph{ancestor}) d'un n\oe ud
+  $n_1$ si $n_2$ est le parent de $n_1$ ou un ancÃªtre du parent de $n_1$.
+\item Un n\oe ud $n_2$ est un \alert{descendant} d'un n\oe ud $n_1$ si $n_1$ est un ancÃªtre de $n_2$.
 \end{itemize}
 
 \centerline{\includegraphics[width=5cm]{Figures/03-exemple-arbre2.pdf}}
@@ -553,10 +553,10 @@ possédant les propriétés suivantes:
 \begin{frame}{Arbres: terminologie}
 
 \begin{itemize}
-\item Un \alert{chemin} est une séquence de n\oe uds $n_1$, $n_2$, \ldots, $n_m$ telle que pour tout $i\in [1,m-1]$, $(n_i,n_{i+1})$ est un arc de l'arbre.\\
+\item Un \alert{chemin} est une sÃ©quence de n\oe uds $n_1$, $n_2$, \ldots, $n_m$ telle que pour tout $i\in [1,m-1]$, $(n_i,n_{i+1})$ est un arc de l'arbre.\\
 Remarque: Il n'existe jamais de chemin reliant deux feuilles distinctes.
 \item La \alert{hauteur} (\emph{height}) d'un n\oe ud $n$ est le nombre d'arcs d'un plus long chemin de ce n\oe ud vers une feuille. La \emph{hauteur de l'arbre} est la hauteur de sa racine.
-\item La \alert{profondeur} (\emph{depth}) d'un no\oe ud $n$ est le nombre d'arcs sur le chemin qui le relie à la racine.
+\item La \alert{profondeur} (\emph{depth}) d'un no\oe ud $n$ est le nombre d'arcs sur le chemin qui le relie Ã  la racine.
 \end{itemize}
 
 \centerline{\includegraphics[width=5cm]{Figures/03-exemple-arbre2.pdf}}
@@ -566,52 +566,52 @@ Remarque: Il n'existe jamais de chemin reliant deux feuilles distinctes.
 \begin{frame}{Arbre binaire}
 
 \begin{itemize}
-\item Un arbre \alert{ordonné} est un arbre dans lequel les ensembles de fils de chacun de ses n\oe uds sont ordonnés.
-\item Un arbre \alert{binaire} est un arbre ordonné possédant les propriétés suivantes:
+\item Un arbre \alert{ordonnÃ©} est un arbre dans lequel les ensembles de fils de chacun de ses n\oe uds sont ordonnÃ©s.
+\item Un arbre \alert{binaire} est un arbre ordonnÃ© possÃ©dant les propriÃ©tÃ©s suivantes:
 \begin{itemize}
-\item Chacun de ses n\oe uds possède au plus deux fils.
+\item Chacun de ses n\oe uds possÃ¨de au plus deux fils.
 \item Chaque n\oe ud fils est soit un fils gauche, soit un fils droit.
-\item Le fils gauche précède le fils droit dans l'ordre des fils d'un n\oe ud.
+\item Le fils gauche prÃ©cÃ¨de le fils droit dans l'ordre des fils d'un n\oe ud.
 \end{itemize}
-\item Un arbre \alert{binaire propre} (\emph{full}) est un arbre binaire dans lequel tous les n\oe uds internes possèdent exactement deux fils.
+\item Un arbre \alert{binaire propre} (\emph{full}) est un arbre binaire dans lequel tous les n\oe uds internes possÃ¨dent exactement deux fils.
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Propriétés des arbres binaires propres}
+\begin{frame}{PropriÃ©tÃ©s des arbres binaires propres}
 
 % fig: Dupont
 \centerline{\includegraphics[width=5cm]{Figures/03-exemple-arbre-binaire.pdf}}
 
 % text: Dupont
 \begin{itemize}
-\item Le nombre de n\oe uds externes est égal au nombre de n\oe uds internes plus 1.
-\item Le nombre de n\oe uds interne est égal à $\frac{n-1}{2}$, où
-  $n$ désigne le nombre de n\oe uds.
-\item Le nombre de n\oe uds à la profondeur (ou niveau) $i$ est $\leq 2^i$.
+\item Le nombre de n\oe uds externes est Ã©gal au nombre de n\oe uds internes plus 1.
+\item Le nombre de n\oe uds interne est Ã©gal Ã  $\frac{n-1}{2}$, oÃ¹
+  $n$ dÃ©signe le nombre de n\oe uds.
+\item Le nombre de n\oe uds Ã  la profondeur (ou niveau) $i$ est $\leq 2^i$.
 \item La hauteur $h$ de l'arbre est $\leq$ au nombre de n\oe uds internes.
-\item Le lien entre hauteur et nombre de n\oe uds peut être résumé comme suit:
+\item Le lien entre hauteur et nombre de n\oe uds peut Ãªtre rÃ©sumÃ© comme suit:
 $$n=\Omega(h)\mbox{ et }n=O(2^h)$$
 \end{itemize}
 \end{frame}
 
 \subsection{Tas}
 
-\begin{frame}{Tas: définition}\label{sec:03tas}
+\begin{frame}{Tas: dÃ©finition}\label{sec:03tas}
 
-Un tas binaire (\emph{binary heap}) est un arbre binaire ordonné tel que:
+Un tas binaire (\emph{binary heap}) est un arbre binaire ordonnÃ© tel que:
 \begin{itemize}
-\item Si $h$ dénote la hauteur de l'arbre:
+\item Si $h$ dÃ©note la hauteur de l'arbre:
 \begin{itemize}
-\item Pour tout $i\in [0,h-1]$, il y a exactement $2^i$ n\oe uds à la profondeur $i$.
+\item Pour tout $i\in [0,h-1]$, il y a exactement $2^i$ n\oe uds Ã  la profondeur $i$.
 \item Une feuille a une profondeur $h$ ou $h-1$.
-\item Les feuilles de profondeur maximale ($h$) sont ``tassées'' sur la gauche.
+\item Les feuilles de profondeur maximale ($h$) sont ``tassÃ©es'' sur la gauche.
 \end{itemize}
 \medskip
 
-\item Chacun de ses n\oe uds est associé à une clé.
-\item La clé de chaque n\oe ud est supérieure ou égale à celle de ses
-  fils (\alert{propriété d'ordre du tas}).
+\item Chacun de ses n\oe uds est associÃ© Ã  une clÃ©.
+\item La clÃ© de chaque n\oe ud est supÃ©rieure ou Ã©gale Ã  celle de ses
+  fils (\alert{propriÃ©tÃ© d'ordre du tas}).
 \end{itemize}
 
 % fig: CLRS
@@ -619,13 +619,13 @@ Un tas binaire (\emph{binary heap}) est un arbre binaire ordonné tel que:
 
 \end{frame}
 
-\begin{frame}{Propriété d'un tas}
+\begin{frame}{PropriÃ©tÃ© d'un tas}
 \label{03:hauteurtas}
 \begin{itemize}
-\item Soit $T$ un arbre binaire complet contenant $n$ entrées et de hauteur $h$:
+\item Soit $T$ un arbre binaire complet contenant $n$ entrÃ©es et de hauteur $h$:
 \begin{itemize}
-\item $n$ est supérieur ou égal à la taille de l'arbre complet de hauteur $h-1$ plus un, soit $2^{h-1+1}-1+1=2^h$
-\item $n$ est inférieur ou égal à la taille de l'arbre complet de hauteur $h$, soit $2^{h+1}-1$
+\item $n$ est supÃ©rieur ou Ã©gal Ã  la taille de l'arbre complet de hauteur $h-1$ plus un, soit $2^{h-1+1}-1+1=2^h$
+\item $n$ est infÃ©rieur ou Ã©gal Ã  la taille de l'arbre complet de hauteur $h$, soit $2^{h+1}-1$
 \begin{eqnarray*}
 2^h\leq n\leq 2^{h+1} & \Leftrightarrow & 2^h\leq n < 2^{h+1}\\
 & \Leftrightarrow & h \leq \log_2 n < h+1 \\
@@ -641,12 +641,12 @@ Un tas binaire (\emph{binary heap}) est un arbre binaire ordonné tel que:
 
 \begin{frame}{Tas: interface}
 
-Opérations définies sur un tas $H$:
+OpÃ©rations dÃ©finies sur un tas $H$:
 \begin{itemize}
-\item $\attrib{H}{heap-size}$: le nombre de clés dans $H$.
-\item $\proc{Build-Max-Heap}(A)$ construit un tas à partir du tableau $A$.
-\item $\proc{Heap-Insert}(H,key)$ insère $key$ dans le tas.
-\item $\proc{Heap-Extract-Max}(H)$ extrait la clé maximale.
+\item $\attrib{H}{heap-size}$: le nombre de clÃ©s dans $H$.
+\item $\proc{Build-Max-Heap}(A)$ construit un tas Ã  partir du tableau $A$.
+\item $\proc{Heap-Insert}(H,key)$ insÃ¨re $key$ dans le tas.
+\item $\proc{Heap-Extract-Max}(H)$ extrait la clÃ© maximale.
 \end{itemize}
 
 \bigskip
@@ -655,38 +655,38 @@ Opérations définies sur un tas $H$:
 
 \end{frame}
 
-\begin{frame}{Implémentation par un tableau}
+\begin{frame}{ImplÃ©mentation par un tableau}
 
 \centerline{\includegraphics[width=10cm]{Figures/03-tas-binaire-tableau.pdf}}
 
 \bigskip
 
-Un tas peut être représenté de manière compacte à l'aide d'un tableau $A$.
+Un tas peut Ãªtre reprÃ©sentÃ© de maniÃ¨re compacte Ã  l'aide d'un tableau $A$.
 
 \begin{itemize}
-\item La racine de l'abre est le premier élément du tableau.
+\item La racine de l'abre est le premier Ã©lÃ©ment du tableau.
 \item $\proc{Parent}(i)=\lfloor i/2\rfloor$
 \item $\proc{Left}(i)=2i$
 \item $\proc{Right}(i)=2i+1$
 \end{itemize}
 
-Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
+PropriÃ©tÃ© d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 
 \end{frame}
 
 \begin{frame}{$\proc{Heap-Extract-Max}$}
 
 \begin{itemize}
-\item Procédure $\proc{Heap-Extract-Max}$:
+\item ProcÃ©dure $\proc{Heap-Extract-Max}$:
 \begin{itemize}
-\item Extrait la clé maximale. Elle est toujours à la racine \emph{(Pourquoi ?)}
-\item Réarrange le tas pour maintenir la propriété d'ordre du tas
+\item Extrait la clÃ© maximale. Elle est toujours Ã  la racine \emph{(Pourquoi ?)}
+\item RÃ©arrange le tas pour maintenir la propriÃ©tÃ© d'ordre du tas
 \end{itemize}
 
 % FIG: Gaetano -> a refaire
 \centerline{\includegraphics[width=5cm]{Figures/03-heap-extract-max.pdf}}
 
-\item On remplace la racine par la feuille la plus à droite.
+\item On remplace la racine par la feuille la plus Ã  droite.
 \item Les sous-arbres de droite et de gauche sont des tas.
 \end{itemize}
 \end{frame}
@@ -694,11 +694,11 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 \begin{frame}{$\proc{Max-Heapify}$}
 
 \begin{itemize}
-\item Procédure $\proc{Max-Heapify}(A,i)$:
+\item ProcÃ©dure $\proc{Max-Heapify}(A,i)$:
 \begin{itemize}
 \item Suppose que le sous-arbre de gauche du n\oe ud $i$ est un tas
 \item Suppose que le sous-arbre de droite du n\oe ud $i$ est un tas
-\item But: réarranger le tas pour maintenir la propriété d'ordre du tas
+\item But: rÃ©arranger le tas pour maintenir la propriÃ©tÃ© d'ordre du tas
 \end{itemize}
 \item Ex: $\proc{Max-Heapify}(A,2)$
 \centerline{\includegraphics[width=8cm]{Figures/03-max-heapify.pdf}}
@@ -733,7 +733,7 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 \bigskip
 
 \begin{itemize}
-\item Complexité ? La hauteur du n\oe ud: $T(n)=\Theta(\log n)$ (Transp. \pageref{03:hauteurtas})
+\item ComplexitÃ© ? La hauteur du n\oe ud: $T(n)=\Theta(\log n)$ (Transp. \pageref{03:hauteurtas})
 \end{itemize}
 \end{frame}
 
@@ -757,20 +757,20 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 \bigskip
 
 \begin{itemize}
-\item La tableau initial est interprété comme un arbre binaire complet
-\item On tasse les n\oe uds internes de bas en haut et de droite à gauche
+\item La tableau initial est interprÃ©tÃ© comme un arbre binaire complet
+\item On tasse les n\oe uds internes de bas en haut et de droite Ã  gauche
 \end{itemize}
 
-\note{Montrer sur le dessin comment ça marche}
+\note{Montrer sur le dessin comment Ã§a marche}
 
 \end{frame}
 
-\begin{frame}{Complexité de $\proc{Build-Max-Heap}$}
+\begin{frame}{ComplexitÃ© de $\proc{Build-Max-Heap}$}
 
 \begin{itemize}
 \item Borne simple:
 \begin{itemize}
-\item $O(n)$ appels à $\proc{Max-Heapify}$, chacun étant $O(\log n)$ $\Rightarrow O(n\log n)$.
+\item $O(n)$ appels Ã  $\proc{Max-Heapify}$, chacun Ã©tant $O(\log n)$ $\Rightarrow O(n\log n)$.
 \end{itemize}
 
 \bigskip
@@ -779,24 +779,24 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 \item Analyse plus fine:
 \begin{itemize}
 \item Pour simplifier l'analyse, on suppose que l'arbre binaire est complet.
-\item On a donc $n=2^{h+1}-1$ pour un $h\geq 0$, qui est aussi la hauteur de l'arbre résultant
+\item On a donc $n=2^{h+1}-1$ pour un $h\geq 0$, qui est aussi la hauteur de l'arbre rÃ©sultant
 \end{itemize}
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Complexité de $\proc{Build-Max-Heap}$}
+\begin{frame}{ComplexitÃ© de $\proc{Build-Max-Heap}$}
 \centerline{\includegraphics[width=9cm]{Figures/03-max-heapify-complex.pdf}}
 
 \begin{itemize}
-\item Il y a $2^i$ n\oe uds à la profondeur $i$ (= hauteur $h-i$).
+\item Il y a $2^i$ n\oe uds Ã  la profondeur $i$ (= hauteur $h-i$).
 \item On doit appeler $\proc{Max-Heapify}$ sur chacun d'eux $\Rightarrow O(h-i)$.
-\item Nombre d'opérations en fonction de $h$:
+\item Nombre d'opÃ©rations en fonction de $h$:
 $$T(h)=\sum_{i=0}^{h-1} 2^i O(h-i)=O(\sum_{i=0}^{h-1} 2^i (h-i))$$
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Complexité de $\proc{Build-Max-Heap}$}
+\begin{frame}{ComplexitÃ© de $\proc{Build-Max-Heap}$}
 \begin{itemize}
 \item $\sum_{i=0}^{h-1} 2^i (h-i)=1\cdot 2^{h-1}+2\cdot 2^{h-2}+\ldots+(h-1)\cdot 2^1+h\cdot 2^0$
 
@@ -825,7 +825,7 @@ $2^{h-1}$ & + & $2^{h-2}$ & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h}-1$\
 \end{itemize}
 \end{frame}
 
-%\subsection{File à priorités}
+%\subsection{File Ã  prioritÃ©s}
 
 \subsection{Tri par tas}
 
@@ -856,29 +856,29 @@ Tableau initial: $A=[7,4,3,1,2]$
 
 \end{frame}
 
-\begin{frame}{Complexité de \proc{Heap-Sort}}
+\begin{frame}{ComplexitÃ© de \proc{Heap-Sort}}
 
 \begin{itemize}
 \item $\proc{Build-Max-Heap}$: $O(n)$
 \item Boucle $\For$: $n-1$ fois
-\item Echange d'éléments: $O(1)$
+\item Echange d'Ã©lÃ©ments: $O(1)$
 \item $\proc{Max-Heapify}$: $O(\log n)$
 \end{itemize}
 Total: $O(n\log n)$ \alert{(pour le pire cas et le cas moyen)}
 
 \bigskip
 
-Le tri par tas est cependant généralement battu par le tri rapide
+Le tri par tas est cependant gÃ©nÃ©ralement battu par le tri rapide
 \end{frame}
 
-\section{Synthèse}
+\section{SynthÃ¨se}
 
-\begin{frame}{Résumé}
+\begin{frame}{RÃ©sumÃ©}
 
  \begin{center}
     \def\arraystretch{1.5}
   \begin{tabular}{@{}lccc@{}c@{}}
-    \emph{Algorithme}&\multicolumn{3}{c}{\emph{Complexité}}&\emph{En place?}\\
+    \emph{Algorithme}&\multicolumn{3}{c}{\emph{ComplexitÃ©}}&\emph{En place?}\\
     & \emph{\small Pire} & \emph{\small Moyenne} & \emph{Meilleure} & \\
     \hline\hline
     \proc{Insertion-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n)$&oui\\
@@ -903,24 +903,24 @@ Le tri par tas est cependant généralement battu par le tri rapide
 % Gaetano
 
 \begin{itemize}
-\item Non, si on se restreint aux tri \emph{comparatifs}, c'est-à-dire:
+\item Non, si on se restreint aux tri \emph{comparatifs}, c'est-Ã -dire:
 \begin{itemize}
-\item Aucune hypothèse sur les éléments à trier
-\item Nécessité de les comparer entre eux
+\item Aucune hypothÃ¨se sur les Ã©lÃ©ments Ã  trier
+\item NÃ©cessitÃ© de les comparer entre eux
 \end{itemize}
-\item Complexité d'un problème algorithmique versus complexité d'un algorithme
+\item ComplexitÃ© d'un problÃ¨me algorithmique versus complexitÃ© d'un algorithme
 \item Dans ce cas, un algorithme de tri est:
 \begin{itemize}
-\item Une suite de comparaisons d'éléments suivant une certaine méthode
-\item Un processus qui transforme un tableau $[e_0,e_1,\ldots,e_{n-1}]$ en un autre tableau $[e_{\sigma_0},e_{\sigma_1},\ldots,e_{\sigma_{n-1}}]$ où $(\sigma_0,\sigma_1,\ldots,\sigma_{n-1})$ est une permutation de $(0,1,\ldots,n-1)$.
+\item Une suite de comparaisons d'Ã©lÃ©ments suivant une certaine mÃ©thode
+\item Un processus qui transforme un tableau $[e_0,e_1,\ldots,e_{n-1}]$ en un autre tableau $[e_{\sigma_0},e_{\sigma_1},\ldots,e_{\sigma_{n-1}}]$ oÃ¹ $(\sigma_0,\sigma_1,\ldots,\sigma_{n-1})$ est une permutation de $(0,1,\ldots,n-1)$.
 \end{itemize}
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Arbre de décision: exemple}
+\begin{frame}{Arbre de dÃ©cision: exemple}
 
-Un algorithme de tri = un arbre binaire de décision
+Un algorithme de tri = un arbre binaire de dÃ©cision
 
 \bigskip
 
@@ -929,7 +929,7 @@ Un algorithme de tri = un arbre binaire de décision
 
 \bigskip
 
-(arbre de décision pour le tri par insertion du tableau $[e_0,e_1,e_2]$)
+(arbre de dÃ©cision pour le tri par insertion du tableau $[e_0,e_1,e_2]$)
 
 \bigskip
 
@@ -937,24 +937,24 @@ Un algorithme de tri = un arbre binaire de décision
 
 \end{frame}
 
-\begin{frame}{Arbre de décision: définition}
+\begin{frame}{Arbre de dÃ©cision: dÃ©finition}
 
-Un algorithme de tri = un arbre binaire de décision
+Un algorithme de tri = un arbre binaire de dÃ©cision
 
 \begin{itemize}
-\item feuille de l'arbre: une permutation des éléments du tableau initial
-\item tri: le chemin de la racine à la feuille correspondant au tableau trié
+\item feuille de l'arbre: une permutation des Ã©lÃ©ments du tableau initial
+\item tri: le chemin de la racine Ã  la feuille correspondant au tableau triÃ©
 \item hauteur de l'arbre: le pire cas pour le tri
 \item branche la plus courte: le meilleur cas pour le tri
-\item hauteur moyenne de l'arbre: la complexité en moyenne du tri
+\item hauteur moyenne de l'arbre: la complexitÃ© en moyenne du tri
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Arbre de décision: propriété}
+\begin{frame}{Arbre de dÃ©cision: propriÃ©tÃ©}
 \begin{itemize}
-\item Un arbre binaire de hauteur $h$ a au plus $2^h$ feuilles (récurrence)
-\item Le nombre de feuilles de l'arbre de décision est  $n!$ où  $n$ est la taille du tableau à trier
+\item Un arbre binaire de hauteur $h$ a au plus $2^h$ feuilles (rÃ©currence)
+\item Le nombre de feuilles de l'arbre de dÃ©cision est  $n!$ oÃ¹  $n$ est la taille du tableau Ã  trier
 % 
 \item On a donc:
 $$n!\leq 2^h \Rightarrow \log(n!)\leq h$$
@@ -966,7 +966,7 @@ $$h\geq \log(n!)>\log((\frac{n}{e})^n)=n\log n - n\log e\Rightarrow h=\Omega(n\l
 \end{itemize}
 \bigskip
 
-\centerline{\bf Le problème du tri comparatif est $\Omega(n\log n)$}
+\centerline{\bf Le problÃ¨me du tri comparatif est $\Omega(n\log n)$}
 
 \note{Dire qu'il ne peut pas y en avoir moins que $n!$ feuilles sinon, un cas ne serait pas traiter}
 
@@ -975,12 +975,12 @@ $$h\geq \log(n!)>\log((\frac{n}{e})^n)=n\log n - n\log e\Rightarrow h=\Omega(n\l
 \begin{frame}{Ce qu'on a vu}
 
 \begin{itemize}
-\item Catégorisation des algorithmes de tri
+\item CatÃ©gorisation des algorithmes de tri
 \item \proc{QuickSort} (tri en place en $O(n\log n))$
 \item Analyse du cas moyen d'un algorithme
-\item Notre première structure de données: le tas
+\item Notre premiÃ¨re structure de donnÃ©es: le tas
 \item \proc{HeapSort}
-\item Borne inférieure sur les tris comparatifs
+\item Borne infÃ©rieure sur les tris comparatifs
 
 \bigskip
 
@@ -996,11 +996,11 @@ $$h\geq \log(n!)>\log((\frac{n}{e})^n)=n\log n - n\log e\Rightarrow h=\Omega(n\l
 \begin{frame}{Ce qu'on n'a pas vu}
 
 \begin{itemize}
-\item Analyse formelle de la complexité moyenne du $\proc{QuickSort}$.
+\item Analyse formelle de la complexitÃ© moyenne du $\proc{QuickSort}$.
 \item Invariant pour le tri par tas
-\item Méthodes de tri linéaire
-\item Méthode de sélection: trouver l'élément de rang $i$
+\item MÃ©thodes de tri linÃ©aire
+\item MÃ©thode de sÃ©lection: trouver l'Ã©lÃ©ment de rang $i$
 \end{itemize}
 
-\note{Demander comment il ferait ça de manière naive}
+\note{Demander comment il ferait Ã§a de maniÃ¨re naive}
 \end{frame}

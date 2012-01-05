@@ -1,8 +1,8 @@
 
-\part{Structures de données élémentaires}
+\part{Structures de donnÃ©es Ã©lÃ©mentaires}
 
-% Structures de pile, file, liste liée (notion de liste liée comme une implémentation), arbre (?), files à priorité
-% complexité amortie ? ajout d'élément à une structure de ce type.
+% Structures de pile, file, liste liÃ©e (notion de liste liÃ©e comme une implÃ©mentation), arbre (?), files Ã  prioritÃ©
+% complexitÃ© amortie ? ajout d'Ã©lÃ©ment Ã  une structure de ce type.
 
 \begin{frame}{Plan}
 
@@ -14,126 +14,126 @@
 
 \begin{frame}{Concept}
 \begin{itemize}
-\item Une \alert{structure de données} est une manière d'organiser et de stocker l'information
+\item Une \alert{structure de donnÃ©es} est une maniÃ¨re d'organiser et de stocker l'information
 \begin{itemize}
-\item Pour en faciliter l'accès ou dans d'autres buts
+\item Pour en faciliter l'accÃ¨s ou dans d'autres buts
 \end{itemize}
-\item Une structure de données a une \alert{interface} qui consiste en un ensemble de procédures pour ajouter, effacer, accéder, réorganiser, etc. les données.
-%\item L'interface définit un type de donnée abstrait (TDA).
-\item Une structure de données conserve des \alert{données} et éventuellement des \alert{méta-données}
+\item Une structure de donnÃ©es a une \alert{interface} qui consiste en un ensemble de procÃ©dures pour ajouter, effacer, accÃ©der, rÃ©organiser, etc. les donnÃ©es.
+%\item L'interface dÃ©finit un type de donnÃ©e abstrait (TDA).
+\item Une structure de donnÃ©es conserve des \alert{donnÃ©es} et Ã©ventuellement des \alert{mÃ©ta-donnÃ©es}
 \begin{itemize}
-\item Par exemple: un tas utilise un tableau pour stocker les clés et une variable $\attrib{A}{heap-size}$ pour retenir le nombre d'éléments qui sont dans le tas.
+\item Par exemple: un tas utilise un tableau pour stocker les clÃ©s et une variable $\attrib{A}{heap-size}$ pour retenir le nombre d'Ã©lÃ©ments qui sont dans le tas.
 \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Structures de données}
+\begin{frame}{Structures de donnÃ©es}
 
 Dans ce cours:
 \begin{itemize}
-\item Principalement des \alert{ensembles dynamiques}, amenés à croître, se
-  rétrécir et à changer au cours du temps.
+\item Principalement des \alert{ensembles dynamiques}, amenÃ©s Ã  croÃ®tre, se
+  rÃ©trÃ©cir et Ã  changer au cours du temps.
 \item Les objets de ces ensembles comportent des attributs.
-\item Un de ces attributs est une \alert{clé} qui permet d'identifier
+\item Un de ces attributs est une \alert{clÃ©} qui permet d'identifier
   l'objet, les autres attributs sont la plupart du temps non
-  pertinents pour l'implémentation de la structure.
+  pertinents pour l'implÃ©mentation de la structure.
 \item Certains ensembles supposent qu'il existe un \alert{ordre total}
-  entre les clés.
+  entre les clÃ©s.
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Opérations standards sur les structures}
+\begin{frame}{OpÃ©rations standards sur les structures}
 
 \begin{itemize}
-\item Deux types: opérations de recherche/accès aux données et opérations de modifications
+\item Deux types: opÃ©rations de recherche/accÃ¨s aux donnÃ©es et opÃ©rations de modifications
 \item Recherche: exemples:
 \begin{itemize}
-\item $\proc{Search}(S,k)$: retourne un pointeur $x$ vers un élément dans $S$ tel que $\attrib{x}{key}=k$, ou $\const{NIL}$ si un tel élément n'appartient pas à $S$.
+\item $\proc{Search}(S,k)$: retourne un pointeur $x$ vers un Ã©lÃ©ment dans $S$ tel que $\attrib{x}{key}=k$, ou $\const{NIL}$ si un tel Ã©lÃ©ment n'appartient pas Ã  $S$.
 \item $\proc{Minimum}(S)$, $\proc{Maximum}(S)$: retourne un pointeur
-  vers l'élément avec la plus petite (resp. grande) clé.
-\item $\proc{Successor}(S,x)$,$\proc{Predecessor}(S,x)$ retourne un pointeur vers l'élément tout juste plus grand (resp. petit) que $x$ dans $S$, $\const{NIL}$ si $x$ est le maximum (resp. minimum).
+  vers l'Ã©lÃ©ment avec la plus petite (resp. grande) clÃ©.
+\item $\proc{Successor}(S,x)$,$\proc{Predecessor}(S,x)$ retourne un pointeur vers l'Ã©lÃ©ment tout juste plus grand (resp. petit) que $x$ dans $S$, $\const{NIL}$ si $x$ est le maximum (resp. minimum).
 \end{itemize}
 \item Modification: exemples:
 \begin{itemize}
-\item $\proc{Insert}(S,x)$: insère l'élément $x$ dans $S$.
-\item $\proc{Delete}(S,x)$: retire l'élément $x$ de $S$.
+\item $\proc{Insert}(S,x)$: insÃ¨re l'Ã©lÃ©ment $x$ dans $S$.
+\item $\proc{Delete}(S,x)$: retire l'Ã©lÃ©ment $x$ de $S$.
 \end{itemize}
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Implémentation d'une structure de données}
+\begin{frame}{ImplÃ©mentation d'une structure de donnÃ©es}
 \begin{itemize}
-\item Etant donné une interface, plusieurs implémentations sont possibles qui différent par le
-  \alert{complexité} des opérations
-\item Une interface définit un type de données abstrait.
-\item Les briques de base pour implémenter une structure de données
-  dépendent du langage d'implémentation
+\item Etant donnÃ© une interface, plusieurs implÃ©mentations sont possibles qui diffÃ©rent par le
+  \alert{complexitÃ©} des opÃ©rations
+\item Une interface dÃ©finit un type de donnÃ©es abstrait.
+\item Les briques de base pour implÃ©menter une structure de donnÃ©es
+  dÃ©pendent du langage d'implÃ©mentation
 \begin{itemize}
 \item Dans ce cours, les principaux outils du C: tableaux, structures
-  à la C (objets avec attributs), liste liées (simples, doubles,
+  Ã  la C (objets avec attributs), liste liÃ©es (simples, doubles,
   circulaires), etc.
 \end{itemize}
-\item Une structure de données peut être implémentée à l'aide d'une
-  autre structure de données (de base ou non)
+\item Une structure de donnÃ©es peut Ãªtre implÃ©mentÃ©e Ã  l'aide d'une
+  autre structure de donnÃ©es (de base ou non)
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Quelques structures de données standards}
+\begin{frame}{Quelques structures de donnÃ©es standards}
 
 \begin{itemize}
-\item Pile: accès selon une politique LIFO
-\item File: accès selon une politique FIFO
-\item Liste: accès
+\item Pile: accÃ¨s selon une politique LIFO
+\item File: accÃ¨s selon une politique FIFO
+\item Liste: accÃ¨s
 \item Vecteur: 
-\item Séquence:
+\item SÃ©quence:
 \item Dictionaire
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Rappel: liste simplement et doublement liée}
+\begin{frame}{Rappel: liste simplement et doublement liÃ©e}
 
 \centerline{\includegraphics[width=8cm]{Figures/04-listeliee.pdf}}
 
 \bigskip
 
 \begin{itemize}
-\item Structure de données composée d'une séquence d'éléménts de liste.
-\item Chaque élément $x$ de la liste est composé:
+\item Structure de donnÃ©es composÃ©e d'une sÃ©quence d'Ã©lÃ©mÃ©nts de liste.
+\item Chaque Ã©lÃ©ment $x$ de la liste est composÃ©:
 \begin{itemize}
-\item d'un contenu utile $\attrib{x}{data}$ de type arbitraire (par exemple une clé),
-\item d'un pointeur $\attrib{x}{next}$ vers l'élément suivant dans la séquence
-\item \emph{Doublement liée: }d'une pointeur $\attrib{x}{prev}$ vers l'élément précédent dans la séquence
+\item d'un contenu utile $\attrib{x}{data}$ de type arbitraire (par exemple une clÃ©),
+\item d'un pointeur $\attrib{x}{next}$ vers l'Ã©lÃ©ment suivant dans la sÃ©quence
+\item \emph{Doublement liÃ©e: }d'une pointeur $\attrib{x}{prev}$ vers l'Ã©lÃ©ment prÃ©cÃ©dent dans la sÃ©quence
 \end{itemize}
-\item Soit $L$ une liste liée
+\item Soit $L$ une liste liÃ©e
 \begin{itemize}
-\item $\attrib{L}{head}$ pointe vers le premier élément de la liste
-\item \emph{Doublement liée:} $\attrib{L}{tail}$ pointe vers le dernier élément de la liste
+\item $\attrib{L}{head}$ pointe vers le premier Ã©lÃ©ment de la liste
+\item \emph{Doublement liÃ©e:} $\attrib{L}{tail}$ pointe vers le dernier Ã©lÃ©ment de la liste
 \end{itemize}
-\item Le dernier élément est celui qui possède un pointeur $\attrib{x}{next}$ vide, noté $\const{NIL}$
-\item \emph{Doublement liée:} Le premier élément est celui qui possède un pointeur $\attrib{x}{prev}$ vide
+\item Le dernier Ã©lÃ©ment est celui qui possÃ¨de un pointeur $\attrib{x}{next}$ vide, notÃ© $\const{NIL}$
+\item \emph{Doublement liÃ©e:} Le premier Ã©lÃ©ment est celui qui possÃ¨de un pointeur $\attrib{x}{prev}$ vide
 %% \item Avantage
 %% \begin{itemize}
-%% \item L'insertion et la suppression d'éléments est réalisable en temps $O(1)$ en tête de liste, ainsi qu'à la suite d'un élément donné (à n'importe quel endroit pour une liste doublement liée).
-%% \item Les éléments de la liste peuvent être alloués dynamiquement
+%% \item L'insertion et la suppression d'Ã©lÃ©ments est rÃ©alisable en temps $O(1)$ en tÃªte de liste, ainsi qu'Ã  la suite d'un Ã©lÃ©ment donnÃ© (Ã  n'importe quel endroit pour une liste doublement liÃ©e).
+%% \item Les Ã©lÃ©ments de la liste peuvent Ãªtre allouÃ©s dynamiquement
 %% \end{itemize}
 \end{itemize}
-\note{Mais l'espace mémoire est deux fois plus important qu'avec un tableau classique}
+\note{Mais l'espace mÃ©moire est deux fois plus important qu'avec un tableau classique}
 \end{frame}
 
-\begin{frame}{Opérations sur une liste doublement liée}
+\begin{frame}{OpÃ©rations sur une liste doublement liÃ©e}
 
 \begin{itemize}
 \item Interface:
     \begin{itemize}
 %      \medskip
-    \item $\proc{List-Insert}(L,x)$ ajoute l'élément $x$ au début de la liste $L$
+    \item $\proc{List-Insert}(L,x)$ ajoute l'Ã©lÃ©ment $x$ au dÃ©but de la liste $L$
 %      \medskip
-    \item $\proc{List-Delete}(L,x)$ supprime l'élément $x$ de la liste $L$
+    \item $\proc{List-Delete}(L,x)$ supprime l'Ã©lÃ©ment $x$ de la liste $L$
 %      \medskip
-    \item $\proc{List-Search}(L,k)$ trouve une élément dont la clé $k$
+    \item $\proc{List-Search}(L,k)$ trouve une Ã©lÃ©ment dont la clÃ© $k$
       est dans la liste $L$
     \end{itemize}
 \end{itemize}
@@ -181,7 +181,7 @@ Dans ce cours:
 \end{footnotesize}
 \end{center}
 
-Complexité: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche.
+ComplexitÃ©: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche.
 \end{frame}
 
 \section{Pile}
@@ -203,20 +203,20 @@ Complexité: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche.
 \item Appel de fonctions dans un compilateur
 \item \ldots
 \end{itemize}
-\item Implémentations:
+\item ImplÃ©mentations:
 \begin{itemize}
-\item avec un tableau (taille fixée a priori)
-\item au moyen d'une liste liée (allouée de manière dynamique)
+\item avec un tableau (taille fixÃ©e a priori)
+\item au moyen d'une liste liÃ©e (allouÃ©e de maniÃ¨re dynamique)
 \item \ldots
 \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Implémentation par un tableau}
+\begin{frame}{ImplÃ©mentation par un tableau}
 
 \begin{itemize}
-\item $S$ est un tableau qui contient les éléments de la pile
-\item $\attrib{S}{top}$ est la position courante de l'élément au sommet de $S$
+\item $S$ est un tableau qui contient les Ã©lÃ©ments de la pile
+\item $\attrib{S}{top}$ est la position courante de l'Ã©lÃ©ment au sommet de $S$
 
 \medskip
 
@@ -250,16 +250,16 @@ Complexité: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche.
         \end{codebox}}
       \end{small}
     \end{center}
-\item Complexité en temps \alert{et en espace}: $O(1)$\\
-(L'espace mémoire occupé ne dépend pas du nombre d'objets)
+\item ComplexitÃ© en temps \alert{et en espace}: $O(1)$\\
+(L'espace mÃ©moire occupÃ© ne dÃ©pend pas du nombre d'objets)
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Implémentation par une liste liée}
+\begin{frame}{ImplÃ©mentation par une liste liÃ©e}
 
 \begin{itemize}
-\item $S$ est une liste simplement liée
+\item $S$ est une liste simplement liÃ©e
 
 \medskip
 
@@ -294,18 +294,18 @@ Complexité: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche.
         \end{codebox}}
 \end{small}
     \end{center}
-\item Complexité en temps $O(1)$, complexité en espace $O(n)$ pour $n$ opérations
+\item ComplexitÃ© en temps $O(1)$, complexitÃ© en espace $O(n)$ pour $n$ opÃ©rations
 \end{itemize}
 
 \end{frame}
 
 \begin{frame}{Application}
 \begin{itemize}
-\item Vérifier l'appariement de parenthèses ($[]$,$()$ ou $\{\}$) dans une chaîne de caractères
+\item VÃ©rifier l'appariement de parenthÃ¨ses ($[]$,$()$ ou $\{\}$) dans une chaÃ®ne de caractÃ¨res
 \begin{itemize}
 \item Exemples: $((x)+(y)]/2\rightarrow$ non, $[- (b) + \mbox{sqrt}(4*(a)*c)]/ (2*a) \rightarrow$ oui
 \end{itemize}
-\item Solution basée sur une pile:
+\item Solution basÃ©e sur une pile:
 \begin{center}
 \begin{small}
 \fcolorbox{white}{Lightgray}{%
@@ -313,13 +313,13 @@ Complexité: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche.
           \Procname{$\proc{ParenthesesMatch}(A)$}
           \li $S\gets$ pile vide
           \li \For $i\gets 1 \To \attrib{A}{length}$
-          \li \Do \If $A[i]$ est une parenthèse gauche
+          \li \Do \If $A[i]$ est une parenthÃ¨se gauche
           \li \Then $\proc{Push}(S,A[i])$
-          \li \ElseIf $A[i]$ est une parenthèse droite
+          \li \ElseIf $A[i]$ est une parenthÃ¨se droite
           \li \Then \If $\proc{Stack-Empty}(S)$
           \li \Then \Return \const{False}
           
-          \li \ElseIf  $\proc{Pop}(S)$ n'est pas du même type que $A[i]$
+          \li \ElseIf  $\proc{Pop}(S)$ n'est pas du mÃªme type que $A[i]$
           \li \Then \Return \const{False}
           \End\End\End
           \li \End \Return $\proc{Stack-Empty}(S)$
@@ -337,20 +337,20 @@ Complexité: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche.
 \item Ensemble dynamique d'objets accessibles selon une discipline \alert{FIFO} (``First-in first-out'').
 \item Interface
 \begin{itemize}
-\item $\proc{Enqueue}(Q,s)$ ajoute l'élément $x$ à la fin de la file $Q$
-\item $\proc{Dequeue}(Q)$  retire l'élément à la tête de la file $Q$
+\item $\proc{Enqueue}(Q,s)$ ajoute l'Ã©lÃ©ment $x$ Ã  la fin de la file $Q$
+\item $\proc{Dequeue}(Q)$  retire l'Ã©lÃ©ment Ã  la tÃªte de la file $Q$
 \end{itemize}
 
 \bigskip
 
-\item Implémentation par un tableau circulaire
+\item ImplÃ©mentation par un tableau circulaire
 \begin{itemize}
 \item $Q$ est un tableau de taille fixe $\attrib{Q}{length}$
 \begin{itemize}
-\item Mettre plus de $\attrib{Q}{length}$ éléments dans la file provoque une erreur de dépassement
+\item Mettre plus de $\attrib{Q}{length}$ Ã©lÃ©ments dans la file provoque une erreur de dÃ©passement
 \end{itemize}
-\item $\attrib{Q}{head}$  est la position à la tête de la file
-\item $\attrib{Q}{tail}$ est la première position vide à la fin de la file
+\item $\attrib{Q}{head}$  est la position Ã  la tÃªte de la file
+\item $\attrib{Q}{tail}$ est la premiÃ¨re position vide Ã  la fin de la file
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -397,15 +397,15 @@ $\proc{Dequeue}(Q) \rightarrow 15$
 \bigskip
 
 \begin{itemize}
-\item Complexité en temps $O(1)$, complexité en espace $O(1)$.
+\item ComplexitÃ© en temps $O(1)$, complexitÃ© en espace $O(1)$.
 \item Exercice: ajouter la gestion d'erreur
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Implémentation par une liste liée}
+\begin{frame}{ImplÃ©mentation par une liste liÃ©e}
 \begin{itemize}
-\item $Q$ est une liste simplement liée
-\item $\attrib{Q}{head}$ (resp. $\attrib{Q}{tail}$) pointe vers la tête (resp. la queue) de la liste
+\item $Q$ est une liste simplement liÃ©e
+\item $\attrib{Q}{head}$ (resp. $\attrib{Q}{tail}$) pointe vers la tÃªte (resp. la queue) de la liste
 
 \begin{center}
 \begin{small}
@@ -435,7 +435,7 @@ $\proc{Dequeue}(Q) \rightarrow 15$
 \end{small}
 \end{center}
 
-\item Complexité en temps $O(1)$, complexité en espace $O(n)$ pour $n$ opérations
+\item ComplexitÃ© en temps $O(1)$, complexitÃ© en espace $O(n)$ pour $n$ opÃ©rations
 \end{itemize}
 
 \end{frame}
@@ -445,26 +445,26 @@ $\proc{Dequeue}(Q) \rightarrow 15$
 \begin{frame}{Vecteur}
 
 \begin{itemize}
-\item Ensemble dynamique d'objets occupant des rangs entiers successifs, permettant la consultation, le remplacement, l'insertion et la suppression d'éléments à des rangs arbitraires
+\item Ensemble dynamique d'objets occupant des rangs entiers successifs, permettant la consultation, le remplacement, l'insertion et la suppression d'Ã©lÃ©ments Ã  des rangs arbitraires
 \item Interface
 \begin{itemize}
-\item $\proc{Elem-At-Rank}(V,r)$ retourne l'élément au rang $r$ dans $V$.
-\item $\proc{Replace-At-Rank}(V,r,x)$ remplace l'élément situé au rang $r$ par $x$ et retourne cet objet. 
-\item $\proc{Insert-At-Rank}(V,r,x)$ insère l'élément $x$ au rang $r$, en augmentant le rang des objets suivants.
-\item $\proc{Remove-At-Rank}(V,r)$ extrait l'élément situé au rang $r$ et le retire de $r$, en diminuant le rang des objets suivants.
+\item $\proc{Elem-At-Rank}(V,r)$ retourne l'Ã©lÃ©ment au rang $r$ dans $V$.
+\item $\proc{Replace-At-Rank}(V,r,x)$ remplace l'Ã©lÃ©ment situÃ© au rang $r$ par $x$ et retourne cet objet. 
+\item $\proc{Insert-At-Rank}(V,r,x)$ insÃ¨re l'Ã©lÃ©ment $x$ au rang $r$, en augmentant le rang des objets suivants.
+\item $\proc{Remove-At-Rank}(V,r)$ extrait l'Ã©lÃ©ment situÃ© au rang $r$ et le retire de $r$, en diminuant le rang des objets suivants.
 \item $\proc{Vector-Size}(V)$ renvoie la taille du vecteur.
 \end{itemize}
-\item Applications: tableau dynamique, gestion des éléments d'un menu,\ldots
-\item Implémentation: liste liée, tableau extensible\ldots
+\item Applications: tableau dynamique, gestion des Ã©lÃ©ments d'un menu,\ldots
+\item ImplÃ©mentation: liste liÃ©e, tableau extensible\ldots
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Implémentation par un tableau extensible}
+\begin{frame}{ImplÃ©mentation par un tableau extensible}
 
 \begin{itemize}
-\item Les éléments sont stockés dans un tableau extensible $\attrib{V}{A}$ de taille initiale $\attrib{V}{c}$.
-\item En cas de dépassement, la capacité du tableau est \alert{doublée}.
+\item Les Ã©lÃ©ments sont stockÃ©s dans un tableau extensible $\attrib{V}{A}$ de taille initiale $\attrib{V}{c}$.
+\item En cas de dÃ©passement, la capacitÃ© du tableau est \alert{doublÃ©e}.
 \item $\attrib{V}{n}$ retient le nombre de composantes.
 \item Insertion et suppression:
 
@@ -503,38 +503,38 @@ $\proc{Dequeue}(Q) \rightarrow 15$
 
 \end{frame}
 
-\begin{frame}{Complexité en temps}\label{sec05:amortie}
+\begin{frame}{ComplexitÃ© en temps}\label{sec05:amortie}
 \begin{itemize}
-%\item Accès à un élément, remplacement de sa valeur: $O(1)$
+%\item AccÃ¨s Ã  un Ã©lÃ©ment, remplacement de sa valeur: $O(1)$
 \item $\proc{Insert-At-Rank}$:
 \begin{itemize}
-\item $O(n)$ pour une opération individuelle, où $n$ est le nombre de composantes du vecteur
-\item $O(n^2)$ pour $n$ opérations d'insertion en \alert{début} de vecteur
-\item $O(n)$ pour $n$ opérations d'insertion en \alert{fin} de vecteur
+\item $O(n)$ pour une opÃ©ration individuelle, oÃ¹ $n$ est le nombre de composantes du vecteur
+\item $O(n^2)$ pour $n$ opÃ©rations d'insertion en \alert{dÃ©but} de vecteur
+\item $O(n)$ pour $n$ opÃ©rations d'insertion en \alert{fin} de vecteur
 \end{itemize}
 \item Justification:
 \begin{itemize}
-\item Si la capacité du tableau passe de $c_0$ à $2^k c_0$ au cours des $n$ opérations, alors le coût des transferts entre tableaux s'élève à
+\item Si la capacitÃ© du tableau passe de $c_0$ Ã  $2^k c_0$ au cours des $n$ opÃ©rations, alors le coÃ»t des transferts entre tableaux s'Ã©lÃ¨ve Ã 
 $$c_0+2 c_0+\ldots+2^{k-1} c_0=(2^k-1) c_0.$$
-Puisque $2^{k-1} c_0 < n \leq 2^k c_0$, ce coût est \alert{$O(n)$}.
-\item On dit que le \alert{coût amorti} par opération est $O(1)$
-\item Si on avait élargi le tableau avec un incrément constant $m$, le coût aurait été
+Puisque $2^{k-1} c_0 < n \leq 2^k c_0$, ce coÃ»t est \alert{$O(n)$}.
+\item On dit que le \alert{coÃ»t amorti} par opÃ©ration est $O(1)$
+\item Si on avait Ã©largi le tableau avec un incrÃ©ment constant $m$, le coÃ»t aurait Ã©tÃ©
 $$c_0+(c_0+m)+(c_0+2m)+\ldots+(c_0+(k-1)m)=kc_0+\frac{k(k-1)}{2}m.$$
-Puisque $c_0+(k-1)m<n\leq c_0+km$, ce coût aurait donc été \alert{$O(n^2)$}.
+Puisque $c_0+(k-1)m<n\leq c_0+km$, ce coÃ»t aurait donc Ã©tÃ© \alert{$O(n^2)$}.
 \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Complexité en temps}
+\begin{frame}{ComplexitÃ© en temps}
 \begin{itemize}
-%\item Accès à un élément, remplacement de sa valeur: $O(1)$
+%\item AccÃ¨s Ã  un Ã©lÃ©ment, remplacement de sa valeur: $O(1)$
 \item $\proc{Remove-At-Rank}$:
 \begin{itemize}
-\item $O(n)$ pour une opération individuelle, où $n$ est le nombre de composantes du vecteur
-\item $O(n^2)$ pour $n$ opérations de retrait en \alert{début} de vecteur
-\item $O(n)$ pour $n$ opérations de retrait en \alert{fin} de vecteur
+\item $O(n)$ pour une opÃ©ration individuelle, oÃ¹ $n$ est le nombre de composantes du vecteur
+\item $O(n^2)$ pour $n$ opÃ©rations de retrait en \alert{dÃ©but} de vecteur
+\item $O(n)$ pour $n$ opÃ©rations de retrait en \alert{fin} de vecteur
 \end{itemize}
-\item Remarque: Un tableau circulaire permettrait d'améliorer l'efficacité des opérations d'ajout et de retrait en début de vecteur.
+\item Remarque: Un tableau circulaire permettrait d'amÃ©liorer l'efficacitÃ© des opÃ©rations d'ajout et de retrait en dÃ©but de vecteur.
 \end{itemize}
 
 \end{frame}
@@ -542,71 +542,71 @@ Puisque $c_0+(k-1)m<n\leq c_0+km$, ce coût aurait donc été \alert{$O(n^2)$}.
 \begin{frame}{Liste}
 \end{frame}
 
-\section{File à priorité}
+\section{File Ã  prioritÃ©}
 
-% Implémentation par un tableau, implémentation par un tas.
+% ImplÃ©mentation par un tableau, implÃ©mentation par un tas.
 % Tas de Fibonacci ou binomial pour la fusion de deux tas ?
 
-\begin{frame}{File à priorité}
+\begin{frame}{File Ã  prioritÃ©}
 \begin{itemize}
-\item Ensemble dynamique d'objets classés par ordre de \alert{priorité}
+\item Ensemble dynamique d'objets classÃ©s par ordre de \alert{prioritÃ©}
 \begin{itemize}
-\item Permet d'extraire un objet possédant la plus grande priorité
-\item En pratique, on représente les priorités par les clés
-\item Suppose un ordre total défini sur les clés
+\item Permet d'extraire un objet possÃ©dant la plus grande prioritÃ©
+\item En pratique, on reprÃ©sente les prioritÃ©s par les clÃ©s
+\item Suppose un ordre total dÃ©fini sur les clÃ©s
 \end{itemize}
 \item Interface:
 \begin{itemize}
-\item $\proc{Insert}(S,x)$: insère l'élément $x$ dans $S$.
-\item $\proc{Maximum}(S)$: renvoie l'élément de $S$ avec la plus grande clé.
-\item $\proc{Extract-Max}(S)$: supprime et renvoie l'élément de $S$ avec la plus grande clé.
+\item $\proc{Insert}(S,x)$: insÃ¨re l'Ã©lÃ©ment $x$ dans $S$.
+\item $\proc{Maximum}(S)$: renvoie l'Ã©lÃ©ment de $S$ avec la plus grande clÃ©.
+\item $\proc{Extract-Max}(S)$: supprime et renvoie l'Ã©lÃ©ment de $S$ avec la plus grande clÃ©.
 
 \end{itemize}
 \item Remarques:
 \begin{itemize}
-\item Extraire l'élément de clé maximale ou minimale sont des problèmes équivalents
-\item La file FIFO est une file à priorité où la clé correspond à l'ordre d'arrivée des élements.
+\item Extraire l'Ã©lÃ©ment de clÃ© maximale ou minimale sont des problÃ¨mes Ã©quivalents
+\item La file FIFO est une file Ã  prioritÃ© oÃ¹ la clÃ© correspond Ã  l'ordre d'arrivÃ©e des Ã©lements.
 \end{itemize}
-\item Application: gestion des jobs sur un ordinateur partagé
+\item Application: gestion des jobs sur un ordinateur partagÃ©
 \end{itemize}
-\note{Ordre total=relation binaire avec les propriétés suivantes:
+\note{Ordre total=relation binaire avec les propriÃ©tÃ©s suivantes:
 \begin{itemize}
-\item totalité: $\forall p_1, p_2: p_1\leq p_2 \mbox{ ou }p_2\leq p_1$
-\item antisymétrie: $\forall p_1,p_2: p_1\leq p_2 \mbox{ et } p_2\leq p_1 \Rightarrow p_1=p_2$
-\item Transitivité...
+\item totalitÃ©: $\forall p_1, p_2: p_1\leq p_2 \mbox{ ou }p_2\leq p_1$
+\item antisymÃ©trie: $\forall p_1,p_2: p_1\leq p_2 \mbox{ et } p_2\leq p_1 \Rightarrow p_1=p_2$
+\item TransitivitÃ©...
 \end{itemize}
 
 \bigskip
 
-File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'arrivé des éléments
+File FIFO est un cas particulier ou la prioritÃ© est reprÃ©sentÃ© par l'ordre d'arrivÃ© des Ã©lÃ©ments
 }
 \end{frame}
 
-\begin{frame}{Implémentations}
+\begin{frame}{ImplÃ©mentations}
 \begin{itemize}
-\item Implémentation à l'aide d'un tableau statique
+\item ImplÃ©mentation Ã  l'aide d'un tableau statique
 \begin{itemize}
-\item $Q$ est un tableau statique de taille fixée $\attrib{Q}{length}$.
-\item Les éléments de $Q$ sont triés par ordre \alert{croissant} de clé. $\attrib{Q}{top}$ pointe vers le dernier élément.
-\item Complexité en temps: extraction en $O(1)$ et insertion en $O(n)$ où $n$ est la taille de la file
-\item Complexité en espace: $O(1)$
+\item $Q$ est un tableau statique de taille fixÃ©e $\attrib{Q}{length}$.
+\item Les Ã©lÃ©ments de $Q$ sont triÃ©s par ordre \alert{croissant} de clÃ©. $\attrib{Q}{top}$ pointe vers le dernier Ã©lÃ©ment.
+\item ComplexitÃ© en temps: extraction en $O(1)$ et insertion en $O(n)$ oÃ¹ $n$ est la taille de la file
+\item ComplexitÃ© en espace: $O(1)$
 \end{itemize}
-\item Implémentation à l'aide d'une liste liée
+\item ImplÃ©mentation Ã  l'aide d'une liste liÃ©e
 \begin{itemize}
-\item $Q$ est une liste liée où les éléments sont triés par ordre \alert{décroissant} de clé
-\item Complexité en temps: extraction en $O(1)$ et insertion en $O(n)$ où $n$ est la taille de la file
-\item Complexité en espace: $O(n)$
+\item $Q$ est une liste liÃ©e oÃ¹ les Ã©lÃ©ments sont triÃ©s par ordre \alert{dÃ©croissant} de clÃ©
+\item ComplexitÃ© en temps: extraction en $O(1)$ et insertion en $O(n)$ oÃ¹ $n$ est la taille de la file
+\item ComplexitÃ© en espace: $O(n)$
 \end{itemize}
 \item Exercice: comment obtenir $O(1)$ pour l'insertion et $O(n)$ pour l'extraction?
 %\item Peut-on faire mieux ?
 \end{itemize}
- \note{Leur demander pourquoi on trie le tableau par ordre croissant de clé et pas par ordre décroissant: parce que retirer le premier élément veut dire qu'on doit décaler tous les autres et donc l'opération serait $O(n)$}
+ \note{Leur demander pourquoi on trie le tableau par ordre croissant de clÃ© et pas par ordre dÃ©croissant: parce que retirer le premier Ã©lÃ©ment veut dire qu'on doit dÃ©caler tous les autres et donc l'opÃ©ration serait $O(n)$}
 \end{frame}
 
-\begin{frame}{Implémentation à l'aide d'un tas}
+\begin{frame}{ImplÃ©mentation Ã  l'aide d'un tas}
 \begin{itemize}
-\item La file est implémentée à l'aide d'un tas(-max) (voir slide \pageref{sec:03tas})
-\item Accès et extraction du maximum:
+\item La file est implÃ©mentÃ©e Ã  l'aide d'un tas(-max) (voir slide \pageref{sec:03tas})
+\item AccÃ¨s et extraction du maximum:
 
 \bigskip
 
@@ -633,12 +633,12 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'arr
 
 \bigskip
 
-\item Complexité: $O(1)$ et $O(\log n)$ respectivement (voir chapitre 3)
+\item ComplexitÃ©: $O(1)$ et $O(\log n)$ respectivement (voir chapitre 3)
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Implémentation à l'aide d'un tas}
+\begin{frame}{ImplÃ©mentation Ã  l'aide d'un tas}
 
 \begin{center}
 \includegraphics[width=8cm]{Figures/04-fileprio.pdf}
@@ -646,10 +646,10 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'arr
 
 \end{frame}
 
-\begin{frame}{Implémentation à l'aide d'un tas: insertion}
+\begin{frame}{ImplÃ©mentation Ã  l'aide d'un tas: insertion}
 \begin{itemize}
-\item $\proc{Increase-Key}(S,x,k)$ augmente la valeur de la clé de $x$
-  à $k$ (on suppose que $k\geq$ à la valeur courante de la clé de $x$).
+\item $\proc{Increase-Key}(S,x,k)$ augmente la valeur de la clÃ© de $x$
+  Ã  $k$ (on suppose que $k\geq$ Ã  la valeur courante de la clÃ© de $x$).
 
 \bigskip
 
@@ -671,17 +671,17 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'arr
 
 \bigskip
 
-\item Complexité: $O(\log n)$ (la longueur de la branche de la racine à $i$ étant $O(\log n)$ pour un tas de taille $n$).
+\item ComplexitÃ©: $O(\log n)$ (la longueur de la branche de la racine Ã  $i$ Ã©tant $O(\log n)$ pour un tas de taille $n$).
 \end{itemize}
-\note{Montrer un exemple sur le slide précédent: augmenter le poids de $A[9]$ de 4 à 15: on échange les noeuds 4 et 9, puis les noeuds 4 et 2.}
+\note{Montrer un exemple sur le slide prÃ©cÃ©dent: augmenter le poids de $A[9]$ de 4 Ã  15: on Ã©change les noeuds 4 et 9, puis les noeuds 4 et 2.}
 \end{frame}
 
-\begin{frame}{Implémentation à l'aide d'un tas: insertion}
+\begin{frame}{ImplÃ©mentation Ã  l'aide d'un tas: insertion}
 \begin{itemize}
-\item Pour insérer un élément avec une clé $key$:
+\item Pour insÃ©rer un Ã©lÃ©ment avec une clÃ© $key$:
 \begin{itemize}
-\item l'insérer à la dernière position sur le tas avec une clé $-\infty$,
-\item augmenter sa clé de $-\infty$ à $key$ en utilisant la procédure précédente
+\item l'insÃ©rer Ã  la derniÃ¨re position sur le tas avec une clÃ© $-\infty$,
+\item augmenter sa clÃ© de $-\infty$ Ã  $key$ en utilisant la procÃ©dure prÃ©cÃ©dente
 \end{itemize}
 
 \bigskip
@@ -700,7 +700,7 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'arr
 
 \bigskip
 
-\item Complexité: $O(\log n)$.
+\item ComplexitÃ©: $O(\log n)$.
 \end{itemize}
 \note{}
 \end{frame}
@@ -708,9 +708,9 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'arr
 \begin{frame}{Autres structures}
 
 \begin{itemize}
-\item En fonction des besoins, on peut définir des structures hybrides
-\item Exemple: séquence: mix entre un liste et un vecteur
-\item Quid si on veut faire évoluer la taille de certaines des structures vues (exemple: un tas...)
+\item En fonction des besoins, on peut dÃ©finir des structures hybrides
+\item Exemple: sÃ©quence: mix entre un liste et un vecteur
+\item Quid si on veut faire Ã©voluer la taille de certaines des structures vues (exemple: un tas...)
 \end{itemize}
 
 \end{frame}

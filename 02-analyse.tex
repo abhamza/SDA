@@ -1,22 +1,22 @@
 
 \part{Outils d'analyse}
 
-% DeuxiÃ¨me cours: outils d'analyse:
+% DeuxiÃƒÅ¡me cours: outils d'analyse:
 % - correction d'algo: rappel bref aux invariants (exemple du insertion sort) -> 30 minutes
-% - complexité -> 1h30
+% - complexitÃ© -> 1h30
 %    - rappel des notations O theta, etc. en se basant sur insertion sort
-%    - traitement d'algorithme récursif: merge-sort
+%    - traitement d'algorithme rÃ©cursif: merge-sort
 
-% - Trois questions à se poser face à un algorithme -> deuxiÃ¨me cours
+% - Trois questions Ã  se poser face Ã  un algorithme -> deuxiÃƒÅ¡me cours
 %    - est-il correct ?
-%    - Quel est sa complexité ?
-%    - Est-ce qu'on peut l'améliorer ? (Si 
+%    - Quel est sa complexitÃ© ?
+%    - Est-ce qu'on peut l'amÃ©liorer ? (Si 
 
 \begin{frame}{Plan}
 
 \begin{itemize}
 \item Correction d'un algorithme
-\item Complexité d'un algorithme
+\item ComplexitÃ© d'un algorithme
 \item Illustration (Fibonacci ?)
 \end{itemize}
 
@@ -24,20 +24,20 @@
 
 \section{Correction d'un algorithme}
 
-\subsection{Algorithme itératif}
+\subsection{Algorithme itÃ©ratif}
 
 \begin{frame}
-Questions à se poser lors de la définition d'un algorithme:
+Questions Ã  se poser lors de la dÃ©finition d'un algorithme:
 \begin{itemize}
 \item Mon algorithme est-il correct ?
 \item Mon algorithme est-il efficace en termes d'utilisation des
-  resources, temps CPU et/ou espace mémoire ?
+  resources, temps CPU et/ou espace mÃ©moire ?
 \end{itemize}
 
-Autre question importante seulement marginalement abordée dans ce cours:
+Autre question importante seulement marginalement abordÃ©e dans ce cours:
 \begin{itemize}
-\item Modularité,fonctionnalité, robustesse, facilité d'usage, temps
-  de programmation, simplcité, extensibilité, fiabilité, terminaison,
+\item ModularitÃ©,fonctionnalitÃ©, robustesse, facilitÃ© d'usage, temps
+  de programmation, simplcitÃ©, extensibilitÃ©, fiabilitÃ©, terminaison,
   existence d'une solution algorithmique
 \end{itemize}
 
@@ -47,73 +47,73 @@ Autre question importante seulement marginalement abordée dans ce cours:
 
 Pourquoi est-ce important?
 \begin{itemize}
-\item Un algorithme incorrect ne sert souvent à rien (*)
+\item Un algorithme incorrect ne sert souvent Ã  rien (*)
 \item Utilisation d'algorithmes dans une application critique:
-  médicale, ingénieurie (point, avion) etc.
+  mÃ©dicale, ingÃ©nieurie (point, avion) etc.
 \item Exemples:
 \end{itemize}
 
-(*) Notons qu'un algorithme incorrect mais dont l'erreur peut-être
-évaluée peut être très utile (seulement marginalement dans ce cours)
+(*) Notons qu'un algorithme incorrect mais dont l'erreur peut-Ãªtre
+Ã©valuÃ©e peut Ãªtre trÃ¨s utile (seulement marginalement dans ce cours)
 \end{frame}
 
 \begin{frame}{RAM model}
 
 \end{frame}
 
-\begin{frame}{Application à l'insertion sort}
+\begin{frame}{Application Ã  l'insertion sort}
 \end{frame}
 
 \subsection{Combinaison de fonctions}
 
-\begin{frame}{règle de la somme et du produit}
+\begin{frame}{rÃ¨gle de la somme et du produit}
 Voir slides ``intro-pas-mal.ppt''
 \end{frame}
 
-\subsection{Algorithme récursif}
+\subsection{Algorithme rÃ©cursif}
 
 \begin{frame}{Preuve par induction}
 
 \end{frame}
 
 \begin{frame}{Conclusion sur la correction}
-Dans la suite, on ne présentera des invariants ou des preuves par induction que lorsque ce sera nécessaire (cas non triviaux)
+Dans la suite, on ne prÃ©sentera des invariants ou des preuves par induction que lorsque ce sera nÃ©cessaire (cas non triviaux)
 \end{frame}
 
-\section{Complexité algorithmique}
+\section{ComplexitÃ© algorithmique}
 
-\subsection{Itératif}
+\subsection{ItÃ©ratif}
 
-\begin{frame}{Efficacité}
+\begin{frame}{EfficacitÃ©}
 Pourquoi est-ce important?
 \begin{itemize}
-\item Un algorithme trop lent (dans certaines applications, un algorithm quadratique est déjà trop lent)
-\item Il faut pouvoir s'adapter à la croissance des données actuelles
+\item Un algorithme trop lent (dans certaines applications, un algorithm quadratique est dÃ©jÃ  trop lent)
+\item Il faut pouvoir s'adapter Ã  la croissance des donnÃ©es actuelles
 \end{itemize}
 
 \end{frame}
 
-%% Définition mathématique des trois types de complexité
+%% DÃ©finition mathÃ©matique des trois types de complexitÃ©
 
 %% Soit Dn
-%% lâ€™ensemble des données de taille n. Soit I un sous ensemble de
-%% Dn et soit t(I) le nombre dâ€™opérations élémentaires pour exécuter I.
+%% lÃ¢Â€Â™ensemble des donnÃ©es de taille n. Soit I un sous ensemble de
+%% Dn et soit t(I) le nombre dÃ¢Â€Â™opÃ©rations Ã©lÃ©mentaires pour exÃ©cuter I.
 
-%% Complexité dans le meilleur des cas
+%% ComplexitÃ© dans le meilleur des cas
 %% meilleur(n) = min {t(I), I Dn}
 %% }
 
-%% Complexité dans le pire des cas
+%% ComplexitÃ© dans le pire des cas
 %% pire(n) = max {t(I), I  Dn
 %% }
 
-%% Complexité en moyenne
-%% moyenne(n) = S Pr (I) t(I) où Pr(I) est la probabilité de I
+%% ComplexitÃ© en moyenne
+%% moyenne(n) = S Pr (I) t(I) oÃ¹ Pr(I) est la probabilitÃ© de I
 
-%% Note sur la complexité amortie
+%% Note sur la complexitÃ© amortie
 %% En moyenne sur plusieurs instance...
 
-\subsection{Algorithmes récursifs}
+\subsection{Algorithmes rÃ©cursifs}
 
 \begin{frame}
 
@@ -125,7 +125,7 @@ Pourquoi est-ce important?
 \end{frame}
 
 \begin{frame}
-Complexité en espace:
+ComplexitÃ© en espace:
 \begin{itemize}
 \item ...
 \end{itemize}
@@ -134,13 +134,13 @@ Complexité en espace:
 \begin{frame}{Pour en savoir plus (ou ce qu'on n'a pas vu)}
 
 \begin{itemize}
-\item Méthode systématique pour l'analyse de la complexité d'algorithmes récursifs (l'an prochain)
+\item MÃ©thode systÃ©matique pour l'analyse de la complexitÃ© d'algorithmes rÃ©cursifs (l'an prochain)
 \item Etude au cas moyen
 \end{itemize}
 
 \end{frame}
 
 %A la fin de chaque cours, je vais dire toutes les simplifications
-%qu'on a prise et encourager les étudiants à se poser certaines
+%qu'on a prise et encourager les Ã©tudiants Ã  se poser certaines
 %questions. Exemple:
 
