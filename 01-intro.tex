@@ -113,8 +113,8 @@ Description en C (sur des tableaux d'entiers):
 {\small
 \begin{verbatim}
 void InsertionSort (int *a, int length) {
-  int key;
-  for(int j = 1; i < length; j++) {
+  int key, i;
+  for(int j = 1; j < length; j++) {
     key = a[j];
     /* Insert a[j] into the sorted sequence a[0...j-1] */
     i = j-1;
