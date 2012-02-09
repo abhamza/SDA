@@ -1,23 +1,11 @@
 
 \part{Outils d'analyse}
 
-% DeuxiÃšme cours: outils d'analyse:
-% - correction d'algo: rappel bref aux invariants (exemple du insertion sort) -> 30 minutes
-% - complexité -> 1h30
-%    - rappel des notations O theta, etc. en se basant sur insertion sort
-%    - traitement d'algorithme récursif: merge-sort
-
-% - Trois questions à se poser face à un algorithme -> deuxiÃšme cours
-%    - est-il correct ?
-%    - Quel est sa complexité ?
-%    - Est-ce qu'on peut l'améliorer ? (Si 
-
 \begin{frame}{Plan}
 
 \begin{itemize}
 \item Correction d'un algorithme
 \item Complexité d'un algorithme
-\item Illustration (Fibonacci ?)
 \end{itemize}
 
 \end{frame}
@@ -26,49 +14,176 @@
 
 \subsection{Algorithme itératif}
 
-\begin{frame}
+\begin{frame}{Analyse d'algorithmes}
+
 Questions à se poser lors de la définition d'un algorithme:
 \begin{itemize}
 \item Mon algorithme est-il correct ?
-\item Mon algorithme est-il efficace en termes d'utilisation des
-  resources, temps CPU et/ou espace mémoire ?
+\item Mon algorithme est-il efficace ? %en termes d'utilisation des
+%  resources, temps CPU et/ou espace mémoire ?
 \end{itemize}
+
+\bigskip
 
 Autre question importante seulement marginalement abordée dans ce cours:
 \begin{itemize}
-\item Modularité,fonctionnalité, robustesse, facilité d'usage, temps
-  de programmation, simplcité, extensibilité, fiabilité, terminaison,
+\item Modularité,fonctionnalité, robustesse, facilité d'utilisation, temps
+  de programmation, simplicité, extensibilité, fiabilité,
   existence d'une solution algorithmique
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Correctness}
+\begin{frame}{Correction d'un algorithme}%, complétude, terminaison}
 
-Pourquoi est-ce important?
 \begin{itemize}
-\item Un algorithme incorrect ne sert souvent à rien (*)
-\item Utilisation d'algorithmes dans une application critique:
-  médicale, ingénieurie (point, avion) etc.
-\item Exemples:
+\item La correction d'un algorithme s'étudie par rapport à un problème donné
+\item Un problème est une collection d'instances de ce problème.
+\begin{itemize}
+\item Exemple de problème: trier un tableau
+\item Exemple d'instance de ce problème: trier le tableau $[8,4,15,3]$
+\end{itemize}
+\item Un algorithme est correct pour une instance d'un problème s'il
+  produit une solution correcte pour cette intance
+\item Un algorithme est correct pour un problème s'il est correct pour
+  toutes ses instances
+\item On s'intéressera ici à la correction d'un algorithme pour un
+  problème, par pour seulement certaines de ses instances
 \end{itemize}
 
-(*) Notons qu'un algorithme incorrect mais dont l'erreur peut-être
-évaluée peut être très utile (seulement marginalement dans ce cours)
-\end{frame}
-
-\begin{frame}{RAM model}
+\note{}
 
 \end{frame}
 
-\begin{frame}{Application à l'insertion sort}
+\begin{frame}{Comment vérifier la correction?}
+\begin{itemize}
+\item Première solution: en testant concrètement l'algorithme:
+\begin{itemize}
+\item Suppose d'implémenter l'algorithme dans un langage (programme)
+  et de le faire tourner
+\item Supppose qu'on peut déterminer les instances du problème à vérifier
+\item Il est très difficile de prouver empiriquement qu'on n'a pas de bug %On peut prouver qu'il y a un bug, pas qu'il n'y en a pas.
+\end{itemize}
+\item Deuxième solution: en dérivant une preuve mathématique formelle:
+\begin{itemize}
+\item Pas besoin d'implémenter et de tester toutes les instances du problème
+\item Sujet à des ``bugs'' également
+\end{itemize}
+\item En pratique, on combinera les deux
+
+\bigskip
+
+\item Preuves de correction:
+\begin{itemize}
+\item Précondition, post-conditions
+\item Algorithmes itératifs: assertions, invariants de boucle et induction
+\item Algorithmes récursifs: preuve par induction directement
+\end{itemize}
+\end{itemize}
 \end{frame}
 
-\subsection{Combinaison de fonctions}
+\begin{frame}{Correction: cas itératif}
 
-\begin{frame}{règle de la somme et du produit}
-Voir slides ``intro-pas-mal.ppt''
+Pour prouver qu'un algorithme itératif est correct:
+\begin{itemize}
+\item On analyse chaque boucle de l'algorithme séparément, en
+  démarrant avec la boucle la plus interne s'il y a plusieurs
+  boucles imbriquées.
+\item Pour chaque boucle, on met en évidence un invariant de boucle
+\begin{itemize}
+\item Ensemble de propriétés qui relient les variables du programme
+\item Ces propriétés doivent être vraies avant, pendant et après la boucle
+\end{itemize}
+\item On prouve que l'invariant est vérifié.
+\item On utilise l'invariant pour prouver que l'algorithme se termine.
+\item On utilise l'invariant pour prouver que l'algorithme calcule le résultat correct.
+\end{itemize}
+
 \end{frame}
+
+\begin{frame}{Assertion}
+
+\begin{itemize}
+\item Relation entre les variables qui est vraies à un moment donné dans l'exécution
+\item Assertions particulières:
+\begin{itemize}
+\item Pre-condition $P$: conditions que doivent remplir les entrées de l'algorithme
+\item Post-condition $Q$: conditions qui expriment que le résultat de l'algorithme est correcte
+%\item Invariant: condition que doivent remplir
+\end{itemize}
+\item $P$ et $Q$ définissent les instances et solutions valides du problème
+\item Un algorithme est correct si $P$ \{code\} $Q$ est vrai.
+\item Pour vérifier la correction d'une boucle, on introduit la notion d'invariant.%On suppose $P$ vérifié, on montre que $I$ est un invariant valide et on en déduit que $R$ est vrai également.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Invariant}
+\begin{itemize}
+\item \alert{Invariant:} Une assertion qui définit ce qui est vrai avant chaque itération de la boucle
+\item \alert{Initialisation:} Prouver que l'invariant est vrai avant la
+  première itération (sous l'hypothèse que la pré-condition $P$ est
+  vérifiée)
+\item \alert{Maintenance:} Prouver que si l'invariant est vrai avant la
+  $i$-ième itération, il l'est également après celle-ci, et par
+  conséquent aussi avant la $i+1$-ième itération
+\item \alert{Terminaison:} Prouver que si l'invariant est vrai après la
+  dernière itération, la post-condition $Q$ est vérifiée
+\end{itemize}
+
+\centerline{\includegraphics[width=8cm]{Figures/02-invariant.pdf}}
+
+\end{frame}
+
+\begin{frame}{Mise en \oe uvre}
+\begin{itemize}
+\item Trouver un invariant de boucle une fois l'algorithme mis au point peut être assez complexe
+\item Idéalement, l'invariant devrait être la propriété clé qui définit l'algorithme
+\item Dans la suite du cours, on ne fournira un invariant que dans quelques cas
+\end{itemize}
+\end{frame}
+\begin{frame}{Exemples: exponentielle}
+\end{frame}
+
+\begin{frame}{Exemples: fibonacci itératif}
+\end{frame}
+
+\begin{frame}{Exemples: insertion sort}
+\end{frame}
+
+\begin{frame}{Preuve de terminaison d'un algorithme itératif}
+
+Pour chaque boucle: on définit une fonction de terminaison $t$ qui est telle que $t$ décroit strictement à chaque itération de la boucle et que sa valeur est bornée vers le bas par le gardien de la boucle.
+
+\end{frame}
+
+\begin{frame}{Correction: cas récursif}
+\begin{itemize}
+\item Preuve par induction: donner le schéma général
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Exemple: Fibonacci}
+\end{frame}
+
+\begin{frame}{Exemple: merge sort}
+\end{frame}
+
+\begin{frame}{Preuve de terminaison}
+\begin{itemize}
+\item itératif: Définir une fonction $t$ montrer que $t$ décroit lors des itérations et 
+\item récursif: montrer que le problème est réduit à chaque appel récursif
+\end{itemize}
+\end{frame}
+
+% Pre-condition=assertion qui est vrai avant le programme
+% Post-condition=assertion qui est vrai après l'exécution du programme
+% Boucle: invariante:
+% Tel que invariant & non G (gardien de boucle) => Post-condition
+
+% Terminaison: on définit une fonction naturel, on montre qu'elle
+% décroit à chaque itération et que le gardien
+
 
 \subsection{Algorithme récursif}
 
@@ -113,9 +228,22 @@ Pourquoi est-ce important?
 %% Note sur la complexité amortie
 %% En moyenne sur plusieurs instance...
 
+\begin{frame}{RAM model}
+
+\end{frame}
+
+\begin{frame}{Application à l'insertion sort}
+\end{frame}
+
+\subsection{Combinaison de fonctions}
+
+\begin{frame}{règle de la somme et du produit}
+Voir slides ``intro-pas-mal.ppt''
+\end{frame}
+
 \subsection{Algorithmes récursifs}
 
-\begin{frame}
+\begin{frame}{Algorithmes récursifs}
 
 \begin{itemize}
 \item Fibonacci
