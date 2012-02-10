@@ -343,6 +343,9 @@ $\id{key} \gets A[j]$
 \end{itemize}
 \end{itemize}
 
+\note{Pire cas est lorsqu'on doit mettre l'élément à insérer en
+  première position: on le compare au $j-1$, au $j-2$, ..., au 1er. Ce
+  qui donnej- comparaisons.}
 \end{frame}
 
 \begin{frame}{Complexité de $\proc{Insertion-Sort}$}
@@ -360,42 +363,6 @@ $$T(n)\leq\frac{n(n-1)}{2}$$
 (borne inférieure ?)
 
 \end{frame}
-
-%% \begin{frame}{pourquoi les deux ?}
-%% coucou
-%% \end{frame}
-
-%% mettre à dans le chapitre sur les structures élémentaires (ou bien lors de l'introductuion du heap, ou bien à la fin de cette section
-
-%% dire qu'on va reprendre le problème de l'insertion sort et du merge
-%% sort pour illustrer les concepts suivants:
-% - amélioration des performances
-% - récurrence
-% - divide and conquer
-% - complexité en nb d'opération
-% -
-
-%% \begin{frame}{type de données abstraits (tda)}
-
-%% un type de données abstrait (tda) représente l'interface d'une structure de données.
-
-%% un tda spécifie précisément :
-%% \begin{itemize}
-%% \item la nature et les propriétés des données gérées;
-%% \item les modalités d utilisation des opérations pouvant être effectuées.
-%% en particulier, un tda décrit généralement :
-%% \begin{itemize}
-%% \item de quelle(s) façon(s) un nouvel exemplaire de la structure de
-%% données peut être créé (instanciation de la structure);
-%% \item pour chaque opération: quels en sont les param`etres, les effets sur les données gérées, les valeurs de retour éventuelles, et leur comportement en cas d erreur.
-%% \end{itemize}
-%% \end{itemize}
-
-%% en général, un tda admet différentes implémentations (plusieurs
-%% représentations possibles des données, plusieurs algorithmes pour les
-%% opérations).
-
-%% \end{frame}
 
 \begin{frame}{Structures de données}
 
@@ -474,32 +441,31 @@ Chacune mène à des complexités différentes des opérations $\proc{Insert}$ e
 \begin{itemize}
 \item Routage dans les réseaux informatiques
 \item Moteurs de recherche
-%\item google: accéder: très friand en structure de données. index inversé pour arriver à une page
-\item Alignement de séquences d'ADN en bio-informatique
+\item Alignement de séquences ADN en bio-informatique
 \end{itemize}
 \end{itemize}
 \centerline{\includegraphics[width=12cm]{Figures/01-exemplesproblemes.pdf}}
 \note{
 Routeur: Il faut stocker les chemins de manière distribuée. Trouver le plus cours chemin. Traiter les paquets rapidement.
 
+~\\
+
 Moteurs de recherche: Pour que google puisse répondre aussi rapidement, il faut créer des structures de données très sophistiquées (appelé des indexs)
+
+~\\
 
 Alignement de séquence: séquence du génome humain fait 3 milliards de paires de base. Aligner deux séquences ou faire une recherche dans une séquence est un problème assez difficile.
 }
 
 \end{frame}
 
-\section{Introduction à la récurrence}
+\section{Introduction à la récursivité}
 
-% dans cette section, on va parler de fibonacci et proposer une version récurrente
-% on va parler de la tail-récurrence
-% commencer par la factorielle
-% décrire ensuite le merge sort
-% ne pas détailler le coût associé au merge (on le fera dans la chapitre suivant)
-% juste conclure sur une comparaison entre insertion sort et merge sort
-% (pour montrer qu'il y a une énorme différence entre les deux)
+\begin{frame}{Plan}
 
-% (bouquin de Sedgewick)
+\tableofcontents
+\end{frame}
+
 
 \begin{frame}{Algorithmes récursifs}
 
@@ -618,7 +584,6 @@ Algorithme:
 \end{codebox}
 }
 \end{center}
-% Prendre le début du cours de Carnagazi
 
 \bigskip
 
@@ -634,7 +599,7 @@ Algorithme:
 
 \note{faire la démonstration au tableau:
 Pour n<=1, l'algo renvoie n, ce qui est correct
-Si l'algorithme est correct pour tout n<n', on doit montrer qu'il est correct pour n+1. C'est évident.
+Si l'algorithme est correct pour tout n<n', on doit montrer qu'il est correct pour n+1. C'est évident...
 }
 \end{frame}
 
@@ -687,7 +652,7 @@ T(n) & = & T(n-1)+T(n-2)+2\\
 \begin{itemize}
 \item Comment croît $F_n$ avec $n$ ?
 $$T(n)\geq F_n=F_{n-1}+F_{n-2}$$
-Puisque $F_n\geq F_{n-1}\geq F_{n-3}\geq\ldots$
+Puisque $F_n\geq F_{n-1}\geq F_{n-2}\geq\ldots$
 $$F_n\geq 2 F_{n-2}\geq 2(2 F_{n-4})\geq 2(2(2 F_{n-6})) \geq 2^{\frac{n}{2}}$$
 Et donc
 $$T(n)\geq (\sqrt{2})^n \approx (1.4)^n$$
@@ -699,7 +664,7 @@ $$T(n)\geq (\sqrt{2})^n \approx (1.4)^n$$
 \end{itemize}
 \note{Dire que le problème vient du fait qu'on calcule plusieurs fois les mêmes choses
 
-pprev va stoquer la valeur de $F_{n-2}$ et prev va stoquer la valeur de $F_{n-1}$.
+pprev va stocker la valeur de $F_{n-2}$ et prev va stocker la valeur de $F_{n-1}$.
 }
 \end{frame}
 
@@ -766,7 +731,15 @@ Le cas de base correspond à un tableau d'un seul élément.
 
 Exemple d'application du principe général de ``\alert{diviser pour régner}''
 
-\note{ce principe reviendra souvent dans ce cours}
+\note{
+Illustrer l'idée sur l'exemple: $[5,2,4,7,1,3,2,6]$
+
+\includegraphics[width=6cm]{Figures/01-note-mergesort.pdf}
+
+ce principe reviendra souvent dans ce cours
+
+
+}
 
 \end{frame}
 
@@ -800,7 +773,11 @@ Idée:
 \item Avancer le pointeur correspondant
 \end{itemize}
 
-\note{Faire l'analogie avec deux jeux de cartes triés qu'on veut rassembler. prendre un jeu de carte.}
+\note{Faire l'analogie avec deux jeux de cartes triés qu'on veut rassembler. prendre un jeu de carte.
+
+\includegraphics[width=6cm]{Figures/01-note-merge.pdf}
+
+}
 
 \end{frame}
 
@@ -933,6 +910,10 @@ Dire que l'insertion sort est une version particulière du merge sort où au lie
 \bigskip
 
 Espace mémoire utilisé: $O(1)$ (si la récursion terminale est implémentée efficacement)
+
+\note{
+le i est le numéro de l'itération et le f est l'accumulateur.
+}
 
 \end{frame}
 
