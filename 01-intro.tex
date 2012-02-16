@@ -97,6 +97,7 @@ Pour chaque élément $a_j$:
 \end{itemize}
 On s'arrête dès que le dernier élément a été inséré à sa place dans la séquence.
 
+\note{Un peu l'inverse du tri par sélection: on recherche le minimum de la liste et on le place au sommet}
 \end{frame}
 
 \begin{frame}
@@ -362,6 +363,7 @@ $$T(n)\leq\frac{n(n-1)}{2}$$
 
 (borne inférieure ?)
 
+\note{Lequel est le plus rapide: tri par sélection ou tri par insertion ? Le second, car le premier est toujours $O(n^2)$}
 \end{frame}
 
 \begin{frame}{Structures de données}
@@ -732,9 +734,14 @@ Le cas de base correspond à un tableau d'un seul élément.
 Exemple d'application du principe général de ``\alert{diviser pour régner}''
 
 \note{
+
+Idée: on suppose qu'on dispose d'un algorithme pour trier un tableau, comment l'utiliser pour trier un tableau: on l'applique sur le tableau. Un autre manière de faire est de diviser le tableau en deux parties, trier ces deux parties et ensuite les fusionner. On applique la même idée sur les sous-tableaux. On s'arrête quand le tri est trivial: 1 seul élément.
+
+Les contraintes mentionnées plus haut sont bien respectées: cas de base, division, pas de recouvrement.
+
 Illustrer l'idée sur l'exemple: $[5,2,4,7,1,3,2,6]$
 
-\includegraphics[width=6cm]{Figures/01-note-mergesort.pdf}
+\includegraphics[width=5cm]{Figures/01-note-mergesort.pdf}
 
 ce principe reviendra souvent dans ce cours
 

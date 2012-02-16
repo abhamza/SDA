@@ -5,11 +5,19 @@
 
 \tableofcontents
 
+\note{Ce qu'on va voir aujourd'hui va être essentiellement des rappels
+  de ce que vous avez déjà vu. L'idée est d'aller un peu plus en
+  profondeur et de voir aussi comment les idées qu'on a développées
+  pour les algorithmes itératifs peut aussi s'appliquer pour les algorithmes récursifs.
+
+On va aussi introduire certaines nouvelles notions.
+}
+
 \end{frame}
 
 \section{Correction d'un algorithme}
 
-\subsection{Algorithme itératif}
+\subsection{Algorithmes itératifs}
 
 \begin{frame}{Analyse d'algorithmes}
 
@@ -24,9 +32,9 @@ Questions à se poser lors de la définition d'un algorithme:
 
 Autre question importante seulement marginalement abordée dans ce cours:
 \begin{itemize}
-\item Modularité,fonctionnalité, robustesse, facilité d'utilisation, temps
+\item Modularité, fonctionnalité, robustesse, facilité d'utilisation, temps
   de programmation, simplicité, extensibilité, fiabilité,
-  existence d'une solution algorithmique
+  existence d'une solution algorithmique...
 \end{itemize}
 
 \end{frame}
@@ -45,7 +53,7 @@ Autre question importante seulement marginalement abordée dans ce cours:
 \item Un algorithme est correct pour un problème s'il est correct pour
   toutes ses instances
 \item On s'intéressera ici à la correction d'un algorithme pour un
-  problème, par pour seulement certaines de ses instances
+  problème (et pas pour seulement certaines de ses instances)
 \end{itemize}
 
 \note{}
@@ -72,9 +80,9 @@ Autre question importante seulement marginalement abordée dans ce cours:
 
 \item Preuves de correction:
 \begin{itemize}
-\item Précondition, post-conditions
+\item Pré-condition, post-condition
 \item Algorithmes itératifs: assertions, invariants de boucle et induction
-\item Algorithmes récursifs: preuve par induction directement
+\item Algorithmes récursifs: preuves par induction directement
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -101,7 +109,7 @@ Pour prouver qu'un algorithme itératif est correct:
 \begin{frame}{Assertion}
 
 \begin{itemize}
-\item Relation entre les variables qui est vraies à un moment donné dans l'exécution
+\item Relation entre les variables qui est vraie à un moment donné dans l'exécution
 \item Assertions particulières:
 \begin{itemize}
 \item Pre-condition $P$: conditions que doivent remplir les entrées de l'algorithme
@@ -110,14 +118,16 @@ Pour prouver qu'un algorithme itératif est correct:
 \end{itemize}
 \item $P$ et $Q$ définissent les instances et solutions valides du problème
 \item Un algorithme est correct si $P$ \{code\} $Q$ est vrai.
-\item Pour vérifier la correction d'une boucle, on introduit la notion d'invariant.%On suppose $P$ vérifié, on montre que $I$ est un invariant valide et on en déduit que $R$ est vrai également.
+\item Exemple: 
+%\item Pour vérifier la correction d'une boucle, on introduit la notion d'invariant.%On suppose $P$ vérifié, on montre que $I$ est un invariant valide et on en déduit que $R$ est vrai également.
 \end{itemize}
 
 \end{frame}
 
 \begin{frame}{Invariant}
 \begin{itemize}
-\item \alert{Invariant:} Une assertion qui définit ce qui est vrai avant chaque itération de la boucle
+\item \alert{Invariant:} Une assertion qui définit ce qui est vrai
+  avant et après chaque itération de la boucle
 \item \alert{Initialisation:} Prouver que l'invariant est vrai avant la
   première itération (sous l'hypothèse que la pré-condition $P$ est
   vérifiée)
@@ -139,10 +149,14 @@ Pour prouver qu'un algorithme itératif est correct:
 \item Dans la suite du cours, on ne fournira un invariant que dans quelques cas
 \end{itemize}
 \end{frame}
+
 \begin{frame}{Exemples: exponentielle}
 \end{frame}
 
 \begin{frame}{Exemples: fibonacci itératif}
+\begin{itemize}
+\item Invariant de boucle: 
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Exemples: insertion sort}
@@ -182,7 +196,7 @@ Pour chaque boucle: on définit une fonction de terminaison $t$ qui est telle qu
 % décroit à chaque itération et que le gardien
 
 
-\subsection{Algorithme récursif}
+\subsection{Algorithmes récursifs}
 
 \begin{frame}{Preuve par induction}
 
@@ -194,79 +208,728 @@ Dans la suite, on ne présentera des invariants ou des preuves par induction que
 
 \section{Complexité algorithmique}
 
+% A VOIR
+%  -  notations grand omega et grand theta
+%     (borne min et borne tight)
+%  -  somme et produit de fonction 
+%  -  complexité en temps versus complexité en espace
+%  -  complexité d'un algorithme et complexité d'un problème
+%  -  algorithmes récursifs
+
+% Plan
+% - motiver les temps de calcul versus le reste. On regardera aussi la memoire
+% - problem=instances -> asymptotique + worst-case ou average case
+% - comment on mesure:
+%     - experience: pourri, machine dependen, programmeur, language, demande de coder, etc.
+%     - abstraction: modèle de calcul -> notation grand O
+% - grand-O: borne supérieure: on aimerait avoir une borne inférieure aussi
+
+% - Autre notation: 
+
+% - Complexité d'un algorithme versus complexité d'un problème
+
+% - comment mesurer la complexité:
+%      - algo itératif: somme, produit, boucle, etc.
+%      - algo récursif: par une équation récurrente. Pas aussi évident.
+%        Fibonacci: dire qu'on a montré que T(n)=OMEGA(1.4^n). On pourrait montrer que T(n)=...
+%        Merge-sort: dire que la complexité
+%        En général: on peut montrer que T(n)=T(n/b)+O(n) -> T(n)=n log(n)
+
+% - Remarques: attention à la constante qui en pratique peut jouer un rôle important. Dépend de l'utilisation
+%   Raffinement du merge-sort qui fait une différence: utiliser le tri par insertion lorsque la taille diminue
+
+% - analyse amortie ?
+
+% Prendre un exemple: recherche du maximum dans un vecteur non trié
+% (ou trié). Donner les deux algorithmes.
+
 \begin{frame}{Plan}
 
 \tableofcontents
 
 \end{frame}
 
-\subsection{Itératif}
+\subsection{Introduction}
 
-\begin{frame}{Efficacité}
-Pourquoi est-ce important?
-\begin{itemize}
-\item Un algorithme trop lent (dans certaines applications, un algorithm quadratique est déjà trop lent)
-\item Il faut pouvoir s'adapter à la croissance des données actuelles
-\end{itemize}
-
-\end{frame}
-
-%% Définition mathématique des trois types de complexité
-
-%% Soit Dn
-%% lâensemble des données de taille n. Soit I un sous ensemble de
-%% Dn et soit t(I) le nombre dâopérations élémentaires pour exécuter I.
-
-%% Complexité dans le meilleur des cas
-%% meilleur(n) = min {t(I), I Dn}
-%% }
-
-%% Complexité dans le pire des cas
-%% pire(n) = max {t(I), I  Dn
-%% }
-
-%% Complexité en moyenne
-%% moyenne(n) = S Pr (I) t(I) où Pr(I) est la probabilité de I
-
-%% Note sur la complexité amortie
-%% En moyenne sur plusieurs instance...
-
-\begin{frame}{RAM model}
-
-\end{frame}
-
-\begin{frame}{Application à l'insertion sort}
-\end{frame}
-
-\subsection{Combinaison de fonctions}
-
-\begin{frame}{règle de la somme et du produit}
-Voir slides ``intro-pas-mal.ppt''
-\end{frame}
-
-\subsection{Algorithmes récursifs}
-
-\begin{frame}{Algorithmes récursifs}
+\begin{frame}{Performance d'un algorithme}
 
 \begin{itemize}
-\item Fibonacci
-\item Merge sort
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}
-Complexité en espace:
+\item Plusieurs métriques possibles:
 \begin{itemize}
+\item Longueur du programme (nombre de lignes)
+\item Simplicité du code
+\item \alert{Espace mémoire consommé}
+\item \alert{Temps de calcul}
 \item ...
 \end{itemize}
+
+\bigskip
+
+\item Les temps de calcul sont la plupart du temps utilisés
+\begin{itemize}
+\item Ils peuvent être quantifiés et sont faciles à comparer
+\item Souvent ce qui compte réellement
+\end{itemize}
+\item Nous étudierons aussi l'espace mémoire consommé par nos algorithmes
+\end{itemize}
+
 \end{frame}
 
-\begin{frame}{Pour en savoir plus (ou ce qu'on n'a pas vu)}
+\begin{frame}{Comment mesurer les temps d'exécution ?}
+
+Expérimentalement:
+\begin{itemize}
+\item On écrit un programme qui implémente l'algorithme et on l'exécute sur des données
+\item Problèmes:
+\begin{itemize}
+\item Les temps de calcul vont dépendre de l'implémentation: CPU, OS, langage, compilateur, charge de la machine, OS, etc.
+\item Sur quels données tester l'algorithme ?
+\end{itemize}
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=6cm]{Figures/cpu-fibonacci.pdf}\\
+~\hfill\scriptsize(Carzaniga)
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Comment mesurer les temps d'exécution ?}
+
+En se basant sur un modèle de calcul abstrait:
+\begin{itemize}
+\item Random-access machine (RAM):
+\begin{itemize}
+\item Types de données de base:
+\begin{itemize}
+\item Entiers et nombres flottants
+\item Chaque mot est de taille limitée (par ex, 64 bits)
+\end{itemize}
+\item Opérations de base de la machine:
+\begin{itemize}
+\item addition, soustraction, multiplication...
+\item affectation, accès à un élément d'un tableau...
+\item branchement conditionnel, saut
+\item appel de sous-routines, renvoi d'une valeur
+\end{itemize}
+\item Les opérations sont exécutées les unes après les autres (pas de parallélisme)
+\item \alert{Les opérations de base prennent un temps constant}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Comment mesurer les temps d'exécution ?}
+\begin{itemize}
+\item Calculer les temps de calcul = sommer le temps d'exécution associé à chaque instruction du pseudo-code
+\item Modèle RAM:
+\begin{itemize}
+\item Opérations de base: temps constant
+\item Appel de sous-routines: temps de l'appel (constant) + temps de l'exécution de la sous-routine (calculé récursivement)
+\end{itemize}
+
+\bigskip
+
+\item Le temps dépend de l'entrée (l'instance particulière du problème)
+\item On étudie généralement les temps de calcul en fonction de la \alert{``taille''} de l'entrée
+\begin{itemize}
+\item Généralement, le nombre de valeurs pour la décrire
+\item Mais ça peut être autre chose (Ex: $n$ pour $\proc{Fibonacci}$)
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Analyse du tri par insertion}
+\centerline{\includegraphics[width=10cm]{Figures/02-analysisinsertionsort.pdf}}
+\begin{itemize}
+\item $t_j=$ nombre de fois que la boucle $\While$ est exécutée.
+\item Temps exécution $T(n)$ (pour un tableau de taille $n$) donné par:
+{\footnotesize
+\begin{eqnarray*}
+T(n)&=&c_1 n +c_2(n-1)+c_4(n-1)+c_5\sum_{j=2}^n t_j + c_6 \sum_{j=2}^n (t_j-1)\\
+&&+c_7\sum_{j=2}^n (t_j-1)+c_8(n-1)
+\end{eqnarray*}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Différents types de complexité}
+\begin{itemize}
+\item Même pour une taille fixée, la complexité peut dépendre de l'instance particulière
+%\begin{itemize}
+%\item Les valeurs de $t_j$ dépendent du tableau
+%\end{itemize}
+\item Soit $D_n$ l'ensemble des instances de taille $n$ d'un problème et $T(i_n)$ le temps de calcul pour une instance $i_n\in D_n$.
+\item Sur quelles instances les performances d'un algorithme devraient être jugées:
+\begin{itemize}
+\item Cas le plus favorable (best case): $T(n)=\min\{T(i_n)| i_n\in D_n\}$
+\item Cas le plus défavorable (worst case): $T(n)=\max\{T(i_n)| i_n\in D_n\}$
+\item Cas moyen (average case): $T(n)=\sum_{i_n\in D_n} Pr(i_n) T(i_n)$ où $Pr(i_n)$ est la probabilité de rencontrer $i_n$
+\end{itemize}
+\item On se focalise généralement sur le cas \alert{le plus défavorable}
+\begin{itemize}
+\item Donne une borne supérieure sur le temps d'exécution.
+\item Le meilleur cas n'est pas représentatif et le cas moyen est difficile à calculer.
+\end{itemize}
+\end{itemize}
+\note{On va voir que le cas le plus favorable est tout de même intéressant dans certains contextes}
+\end{frame}
+
+\begin{frame}{Analyse du tri par insertion}
+Meilleur cas:
+\begin{itemize}
+\item le tableau est trié $\Rightarrow t_j=1$.
+\item Le temps de calcul devient:
+\begin{eqnarray*}
+T(n)&=&c_1 n+ c_2 (n-1)+c_4 (n-1)+c_5 (n-1)+c_8(n-1)\\
+&=&(c_1+c_2+c_4+c_5+c_8)n- (c_2+c_4+c_5+c_8)
+\end{eqnarray*}
+\item $T(n)=an+b$ $\Rightarrow$ $T(n)$ est une fonction \alert{linéaire} de $n$\\
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Analyse du tri par insertion}
+Pire cas:
+\begin{itemize}
+\item le tableau est trié par ordre décroissant $\Rightarrow t_j=j$.
+\item Le temps de calcul devient:
+{\footnotesize
+\begin{eqnarray*}
+T(n)&=&c_1 n+ c_2 (n-1)+c_4 (n-1)+c_5 \left( \frac{n(n+1)}{2}-1\right)\\
+& & +c_6\left(\frac{n(n-1)}{2}\right)+c_7 \left(\frac{n(n-1)}{2}\right)+c_8 (n-1)\\
+&=&(\frac{c_5}{2}+\frac{c_6}{2}+\frac{c_7}{2}) n^2 + (c_1+c_2+c_4+\frac{c_5}{2}-\frac{c_6}{2}-\frac{c_7}{2}+c_8)n\\
+& & - (c_2+c_4+c_5+c_8)
+\end{eqnarray*}
+}
+\item $T(n)=an^2+bn+c$ $\Rightarrow$ $T(n)$ est une fonction \alert{quadratique} de $n$
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Analyse asymptotique}
+% Slide 30 intro-pas-mal (voir aussi CLRS)
+\begin{itemize}
+\item On s'intéresse à la vitesse de croissance (``order of growth'') de $T(n)$ lorsque $n$ croît.
+\begin{itemize}
+\item Tous les algorithmes sont rapides pour des petites valeurs de $n$
+\end{itemize}
+\item On simplifie généralement $T(n)$:
+\begin{itemize}
+\item en ne gardant que le terme dominant
+\begin{itemize}
+\item Exemple: $T(n)=10 n^3+n^2+40n+800$
+\item T(1000)=100001040800, $10\cdot 1000^3=100000000000$
+\end{itemize}
+\item en ignorant le coefficient du terme dominant
+\begin{itemize}
+\item Asymptotiquement, ça n'affecte pas l'ordre relatif
+\end{itemize}
+\end{itemize}
+\centerline{\includegraphics[width=5cm]{Figures/02-dropconstant.pdf}}
+\item Exemple: Tri par insertion: $T(n)=an^2+bn+c \rightarrow n^2$.
+%\item On dira que $T(n)$ croît en $n^2$ et on le notera $T(n)\in\Theta(n^2)$ ou $T(n)=\Theta(n^2)$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pourquoi est-ce important?}
 
 \begin{itemize}
-\item Méthode systématique pour l'analyse de la complexité d'algorithmes récursifs (l'an prochain)
-\item Etude au cas moyen
+\item Supposons qu'on puisse traiter une opération de base en $1\mu s$.
+\item Temps d'exécution pour différentes valeurs de $n$
+
+\bigskip
+
+\begin{center}
+\footnotesize
+\begin{tabular}{ccccc}
+\hline
+f(n) & $n=10$ & $n=100$ & $n=1000$ & $n=10000$\\
+\hline
+$n$ & $10\mu s$ & $0.1ms$ & $1ms$ & $10ms$\\
+$400n$ & $4ms$ & $40ms$ & $0.4s$ & 4$s$\\
+$2n^2$ &$200\mu s$ & $20ms$ & $2s$ & 3.3$m$\\
+$n^4$ &$10ms$& $100s$ & $\sim 11.5$ jours & 317 années\\
+$2^n$ & $1ms$ & $4\times 10^{16}$ années & $3.4\times 10^{287}$ années & $\ldots$\\
+\hline
+\end{tabular}
+\end{center}
+
+\end{itemize}
+
+~\hfill{\scriptsize(Dupont)}
+
+\end{frame}
+
+\begin{frame}{Pourquoi est-ce important?}
+
+\begin{itemize}
+\item Taille maximale du problème qu'on peut traiter en un temps donné:
+\begin{center}
+\footnotesize
+\begin{tabular}{cccc}
+\hline
+f(n) & en 1 seconde & en 1 minute & en 1 heure\\
+\hline
+$n$ & $1\times 10^6$ & $6\times 10^7$ & $3.6\times 10^9$\\
+$400n$ & 2500 & 150000 & $9\times 10^6$\\
+$2n^2$ & 707 & 5477 & 42426\\
+$n^4$ & 31 & 88 & 244\\
+$2^n$ & 19 & 25 & 31\\
+\hline
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\item Si $m$ est la taille maximale que l'on peut traiter en un temps
+  donnée, que devient cette valeur si on reçoit une machine 256 fois plus puissante?
+\begin{center}
+\footnotesize
+\begin{tabular}{cc}
+\hline
+f(n) &Temps\\
+\hline
+$n$ & $256m$\\
+$400n$ & $256m$\\
+$2n^2$ & $16m$\\
+$n^4$ & $4m$\\
+$2^n$ & $m+8$\\
+\hline
+\end{tabular}
+\end{center}
+\end{itemize}
+
+~\hfill{\scriptsize(Dupont)}
+
+\end{frame}
+
+\subsection{Notations asymptotiques}
+
+\begin{frame}{Notations asymptotiques}
+\begin{itemize}
+\item Permettent de caractériser le taux de croissance de fonctions $f:\nats\rightarrow \reals^+$
+
+\bigskip
+
+\item Trois notations:
+\begin{itemize}
+\item Grand-O: $f(n)\in O(g(n)) \approx f(n)\leq g(n)$
+\item Grand-Omega: $f(n)\in \Omega(g(n)) \approx f(n)\geq g(n)$
+\item Grand-Theta: $f(n) \in \Theta(g(n)) \approx f(n) = g(n)$
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Notation grand-O}
+
+{\small
+$$O(g(n))=\{f(n)| \exists c>0, \exists n_0\geq 1\mbox{ tels que } 0\leq f(n)\leq c g(n), \forall n\geq n_0\}$$
+}
+
+\medskip
+
+\centerline{\includegraphics[width=4cm]{Figures/02-grando.pdf}}
+
+\medskip
+
+\begin{itemize}
+\item $f(n)\in O(g(n))\Rightarrow g(n)$ est une borne \alert{supérieure} asymptotique pour $f(n)$.
+\item Par abus de notation, on écrira aussi: $f(n)=O(g(n))$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Notation grand-Omega}
+
+{\small
+$$\Omega(g(n))=\{f(n)| \exists c>0, \exists n_0\geq 1\mbox{ tels que } 0\leq c g(n)\leq f(n), \forall n\geq n_0\}$$
+}
+
+\medskip
+
+\centerline{\includegraphics[width=4cm]{Figures/02-grandomega.pdf}}
+
+\medskip
+
+\begin{itemize}
+\item $f(n)\in \Omega(g(n))\Rightarrow g(n)$ est une borne \alert{inférieure} asymptotique pour $f(n)$.
+\item Par abus de notation, on écrira aussi: $f(n)=\Omega(g(n))$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Notation grand-Theta}
+
+{\small
+\begin{eqnarray*}
+\Theta(g(n))&=&\{f(n)| \exists c_1,c_2>0, \exists n_0\geq 1\\
+&&\mbox{ tels que } 0\leq c_1 g(n)\leq f(n)\leq c_2 g(n), \forall n\geq n_0\}
+\end{eqnarray*}
+}
+
+\medskip
+
+\centerline{\includegraphics[width=4cm]{Figures/02-grandtheta.pdf}}
+
+\medskip
+
+\begin{itemize}
+\item $f(n)\in \Theta(g(n))\Rightarrow g(n)$ est une borne \alert{serrée} (``tight'') asymptotique pour $f(n)$.
+\item Par abus de notation, on écrira aussi: $f(n)=\Theta(g(n))$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Exemples}
+\begin{itemize}
+\item $3n^2-16n+2\in O(n^5)$ ? $\in O(n)$ ? $\in O(n^{17})$ ?
+\item $3n^2-16n+2\in \Omega(n^5)$ ? $\in \Omega(n)$ ? $\in \Omega(n^{17})$ ?
+\item $3n^2-16n+2\in \Theta(n^5)$ ? $\in \Theta(n)$ ? $\in \Theta(n^{17})$ ?
+
+\bigskip
+
+\item Classes de complexité: 
+$$O(1)\subset O(\log n)\subset O(n) \subset O(n\log n) \subset O(n^{a>1})\subset (2^n)$$
+\centerline{\includegraphics[width=6cm]{Figures/02-complexclass.pdf}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Quelques propriétés}
+\small
+\begin{itemize}
+\item $f(n)\in\Omega(g(n)) \Leftrightarrow g(n)\in O(f(n))$
+\item $f(n)\in\Theta(g(n))\Leftrightarrow f(n)\in O(g(n))$ et $f(n)\in \Omega(g(n))$
+\item $f(n)\in\Theta(g(n))\Leftrightarrow g(n)\in\Theta(f(n))$
+%\item $f(n)\in\Theta(g(n))\Rightarrow g(n)\in O(f(n))$
+\bigskip
+\item Si $f(n)\in O(g(n))$, alors pour tout $k\in \nats$, on a $k\cdot f(n)\in O(g(n))$
+\begin{itemize}
+\item Example: $\log_a(n)\in O(\log_b(n))$, $a^{n+b}\in O(a^n)$
+\end{itemize}
+\item Si $f_1(n)\in O(g_1(n))$ et $f_2(n)\in O(g_2(n))$, alors $f_1(n)\cdot f_2(n)\in O(g_1(n)\cdot g_2(n))$
+\begin{itemize}
+\item Example: $\sum_{i=1}^m a_i n^i\in O(n^m)$
+\end{itemize}
+\item Si $f_1(n)\in O(g_1(n))$ et $f_2(n)\in O(g_2(n))$, alors $f_1(n)+f_2(n)\in O(g_1(n)+g_2(n))$ et $f_1(n)+f_2(n)\in O(\max\{g_1(n),g_2(n)\})$
+\end{itemize}
+\end{frame}
+
+\subsection{Complexité d'algorithmes et de problèmes}
+
+\begin{frame}{Complexité d'un algorithme}
+\begin{itemize}
+\item On utilise les notations asymptotiques pour caractériser la
+  \alert{complexité} d'un algorithme.
+\item Il faut préciser de quelle complexité on parle: générale, au
+  pire cas, au meilleur cas, en moyenne...
+\item La notation grand-O est de loin la plus utilisée
+\begin{itemize}
+\item $f(n)\in O(g(n))$ sous-entend généralement que $O(g(n))$ est le
+  plus petit sous-ensemble qui contient $f(n)$ et que $g(n)$ est la plus concise possible
+\item Exemple: $n^3+100n^2-n \in O(n^3)=O(n^3+n^2)\subset O(n^4) \subset O(2^n)$
+\end{itemize}
+\item Idéalement, les notations $O$ et $\Omega$ devraient être
+  limitées au cas où on n'a pas de borne serrée.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Complexité d'un algorithme}
+Exemples:
+\begin{itemize}
+\item On dira:\\
+``la complexité au pire cas du tri par insertion est $\Theta(n^2)$''\\
+plutôt que\\
+``La complexité au pire cas du tri par insertion est $O(n^2)$'' \\
+ou ``La complexité du tri par insertion est $O(n^2)$''
+\item On dira\\
+``La complexité au meilleur cas du tri par insertion est $\Theta(n)$''\\
+plutôt que\\
+``La complexité au meilleur cas du tri par insertion est $\Omega(n)$''\\
+ou ``La complexité du tri par insertion est $\Omega(n)$''
+\item Par contre, on dira ``La complexité de $\proc{Fibonacci}$ est $\Omega(1.4^n)$'', car on n'a pas de borne plus précise à ce stade.
+\end{itemize}
+\note{Fibonacci est le bon exemple de l'utilisation de $\Omega$. On ne peut rien dire de plus à ce stade}
+\end{frame}
+
+\begin{frame}{Complexité d'un problème}
+\begin{itemize}
+\item Les notations asymptotiques servent aussi à caractériser la complexité
+  d'un problème
+\begin{itemize}
+\item Un problème est $O(g(n))$  s'il existe un algorithme $O(g(n))$ pour le résoudre
+\item Un problème est $\Omega(g(n))$ si tout algorithme qui le résoud est forcément $\Omega(g(n))$
+\item Un problème est $\Theta(g(n))$ s'il est $O(g(n))$ et $\Omega(g(n))$
+\end{itemize}
+\item Exemple du problème de tri:
+\begin{itemize}
+\item Le problème du tri est $O(n \log n)$ (voir plus loin)
+\item On peut montrer facilement que le problème du tri est $\Omega(n)$ (voir le transparent suivant)
+\item On montrera plus tard que le problème de tri est en fait $\Omega(n \log n)$ et donc qu'il est $\Theta(n\log n)$.
+\end{itemize}
+\item Exercice: montrez que la recherche du maximum dans un tableau est $\Theta(g(n))$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Le problème du tri est $\Omega(n)$}
+Preuve par l'absurde (ou par contraposition):
+\begin{itemize}
+\item Supposons qu'il existe un algorithme moins que $O(n)$ pour résoudre le problème du tri
+\item Cet algorithme ne peut pas parcourir tous les éléments du tableau, sinon il serait au moins $O(n)$
+\item Il y a donc au moins un élément du tableau qui n'est pas vu par cet algorithme
+\item Il existe donc des instances de tableau qui ne seront pas triées correctement par cet algorithme
+\item Il n'y a donc pas d'algorithme plus rapide que $O(n)$ pour le tri.
+\end{itemize}
+\end{frame}
+
+\subsection{Complexité d'algorithmes itératifs}
+
+\begin{frame}{Comment calculer la complexité en pratique ?}
+%\begin{itemize}
+Quelques règles pour les algorithmes itératifs:
+\begin{itemize}
+\item Affectation, accès à un tableau, opérations arithmétiques, appel de fonction: $O(1)$
+\item Instruction If-Then-Else: $O(\mbox{complexité max des deux branches})$
+\item Séquence d'opérations: l'opération la plus couteuse domine (règle de la somme)
+\item Boucle simple: $O(n f(n))$ si le corps de la boucle est $O(f(n))$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Comment calculer la complexité en pratique ?}
+%\begin{itemize}
+%Quelques règles pour les algorithmes itératifs:
+\begin{itemize}
+\item Double boucle: $O(n^2 f(n))$ où $f(n)$ est la complexité du corps de la boucle
+\item Boucles incrémentales: $O(n^2)$ (si corps $O(1)$)
+\begin{center}\footnotesize
+   \fcolorbox{white}{Lightgray}{
+    \begin{codebox}
+      \zi \For $i\gets 1$ \To $n$
+      \zi \Do \For $j\gets 1$ \To $i$
+      \zi \Do $\ldots$
+      \End\End
+    \end{codebox}}
+\end{center}
+\item Boucles avec un incrément exponentiel: $O(\log n)$ (si corps $O(1)$)
+\begin{center}\footnotesize
+   \fcolorbox{white}{Lightgray}{
+    \begin{codebox}
+      \zi $i\gets 1$
+      \zi \While  $i\leq n$
+      \zi \Do $\ldots$
+      \zi $i\gets 2i$
+      \End\End
+    \end{codebox}}
+\end{center}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Exemple: }
+
+$\proc{prefixAverages}(X)$:
+\begin{itemize}
+\item {\bf Entrée:} tableau $X$ de taille $n$
+\item {\bf Sortie:} tableau $A$ de taille $n$ tel que $A[i]=\frac{\sum_{j=1}^i X[j]}{i}$
+\end{itemize}
+
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}\small
+   \fcolorbox{white}{Lightgray}{
+    \begin{codebox}
+      \Procname{$\proc{prefixAverages}(X)$}
+      \li \For $i\gets 1$ \To $\attrib{X}{length}$
+      \li \Do $a\gets 0$
+      \li \For $j\gets 1$ \To $i$
+      \li \Do $a\gets a+X[j]$ \End
+      \li $A[i]\gets a/i$
+      \End
+      \li \Return A 
+    \end{codebox}}
+\end{center}
+Complexité: $\Theta(n^2)$
+\end{column}
+\begin{column}{5cm}
+\begin{center}\small
+   \fcolorbox{white}{Lightgray}{
+    \begin{codebox}
+      \Procname{$\proc{prefixAverages2}(X)$}
+      \li $s\gets 0$
+      \li \For $i\gets 1$ \To $\attrib{X}{length}$
+      \li \Do $s\gets s+X[i]$
+      \li $A[i]\gets s/i$
+      \End
+      \li \Return A 
+    \end{codebox}}
+\end{center}
+Complexité: $\Theta(n)$
+\end{column}
+\end{columns}
+\note{interieur du for: O(1) puis O(i) puis O(1) => O(i) => on peut ne garder que le for j=1 to i. L'instruction au center est exécutée exactement...}
+\end{frame}
+
+
+
+%%%%%%%%%% a part
+%% algo récursif -> complexité sous une forme récursive. 
+%% Exemple du merge-sort.
+
+\subsection{Complexité d'algorithmes récursifs}
+
+\begin{frame}{Complexité d'algorithmes récursifs}
+
+\begin{itemize}
+\item La complexité d'algorithme récursif mène généralement à une équation de récurrence
+\item La résolution de cette équation n'est généralement pas triviale
+\item On se contentera d'étudier quelques cas particuliers importants dans ce cours
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{$\proc{Factorial}$ et $\proc{Fibonacci}$}
+% mettre les algos et la récurrence
+
+\begin{columns}
+\begin{column}{5.5cm}
+\begin{center}\footnotesize
+   \fcolorbox{white}{Lightgray}{
+    \begin{codebox}
+\Procname{$\proc{Factorial}(n)$}
+\li \If $n\isequal 0$
+\li \Then \Return 1 \End
+\li \Return $n \cdot \proc{Factorial}(n-1)$
+    \end{codebox}}
+\end{center}
+{\footnotesize
+\begin{eqnarray*}
+T(0) & = & c_0\\
+T(n) & = & T(n-1)+c_1\\
+\end{eqnarray*}
+$$\Rightarrow T(n)\in \Theta(n)$$
+}
+\end{column}
+\begin{column}{5.5cm}
+\begin{center}\footnotesize
+   \fcolorbox{white}{Lightgray}{
+    \begin{codebox}
+      \Procname{$\proc{Fib}(n)$}
+      \li \If $n \leq 1$
+      \li \Then \Return n \End
+      \li \Return $\proc{Fib}(n-2)+\proc{Fib}(n-1)$
+    \end{codebox}}
+\end{center}
+{\footnotesize
+\begin{eqnarray*}
+T(0) & = & c_0, T(1)= c_0\\
+T(n) & = & T(n-1)+T(n-2)+c_1\\
+\end{eqnarray*}
+}
+$$\Rightarrow T(n)\in \Omega(1.4^n)$$
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Analyse du tri par fusion}
+
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{merge-sort}(A,p,r)$}
+      \li \If $\id{p}<\id{r}$
+      \li \Then $q \gets \lfloor \frac{p+r}{2} \rfloor$
+      \li       $\proc{merge-sort}(A,p,q)$
+      \li       $\proc{merge-sort}(A,q+1,r)$
+      \li       $\proc{merge}(A,p,q,r)$ \End
+    \end{codebox}}
+\end{center}
+
+\begin{itemize}
+\item Récurrence:
+\begin{columns}
+\begin{column}{5cm}
+\begin{eqnarray*}
+T(1) & = & c_1\\
+T(n) & = & 2 T(n/2)+c_2 n+c_3\\
+\end{eqnarray*}
+\end{column}
+\begin{column}{5cm}
+\begin{eqnarray*}
+T(1) & = & \Theta(1)\\
+T(n) & = & 2 T(n/2)+\Theta(n)\\
+\end{eqnarray*}
+\end{column}
+\end{columns}
+\end{itemize}
+\note{Dire que celle-ci est importante}
+\end{frame}
+
+\begin{frame}{Analyse du tri par fusion}
+\begin{columns}
+\begin{column}{6cm}
+\begin{itemize}
+\item Simplifions la récurrence en:
+\begin{eqnarray*}
+T(1) & = & c\\
+T(n) & = & 2 T(n/2)+c n
+\end{eqnarray*}
+\item On peut représenter la récurrence par un arbre de récursion
+\item La complexité est la somme du coût de chaque noeud
+\end{itemize}
+\end{column}
+\begin{column}{5.5cm}
+\centerline{\includegraphics[width=5.5cm]{Figures/02-recurtree-merge.pdf}}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Analyse du tri par fusion}
+\begin{columns}
+\begin{column}{5cm}
+\begin{itemize}
+\item Chaque niveau a un coût $cn$
+\item En supposant que $n$ est une puissance de 2, il y a $\log_2 n+1$ niveaux
+\item Le coût total est $cn\log_2 n+cn \in \Theta(n\log n)$
+\end{itemize}
+\end{column}
+\begin{column}{7cm}
+\centerline{\includegraphics[width=6.5cm]{Figures/02-recurtree-merge-annote.pdf}}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Remarques}
+Limitations de l'analyse asymptotique
+\begin{itemize}
+\item Les facteurs constants ont de l'importance pour des problèmes de petite taille
+\begin{itemize}
+\item Le tri par insertion est plus rapide que le tri par fusion pour $n$ petit
+\end{itemize}
+\item Deux algorithmes de même complexité (grand-O) peuvent avoir des propriétés très différentes
+\begin{itemize}
+\item Le tri par insertion est en pratique beaucoup plus efficace que
+  le tri par sélection sur des tableaux presque triés
+\end{itemize}
+\end{itemize}
+
+\bigskip
+
+Complexité en espace
+\begin{itemize}
+\item S'étudie de la même manière, avec les mêmes notations
+\item Elle est bornée par la complexité en temps (pourquoi ?)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Ce qu'on a vu}
+
+\begin{itemize}
+\item Correction d'algorithmes itératifs (par invariant) et récursifs (par induction)
+\item Notions de complexité algorithmique
+\item Notations asymptotiques
+\item Calcul de complexité d'algorithmes itératifs et récursifs
 \end{itemize}
 
 \end{frame}
