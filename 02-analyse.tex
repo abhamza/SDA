@@ -15,9 +15,9 @@ On va aussi introduire certaines nouvelles notions.
 
 \end{frame}
 
-\section{Correction d'un algorithme}
+\section{Correction d'algorithmes}
 
-\subsection{Algorithmes itératifs}
+\subsection{Introduction}
 
 \begin{frame}{Analyse d'algorithmes}
 
@@ -49,9 +49,9 @@ Autre question importante seulement marginalement abordée dans ce cours:
 \item Exemple d'instance de ce problème: trier le tableau $[8,4,15,3]$
 \end{itemize}
 \item Un algorithme est correct pour une instance d'un problème s'il
-  produit une solution correcte pour cette intance
+  produit une solution correcte pour cette instance
 \item Un algorithme est correct pour un problème s'il est correct pour
-  toutes ses instances
+  toutes ses instances (on dira qu'il est totalement correct)
 \item On s'intéressera ici à la correction d'un algorithme pour un
   problème (et pas pour seulement certaines de ses instances)
 \end{itemize}
@@ -62,14 +62,14 @@ Autre question importante seulement marginalement abordée dans ce cours:
 
 \begin{frame}{Comment vérifier la correction?}
 \begin{itemize}
-\item Première solution: en testant concrètement l'algorithme:
+\item Première solution: en \alert{testant} concrètement l'algorithme:
 \begin{itemize}
 \item Suppose d'implémenter l'algorithme dans un langage (programme)
   et de le faire tourner
 \item Supppose qu'on peut déterminer les instances du problème à vérifier
 \item Il est très difficile de prouver empiriquement qu'on n'a pas de bug %On peut prouver qu'il y a un bug, pas qu'il n'y en a pas.
 \end{itemize}
-\item Deuxième solution: en dérivant une preuve mathématique formelle:
+\item Deuxième solution: en dérivant une \alert{preuve mathématique} formelle:
 \begin{itemize}
 \item Pas besoin d'implémenter et de tester toutes les instances du problème
 \item Sujet à des ``bugs'' également
@@ -78,33 +78,16 @@ Autre question importante seulement marginalement abordée dans ce cours:
 
 \bigskip
 
-\item Preuves de correction:
+\item Outils pour prouver la correction d'un algorithme:
 \begin{itemize}
-\item Pré-condition, post-condition
-\item Algorithmes itératifs: assertions, invariants de boucle et induction
-\item Algorithmes récursifs: preuves par induction directement
+%\item Pré-condition, post-condition
+\item Algorithmes itératifs: triplets de Hoare, invariants de boucle% (induction)
+\item Algorithmes récursifs: preuves par induction
 \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Correction: cas itératif}
-
-Pour prouver qu'un algorithme itératif est correct:
-\begin{itemize}
-\item On analyse chaque boucle de l'algorithme séparément, en
-  démarrant avec la boucle la plus interne s'il y a plusieurs
-  boucles imbriquées.
-\item Pour chaque boucle, on met en évidence un invariant de boucle
-\begin{itemize}
-\item Ensemble de propriétés qui relient les variables du programme
-\item Ces propriétés doivent être vraies avant, pendant et après la boucle
-\end{itemize}
-\item On prouve que l'invariant est vérifié.
-\item On utilise l'invariant pour prouver que l'algorithme se termine.
-\item On utilise l'invariant pour prouver que l'algorithme calcule le résultat correct.
-\end{itemize}
-
-\end{frame}
+\subsection{Algorithmes itératifs}
 
 \begin{frame}{Assertion}
 
@@ -112,94 +95,589 @@ Pour prouver qu'un algorithme itératif est correct:
 \item Relation entre les variables qui est vraie à un moment donné dans l'exécution
 \item Assertions particulières:
 \begin{itemize}
-\item Pre-condition $P$: conditions que doivent remplir les entrées de l'algorithme
+\item Pre-condition $P$: conditions que doivent remplir les entrées valides de l'algorithme
 \item Post-condition $Q$: conditions qui expriment que le résultat de l'algorithme est correcte
 %\item Invariant: condition que doivent remplir
 \end{itemize}
-\item $P$ et $Q$ définissent les instances et solutions valides du problème
-\item Un algorithme est correct si $P$ \{code\} $Q$ est vrai.
-\item Exemple: 
-%\item Pour vérifier la correction d'une boucle, on introduit la notion d'invariant.%On suppose $P$ vérifié, on montre que $I$ est un invariant valide et on en déduit que $R$ est vrai également.
+\item $P$ et $Q$ définissent resp. les instances et solutions valides du problème
+\item Un algorithme est correct si le triplet (de Hoare) $\{P\}$ code $\{Q\}$ est vrai.
+\item Exemple:
+$$\{x\geq 0\} y\gets \proc{sqrt}(x) \{y^2=x\}$$
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Invariant}
+\begin{frame}{Correction: séquence d'instructions}
+
+\begin{center}\footnotesize
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi $\{P\}$
+\zi S1
+\zi S2
+\zi \ldots
+\zi Sn
+\zi $\{Q\}$
+\end{codebox}}
+\end{center}
+
+Pour vérifier que le triplet est correct:
 \begin{itemize}
-\item \alert{Invariant:} Une assertion qui définit ce qui est vrai
-  avant et après chaque itération de la boucle
-\item \alert{Initialisation:} Prouver que l'invariant est vrai avant la
-  première itération (sous l'hypothèse que la pré-condition $P$ est
-  vérifiée)
-\item \alert{Maintenance:} Prouver que si l'invariant est vrai avant la
-  $i$-ième itération, il l'est également après celle-ci, et par
-  conséquent aussi avant la $i+1$-ième itération
-\item \alert{Terminaison:} Prouver que si l'invariant est vrai après la
-  dernière itération, la post-condition $Q$ est vérifiée
+\item on insère des assertions $P_1$, $P_2$, \ldots, $P_n$ décrivant
+  l'état des variables à chaque étape du programme
+\item on vérifie que les triplets $\{P\}\mbox{ S1 }\{P_1\}$,
+  $\{P_1\}\mbox{ S2 }\{P_2\}$, $\ldots$, $\{P_{n-1}\} \mbox{ Sn
+}\{Q\}$ sont corrects
 \end{itemize}
 
-\centerline{\includegraphics[width=8cm]{Figures/02-invariant.pdf}}
+\medskip
+
+Trois types d'instructions: affectation, condition, boucle
+
+%\item Les instructions élémentaires sont généralement simples
+%  à vérifier
+%\item Les boucles sont traitées par la technique des invariants
 
 \end{frame}
 
-\begin{frame}{Mise en \oe uvre}
+\begin{frame}{Correction: affectations}
+
+\begin{center}\footnotesize
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi $\{P\}$
+\zi $x\gets e$
+\zi $\{Q\}$
+\end{codebox}}
+\end{center}
+
+\bigskip
+
+Pour prouver que le triplet est correct, il faut montrer qu'on peut
+dériver $Q$ à partir de $P$ en remplaçant $x$ par $e$.
+
+\bigskip
+
+Exemple:
+\begin{center}\footnotesize
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi $\{x=2\}$
+\zi $y\gets x+1$
+\zi $\{y=3\}$
+\end{codebox}}
+\end{center}
+%$\{x=2\} y\gets x+1\{y=3\}$
+
+\end{frame}
+
+\begin{frame}{Correction: conditions}
+
+\begin{center}\footnotesize
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi $\{P\}$
+\zi \If $B$ \Then
+\zi   C1
+\zi \Else
+\zi   C2\End
+\zi $\{Q\}$
+\end{codebox}}
+\end{center}
+
+Pour prouver que le triplet est correct, on doit prouver que
 \begin{itemize}
-\item Trouver un invariant de boucle une fois l'algorithme mis au point peut être assez complexe
-\item Idéalement, l'invariant devrait être la propriété clé qui définit l'algorithme
-\item Dans la suite du cours, on ne fournira un invariant que dans quelques cas
+\item $\{P\mbox{ et }B\}$ C1 $\{Q\}$
+\item $\{P\mbox{ et non }B\}$ C1 $\{Q\}$
 \end{itemize}
+
+\bigskip
+
+Exemple: 
+\begin{center}\footnotesize
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi $\{x<6\}$
+\zi \If $x<0$ \Then
+\zi   $y\gets 0$
+\zi \Else
+\zi   $y\gets x$\End
+\zi $\{0\leq y<6 \}$
+\end{codebox}}
+\end{center}
+
 \end{frame}
 
-\begin{frame}{Exemples: exponentielle}
-\end{frame}
+\begin{frame}{Correction: boucles}
 
-\begin{frame}{Exemples: fibonacci itératif}
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}\footnotesize
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi $\{P\}$
+\zi INIT
+\zi \While $B$ \Do
+%\zi     \Do $\{I\}$
+\zi      CORPS\End
+\zi FIN
+\zi $\{Q\}$
+\end{codebox}}
+\end{center}
+\end{column}
+\begin{column}{5cm}
+\begin{center}\footnotesize
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi $\{P\}$
+\zi INIT
+\zi $\{I\}$
+\zi \While $B$
+\zi     \Do
+      $\{I\mbox{ et }B\}$ CORPS $\{I\}$\End
+\zi $\{I\mbox{ et non }B\}$
+\zi FIN
+\zi $\{Q\}$
+\end{codebox}}
+\end{center}
+\end{column}
+\end{columns}
+
+Pour prouver que le triplet est correct:
 \begin{itemize}
-\item Invariant de boucle: 
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Exemples: insertion sort}
-\end{frame}
-
-\begin{frame}{Preuve de terminaison d'un algorithme itératif}
-
-Pour chaque boucle: on définit une fonction de terminaison $t$ qui est telle que $t$ décroit strictement à chaque itération de la boucle et que sa valeur est bornée vers le bas par le gardien de la boucle.
-
-\end{frame}
-
-\begin{frame}{Correction: cas récursif}
+\item On met en évidence une assertion particulière $I$, appelée
+  \alert{invariant de boucle}, qui décrit l'état du programme pendant
+  la boucle.
+\item On prouve que:
 \begin{itemize}
-\item Preuve par induction: donner le schéma général
+\item $\{P\}$ INIT $\{I\}$ est correct%\hfill{\it(avant la boucle)}
+\item $\{I \mbox{ et }B\}$ CORPS $\{I\}$ est correct%\hfill{\it(pendant la boucle)}
+\item $\{I \mbox{ et non } B\}$ FIN $\{Q\}$ est correct%\hfill{\it(après la boucle)}
 \end{itemize}
+\end{itemize}
+
+\bigskip
+
+Si on a plusieurs boucles imbriquées, on les traite séparément, en
+démarrant avec la boucle la plus interne.
+
 \end{frame}
 
-\begin{frame}{Exemple: Fibonacci}
-\end{frame}
+\begin{frame}{Correction: terminaison de boucle}
 
-\begin{frame}{Exemple: merge sort}
-\end{frame}
+\begin{center}\footnotesize
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+%\zi $\{P\}$
+\zi INIT
+\zi \While $B$ \Do
+%\zi     \Do $\{I\}$
+\zi      CORPS\End
+\zi FIN
+%\zi $\{Q\}$
+\end{codebox}}
+\end{center}
 
-\begin{frame}{Preuve de terminaison}
 \begin{itemize}
-\item itératif: Définir une fonction $t$ montrer que $t$ décroit lors des itérations et 
-\item récursif: montrer que le problème est réduit à chaque appel récursif
+\item Un fois qu'on a prouvé que le triplet était correct, il faut encore montrer que la boucle se termine
+\item Pour prouver la terminaison, on cherche une fonction de
+  terminaison $f$:
+\begin{itemize}
+\item définie sur base des variables de l'algorithme et à valeur entière naturelle ($\geq 0$)
+\item telle que $f$ décroît strictement suite à l'exécution du corps de la boucle
+\item telle que $B$ implique $f>0$
+\end{itemize}
+\item Puisque $f$ décroît strictement, elle finira par atteindre 0 et donc à infirmer $B$.
 \end{itemize}
 \end{frame}
 
-% Pre-condition=assertion qui est vrai avant le programme
-% Post-condition=assertion qui est vrai après l'exécution du programme
-% Boucle: invariante:
-% Tel que invariant & non G (gardien de boucle) => Post-condition
+\begin{frame}{Exemple: $\proc{Fibonacci-iter}$}
 
-% Terminaison: on définit une fonction naturel, on montre qu'elle
-% décroit à chaque itération et que le gardien
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}\small
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\Procname{$\proc{Fibonacci-Iter}(n)$}
+\zi \If $n \leq 1$
+\zi \Then \Return n \End
+\zi \Else
+\zi \Then $pprev\gets 0$
+\zi $prev\gets 1$
+\zi \For $i\gets 2 \To n$
+\zi \Do $f\gets prev+pprev$
+\zi $pprev\gets prev$
+\zi $prev\gets f$\End
+\zi \Return f \End
+\end{codebox}
+}
+\end{center}
+Théorème: Si $n\geq 0$, $\proc{Fibonacci-iter}(n)$ renvoie $F_n$.
+\end{column}
+\begin{column}{5cm}
+\begin{center}\small
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\Procname{$\proc{Fibonacci-Iter}(n)$}
+\zi {\color{red}$\{n\geq 0\}$} \Comment $\{P\}$
+\zi \If $n \leq 1$
+\zi \Then $prev\gets n$ \End
+\zi \Else
+\zi \Then $pprev\gets 0$
+\zi $prev\gets 1$
+\zi $i\gets 2$
+\zi \While ($i\leq n$)
+\zi \Do $f\gets prev+pprev$
+\zi $pprev\gets prev$
+\zi $prev\gets f$
+\zi $i\gets i+1$\End\End
+\zi {\color{red}$\{prev=F_n\}$} \Comment $\{Q\}$
+\zi \Return prev \End
+\end{codebox}
+}
+(réécriture)
+\end{center}
+\end{column}
+\end{columns}
 
+\end{frame}
+
+\begin{frame}{Exemple: $\proc{Fibonacci-iter}$}
+
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}\small
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi {\color{red}$\{n\geq 0\mbox{ et } n\leq 1\}$}
+\zi $prev\gets n$
+\zi {\color{red}$\{prev=F_n\}$}
+\end{codebox}
+}\\
+{\color{darkgreen}correct} ($F_0=0, F_1=1$)
+
+\bigskip
+
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi {\color{red}$\{n\geq 0\mbox{ et } n>1\}$}
+\zi $pprev\gets 0$
+\zi $prev\gets 1$
+\zi $i\gets 2$
+\zi \While ($i\leq n$)
+\zi \Do $f\gets prev+pprev$
+\zi $pprev\gets prev$
+\zi $prev\gets f$
+\zi $i\gets i+1$\End\End
+\zi {\color{red}$\{prev=F_n\}$}
+\end{codebox}}
+\fcolorbox{black}{white}{
+$I=\{pprev=F_{i-2}, prev=F_{i-1}\}$
+}
+\end{center}
+\end{column}
+
+\begin{column}{6cm}
+\begin{center}\small
+
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi {\color{red}$\{n>1\}$}
+\zi $pprev\gets 0$
+\zi $prev\gets 1$
+\zi $i\gets 2$
+\zi {\color{red}$\{pprev=F_{i-2}, prev=F_{i-1}\}$}
+\end{codebox}}\\
+{\color{darkgreen}correct}% ($i=2\Rightarrow pprev=0=F_0, prev=1=F_1$)
+
+\bigskip
+
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi {\color{red}$\{pprev=F_{i-2}, prev=F_{i-1}, i\leq n\}$}
+\zi $f\gets prev+pprev$
+\zi $pprev\gets prev$
+\zi $prev\gets f$
+\zi $i\gets i+1$
+\zi {\color{red}$\{pprev=F_{i-2}, prev=F_{i-1}\}$}
+\end{codebox}}
+{\color{darkgreen}correct}
+
+\bigskip
+
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi {\color{red}$\{pprev=F_{i-2}, prev=F_{i-1}, i=n+1\}$}
+\zi {\color{red}$\{prev=F_n\}$}
+\end{codebox}}\\
+{\color{darkgreen}correct}
+
+\end{center}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Exemple: $\proc{Fibonacci-iter}$}
+
+\begin{center}
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi $i\gets 2$
+\zi \While ($i\leq n$)
+\zi \Do $f\gets prev+pprev$
+\zi $pprev\gets prev$
+\zi $prev\gets f$
+\zi $i\gets i+1$\End
+\end{codebox}}
+\end{center}
+
+\begin{itemize}
+\item Fonction de terminaison $f=n-i+1$:
+\begin{itemize}
+\item $i\leq n \Rightarrow f=n-i+1>0$
+\item $i=i+1 \Rightarrow$ $f$ diminue à chaque itération
+\end{itemize}
+\item L'algorithme est donc correct et se termine.
+\end{itemize}
+\qed
+\end{frame}
+
+
+%% \begin{frame}{Invariant}
+%% \begin{itemize}
+%% \item \alert{Invariant:} Une assertion qui définit ce qui est vrai
+%%   avant et après chaque itération de la boucle
+%% \item \alert{Initialisation:} Prouver que l'invariant est vrai avant la
+%%   première itération (sous l'hypothèse que la pré-condition $P$ est
+%%   vérifiée)
+%% \item \alert{Maintenance:} Prouver que si l'invariant est vrai avant la
+%%   $i$-ième itération, il l'est également après celle-ci, et par
+%%   conséquent aussi avant la $i+1$-ième itération
+%% \item \alert{Terminaison:} Prouver que si l'invariant est vrai après la
+%%   dernière itération, la post-condition $Q$ est vérifiée
+%% \end{itemize}
+
+%% \centerline{\includegraphics[width=8cm]{Figures/02-invariant.pdf}}
+
+%% \end{frame}
+
+%% \begin{frame}{Mise en \oe uvre}
+%% \begin{itemize}
+%% \item Trouver un invariant de boucle une fois l'algorithme mis au point peut être assez complexe
+%% \item Idéalement, l'invariant devrait être la propriété clé qui définit l'algorithme
+%% \item Dans la suite du cours, on ne fournira un invariant que dans quelques cas
+%% \end{itemize}
+%% \end{frame}
+
+\begin{frame}{Exemple: tri par insertion}
+
+\begin{center}
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\Procname{$\proc{Insertion-Sort}(A)$}
+\li \For $j \gets 2$ \To $\attrib{A}{length}$
+\li     \Do
+$\id{key} \gets A[j]$
+\li \Comment Insert $A[j]$ into the sorted sequence
+    $A[1 \twodots j-1]$.
+\li $i \gets j-1$
+\li \While $i > 0$ and $A[i] > \id{key}$
+\li   \Do
+        $A[i+1] \gets A[i]$
+\li        $i \gets i-1$
+    \End
+\li $A[i+1] \gets \id{key}$
+\End
+\end{codebox}
+}
+\end{center}
+
+\begin{itemize}
+\item Démontrons informellement que la boucle externe est correcte
+\item Invariant $I$: le sous-tableau $A[1\twodots j-1]$ contient les
+  éléments du tableau original $A[1\twodots j-1]$ ordonnés.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Exemple: tri par insertion}
+\begin{columns}
+\begin{column}{3cm}
+\fcolorbox{white}{Lightgray}{\begin{codebox}
+\zi \For $j \gets 2$ \To $A.length$
+\zi     \Do CORPS
+\End
+\end{codebox}}
+\end{column}
+$\Leftrightarrow$
+\begin{column}{5cm}
+\fcolorbox{white}{Lightgray}{\begin{codebox}
+\zi $j\gets 2$
+\zi \While $i \leq A.length$
+\zi     \Do CORPS
+\zi     $j\gets j+1$
+\End
+\end{codebox}}
+\end{column}
+\end{columns}
+
+\begin{itemize}
+\item $P=\{A\mbox{ est un tableau de taille }\attrib{A}{length}\}$, $Q=\{\mbox{Le tableau }A\mbox{ est trié}\}$
+\item $\{P\} j=2 \{I\}$:
+\begin{itemize}
+\item $j=2 \Rightarrow A[1]$ est trivialement ordonné
+\end{itemize}
+\item $\{I\mbox{ et }j\leq \attrib{A}{length}\}$ CORPS $\{I\}$
+\begin{itemize}
+\item La boucle interne déplace $A[j-1]$, $A[j-2]$, $A[j-3]\ldots$ d'une position vers la droite jusqu'à trouver la bonne position pour $key$ ($A[j]$).
+\item $A[1\twodots j]$ contient alors les éléments originaux de $A[1\twodots j]$ triés.
+\item $j=j+1$ rétablit l'invariant
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Exemple: tri par insertion}
+\begin{itemize}
+\item $\{I\mbox{ et }j=A.length+1\}\{\mbox{Le tableau }A\mbox{ est trié}\}$:
+\begin{itemize}
+\item Puisque $j=A.length+1$, l'invariant implique que $A[1\twodots A.length]$ est ordonné.
+\end{itemize}
+
+\bigskip
+
+\item Fonction de terminaison $f=\attrib{A}{length}-j+1$
+\end{itemize}
+\end{frame}
 
 \subsection{Algorithmes récursifs}
 
+%% \begin{frame}{Correction d'algorithmes récursifs}
+%% \begin{itemize}
+%% \item La correction d'algorithmes récursifs se fait naturellement par induction
+%% \item La terminaison se prouve en montrant que le problème est réduit à chaque appel récursif
+%% \end{itemize}
+%% \end{frame}
+
 \begin{frame}{Preuve par induction}
 
+\centerline{\includegraphics[width=8cm]{Figures/02-induction.pdf}}
+
+\begin{itemize}
+\item On veut montrer qu'une propriété est vraie pour une série d'instances
+\item On suppose l'existence d'un ordonnancement des instances
+\item \alert{Cas de base:} on montre explicitement que la propriété est vraie pour la ou les premières instances
+\item \alert{Cas inductif:} on suppose que la propriété est vraie pour les $k$ premières instances et on montre qu'elle l'est alors aussi pour la $k+1$-ième instance
+\item Par le principe d'induction, la propriété sera vraie pour toutes les instances
+\end{itemize}
+
+\note{Exemple: instance = entier -> mettre l'exemple du slide suivant directement}
+
+\end{frame}
+
+\begin{frame}{Preuve par induction: exemple}
+
+\begin{itemize}
+\item Montrons que pour tout $n\geq 0$, on a $$\sum_{i=1}^n i=\frac{n(n+1)}{2}$$
+\item Cas de base: $n=0\Rightarrow \sum_{i=1}^0 i=0=\frac{0(0+1)}{2}$
+\item Cas inductif: Supposons la propriété vraie pour $n$ et montrons qu'elle est vraie pour $n+1$:
+\begin{eqnarray*}
+\sum_{i=1}^{n+1} i &= &\left(\sum_{i=1}^n i\right) + (n+1)=\frac{n(n+1)}{2}+(n+1)\\
+&=& \frac{(n+1)(n+2)}{2}
+\end{eqnarray*}
+\item Par induction, le propriété est vraie pour tout $n$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Correction d'algorithmes récursifs par induction}
+\begin{itemize}
+\item Propriété à montrer: l'algorithme est correct pour une instance quelconque du problème
+\item Instances du problème ordonnées par ``taille'' (taille du tableau, nombre de bits, un entier $n$, etc.)
+\item Cas de base de l'induction = cas de base de la récursion
+\item Cas inductif: on suppose que les appels récursifs sont corrects et on en déduit que l'appel courant est correct
+\item Terminaison: on montre que les appels récursifs se font sur des sous-problèmes (souvent trivial)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Exemple: $\proc{Fibonacci}$}
+
+\begin{center}\small
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\Procname{$\proc{Fibonacci}(n)$}
+\li \If $n \leq 1$
+\li \Then \Return n \End
+\li \Return $\proc{Fibonacci}(n-2)+\proc{Fibonacci}(n-1)$
+\end{codebox}
+}
+\end{center}
+
+
+Théorème: Pour tout $n$, $\proc{Fibonacci}(n)$ renvoie $F_n$.\\
+
+Démonstration:
+\begin{itemize}
+\item Cas de base: pour $n=0$, $\proc{Fibonacci}(n)$ renvoie $F_0=0$. For $n=1$, $\proc{Fibonacci}(n)$ renvoie $F_1=1$.
+\item Cas inductif:
+\begin{itemize}
+\item Supposons $n\geq 2$ et que pour tout $0\leq m\leq n$, $\proc{Fibonacci}(m)$ renvoie $F_m$.
+\item Pour $n\geq 2$, $\proc{Fibonacci}(n)$ renvoie
+\begin{eqnarray*}
+&&\proc{Fibonacci}(n-2)+\proc{Fibonacci}(n-1)\\
+&=& F_{n-2}+F_{n-1} \mbox{ (par hypothèse inductive)}\\
+&=& F_n.
+\end{eqnarray*}
+\end{itemize}
+\end{itemize}\qed
+
+\end{frame}
+
+\begin{frame}{Exemple: merge sort}
+\begin{center}\small
+\fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{merge-sort}(A,p,r)$}
+      \li \If $\id{p}<\id{r}$
+      \li \Then $q \gets \lfloor \frac{p+r}{2} \rfloor$
+      \li       $\proc{merge-sort}(A,p,q)$
+      \li       $\proc{merge-sort}(A,q+1,r)$
+      \li       $\proc{merge}(A,p,q,r)$ \End
+    \end{codebox}}
+\end{center}
+
+Théorème: Pour tout $1\leq p\leq r\leq \attrib{A}{length}$, $\proc{merge-sort}(A,p,r)$ trie le sous-tableau $A[p\twodots r]$.
+
+\bigskip
+
+(On supposera que $\proc{Merge}$ est correct (à démontrer par invariant))
+
+\end{frame}
+
+\begin{frame}{Exemple: merge sort}
+\begin{center}\small
+\fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{merge-sort}(A,p,r)$}
+      \li \If $\id{p}<\id{r}$
+      \li \Then $q \gets \lfloor \frac{p+r}{2} \rfloor$
+      \li       $\proc{merge-sort}(A,p,q)$
+      \li       $\proc{merge-sort}(A,q+1,r)$
+      \li       $\proc{merge}(A,p,q,r)$ \End
+    \end{codebox}}
+\end{center}
+
+Démonstration:
+\begin{itemize}
+\item Cas de base: pour $r-p=0$, $\proc{merge-sort}(A,p,r)$ ne modifie pas $A$ et donc $A[p]$ est trivialement trié
+\item Cas inductif:
+\begin{itemize}
+\item Supposons $r-p>0$ et que pour tout $1\leq p'\leq r'\leq \attrib{A}{length}$ tels que $r'-p'<r-p$, $\proc{merge-sort}(A,p',r')$ trie $A[p'\twodots r']$
+\item Les appels $\proc{merge-sort}(A,p,q)$ et $\proc{merge-sort}(A,p,q)$ sont corrects par hypothèse inductive
+\item En supposant $\proc{Merge}$ correct (à démontrer), l'appel $\proc{merge-sort}(A,p,q)$ est correct.
+\end{itemize}
+\end{itemize}\qed
 \end{frame}
 
 \begin{frame}{Conclusion sur la correction}
@@ -341,7 +819,7 @@ En se basant sur un modèle de calcul abstrait:
 \begin{frame}{Analyse du tri par insertion}
 \centerline{\includegraphics[width=10cm]{Figures/02-analysisinsertionsort.pdf}}
 \begin{itemize}
-\item $t_j=$ nombre de fois que la boucle $\While$ est exécutée.
+\item $t_j=$ nombre de fois que la condition du $\While$ est testée.
 \item Temps exécution $T(n)$ (pour un tableau de taille $n$) donné par:
 {\footnotesize
 \begin{eqnarray*}
@@ -483,7 +961,7 @@ $2^n$ & 19 & 25 & 31\\
 \bigskip
 
 \item Si $m$ est la taille maximale que l'on peut traiter en un temps
-  donnée, que devient cette valeur si on reçoit une machine 256 fois plus puissante?
+  donné, que devient cette valeur si on reçoit une machine 256 fois plus puissante?
 \begin{center}
 \footnotesize
 \begin{tabular}{cc}
@@ -605,11 +1083,11 @@ $$O(1)\subset O(\log n)\subset O(n) \subset O(n\log n) \subset O(n^{a>1})\subset
 \bigskip
 \item Si $f(n)\in O(g(n))$, alors pour tout $k\in \nats$, on a $k\cdot f(n)\in O(g(n))$
 \begin{itemize}
-\item Example: $\log_a(n)\in O(\log_b(n))$, $a^{n+b}\in O(a^n)$
+\item Exemple: $\log_a(n)\in O(\log_b(n))$, $a^{n+b}\in O(a^n)$
 \end{itemize}
 \item Si $f_1(n)\in O(g_1(n))$ et $f_2(n)\in O(g_2(n))$, alors $f_1(n)\cdot f_2(n)\in O(g_1(n)\cdot g_2(n))$
 \begin{itemize}
-\item Example: $\sum_{i=1}^m a_i n^i\in O(n^m)$
+\item Exemple: $\sum_{i=1}^m a_i n^i\in O(n^m)$
 \end{itemize}
 \item Si $f_1(n)\in O(g_1(n))$ et $f_2(n)\in O(g_2(n))$, alors $f_1(n)+f_2(n)\in O(g_1(n)+g_2(n))$ et $f_1(n)+f_2(n)\in O(\max\{g_1(n),g_2(n)\})$
 \end{itemize}
@@ -638,7 +1116,7 @@ $$O(1)\subset O(\log n)\subset O(n) \subset O(n\log n) \subset O(n^{a>1})\subset
 Exemples:
 \begin{itemize}
 \item On dira:\\
-``la complexité au pire cas du tri par insertion est $\Theta(n^2)$''\\
+``La complexité au pire cas du tri par insertion est $\Theta(n^2)$''\\
 plutôt que\\
 ``La complexité au pire cas du tri par insertion est $O(n^2)$'' \\
 ou ``La complexité du tri par insertion est $O(n^2)$''
@@ -667,7 +1145,7 @@ ou ``La complexité du tri par insertion est $\Omega(n)$''
 \item On peut montrer facilement que le problème du tri est $\Omega(n)$ (voir le transparent suivant)
 \item On montrera plus tard que le problème de tri est en fait $\Omega(n \log n)$ et donc qu'il est $\Theta(n\log n)$.
 \end{itemize}
-\item Exercice: montrez que la recherche du maximum dans un tableau est $\Theta(g(n))$
+\item Exercice: montrez que la recherche du maximum dans un tableau est $\Theta(n)$
 \end{itemize}
 \end{frame}
 
