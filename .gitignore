@@ -4,3 +4,6 @@ Figures/
 *.log
 *.out
 *.vrb
+*.nav
+*.snm
+*.toc
