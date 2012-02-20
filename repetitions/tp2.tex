@@ -1,0 +1,209 @@
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{../clrscode3epg}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+% Style
+\parskip=\smallskipamount
+
+% En-têtes
+\title{
+    \textbf{Structures de données et algorithmes}\\
+    Répétition 2: Complexité
+}
+
+\author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
+\date{24 février 2012}
+
+% Corps
+\begin{document}
+\maketitle
+
+\section*{Exercice 1}
+
+\begin{enumerate}
+
+\item L'algorithme $A$ nécessite $10n^3$ opérations pour résoudre un problème.
+L'algorithme $B$ résoud le même problème en $1000n^2$ opérations. A partir de
+quelle valeur de $n$ l'algorithme $B$ sera t-il plus rapide que l'algorithme
+$A$?
+
+\item L'algorithme $A$ nécessite $32n \log_2 n$ opérations pour résoudre un
+problème.  L'algorithme $B$ résoud le même problème en $3n^2$ opérations. A
+partir de quelle valeur de $n$  l'algorithme $A$ sera t-il plus rapide que
+l'algorithme $B$?
+
+\end{enumerate}
+
+\section*{Exercice 2}
+
+Classer ces fonctions par ordre croissant de complexité (selon l'opérateur
+$O(.)$).
+
+\begin{center}
+\begin{tabular}{llll}
+    $n \log_2 n$ & $\frac{4}{n}$ & $\sqrt{n}$ & $2^{2^n}$ \\\\
+    $\log_2 \log_2 n$ & $8n^3$ & $8^{\ln n}$ & $\frac{n}{2+n}$ \\\\
+    $\log_2^7 n$ & $5^{\ln \log_2 n}$ & $(\log_2 n)^3$ & $\frac{n}{\log_2 (2+n)}$
+\end{tabular}
+\end{center}
+
+\section*{Exercice 3}
+
+Donner un exemple de fonction $f(n)$ qui ne soit ni $O(n)$ ni $\Omega(n)$.
+
+\section*{Exercice 4}
+
+Pour chacun des pseudo-codes suivants, déterminer ce que fait l'algorithme, le
+nombre d'opérations élémentaires puis la complexité asymptotique (en termes de
+$O(.)$ et de $n$).
+
+\vspace{10pt}
+\begin{codebox}
+    \Procname{$\proc{Code1}(n)$}
+    \li $limit\gets n*n$
+    \li $sum\gets 0$
+    \li \For $i\gets 1$ \To $limit-1$
+    \li \Do $sum\gets sum+1$
+        \End
+    \li $summ\gets 0$
+    \li \For $j\gets 1$ \To $sum-1$
+    \li \Do $summ\gets summ+1$
+        \End
+    \li \Return $summ$
+    \End
+\end{codebox}
+\vspace{10pt}
+
+\begin{codebox}
+    \Procname{$\proc{Code2}(n)$}
+    \li $i\gets 0$
+    \li $limit\gets n*n*n$
+    \li $sum\gets 0$
+    \li \While $i < limit$
+    \li \Do $sum\gets sum+1$
+    \li     $i\gets i*2$
+        \End
+    \li \Return $sum$
+    \End
+\end{codebox}
+\vspace{10pt}
+
+\begin{codebox}
+    \Procname{$\proc{Code3}(n)$}
+    \li $limit\gets n*n$
+    \li $sum\gets 0$
+    \li \For $i\gets 1$ \To $limit-1$
+    \li \Do \For $j\gets 1$ \To $i$
+    \li     \Do $sum\gets sum+1$
+            \End
+        \End
+    \li \Return $sum$
+    \End
+\end{codebox}
+\vspace{10pt}
+
+\begin{codebox}
+    \Procname{$\proc{Code4}(a, b, c, n)$}
+    \li \For $i\gets 1$ \To $n$
+    \li \Do \For $j\gets 1$ \To $n$
+    \li     \Do $a[i][j]\gets 0$
+    \li         \For $k\gets 1$ to $n$
+    \li         \Do $a[i][j]\gets a[i][j] + b[i][k] * c[k][j]$
+                \End
+            \End
+        \End
+    \End
+\end{codebox}
+\vspace{10pt}
+
+\section*{Exercice 5}
+
+Supposons que nous avons un tableau $A$ de $n$ valeurs classées dans l'ordre
+croissant. On se propose de rechercher si une valeur $b$ est présente dans ce
+tableau.
+
+\begin{enumerate}
+
+\item Ecrire le pseudo-code d'un algorithme brutal pour rechercher la valeur
+$b$.  Analyser sa complexité dans le meilleur cas, dans le pire cas ainsi qu'en
+moyenne.
+
+\item Proposer un algorithme dichotomique pour trouver la valeur $b$. Analyser
+sa complexité dans le meilleur cas, dans le pire cas ainsi qu'en moyenne.
+
+\end{enumerate}
+
+\section*{Exercice 6}
+
+On se propose de coder une fonction polynomiale, de la forme:
+$$
+p(x) = \sum_{i=0}^n a_i x^i
+$$
+
+\begin{enumerate}
+
+\item Quelle est la complexité d'un algorithme implémentant $p(x)$ sous la forme présentée ci-dessus? (En utilisant uniquement des additions et des multiplications.)
+
+\item Proposer un algorithme linéaire.
+
+\end{enumerate}
+
+\section*{Exercice 7}
+
+Une attaque par \textit{déni de service} (DoS) est une attaque visant à saturer
+une application de sorte qu'elle ne puisse plus répondre à de nouvelles
+requêtes. Typiquement, un pirate essaiera de saturer l'application par une
+multiplication de requêtes lourdes en temps de calcul. Un exemple classique est
+celui de Apache qui, en 1997, intégrait la fonction suivante:
+
+\begin{verbatim}
+void no2slash(char *name) {
+    register int x,y;
+
+    for(x=0; name[x];)
+        if(x && (name[x-1] == '/') && (name[x] == '/'))
+            for(y=x+1;name[y-1];y++)
+                name[y-1] = name[y];
+        else x++;
+}
+\end{verbatim}
+
+\begin{enumerate}
+\item Que fait cette fonction?
+\item Quelle est sa complexité dans le pire des cas?
+\item Comment pouvait-on donc faire pour saturer un serveur web Apache?
+\item Le patch proposé pour corriger cette faille de sécurité implémentait
+\texttt{no2slash} de la façon ci-après. Quelle est la complexité de cette seconde fonction? La faille est-elle corrigée?
+\end{enumerate}
+
+\begin{verbatim}
+void no2slash(char *name) {
+    char *d, *s;
+
+    s = d = name;
+    while (*s) {
+        if ((*d++ = *s) == '/') {
+            do {
+                ++s;
+            } while (*s == '/');
+        }
+        else {
+            ++s;
+        }
+    }
+    *d = '\0';
+}
+\end{verbatim}
+
+\end{document}
