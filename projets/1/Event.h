@@ -15,8 +15,8 @@ struct Event_t
 typedef struct Event_t Event;
 
 /***********************************************************************
- * Create an array of random Event.
- * The returned array must later be deleted by calling freeEvents()
+ * Create an array of random Event objects.
+ * The array must later be deleted by calling freeEvents().
  *
  * PARAMETER
  * numEvents  Size of the array
@@ -28,7 +28,7 @@ Event** createEvents(size_t numEvents);
 
 /***********************************************************************
  * Destroy an array of Event that has been created by createEvents().
- * This function also deletes Event in the array.
+ * This function also deletes the Event objects in the array.
  *
  * PARAMETERS
  * events     An array of Event

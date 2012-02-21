@@ -29,8 +29,8 @@ double cpuTimeUsedToSort(const void** array, size_t length, int (*comparator)(co
  * b            The second element to compare
  *
  * RETURNS
- * < 0          If a append before b
- * 0            If a and b append at same time
+ * < 0          If a starts before b
+ * 0            If a and b start at same time
  * > 0          Otherwise
  ***********************************************************************/
 int compareEventByStartTime(const void* a, const void* b);
