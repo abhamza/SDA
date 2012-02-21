@@ -34,35 +34,35 @@ L'objectif du projet est d'implémenter, de comparer et d'analyser empiriquement
 trois algorithmes de tri : le QuickSort, le HeapSort et le InsertionSort.
 
 Le projet est à réaliser {\bf individuellement} pour le {\bf 17 mars 2012} à
-{\bf 05h00}. Le projet est à remettre via une interface web. Vous trouverez le
-lien sur la page des assistants. Un projet non rendu à temps recevra
-automatiquement une cote nulle. En cas de plagiat avéré, l'étudiant se verra
-affecter une cote nulle à l'ensemble du projet.
+{\bf 05h00} (du matin) au plus tard. Le projet est à remettre via une interface
+web. Vous trouverez le lien sur la page des assistants. Un projet non rendu à
+temps recevra automatiquement une cote nulle. En cas de plagiat avéré,
+l'étudiant se verra affecter une cote nulle à l'ensemble du projet.
 
 \section*{Implémentation}
 
-Les trois implémentations doivent respectées l'interface de tri décrite dans le
+Les trois implémentations doivent respecter l'interface de tri décrite dans le
 fichier \texttt{Sort.h}. Chaque tri doit être implémenté dans un fichier qui lui
-est propre: \texttt{QuickSort.h}, \texttt{HeapSort.h} et
-\texttt{InsertionSort.h}.
+est propre: \texttt{QuickSort.c}, \texttt{HeapSort.c} et
+\texttt{InsertionSort.c}.
 
 Vous disposerez d'un générateur de données dans le fichier \texttt{Event.h}. Ces
 données sont de type \texttt{Event} et comprennent trois champs: une date de
 début, une date de fin et une valeur entière. Les expériences que vous devrez
 réaliser sont à faire sur ce type de données mais vos implémentations de tri
-doivent être complètement générique, c'est-à-dire, sans aucune référence vers
+doivent être complètement génériques, c'est-à-dire sans aucune référence vers
 les applications qui les exploitent ou les données qui y sont exploitées, en
 particulier, vers le type \texttt{Event}.
 
 \subsection*{Exemple avec le BubbleSort}
 
-Afin de vous aider à prendre rapidement en main le code mis en place, nous vous
-avons implémenté le BubbleSort dans le fichier \texttt{BubbleSort.c} ainsi qu'un
-petit programme d'essaie \texttt{main.c}.
+Afin de vous aider à prendre rapidement en main le code mis en place, nous avons
+implémenté à titre d'exemple l'algorithme BubbleSort dans le fichier
+\texttt{BubbleSort.c} ainsi qu'un petit programme d'essai \texttt{main.c}.
 
-Pour compiler le programme, vous pouvez utiliser la commande suivante: \\ \texttt{gcc
-main.c BubbleSort.c Event.c --std=c99 --pedantic -Wall -W -Wmissing-prototypes
--o test}
+Pour compiler le programme, vous pouvez utiliser la commande suivante:
+
+{\small \texttt{gcc main.c BubbleSort.c Event.c --std=c99 --pedantic -Wall -W -Wmissing-prototypes -o test}}
 
 Ce programme ne prend aucun argument.
 
@@ -71,24 +71,24 @@ Ce programme ne prend aucun argument.
 \item[\texttt{Sort.h}] interface à implémenter
 \item[\texttt{Event.h}] interface du générateur de données
 \item[\texttt{Event.c}] implémentation du générateur de données
-\item[\texttt{BubbleSort.c}] implémentation du BubbleSort. Il respecte d'interface décrite dans \textsc{Sort.h}
+\item[\texttt{BubbleSort.c}] implémentation du BubbleSort. Il respecte d'interface décrite dans \texttt{Sort.h}
 \item[\texttt{main.c}] contient la fonction principale du programme
 \end{description}
 \subsection*{Fichiers à rendre}
 Quatre fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'archive n'a pas d'importance.
 \begin{description}
-\item[\texttt{QuickSort.h}] implémente le QuickSort
-\item[\texttt{HeapSort.h}] implémente le HeapSort
-\item[\texttt{InsertionSort.h}] implémente le InsertionSort
+\item[\texttt{QuickSort.c}] implémente le QuickSort
+\item[\texttt{HeapSort.c}] implémente le HeapSort
+\item[\texttt{InsertionSort.c}] implémente le InsertionSort
 \item[\texttt{Rapport.pdf}] contient vos réponses aux questions
 \end{description}
 
-{\em Note}: Les noms de fichiers font partie de l'énoncé. Tous fichier ne
+{\em Note}: Les noms de fichiers font partie de l'énoncé. Tout fichier ne
 correspondant pas à ceux demandés dans l'énoncé ne sera pas pris en compte.
 
 \subsection*{Robustesse}
 
-Nous compilerons votre code avec un compilateur de GNU (gcc) en spécifiant au
+Nous compilerons votre code avec le compilateur GCC en spécifiant au
 minimum les options de compilation \texttt{--std=c99 --pedantic -Wall -W -Wmissing-
 prototypes}. Si la compilation échoue, le projet reçoit une note de zéro.
 
@@ -102,12 +102,18 @@ prototypes}. Si la compilation échoue, le projet reçoit une note de zéro.
 \end{itemize}
 
 \section*{Questions}
+
+Dans le cadre de ce travail, nous vous demandons également d'analyser
+expérimentalement les algorithmes que vous aurez implémentés en répondant aux
+questions suivantes. Vos réponses doivent être rédigées dans un bref rapport (au
+format PDF) à joindre avec vos fichiers sources.
+
 \subsection*{1 - Temps d'exécution}
 
-Soit $n$, le nombre de données à trier dans un tableau. Calculez empiriquement
-le temps d'exécution moyen et son écart-type des trois algorithmes pour
-différentes valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et 1.000.000). La
-moyenne et l'écart-type doivent être obtenus sur un ensemble de 10 expériences.
+Soit $n$ le nombre de données à trier dans un tableau. Calculez empiriquement le
+temps d'exécution moyen et son écart-type des trois algorithmes pour différentes
+valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et 1.000.000). La moyenne et l
+'écart-type doivent être obtenus sur un ensemble de 10 expériences. Commentez.
 
 \begin{center}
 \begin{tabular}{cccc}
@@ -125,17 +131,17 @@ moyenne et l'écart-type doivent être obtenus sur un ensemble de 10 expérience
 
 {\em Note}: le temps d'exécution est une valeur peu précise qui dépend fortement
 des capacités de l'ordinateur mais également de l'état d'utilisation de celui-
-ci aux moments des expériences. Pour limiter cet effet, il vous est conseillé
+ci au moment des expériences. Pour limiter cet effet, il vous est conseillé
 de réaliser toutes vos mesures de manière séquentielle sur la même machine.
 
 \subsection*{2 - Nombre de comparaisons}
 
-Les algorithmes peuvent également être évalué en fonction du nombre de
+Les algorithmes peuvent également être évalués en fonction du nombre de
 comparaisons qu'ils effectuent entre les éléments du tableau. Dès lors, calculez
 empiriquement le nombre de comparaisons moyenne et son écart-type des trois
 algorithmes pour différentes valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et
 1.000.000). La moyenne et l'écart-type doivent être obtenus sur un ensemble de
-10 expériences.
+10 expériences. Commentez.
 
 \begin{center}
 \begin{tabular}{cccc}
