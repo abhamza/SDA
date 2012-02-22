@@ -54,7 +54,7 @@ $O(.)$).
 \begin{tabular}{llll}
     $n \log_2 n$ & $\frac{4}{n}$ & $\sqrt{n}$ & $2^{2^n}$ \\\\
     $\log_2 \log_2 n$ & $8n^3$ & $8^{\ln n}$ & $\frac{n}{2+n}$ \\\\
-    $\log_2^7 n$ & $5^{\ln \log_2 n}$ & $(\log_2 n)^3$ & $\frac{n}{\log_2 (2+n)}$
+    $\log_2 n^7$ & $5^{\ln \log_2 n}$ & $(\log_2 n)^3$ & $\frac{n}{\log_2 (2+n)}$
 \end{tabular}
 \end{center}
 
@@ -72,9 +72,8 @@ $O(.)$).
 
 \section*{Exercice 4}
 
-Pour chacun des pseudo-codes suivants, déterminer ce que fait l'algorithme, le
-nombre d'opérations élémentaires puis la complexité asymptotique (en termes de
-$O(.)$ et de $n$).
+Pour chacun des pseudo-codes suivants, déterminer ce que fait l'algorithme, puis
+la complexité asymptotique (en termes de $O(.)$ et de $n$).
 
 \vspace{10pt}
 \begin{codebox}
@@ -91,7 +90,7 @@ $O(.)$ et de $n$).
 
 \begin{codebox}
     \Procname{$\proc{Code2}(n)$}
-    \li $i\gets 0$
+    \li $i\gets 1$
     \li $limit\gets n*n*n$
     \li $sum\gets 0$
     \li \While $i < limit$
@@ -119,7 +118,7 @@ $O(.)$ et de $n$).
 
 \begin{codebox}
     \Procname{$\proc{Code4}(n)$}
-    \li \If $n \leq 1$
+    \li \If $n < 1$
         \Then
     \li     \Return n
     \li \Else
@@ -151,13 +150,14 @@ tableau.
 \begin{enumerate}
 
 \item Ecrire le pseudo-code d'un algorithme brutal pour rechercher la valeur
-$b$.  Analyser sa complexité dans le meilleur cas, dans le pire cas ainsi qu'en
-moyenne.
+$b$.  Analyser sa complexité dans le meilleur cas et dans le pire cas.
 
 \item Proposer un algorithme dichotomique pour trouver la valeur $b$. Analyser
-sa complexité dans le meilleur cas, dans le pire cas ainsi qu'en moyenne.
+sa complexité dans le meilleur cas et dans le pire cas.
 
 \end{enumerate}
+
+\textit{Bonus:} Analyser la complexité moyenne de ces algorithmes.
 
 \section*{Exercice 6}
 
