@@ -39,7 +39,29 @@ web. Vous trouverez le lien sur la page des assistants. Un projet non rendu à
 temps recevra automatiquement une cote nulle. En cas de plagiat avéré,
 l'étudiant se verra affecter une cote nulle à l'ensemble du projet.
 
-\section*{Implémentation}
+\subsection*{Fichiers fournis}
+\begin{description}
+\item[\texttt{Sort.h}] interface à implémenter
+\item[\texttt{Event.h}] interface du générateur de données
+\item[\texttt{Event.c}] implémentation du générateur de données
+\item[\texttt{BubbleSort.c}] implémentation du BubbleSort. Il respecte d'interface décrite dans \texttt{Sort.h}
+\item[\texttt{LinkedList.h}] représentation d'une liste liée minimaliste
+\item[\texttt{main.c}] contient la fonction principale du programme
+\end{description}
+\subsection*{Fichiers à rendre}
+Cinq fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'archive n'a pas d'importance.
+\begin{description}
+\item[\texttt{QuickSort.c}] implémente la fonction \texttt{Sort} avec le QuickSort
+\item[\texttt{HeapSort.c}] implémente la fonction \texttt{Sort} avec le HeapSort
+\item[\texttt{InsertionSort.c}] implémente la fonction \texttt{Sort} avec le InsertionSort
+\item[\texttt{LinkedListSort.c}] implémente la fonction \texttt{sortLinkedList}
+\item[\texttt{Rapport.pdf}] contient vos réponses aux questions
+\end{description}
+
+{\em Note}: Les noms de fichiers font partie de l'énoncé. Tout fichier ne
+correspondant pas à ceux demandés dans l'énoncé ne sera pas pris en compte.
+
+\section{Implémentation}
 
 Les trois implémentations doivent respecter l'interface de tri décrite dans le
 fichier \texttt{Sort.h}. Chaque tri doit être implémenté dans un fichier qui lui
@@ -66,26 +88,6 @@ Pour compiler le programme, vous pouvez utiliser la commande suivante:
 
 Ce programme ne prend aucun argument.
 
-\subsection*{Fichiers fournis}
-\begin{description}
-\item[\texttt{Sort.h}] interface à implémenter
-\item[\texttt{Event.h}] interface du générateur de données
-\item[\texttt{Event.c}] implémentation du générateur de données
-\item[\texttt{BubbleSort.c}] implémentation du BubbleSort. Il respecte d'interface décrite dans \texttt{Sort.h}
-\item[\texttt{main.c}] contient la fonction principale du programme
-\end{description}
-\subsection*{Fichiers à rendre}
-Quatre fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'archive n'a pas d'importance.
-\begin{description}
-\item[\texttt{QuickSort.c}] implémente le QuickSort
-\item[\texttt{HeapSort.c}] implémente le HeapSort
-\item[\texttt{InsertionSort.c}] implémente le InsertionSort
-\item[\texttt{Rapport.pdf}] contient vos réponses aux questions
-\end{description}
-
-{\em Note}: Les noms de fichiers font partie de l'énoncé. Tout fichier ne
-correspondant pas à ceux demandés dans l'énoncé ne sera pas pris en compte.
-
 \subsection*{Robustesse}
 
 Nous compilerons votre code avec le compilateur GCC en spécifiant au
@@ -101,14 +103,14 @@ prototypes}. Si la compilation échoue, le projet reçoit une note de zéro.
 \item Avec des pointeurs et l’allocation de mémoire dynamique, il est très facile d’introduire des erreurs de mémoire. Pour détecter ce genre de problèmes, il y a des outils extrêmement utiles tels que {\em valgrind};
 \end{itemize}
 
-\section*{Questions}
+\section{Analyse}
 
 Dans le cadre de ce travail, nous vous demandons également d'analyser
 expérimentalement les algorithmes que vous aurez implémentés en répondant aux
 questions suivantes. Vos réponses doivent être rédigées dans un bref rapport (au
 format PDF) à joindre avec vos fichiers sources.
 
-\subsection*{1 - Temps d'exécution}
+\subsection{Temps d'exécution}
 
 Soit $n$ le nombre de données à trier dans un tableau. Calculez empiriquement le
 temps d'exécution moyen et son écart-type des trois algorithmes pour différentes
@@ -134,7 +136,7 @@ des capacités de l'ordinateur mais également de l'état d'utilisation de celui
 ci au moment des expériences. Pour limiter cet effet, il vous est conseillé
 de réaliser toutes vos mesures de manière séquentielle sur la même machine.
 
-\subsection*{2 - Nombre de comparaisons}
+\subsection{Nombre de comparaisons}
 
 Les algorithmes peuvent également être évalués en fonction du nombre de
 comparaisons qu'ils effectuent entre les éléments du tableau. Dès lors, calculez
@@ -161,11 +163,17 @@ algorithmes pour différentes valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et
 introduire des erreurs. Vous devriez pouvoir facilement compter le nombre de
 comparaisons à partir du comparateur.
 
-\subsection*{3 - Améliorations}
-\begin{enumerate}
-\item À partir des différents temps d'exécution, peut-on distinguer des cas dans lesquels il est préférable d'utiliser un algorithme plutôt qu'un autre ? Dans le cas contraire, essayez de nouvelles valeurs de $n$.
-\item Comment expliquez-vous ce phénomène ?
-\item Proposez un pseudo-code qui décrit un algorithme exploitant ce phénomène.
-\end{enumerate}
+\section{Liste liée}
+
+Supposons à présent que la structure de données que nous désirons trier soit une
+liste liée, telle que décrite dans le fichier \texttt{LinkedList.h}, et non plus
+un tableau. Il vous est demandé d'implémenter un algorithme (de votre choix)
+permettant de trier une liste liée, avec pour contrainte de ne pas utiliser une
+quantité de mémoire supérieure à $O(1)$. La fonction est à implémenter dans le
+fichier \texttt{LinkedListSort.c} dont le prototype \texttt{sortLinkedList} est
+déclaré dans le fichier \texttt{Sort.h}.
+
+\textit{Bonus}:  Des points supplémentaires seront attribués aux algorithmes les plus
+performants en terme de temps d'exécution.
 
 \end{document}
