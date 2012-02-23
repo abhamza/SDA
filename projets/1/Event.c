@@ -18,7 +18,7 @@ Event* createEvent(void)
   return res;
 }
 
-Event** createEvents(size_t numEvents)
+Event** createArrayOfEvents(size_t numEvents)
 {
   Event** res = malloc(numEvents * sizeof(Event*));
   if (res == NULL)
@@ -28,13 +28,39 @@ Event** createEvents(size_t numEvents)
   return res;
 }
 
-void freeEvents(Event** events, size_t numEvents)
+void freeArrayOfEvents(Event** events, size_t numEvents)
 {
   if (events == NULL)
     return;
   for (size_t i = 0; i < numEvents; ++i)
     free(events[i]);
   free(events);
+}
+
+LinkedList* createLinkedListOfEvents(size_t numEvents)
+{
+  LinkedList* res = NULL;
+  for (size_t i = 0; i < numEvents; ++i)
+  {
+    LinkedList* element = malloc(sizeof(LinkedList));
+    if (element == NULL)
+      return res;
+    element->value = (void*)createEvent();
+    element->next = res;
+    res = element;
+  }
+  return res;
+}
+
+void freeLinkedListOfEvents(LinkedList* list)
+{
+  while (list != NULL)
+  {
+    free(list->value);
+    LinkedList* currentNode = list;
+    list = list->next;
+    free(currentNode);
+  }
 }
 
 void printEvent(Event* event)

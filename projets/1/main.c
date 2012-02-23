@@ -59,12 +59,12 @@ int main(void)
 {
   size_t numEvents = 100000;
   printf("Num. Events: %d\n", (int)numEvents);
-  Event** events = createEvents(numEvents);
+  Event** events = createArrayOfEvents(numEvents);
 
   const double sec = cpuTimeUsedToSort((const void**)events, numEvents, compareEventByStartTime);
   printf("CPU Time: %f\n", sec);
 
-  freeEvents(events, numEvents);
+  freeArrayOfEvents(events, numEvents);
 
   return 0;
 }
