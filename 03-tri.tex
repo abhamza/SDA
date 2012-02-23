@@ -49,17 +49,35 @@ Record$_1$ & & Record$_2$ & & Record$_3$ & & Record$_n$\\
 \end{frame}
 
 \begin{frame}{Applications}
+
+Applications innombrables:
 \begin{itemize}
-\item Tri des enregistrements dans une base de données
-\item Visualisation 3D: trier les objets du plus près au plus éloigné pour l'affichage
+\item Tri des mails selon leur ancienneté
+\item Tri des résultats de requête dans un moteur de recherche
+\item Tri des facettes des objets pour l'affichage dans les jeux 3D
+\item Gestion des opérations banquaires
 \item ...
 \end{itemize}
+
+\bigskip
+
+Le tri sert aussi de brique de base pour d'autres algorithmes:
+\begin{itemize}
+\item Recherche binaire dans un tableau trié
+\item Recherche des éléments dupliqués dans une liste
+\item Recherche du $k$ème élément le plus grand dans une liste
+\item ...
+\end{itemize}
+
+\bigskip
+
+Des études montrent qu'environ 25\% du temps CPU des ordinateurs est utilisé pour trier
 \end{frame}
 
 \begin{frame}{Différents types de tri}
 
 \begin{itemize}
-\item {\bf Tri interne:} tri en mémoire centrale. Tris externes: données sur un disque externe.
+\item {\bf Tri interne:} tri en mémoire centrale. {\bf Tris externes:} données sur un disque externe.
 \item {\bf Tri de tableau:} tri qui trie un tableau. Extensible à toutes structure de données offrant un accès en temps (quasi) constant à ses éléments.
 \item {\bf Tri générique:} peut trier n'imporque quel type d'objets pour autant qu'on puisse comparer ces objets.
 \item {\bf Tri comparatif:} basé sur la comparaison entre les éléments (clés)
@@ -72,11 +90,11 @@ Record$_1$ & & Record$_2$ & & Record$_3$ & & Record$_n$\\
 \begin{itemize}
 \item {\bf Tri itératif:} basé sur un ou plusieurs parcours itératif du tableau
 \item {\bf Tri récursif:} basé sur une procédure récursive
-\item {\bf Tri en place:} ne nécessite qu'une quantité constante de mémoire supplémentaire.
+\item {\bf Tri en place:} modifie directement la structure qu'il est en train de trier. Ne nécessite qu'une quantité très limitée de mémoire supplémentaire.
 \item {\bf Tri  stable:} conserve l'ordre relatif des éléments égaux (au sens de la méthode de comparaison).
 \end{itemize}
 
-\note{Stable: expliquer ce que Ã§a veut dire en illustrant avec les colonnes dans excel: tri sur deux colonnes: un tri stable va maintenir l'ordre sur la deuxième colonne}
+\note{Stable: expliquer ce que ca veut dire en illustrant avec les colonnes dans excel: tri sur deux colonnes: un tri stable va maintenir l'ordre sur la deuxième colonne}
 \end{frame}
 
 \begin{frame}{Jusqu'ici}
@@ -102,6 +120,12 @@ Record$_1$ & & Record$_2$ & & Record$_3$ & & Record$_n$\\
   \end{tabular}
   \end{center}
 
+\note{Expliquer le principe des algorithmes
+
+\bigskip
+
+Demander lesquels sont stables: selection: non, insertion: oui, merge: oui, bubble: oui.
+}
 \end{frame}
 
 \section{Tri rapide}
@@ -166,21 +190,26 @@ Remarques:
     %% \bigskip
     \fcolorbox{white}{Lightgray}{
     \begin{codebox}
-      \Procname{$\proc{QuickSort}(A,\id{begin},\id{end})$}
-      \li \If $\id{begin}<\id{end}$
-      \li \Then $q\gets\proc{Partition}(A,\id{begin},\id{end})$
-      \li $\proc{QuickSort}(A,\id{begin},q-1)$
-      \li $\proc{QuickSort}(A,q+1,\id{end})$
+      \Procname{$\proc{QuickSort}(A,\id{p},\id{r})$}
+      \li \If $\id{p}<\id{r}$
+      \li \Then $q\gets\proc{Partition}(A,\id{p},\id{r})$
+      \li $\proc{QuickSort}(A,\id{p},q-1)$
+      \li $\proc{QuickSort}(A,q+1,\id{r})$
       \End
     \end{codebox}}
 %    \end{small}
+
+\bigskip
+
+Appel initial: $\proc{Quicksort}(A,1,\attrib{A}{length})$
   \end{center}
 \end{frame}
 
 \begin{frame}{Partition}
 
 \begin{itemize}
-\item On démarre avec $q=1$
+\item On sélectionne le dernier élément $A[r]$ comme le {\bf pivot}, c'est-à-dire l'élément autour duquel on partitione
+\item On initialise un pointeur $q=p$ vers le premier élément du tableau
 \item On parcourt le tableau de gauche à droite, en commençant à la position 2
 \item Si l'élément $A[i]$ est plus petit ou égal au pivot, on l'échange avec la position $q$ courante et on déplace $q$ vers la droite
 \end{itemize}
@@ -188,17 +217,17 @@ Remarques:
 \begin{center}
     \fcolorbox{white}{Lightgray}{%
     \begin{codebox}
-      \Procname{$\proc{Partition}(A,\id{begin},\id{end})$}
-      \li $q\gets \id{begin}$
-      \li $v\gets A[\id{end}]$
-      \li \For $i\gets \id{begin}+1$ \To $\id{end}-1$
-      \li \Do \If $A[i]\le v$
-      \li     \Then $\id{swap}(A[i], A[q])$
-      \li           $q\gets q+1$
+      \Procname{$\proc{Partition}(A,\id{p},\id{r})$}
+      \li $x\gets A[\id{r}]$
+      \li $i\gets p-1$
+      \li \For $j\gets \id{p}$ \To $\id{r}-1$
+      \li \Do \If $A[j]\le v$
+      \li     \Then $i\gets i+1$
+      \li           $\id{swap}(A[i], A[j])$
               \End
           \End
-      \li $\id{swap}(A[\id{end}], A[q])$
-      \li \Return $q$
+      \li $\id{swap}(A[\id{i}+1], A[r])$
+      \li \Return $i+1$
     \end{codebox}}
 \end{center}
 
@@ -206,7 +235,17 @@ Remarques:
 
 \begin{frame}{Partition: illustration}
 
-\centerline{\includegraphics[width=6cm]{Figures/03-partition.pdf}}
+\begin{columns}
+\begin{column}{4cm}
+\centerline{\includegraphics[width=3.5cm]{Figures/03-partition2.pdf}}
+\end{column}
+\begin{column}{6cm}\small
+$A[r]$ est le pivot\\
+$A[p\twodots i]$: contient des éléments $\leq$ au le pivot\\
+$A[i+1\twodots j-1]$ contient des éléments $>$ que le pivot\\
+$A[p\twodots i]$: est la partie du tableau non encore examinée
+\end{column}
+\end{columns}
 
 \end{frame}
 
@@ -214,8 +253,8 @@ Remarques:
 
 Invariant pour la boucle:
 \begin{enumerate}
-\item Toutes les valeurs dans $A[p\twodots i]$ sont $\leq$ au pivot
-\item Toutes les valeurs dans $A[i+1\twodots j-1]$ sont $>$ que le pivot
+\item Les valeurs dans $A[p\twodots i]$ sont $\leq$ au pivot
+\item Les valeurs dans $A[i+1\twodots j-1]$ sont $>$ que le pivot
 \item $A[r]=pivot$
 \end{enumerate}
 
