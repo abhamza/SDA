@@ -165,15 +165,19 @@ comparaisons à partir du comparateur.
 
 \section{Liste liée}
 
-Supposons à présent que la structure de données que nous désirons trier soit une
-liste liée, telle que décrite dans le fichier \texttt{LinkedList.h}, et non plus
-un tableau. Il vous est demandé d'implémenter un algorithme (de votre choix)
-permettant de trier une liste liée, avec pour contrainte de ne pas utiliser une
-quantité de mémoire supérieure à $O(1)$. La fonction est à implémenter dans le
-fichier \texttt{LinkedListSort.c} dont le prototype \texttt{sortLinkedList} est
-déclaré dans le fichier \texttt{Sort.h}.
+Supposons à présent que la structure de données que nous désirons
+trier soit une liste liée, telle que décrite dans le fichier
+\texttt{LinkedList.h}, et non plus un tableau. Il vous est demandé
+d'implémenter un algorithme (de votre choix) permettant de trier une
+liste liée {\bf en place}, c'est-à-dire modifiant directement la
+structure de liste sans créer de structure supplémentaire en
+$O(n)$. La fonction est à implémenter dans le fichier
+\texttt{LinkedListSort.c} dont le prototype \texttt{sortLinkedList}
+est déclaré dans le fichier \texttt{Sort.h}.
 
-\textit{Bonus}:  Des points supplémentaires seront attribués aux algorithmes les plus
-performants en terme de temps d'exécution.
+\textit{Bonus}: Toutes vos implémentations seront testées par nos soins
+sur les mêmes jeux de données et des points supplémentaires seront
+attribués aux algorithmes les plus performants en terme de temps
+d'exécution.
 
 \end{document}
