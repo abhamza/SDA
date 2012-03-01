@@ -1,12 +1,7 @@
 
 \part{Algorithmes de tri}
 
-%% % Superbe site web avec les differents algorithmes
-
 %% % http://www.sorting-algorithms.com/
-
-%% % Voir les slides de Carzaniga !!!
-
 
 \begin{frame}{Plan}
 
@@ -94,7 +89,13 @@ Des études montrent qu'environ 25\% du temps CPU des ordinateurs est utilisé p
 \item {\bf Tri  stable:} conserve l'ordre relatif des éléments égaux (au sens de la méthode de comparaison).
 \end{itemize}
 
-\note{Stable: expliquer ce que ca veut dire en illustrant avec les colonnes dans excel: tri sur deux colonnes: un tri stable va maintenir l'ordre sur la deuxième colonne}
+\note{Stable: expliquer ce que ca veut dire en illustrant avec les colonnes dans excel: tri sur deux colonnes: un tri stable va maintenir l'ordre sur la deuxième colonne
+
+\bigskip
+
+Stable si $$(2,1),(1,2),(2,3),(2,4),(6,5)$$
+est trié en $$(1,2),(2,1),(2,3),(2,4),(6,5)$$
+}
 \end{frame}
 
 \begin{frame}{Jusqu'ici}
@@ -109,7 +110,7 @@ Des études montrent qu'environ 25\% du temps CPU des ordinateurs est utilisé p
     \hline
     \proc{Selection-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
     \hline
-    \proc{Bubble-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
+    \proc{Bubble-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n)$&oui\\
     \hline
     \proc{Merge-Sort}&$\Theta(n\log{n})$&$\Theta(n\log{n})$&$\Theta(n\log{n})$&non\\
     \hline\hline
@@ -137,7 +138,7 @@ Demander lesquels sont stables: selection: non, insertion: oui, merge: oui, bubb
 \item Dans le top 10 des algorithmes du 20-ième siècle (SIAM)
 \item L'exemple le plus célèbre de la technique du ``diviser pour régner''
 \item Tri en place, comme tri par insertion, et contrairement au tri par fusion
-\item Complexité: $O(n^2)$ dans le pire des cas, $O(n\log n)$ en moyenne
+\item Complexité: $\Theta(n^2)$ dans le pire des cas, $\theta(n\log n)$ en moyenne
 \end{itemize}
 \end{frame}
 
@@ -161,7 +162,7 @@ Remarques:
 
 \begin{frame}{\proc{QuickSort}: principe}
 
-\centerline{\includegraphics[width=8cm]{Figures/03-quicksort-illustration.pdf}}
+\centerline{\includegraphics[width=8cm]{Figures/03-quicksort-illustration3.pdf}}
 
 % Gaetano -> à modifier pour mettre les q,r, etc.
 
@@ -205,32 +206,19 @@ Appel initial: $\proc{Quicksort}(A,1,\attrib{A}{length})$
   \end{center}
 \end{frame}
 
-\begin{frame}{Partition}
+\begin{frame}{Partition: principe}
+
+\centerline{\includegraphics[width=6cm]{Figures/03-partition-illustration.pdf}}
+
+\bigskip
 
 \begin{itemize}
-\item On sélectionne le dernier élément $A[r]$ comme le {\bf pivot}, c'est-à-dire l'élément autour duquel on partitione
-\item On initialise un pointeur $q=p$ vers le premier élément du tableau
-\item On parcourt le tableau de gauche à droite, en commençant à la position 2
-\item Si l'élément $A[i]$ est plus petit ou égal au pivot, on l'échange avec la position $q$ courante et on déplace $q$ vers la droite
+\item On sélectionne le dernier élément $A[r]$ comme le {\bf pivot}
+\item On initialise un indice $i$ à $p-1$
+\item On parcourt le tableau de gauche à droite avec un indice $j=p \To r-1$
+\item Si $A[j]\le A[r]$, on incrémente $i$ et on échange $A[j]$ et $A[i]$
+\item En sortie de boucle, on échange $A[i+1]$ et $A[r]$ et on renvoie $i+1$
 \end{itemize}
-
-\begin{center}
-    \fcolorbox{white}{Lightgray}{%
-    \begin{codebox}
-      \Procname{$\proc{Partition}(A,\id{p},\id{r})$}
-      \li $x\gets A[\id{r}]$
-      \li $i\gets p-1$
-      \li \For $j\gets \id{p}$ \To $\id{r}-1$
-      \li \Do \If $A[j]\le v$
-      \li     \Then $i\gets i+1$
-      \li           $\id{swap}(A[i], A[j])$
-              \End
-          \End
-      \li $\id{swap}(A[\id{i}+1], A[r])$
-      \li \Return $i+1$
-    \end{codebox}}
-\end{center}
-
 \end{frame}
 
 \begin{frame}{Partition: illustration}
@@ -249,24 +237,79 @@ $A[p\twodots i]$: est la partie du tableau non encore examinée
 
 \end{frame}
 
-\begin{frame}{Correction}
+\begin{frame}{Partition: pseudo-code}
 
-Invariant pour la boucle:
+\begin{center}
+    \fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{Partition}(A,\id{p},\id{r})$}
+      \li $x\gets A[\id{r}]$
+      \li $i\gets p-1$
+      \li \For $j\gets \id{p}$ \To $\id{r}-1$
+      \li \Do \If $A[j]\le x$
+      \li     \Then $i\gets i+1$
+      \li           $\id{swap}(A[i], A[j])$
+              \End
+          \End
+      \li $\id{swap}(A[\id{i}+1], A[r])$
+      \li \Return $i+1$
+    \end{codebox}}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Partition: correction}
+
+\begin{center}\small
+    \fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{Partition}(A,\id{p},\id{r})$}
+      \li $x\gets A[\id{r}]$
+      \li $i\gets p-1$
+      \li \For $j\gets \id{p}$ \To $\id{r}-1$
+      \li \Do \If $A[j]\le x$
+      \li     \Then $i\gets i+1$
+      \li           $\id{swap}(A[i], A[j])$
+              \End
+          \End
+      \li $\id{swap}(A[\id{i}+1], A[r])$
+      \li \Return $i+1$
+    \end{codebox}}
+\end{center}
+
+{\bf Pré-condition:} $\{A[p\twodots r],\mbox{ un tableau de nombres}\}$\\
+{\bf Post-condition:} $\{A[p\twodots i]\le A[i+1]< A[i+2\twodots r]\}$\\
+{\bf Invariant:}
 \begin{enumerate}
 \item Les valeurs dans $A[p\twodots i]$ sont $\leq$ au pivot
 \item Les valeurs dans $A[i+1\twodots j-1]$ sont $>$ que le pivot
 \item $A[r]=pivot$
 \end{enumerate}
 
-\bigskip
+\end{frame}
 
 
-{\bf Initialisation:} $A[p\twodots i]$ et $A[i+1\twodots q]$ sont vides
+\begin{frame}{Partition: correction}
 
-{\bf Maintenance:} 
+{\bf Avant la boucle:} $i=p-1$ et $j=p$ $\Rightarrow$ $A[p\twodots i]$ et $A[i+1\twodots j-1]$ sont vides
 
-{\bf Terminaison:} $j=r$.
+\medskip
 
+{\bf Pendant la boucle:}
+\centerline{\includegraphics[width=5cm]{Figures/03-partition-illustration.pdf}}
+
+\begin{itemize}
+\item Si $A[j]>x$, on incrémente juste $j$. Donc si l'invariant était vrai avant l'exécution du corps, il reste vrai après.
+\item Si $A[j]\le x$, on échange $A[j]$ et $A[i+1]$ et $i$ et $j$ sont incrémentés. L'invariant reste donc vérifié également
+\end{itemize}
+
+\medskip
+
+{\bf Après la boucle:} 
+\centerline{\includegraphics[width=5cm]{Figures/03-fininvariant.pdf}}
+
+En sortie de boucle, l'invariant est vérifié et
+on a $j=r$. Echanger $A[i+1]$ et $A[r]$ établit la post-condition.
 
 \end{frame}
 
@@ -274,41 +317,40 @@ Invariant pour la boucle:
   \begin{center}
    \begin{small}
 
-    \fcolorbox{white}{Lightgray}{%
+\fcolorbox{white}{Lightgray}{%
     \begin{codebox}
-      \Procname{$\proc{Partition}(A,\id{begin},\id{end})$}
-      \li $q\gets \id{begin}$
-      \li $v\gets A[\id{end}]$
-      \li \For $i\gets \id{begin}+1$ \To $\id{end}-1$
-      \li \Do \If $A[i]\le v$
-      \li     \Then $\id{swap}(A[i], A[q])$
-      \li           $q\gets q+1$
+      \Procname{$\proc{Partition}(A,\id{p},\id{r})$}
+      \li $x\gets A[\id{r}]$
+      \li $i\gets p-1$
+      \li \For $j\gets \id{p}$ \To $\id{r}-1$
+      \li \Do \If $A[j]\le x$
+      \li     \Then $i\gets i+1$
+      \li           $\id{swap}(A[i], A[j])$
               \End
           \End
-      \li $\id{swap}(A[\id{end}], A[q])$
-      \li \Return $q$
+      \li $\id{swap}(A[\id{i}+1], A[r])$
+      \li \Return $i+1$
     \end{codebox}}
 
-    \bigskip
+\bigskip
+
     \fcolorbox{white}{Lightgray}{
     \begin{codebox}
-      \Procname{$\proc{QuickSort}(A,\id{begin},\id{end})$}
-      \li \If $\id{begin}<\id{end}$
-      \li \Then $q\gets\proc{Partition}(A,\id{begin},\id{end})$
-      \li $\proc{QuickSort}(A,\id{begin},q-1)$
-      \li $\proc{QuickSort}(A,q+1,\id{end})$
+      \Procname{$\proc{QuickSort}(A,\id{p},\id{r})$}
+      \li \If $\id{p}<\id{r}$
+      \li \Then $q\gets\proc{Partition}(A,\id{p},\id{r})$
+      \li $\proc{QuickSort}(A,\id{p},q-1)$
+      \li $\proc{QuickSort}(A,q+1,\id{r})$
       \End
     \end{codebox}}
     \end{small}
   \end{center}
-
+\note{\centerline{\includegraphics[width=5cm]{Figures/03-partition-altern.pdf}}}
 \end{frame}
 
 \begin{frame}{Illustration}
 
-\centerline{\includegraphics[width=8cm]{Figures/03-quicksort-illustration2.pdf}}
-
-% Gaetano: attention à modifier ou changer
+\centerline{\includegraphics[width=8cm]{Figures/03-quicksort-illustration2-2.pdf}}
 
 \end{frame}
 
@@ -317,18 +359,19 @@ Invariant pour la boucle:
 \begin{center}
     \fcolorbox{white}{Lightgray}{%
     \begin{codebox}
-      \Procname{$\proc{Partition}(A,\id{begin},\id{end})$}
-      \li $q\gets \id{begin}$
-      \li $v\gets A[\id{end}]$
-      \li \For $i\gets \id{begin}+1$ \To $\id{end}-1$
-      \li \Do \If $A[i]\le v$
-      \li     \Then $\id{swap}(A[i], A[q])$
-      \li           $q\gets q+1$
+      \Procname{$\proc{Partition}(A,\id{p},\id{r})$}
+      \li $x\gets A[\id{r}]$
+      \li $i\gets p-1$
+      \li \For $j\gets \id{p}$ \To $\id{r}-1$
+      \li \Do \If $A[j]\le x$
+      \li     \Then $i\gets i+1$
+      \li           $\id{swap}(A[i], A[j])$
               \End
           \End
-      \li $\id{swap}(A[\id{end}], A[q])$
-      \li \Return $q$
+      \li $\id{swap}(A[\id{i}+1], A[r])$
+      \li \Return $i+1$
     \end{codebox}}
+
 \end{center}
 
 $$T(n)=\Theta(n)$$
@@ -340,22 +383,22 @@ $$T(n)=\Theta(n)$$
 \begin{center}
     \fcolorbox{white}{Lightgray}{
     \begin{codebox}
-      \Procname{$\proc{QuickSort}(A,\id{begin},\id{end})$}
-      \li \If $\id{begin}<\id{end}$
-      \li \Then $q\gets\proc{Partition}(A,\id{begin},\id{end})$
-      \li $\proc{QuickSort}(A,\id{begin},q-1)$
-      \li $\proc{QuickSort}(A,q+1,\id{end})$
+      \Procname{$\proc{QuickSort}(A,\id{p},\id{r})$}
+      \li \If $\id{p}<\id{r}$
+      \li \Then $q\gets\proc{Partition}(A,\id{p},\id{r})$
+      \li $\proc{QuickSort}(A,\id{p},q-1)$
+      \li $\proc{QuickSort}(A,q+1,\id{r})$
       \End
     \end{codebox}}
 \end{center}
 
 \begin{itemize}
-\item Pire cas:
+\item Pire cas:\hfill{\it (quand se produit-il ?)}
+
 \begin{itemize}
-\item $q=begin$ ou $q=end$
+\item $q=p$ ou $q=r$ 
 \item Le partitionnement transforme un problème de taille $n$ en un problème de taille $n-1$
 $$T(n)=T(n-1)+\Theta(n)$$
-\medskip
 \item Même complexité que le tri par insertion:
 $$T(n)=\Theta(n^2)$$
 \end{itemize}
@@ -364,7 +407,7 @@ $$T(n)=\Theta(n^2)$$
 
 \bigskip
 
-Ca se produit quand ? (tableau déjà trié)
+Ca se produit quand ? (tableau déjà trié). Tri par insertion: tableau trié en ordre inverse.
 }
 \end{frame}
 
@@ -389,12 +432,11 @@ Ca se produit quand ? (tableau déjà trié)
 \item Le partitionnement transforme un problème de taille $n$ en deux
   problèmes de taille $\lceil n/2\rceil$ et $\lfloor n/2 \rfloor-1$ respectivement
 $$T(n)=2 T(n/2)+\Theta(n)$$
-\medskip
+
 \item Même complexité que le tri par fusion:
 $$T(n)=\Theta(n\log n)$$
 \end{itemize}
 \end{itemize}
-\note{complexité=$\sum_{i=1}^n i$}
 \end{frame}
 
 \begin{frame}{Complexité moyenne de \proc{QuickSort}}
@@ -431,20 +473,20 @@ $$T(n)=\Theta(n\log n)$$
 \begin{center}
     \fcolorbox{white}{Lightgray}{%
      \begin{codebox}
-       \Procname{$\proc{Randomized-Partition}(A,\id{begin},\id{end})$}
-       \li i=\proc{Random}(begin,end)
-       \li \id{swap}(A[end],A[i])
-       \li \Return $\proc{Partition}(A,begin,end)$
+       \Procname{$\proc{Randomized-Partition}(A,\id{p},\id{r})$}
+       \li $i=\proc{Random}(p,r)$
+       \li $\id{swap}(A[end],A[i])$
+       \li \Return $\proc{Partition}(A,p,r)$
      \end{codebox}}
 
 \bigskip
 
     \fcolorbox{white}{Lightgray}{%
      \begin{codebox}
-       \Procname{$\proc{Median-Of-3-Partition}(A,\id{begin},\id{end})$}
-       \li i=\proc{median}(A,begin,(begin+end)/2,end)
-       \li \id{swap}(A[end],A[i])
-       \li \Return $\proc{Partition}(A,begin,end)$
+       \Procname{$\proc{Median-Of-3-Partition}(A,\id{p},\id{r})$}
+       \li $i=\proc{median}(A,p,\lfloor (p+r)/2\rfloor,r)$
+       \li $\id{swap}(A[r],A[i])$
+       \li \Return $\proc{Partition}(A,p,r)$
      \end{codebox}}
 \end{center}
 \end{small}
@@ -465,14 +507,14 @@ $$T(n)=\Theta(n\log n)$$
 \begin{center}
     \fcolorbox{white}{Lightgray}{
     \begin{codebox}
-      \Procname{$\proc{QuickSort}(A,\id{begin},\id{end})$}
-      \li \If $\id{begin}\leq end+\const{CUTOFF}-1$
-      \li \Then $\proc{InsertionSort}(A,\id{begin},\id{end})$
+      \Procname{$\proc{QuickSort}(A,\id{p},\id{r})$}
+      \li \If $r-p+1 \leq \const{CUTOFF}$
+      \li \Then $\proc{InsertionSort}(A,\id{p},\id{r})$
       \li \Return \End
       %\li \If $\id{begin}<\id{end}$
-      \li $q\gets\proc{Partition}(A,\id{begin},\id{end})$
-      \li $\proc{QuickSort}(A,\id{begin},q-1)$
-      \li $\proc{QuickSort}(A,q+1,\id{end})$
+      \li $q\gets\proc{Partition}(A,p,r)$
+      \li $\proc{QuickSort}(A,p,q-1)$
+      \li $\proc{QuickSort}(A,q+1,r)$
       \End
     \end{codebox}}
 
@@ -490,6 +532,7 @@ $$T(n)=\Theta(n\log n)$$
 \item Tri \alert{en place} (mais utilise de la mémoire pour la trace récursive)
 \item \alert{Pas stable}
 \item En pratique souvent un peu plus rapide que \proc{Merge-Sort}
+\item Complexité en espace $O(\log n)$ si bien implémenté (récursif terminal, en développant d'abord la partition la plus petite)
 \end{itemize}
 
 \end{frame}
@@ -506,7 +549,7 @@ $$T(n)=\Theta(n\log n)$$
     \hline
     \proc{Selection-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
     \hline
-    \proc{Bubble-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
+    \proc{Bubble-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n)$&oui\\
     \hline
     \proc{Merge-Sort}&$\Theta(n\log{n})$&$\Theta(n\log{n})$&$\Theta(n\log{n})$&non\\
     \hline
@@ -595,7 +638,7 @@ possédant les propriétés suivantes:
 \item Un \alert{chemin} est une séquence de n\oe uds $n_1$, $n_2$, \ldots, $n_m$ telle que pour tout $i\in [1,m-1]$, $(n_i,n_{i+1})$ est un arc de l'arbre.\\
 Remarque: Il n'existe jamais de chemin reliant deux feuilles distinctes.
 \item La \alert{hauteur} (\emph{height}) d'un n\oe ud $n$ est le nombre d'arcs d'un plus long chemin de ce n\oe ud vers une feuille. La \emph{hauteur de l'arbre} est la hauteur de sa racine.
-\item La \alert{profondeur} (\emph{depth}) d'un no\oe ud $n$ est le nombre d'arcs sur le chemin qui le relie à la racine.
+\item La \alert{profondeur} (\emph{depth}) d'un n\oe ud $n$ est le nombre d'arcs sur le chemin qui le relie à la racine.
 \end{itemize}
 
 \centerline{\includegraphics[width=5cm]{Figures/03-exemple-arbre2.pdf}}
@@ -612,15 +655,16 @@ Remarque: Il n'existe jamais de chemin reliant deux feuilles distinctes.
 \item Chaque n\oe ud fils est soit un fils gauche, soit un fils droit.
 \item Le fils gauche précède le fils droit dans l'ordre des fils d'un n\oe ud.
 \end{itemize}
-\item Un arbre \alert{binaire propre} (\emph{full}) est un arbre binaire dans lequel tous les n\oe uds internes possèdent exactement deux fils.
+\item Un arbre \alert{binaire entier} ou {propre} (\emph{full} or \emph{proper}) est un arbre binaire dans lequel tous les n\oe uds internes possèdent exactement deux fils.
+\item Un arbre \alert{binaire parfait} est un arbre binaire entier dans lequel toutes les feuilles sont à la même profondeur.
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Propriétés des arbres binaires propres}
-
+\begin{frame}{Propriétés des arbres binaires entiers}
+\label{sec3:proparbres}
 % fig: Dupont
-\centerline{\includegraphics[width=5cm]{Figures/03-exemple-arbre-binaire.pdf}}
+\centerline{\includegraphics[width=4.5cm]{Figures/03-arbrebinaireentier.pdf}}
 
 % text: Dupont
 \begin{itemize}
@@ -630,15 +674,28 @@ Remarque: Il n'existe jamais de chemin reliant deux feuilles distinctes.
 \item Le nombre de n\oe uds à la profondeur (ou niveau) $i$ est $\leq 2^i$.
 \item La hauteur $h$ de l'arbre est $\leq$ au nombre de n\oe uds internes.
 \item Le lien entre hauteur et nombre de n\oe uds peut être résumé comme suit:
-$$n=\Omega(h)\mbox{ et }n=O(2^h)$$
+\begin{center}
+$n\in \Omega(h)\mbox{ et }n\in O(2^h)$ (ou $h\in O(n)\mbox{ et }h\in \Omega(\log n)$)
+\end{center}
 \end{itemize}
+
+\note{
+\begin{itemize}
+\item Par récursion: vrai pour un seul arbre. Vrai pour gauche et droite, vrai pour l'arbre
+\item $n=N_I+N_E=N_I+N_I+1=2 N_I$
+\item On multiplie le nombre de noeuds au plus par deux par niveau
+\item pire cas est une chaine
+\item Prop 4: Chaine $\Rightarrow h\leq N_I=n-1/2\Rightarrow n\geq 2h+1=\Omega(h)$\\
+Prop 3: Arbre parfait: $N_E=N_I+1=(n-1)/2\leq 2^h \Rightarrow n=O(h)$
+\end{itemize}
+}
 \end{frame}
 
 \subsection{Tas}
 
 \begin{frame}{Tas: définition}\label{sec:03tas}
 
-Un tas binaire (\emph{binary heap}) est un arbre binaire ordonné tel que:
+Un arbre \alert{binaire complet} est un arbre binaire tel que:
 \begin{itemize}
 \item Si $h$ dénote la hauteur de l'arbre:
 \begin{itemize}
@@ -646,8 +703,11 @@ Un tas binaire (\emph{binary heap}) est un arbre binaire ordonné tel que:
 \item Une feuille a une profondeur $h$ ou $h-1$.
 \item Les feuilles de profondeur maximale ($h$) sont ``tassées'' sur la gauche.
 \end{itemize}
+\end{itemize}
 \medskip
 
+Un \alert{tas binaire} (binary heap) est un arbre binaire complet tel que:
+\begin{itemize}
 \item Chacun de ses n\oe uds est associé à une clé.
 \item La clé de chaque n\oe ud est supérieure ou égale à celle de ses
   fils (\alert{propriété d'ordre du tas}).
@@ -666,9 +726,9 @@ Un tas binaire (\emph{binary heap}) est un arbre binaire ordonné tel que:
 \item $n$ est supérieur ou égal à la taille de l'arbre complet de hauteur $h-1$ plus un, soit $2^{h-1+1}-1+1=2^h$
 \item $n$ est inférieur ou égal à la taille de l'arbre complet de hauteur $h$, soit $2^{h+1}-1$
 \begin{eqnarray*}
-2^h\leq n\leq 2^{h+1} & \Leftrightarrow & 2^h\leq n < 2^{h+1}\\
+2^h\leq n\leq 2^{h+1}-1 & \Leftrightarrow & 2^h\leq n < 2^{h+1}\\
 & \Leftrightarrow & h \leq \log_2 n < h+1 \\
-& \Leftrightarrow & h=\lceil \log_2 n\rceil
+& \Leftrightarrow & h=\lfloor \log_2 n\rfloor
 \end{eqnarray*}
 \end{itemize}
 \end{itemize}
@@ -676,6 +736,16 @@ Un tas binaire (\emph{binary heap}) est un arbre binaire ordonné tel que:
 % fig: CLRS
 \centerline{\includegraphics[width=5cm]{Figures/03-tas-binaire.pdf}}
 
+\note{
+\begin{itemize}
+\item Point 1: hauteur de l'arbre de la figure=3: arbre complet de hauteur
+  $h-1\Rightarrow$ $N_E=2^{h-1}$ feuilles. $n=N_E+N_E-1=2*2^{h-1}-1=2^h-1$.\\
+$+1$ parce que sinon l'arbre binaire complet serait de profondeur $h-1$.
+\item Point 2: idem.
+\end{itemize}
+
+
+}
 \end{frame}
 
 \begin{frame}{Tas: interface}
@@ -723,10 +793,13 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 \end{itemize}
 
 % FIG: Gaetano -> a refaire
-\centerline{\includegraphics[width=5cm]{Figures/03-heap-extract-max.pdf}}
+\centerline{\includegraphics[width=5cm]{Figures/03-heap-extract-max2.pdf}~~~~\includegraphics[width=5cm]{Figures/03-heap-extract-max2-2.pdf}}
 
-\item On remplace la racine par la feuille la plus à droite.
-\item Les sous-arbres de droite et de gauche sont des tas.
+\item Principe:
+\begin{itemize}
+\item On remplace la racine par la feuille la plus à droite ($A[1]=A[N]$)
+\item Réarrange le tas en tenant compte du fait que les sous-arbres de droite et de gauche sont des tas (appel de $\proc{Max-Heapify}(A,1)$)
+\end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -743,6 +816,13 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 \centerline{\includegraphics[width=8cm]{Figures/03-max-heapify.pdf}}
 \end{itemize}
 
+\note{
+\begin{itemize}
+\item On prend le plus grand des voisins de gauche et de droite
+\item On le swap avec la racine.
+\item On appelle la procédure récursivement sur le fils modifié
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}{$\proc{Max-Heapify}$}
@@ -774,6 +854,9 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 \begin{itemize}
 \item Complexité ? La hauteur du n\oe ud: $T(n)=\Theta(\log n)$ (Transp. \pageref{03:hauteurtas})
 \end{itemize}
+
+\note{On vérifie qu'il y a bien un fils gauche et un fils de droite}
+
 \end{frame}
 
 \begin{frame}{Construction d'un tas}
@@ -800,7 +883,7 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 \item On tasse les n\oe uds internes de bas en haut et de droite à gauche
 \end{itemize}
 
-\note{Montrer sur le dessin comment ça marche}
+\note{Montrer au tableau comment ça marche}
 
 \end{frame}
 
@@ -822,10 +905,13 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 \end{itemize}
 \end{itemize}
 
+\note{ $2^{h+1}-1$ $\Rightarrow$ car le nombre de feuille est $2^h$ et
+  donc le nombre total de n\oe ud est $2 2^{h}-1=2^{h+1}-1$ }
+
 \end{frame}
 
 \begin{frame}{Complexité de $\proc{Build-Max-Heap}$}
-\centerline{\includegraphics[width=9cm]{Figures/03-max-heapify-complex.pdf}}
+\centerline{\includegraphics[width=10cm]{Figures/03-max-heapify-complex2.pdf}}
 
 \begin{itemize}
 \item Il y a $2^i$ n\oe uds à la profondeur $i$ (= hauteur $h-i$).
@@ -845,7 +931,7 @@ $$T(h)=\sum_{i=0}^{h-1} 2^i O(h-i)=O(\sum_{i=0}^{h-1} 2^i (h-i))$$
 \begin{tabular}{ccccccccccl}
 $2^{h-1}$ & + & $2^{h-2}$ & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h}-1$\\
  & + & $2^{h-2}$ & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h-1}-1$\\
- & + & $2^{h-2}$ & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h-2}-1$\\
+ & & & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h-2}-1$\\
  &   &        &   &      &   & \ldots &  &    & \ldots & \\
  &   &        &   &     &    &        & & $2^0$ & = & $2^1-1$\\
 \hline
@@ -896,6 +982,18 @@ Tableau initial: $A=[7,4,3,1,2]$
 \end{frame}
 
 \begin{frame}{Complexité de \proc{Heap-Sort}}
+\begin{center}\small
+\fcolorbox{white}{Lightgray}{
+        \begin{codebox}
+          \Procname{$\proc{Heap-Sort}(A)$}
+          \li $\proc{Build-Max-Heap}(A)$
+          \li \For $i\gets\id{length}(A)$ \Downto $1$
+          \li \Do $\id{swap}(A[i],A[1])$
+          \li     $\id{heap-size}(A)\gets\id{heap-size}(A)-1$
+          \li     $\proc{Max-Heapify}(A,1)$
+          \End
+        \end{codebox}}
+\end{center}
 
 \begin{itemize}
 \item $\proc{Build-Max-Heap}$: $O(n)$
@@ -924,7 +1022,7 @@ Le tri par tas est cependant généralement battu par le tri rapide
     \hline
     \proc{Selection-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
     \hline
-    \proc{Bubble-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n^2)$&oui\\
+    \proc{Bubble-Sort}&$\Theta(n^2)$&$\Theta(n^2)$&$\Theta(n)$&oui\\
     \hline
     \proc{Merge-Sort}&$\Theta(n\log{n})$&$\Theta(n\log{n})$&$\Theta(n\log{n})$&non\\
     \hline
@@ -959,12 +1057,11 @@ Le tri par tas est cependant généralement battu par le tri rapide
 
 \begin{frame}{Arbre de décision: exemple}
 
-Un algorithme de tri = un arbre binaire de décision
+Un algorithme de tri = un arbre binaire de décision (entier)
 
 \bigskip
 
-% FIGS: Gaetano
-\centerline{\includegraphics[width=10cm]{Figures/03-arbre-decision.pdf}}
+\centerline{\includegraphics[width=8cm]{Figures/03-decisioninsertion.pdf}}
 
 \bigskip
 
@@ -992,8 +1089,9 @@ Un algorithme de tri = un arbre binaire de décision
 
 \begin{frame}{Arbre de décision: propriété}
 \begin{itemize}
-\item Un arbre binaire de hauteur $h$ a au plus $2^h$ feuilles (récurrence)
-\item Le nombre de feuilles de l'arbre de décision est  $n!$ où  $n$ est la taille du tableau à trier
+\item Un arbre binaire de hauteur $h$ a au plus $2^h$ feuilles (cf transp. \pageref{sec3:proparbres})
+\item Le nombre de feuilles de l'arbre de décision est  exactement $n!$ où  $n$ est la taille du tableau à trier\\
+\emph{(par l'absurde: si moins que $n!$ certains tableaux ne seraient pas correctement triés)}
 % 
 \item On a donc:
 $$n!\leq 2^h \Rightarrow \log(n!)\leq h$$
@@ -1018,7 +1116,7 @@ $$h\geq \log(n!)>\log((\frac{n}{e})^n)=n\log n - n\log e\Rightarrow h=\Omega(n\l
 \item \proc{QuickSort} (tri en place en $O(n\log n))$
 \item Analyse du cas moyen d'un algorithme
 \item Notre première structure de données: le tas
-\item \proc{HeapSort}
+\item \proc{HeapSort} (tri en place en $\Theta(n\log n)$)
 \item Borne inférieure sur les tris comparatifs
 
 \bigskip
@@ -1038,7 +1136,7 @@ $$h\geq \log(n!)>\log((\frac{n}{e})^n)=n\log n - n\log e\Rightarrow h=\Omega(n\l
 \item Analyse formelle de la complexité moyenne du $\proc{QuickSort}$.
 \item Invariant pour le tri par tas
 \item Méthodes de tri linéaire
-\item Méthode de sélection: trouver l'élément de rang $i$
+\item Méthodes de sélection: trouver l'élément de rang $i$
 \end{itemize}
 
 \note{Demander comment il ferait ça de manière naive}

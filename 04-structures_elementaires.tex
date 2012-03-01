@@ -19,11 +19,12 @@
 \item Pour en faciliter l'accès ou dans d'autres buts
 \end{itemize}
 \item Une structure de données a une \alert{interface} qui consiste en un ensemble de procédures pour ajouter, effacer, accéder, réorganiser, etc. les données.
-%\item L'interface définit un type de donnée abstrait (TDA).
 \item Une structure de données conserve des \alert{données} et éventuellement des \alert{méta-données}
 \begin{itemize}
 \item Par exemple: un tas utilise un tableau pour stocker les clés et une variable $\attrib{A}{heap-size}$ pour retenir le nombre d'éléments qui sont dans le tas.
 \end{itemize}
+\item Un type de données abstrait (TDA) = définition des propriétés
+  de la structure et de son interface (``cahier des charges'')
 \end{itemize}
 \end{frame}
 
@@ -83,105 +84,17 @@ Dans ce cours:
 \begin{frame}{Quelques structures de données standards}
 
 \begin{itemize}
-\item Pile: accès selon une politique LIFO
-\item File: accès selon une politique FIFO
-\item Liste: accès
-\item Vecteur: 
-\item Séquence:
-\item Dictionaire
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Rappel: liste simplement et doublement liée}
-
-\centerline{\includegraphics[width=8cm]{Figures/04-listeliee.pdf}}
+\item Pile: collection d'objets accessible selon une politique LIFO
+\item File: collection d'objets accessible selon une politique FIFO
+\item File double: accès LIFO ou FIFO
+\item Liste: collection d'objets ordonnés accessible à partir de leur position
+\item Vecteur: collection d'objets ordonnés accessible à partir de leur rang
 
 \bigskip
 
-\begin{itemize}
-\item Structure de données composée d'une séquence d'éléménts de liste.
-\item Chaque élément $x$ de la liste est composé:
-\begin{itemize}
-\item d'un contenu utile $\attrib{x}{data}$ de type arbitraire (par exemple une clé),
-\item d'un pointeur $\attrib{x}{next}$ vers l'élément suivant dans la séquence
-\item \emph{Doublement liée: }d'une pointeur $\attrib{x}{prev}$ vers l'élément précédent dans la séquence
-\end{itemize}
-\item Soit $L$ une liste liée
-\begin{itemize}
-\item $\attrib{L}{head}$ pointe vers le premier élément de la liste
-\item \emph{Doublement liée:} $\attrib{L}{tail}$ pointe vers le dernier élément de la liste
-\end{itemize}
-\item Le dernier élément est celui qui possède un pointeur $\attrib{x}{next}$ vide, noté $\const{NIL}$
-\item \emph{Doublement liée:} Le premier élément est celui qui possède un pointeur $\attrib{x}{prev}$ vide
-%% \item Avantage
-%% \begin{itemize}
-%% \item L'insertion et la suppression d'éléments est réalisable en temps $O(1)$ en tête de liste, ainsi qu'à la suite d'un élément donné (à n'importe quel endroit pour une liste doublement liée).
-%% \item Les éléments de la liste peuvent être alloués dynamiquement
-%% \end{itemize}
-\end{itemize}
-\note{Mais l'espace mémoire est deux fois plus important qu'avec un tableau classique}
-\end{frame}
-
-\begin{frame}{Opérations sur une liste doublement liée}
-
-\begin{itemize}
-\item Interface:
-    \begin{itemize}
-%      \medskip
-    \item $\proc{List-Insert}(L,x)$ ajoute l'élément $x$ au début de la liste $L$
-%      \medskip
-    \item $\proc{List-Delete}(L,x)$ supprime l'élément $x$ de la liste $L$
-%      \medskip
-    \item $\proc{List-Search}(L,k)$ trouve une élément dont la clé $k$
-      est dans la liste $L$
-    \end{itemize}
+\item Dictionaire: structure qui implémente les 3 opérations search, insert, delete (cf. partie 5)
 \end{itemize}
 
-%% \fcolorbox{white}{Lightgray}{%
-%%       \begin{codebox}
-%%         \Procname{$\proc{List-Init}(L)$}
-%%         \li $\id{prev}(\id{nil}(L))\gets\id{nil}(L)$
-%%         \li $\id{next}(\id{nil}(L))\gets\id{nil}(L)$
-%%       \end{codebox}}
-
-\begin{center}
-\begin{footnotesize}
-\fcolorbox{white}{Lightgray}{%
-      \begin{codebox}
-        \Procname{$\proc{List-Insert}(L,x)$}
-        \li $\attrib{x}{next}\gets \attrib{L}{head}$
-        \li \If $\attrib{L}{head}\ne \const{NIL}$
-        \li \Then $\attrib{L}{head}.\id{prev} \gets x$ \End
-        \li $\attrib{L}{head}\gets x$
-        \li $\attrib{x}{prev}\gets \const{NIL}$
-      \end{codebox}}
-~~~~~
-\fcolorbox{white}{Lightgray}{%
-      \begin{codebox}
-        \Procname{$\proc{List-Delete}(L,x)$}
-        \li \If $\attrib{x}{prev}\ne \const{NIL}$
-        \li \Then $\attrib{x}{next}.\id{prev}\gets \attrib{x}{next}$
-        \li \Else $\attrib{L}{head}\gets \attrib{x}{next}$\End
-        \li \If $\attrib{x}{next}\ne \const{NIL}$
-        \li \Then $\attrib{x}{next}.\id{prev}\gets \attrib{x}{prev}$ \End
-      \end{codebox}}
-
-\bigskip
-
-\fcolorbox{white}{Lightgray}{%
-      \begin{codebox}
-        \Procname{$\proc{List-Search}(L,k)$}
-        \li $x\gets \attrib{L}{head}$
-        \li \While $x\ne \const{NIL}\wedge\attrib{x}{key}\ne k$
-        \li \Do $x\gets \attrib{x}{next}$
-            \End
-        \li \Return $x$
-      \end{codebox}}
-\end{footnotesize}
-\end{center}
-
-Complexité: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche.
 \end{frame}
 
 \section{Pile}
@@ -256,44 +169,205 @@ Complexité: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche
 
 \end{frame}
 
-\begin{frame}{Implémentation par une liste liée}
+\begin{frame}{Rappel: liste simplement et doublement liée}
+
+\centerline{\includegraphics[width=8cm]{Figures/04-listeliee.pdf}}
+
+\bigskip
 
 \begin{itemize}
-\item $S$ est une liste simplement liée
+\item Structure de données composée d'une séquence d'éléments de liste.
+\item Chaque élément $x$ de la liste est composé:
+\begin{itemize}
+\item d'un contenu utile $\attrib{x}{data}$ de type arbitraire (par exemple une clé),
+\item d'un pointeur $\attrib{x}{next}$ vers l'élément suivant dans la séquence
+\item \emph{Doublement liée: }d'une pointeur $\attrib{x}{prev}$ vers l'élément précédent dans la séquence
+\end{itemize}
+\item Soit $L$ une liste liée
+\begin{itemize}
+\item $\attrib{L}{head}$ pointe vers le premier élément de la liste
+\item \emph{Doublement liée:} $\attrib{L}{tail}$ pointe vers le dernier élément de la liste
+\end{itemize}
+\item Le dernier élément possède un pointeur $\attrib{x}{next}$ vide (noté $\const{NIL}$)
+\item \emph{Doublement liée:} Le premier élément possède un pointeur $\attrib{x}{prev}$ vide
+%% \item Avantage
+%% \begin{itemize}
+%% \item L'insertion et la suppression d'éléments est réalisable en temps $O(1)$ en tête de liste, ainsi qu'à la suite d'un élément donné (à n'importe quel endroit pour une liste doublement liée).
+%% \item Les éléments de la liste peuvent être alloués dynamiquement
+%% \end{itemize}
+\end{itemize}
+\note{Mais l'espace mémoire est deux fois plus important qu'avec un tableau classique}
+\end{frame}
+
+%% \begin{frame}{Opérations sur une liste doublement liée}
+
+%% %Interface:
+%% {\small
+%%     \begin{itemize}
+%% %      \medskip
+%%     \item $\proc{List-Insert}(L,x)$ ajoute l'élément $x$ au début de la liste $L$
+%% %      \medskip
+%%     \item $\proc{List-Delete}(L,x)$ supprime l'élément $x$ de la liste $L$
+%% %      \medskip
+%%     \item $\proc{List-Search}(L,k)$ trouve une élément dont la clé $k$
+%%       est dans la liste $L$
+%%     \end{itemize}
+%% }
+
+%% %% \fcolorbox{white}{Lightgray}{%
+%% %%       \begin{codebox}
+%% %%         \Procname{$\proc{List-Init}(L)$}
+%% %%         \li $\id{prev}(\id{nil}(L))\gets\id{nil}(L)$
+%% %%         \li $\id{next}(\id{nil}(L))\gets\id{nil}(L)$
+%% %%       \end{codebox}}
+
+%% \begin{center}
+%% \begin{footnotesize}
+%% \fcolorbox{white}{Lightgray}{%
+%%       \begin{codebox}
+%%         \Procname{$\proc{List-Insert}(L,x)$}
+%%         \li $\attrib{x}{next}\gets \attrib{L}{head}$
+%%         \li \If $\attrib{L}{head}\ne \const{NIL}$
+%%         \li \Then $\attrib{L}{head}.\id{prev} \gets x$ \End
+%%         \li $\attrib{L}{head}\gets x$
+%%         \li $\attrib{x}{prev}\gets \const{NIL}$
+%%       \end{codebox}}
+%% ~~~~~
+%% \fcolorbox{white}{Lightgray}{%
+%%       \begin{codebox}
+%%         \Procname{$\proc{List-Delete}(L,x)$}
+%%         \li \If $\attrib{x}{prev}\ne \const{NIL}$
+%%         \li \Then $\attrib{x}{prev}.\id{next}\gets \attrib{x}{next}$
+%%         \li \Else $\attrib{L}{head}\gets \attrib{x}{next}$\End
+%%         \li \If $\attrib{x}{next}\ne \const{NIL}$
+%%         \li \Then $\attrib{x}{next}.\id{prev}\gets \attrib{x}{prev}$ \End
+%%       \end{codebox}}
+
+%% \bigskip
+
+%% \fcolorbox{white}{Lightgray}{%
+%%       \begin{codebox}
+%%         \Procname{$\proc{List-Search}(L,k)$}
+%%         \li $x\gets \attrib{L}{head}$
+%%         \li \While $x\ne \const{NIL}\wedge\attrib{x}{key}\ne k$
+%%         \li \Do $x\gets \attrib{x}{next}$
+%%             \End
+%%         \li \Return $x$
+%%       \end{codebox}}
+%% \end{footnotesize}
+%% \end{center}
+
+%% Complexité: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche.
+%% \end{frame}
+
+
+%% \begin{frame}{Sentinelle}
+%% \begin{itemize}\small
+%% \item On peut simplifier le code en ajoutant une \alert{sentinelle} $L.nil$ qui représente le $\const{NIL}$
+%% \item $L.nil.next$ pointe vers le premier élément et $L.nil.prev$ pointe vers le dernier élément (, $L.nil.next=L.nil$ et $L.nil.prev=L.nil$)
+%% \end{itemize}
+
+%% \centerline{\includegraphics[width=8cm]{Figures/04-sentinel.pdf}}
+
+%% \begin{center}
+%% \begin{footnotesize}
+%% \fcolorbox{white}{Lightgray}{%
+%%       \begin{codebox}
+%%         \Procname{$\proc{List-Insert'}(L,x)$}
+%%         \li $\attrib{x}{next}\gets \attrib{L}{nil}.\id{next}$
+%%         \li $\attrib{L}{nil}.\id{next}.\id{prev} \gets x$
+%%         \li $\attrib{L}{nil}.\id{next} \gets x$
+%%         \li $\attrib{x}{prev}\gets \attrib{L}{nil}$
+%%       \end{codebox}}
+%% ~~~~~
+%% \fcolorbox{white}{Lightgray}{%
+%%       \begin{codebox}
+%%         \Procname{$\proc{List-Delete'}(L,x)$}
+%%         \li $\attrib{x}{prev}.\id{next}\gets \attrib{x}{next}$
+%%         \li $\attrib{x}{next}.\id{prev}\gets \attrib{x}{prev}$
+%%       \end{codebox}}
+
+%% \bigskip
+
+%% \fcolorbox{white}{Lightgray}{%
+%%       \begin{codebox}
+%%         \Procname{$\proc{List-Search'}(L,k)$}
+%%         \li $x\gets \attrib{L}{nil}.\id{next}$
+%%         \li \While $x\ne \attrib{L}{nil}\wedge\attrib{x}{key}\ne k$
+%%         \li \Do $x\gets \attrib{x}{next}$
+%%             \End
+%%         \li \Return $x$
+%%       \end{codebox}}
+%% \end{footnotesize}
+%% \end{center}
+
+%% \note{
+%% Toutes les pointeurs vers NIL sont remplacés par un pointeur vers $L.nil$
+
+%% Ne permet de gagner qu'un facteur constant
+
+%% \bigskip
+
+%% Fait perdre de la place si on a beaucoup de petites listes
+
+
+%% \bigskip
+
+%% Principal intérêt est le clareté du code
+%% }
+%% \end{frame}
+
+
+\begin{frame}{Implémentation d'une pile à l'aide d'une liste liée}
+
+\begin{itemize}
+\item $S$ est une liste simplement liée ($S.head$ pointe vers le premier élément de la liste)
 
 \medskip
 
-    \begin{center}
-      \begin{small}
-      \fcolorbox{white}{Lightgray}{%
-        \begin{codebox}
-          \Procname{$\proc{Stack-Empty}(S)$}
-          \li \If $\attrib{S}{head}\isequal \const{NIL}$
-          \li \Then \Return \const{true}
-          \li \Else \Return \const{false}
-          \End
-        \end{codebox}}
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}
+\includegraphics[width=5cm]{Figures/04-pilelisteliee.pdf}
+\end{center}
 
-      \bigskip
-      \fcolorbox{white}{Lightgray}{%
+\bigskip
+
+\fcolorbox{white}{Lightgray}{%
         \begin{codebox}
           \Procname{$\proc{Push}(S,x)$}
           \li $\attrib{x}{next}\gets \attrib{S}{head}$
           \li $\attrib{S}{head}\gets x$
         \end{codebox}}
-      \hfill
-      \fcolorbox{white}{Lightgray}{%
-        \begin{codebox}
-          \Procname{$\proc{Pop(S)}$}
-          \li \If $\proc{Stack-Empty}(S)$
+\end{column}
+\begin{column}{5cm}
+\begin{center}
+  \footnotesize
+  \fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{Stack-Empty}(S)$}
+      \li \If $\attrib{S}{head}\isequal \const{NIL}$
+      \li \Then \Return \const{true}
+      \li \Else \Return \const{false}
+        \End
+  \end{codebox}}\hfill
+
+\bigskip  
+
+  \fcolorbox{white}{Lightgray}{%
+    \begin{codebox}
+      \Procname{$\proc{Pop(S)}$}
+      \li \If $\proc{Stack-Empty}(S)$
           \li \Then \Error ``underflow''
           \li \Else $x = S.head$
           \li       $\attrib{S}{head}\gets \attrib{S}{head}.\id{next}$
           \li       \Return $x$
           \End
         \end{codebox}}
-\end{small}
     \end{center}
+\end{column}
+\end{columns}
+
 \item Complexité en temps $O(1)$, complexité en espace $O(n)$ pour $n$ opérations
 \end{itemize}
 
@@ -343,7 +417,7 @@ Complexité: $O(1)$ pour l'insertion et la suppression, $O(n)$ pour la recherche
 
 \bigskip
 
-\item Implémentation par un tableau circulaire
+\item Implémentation à l'aide d'un tableau circulaire
 \begin{itemize}
 \item $Q$ est un tableau de taille fixe $\attrib{Q}{length}$
 \begin{itemize}
@@ -398,11 +472,12 @@ $\proc{Dequeue}(Q) \rightarrow 15$
 
 \begin{itemize}
 \item Complexité en temps $O(1)$, complexité en espace $O(1)$.
-\item Exercice: ajouter la gestion d'erreur
+\item {\it Exercice: ajouter la gestion d'erreur}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Implémentation par une liste liée}
+\begin{frame}{Implémentation à l'aide d'une liste liée}
+\centerline{\includegraphics[width=6cm]{Figures/04-filelisteliee.pdf}}
 \begin{itemize}
 \item $Q$ est une liste simplement liée
 \item $\attrib{Q}{head}$ (resp. $\attrib{Q}{tail}$) pointe vers la tête (resp. la queue) de la liste
@@ -440,12 +515,173 @@ $\proc{Dequeue}(Q) \rightarrow 15$
 
 \end{frame}
 
-\section{Liste}
+\begin{frame}{File double}
+Double ended-queue (deque)
+
+\bigskip
+
+\begin{itemize}
+\item Généralisation de la pile et de la file
+\item Collection ordonnée d'objets offrant la possibilité 
+\begin{itemize}
+\item d'insérer un nouvel objet \alert{avant le premier} ou \alert{après le dernier}
+\item d'extraire le \alert{premier} ou le \alert{dernier} objet
+\end{itemize}
+\item Interface:
+\begin{itemize}
+\item $\proc{insert-first}(Q,x)$: ajoute $x$ au début de la file double
+\item $\proc{insert-last}(Q,x)$: ajoute $x$ à la fin de la file double
+\item $\proc{remove-first}(Q)$: extrait l'objet situé en première position
+\item $\proc{remove-last}(Q)$: extrait l'objet situé en dernière position
+\item \ldots
+\end{itemize}
+\item Application: équilibrage de la charge d'un serveur
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Implémentation à l'aide d'une liste doublement liée}
+\begin{itemize}
+\item A l'aide d'une liste double liée
+\item Soit la file double $Q$:
+\begin{itemize}
+\item $Q.head$ pointe vers un élément \alert{sentinelle} en début de liste
+\item $Q.tail$ pointe vers un élément \alert{sentinelle} en fin de liste
+\item $Q.size$ est la taille courante de la liste
+\end{itemize}
+
+\centerline{\includegraphics[width=10cm]{Figures/04-dequeimplem.pdf}}
+
+\item Les sentinelles ne contiennent pas de données. Elles permettent
+  de simplifier le code (pour un coût en espace constant).
+\end{itemize}
+
+\bigskip
+
+{\it Exercice: implémentation de la file double sans
+  sentinelles, implémentation de la file simple avec sentinelle}
+
+\end{frame}
+
+\begin{frame}{Implémentation à l'aide d'une liste doublement liée}
+\begin{center}
+      \begin{small}\hfill
+      \fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{insert-first}(Q,x)$}
+          \li $\attrib{x}{prev}\gets \attrib{Q}{head}$
+          \li $\attrib{x}{next}\gets \attrib{Q}{head}.\id{next}$
+          \li $\attrib{Q}{head}.\id{next}.\id{prev} \gets \id{x}$
+          \li $\attrib{Q}{head}.\id{next}\gets \id{x}$
+          \li $\attrib{Q}{size}\gets \attrib{Q}{size}+1$
+        \end{codebox}}\hfill
+\fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{insert-last}(Q,x)$}
+          \li $\attrib{x}{prev}\gets \attrib{Q}{tail}.\id{prev}$
+          \li $\attrib{x}{next}\gets \attrib{Q}{tail}$
+          \li $\attrib{Q}{tail}.\id{prev}.\id{next} \gets \id{x}$
+          \li $\attrib{Q}{head}.\id{prev}\gets \id{x}$
+          \li $\attrib{Q}{size}\gets \attrib{Q}{size}+1$
+        \end{codebox}}\hfill~
+
+      \bigskip
+      \fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{remove-first}(Q)$}
+          \li \If $(\attrib{Q}{size}\isequal 0)$
+          \li \Then \Error\End
+          \li $x\gets \attrib{Q}{head}.\id{next}$
+          \li $\attrib{Q}{head}.\id{next}\gets \attrib{Q}{head}.\id{next}.\id{next}$
+          \li $\attrib{Q}{head}.\id{next}.\id{prev}\gets \attrib{Q}{head}$
+          \li $\attrib{Q}{size}\gets \attrib{Q}{size}-1$
+          \li \Return $x$
+        \end{codebox}}
+      \hfill
+      \fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{remove-last}(Q)$}
+          \li \If $(\attrib{Q}{size}\isequal 0)$
+          \li \Then \Error\End
+          \li $x\gets \attrib{Q}{tail}.\id{prev}$
+          \li $\attrib{Q}{tail}.\id{prev}\gets \attrib{Q}{tail}.\id{prev}.\id{prev}$
+          \li $\attrib{Q}{tail}.\id{prev}.\id{next}\gets \attrib{Q}{head}$
+          \li $\attrib{Q}{size}\gets \attrib{Q}{size}-1$
+          \li \Return $x$
+        \end{codebox}}
+\end{small}
+    \end{center}
+
+Complexité $O(1)$ en temps et $O(n)$ en espace pour $n$ opérations.
+
+\end{frame}
+
+\begin{frame}{Liste}
+
+\begin{itemize}
+\item Ensemble dynamique d'objets ordonnés accessibles \alert{relativement}
+  les uns aux autres, sur base de leur position
+\item Généralise toutes les structures vues précédemment
+\item Interface:
+\begin{itemize}
+\item Les fonctions d'une liste double (insertion et retrait en début et fin de liste)
+\item $\proc{Insert-Before}(L,p,x)$: insére $x$ avant $p$ dans la liste
+\item $\proc{Insert-After}(L,p,x)$: insère $x$ après $p$ dans la liste
+\item $\proc{Remove}(L,p)$: retire l'élement à la position $p$
+\end{itemize}
+
+\bigskip
+
+\item Implémentation similaire à la file double, à l'aide d'une liste doublement liée
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Implémentation à l'aide d'une liste doublement liée}
+
+\begin{center}
+  \begin{small}\hfill
+      \fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{insert-before}(L,p,x)$}
+          \li $\attrib{x}{prev}\gets \attrib{p}{prev}$
+          \li $\attrib{x}{next}\gets \id{p}$
+          \li $\attrib{p}{prev}.\id{next} \gets \id{x}$
+          \li $\attrib{p}{prev} \gets \id{x}$
+          \li $\attrib{L}{size}\gets \attrib{L}{size}+1$
+        \end{codebox}}\hfill
+\fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{insert-after}(L,p,x)$}
+          \li $\attrib{x}{prev}\gets \id{p}$
+          \li $\attrib{x}{next}\gets \attrib{p}{next}$
+          \li $\attrib{p}{next}.\id{prev} \gets \id{x}$
+          \li $\attrib{p}{next} \gets \id{x}$
+          \li $\attrib{L}{size}\gets \attrib{L}{size}+1$
+        \end{codebox}}\hfill~
+
+\bigskip
+
+\fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{remove}(L,p)$}
+          \li $\attrib{p}{prev}.\id{next} \gets \attrib{p}{next}$
+          \li $\attrib{p}{next}.\id{prev} \gets \attrib{p}{prev}$
+          \li $\attrib{L}{size}\gets \attrib{L}{size}-1$
+          \li \Return $p$
+        \end{codebox}}
+\end{small}
+\end{center}
+Complexité $O(1)$ en temps et $O(n)$ en espace pour $n$ opérations.
+\note{\centerline{\includegraphics[width=8cm]{Figures/04-insertionliste.pdf}}}
+\end{frame}
 
 \begin{frame}{Vecteur}
 
 \begin{itemize}
-\item Ensemble dynamique d'objets occupant des rangs entiers successifs, permettant la consultation, le remplacement, l'insertion et la suppression d'éléments à des rangs arbitraires
+\item Ensemble dynamique d'objets occupant des rangs entiers
+  successifs, permettant la consultation, le remplacement, l'insertion
+  et la suppression d'éléments à des rangs arbitraires
 \item Interface
 \begin{itemize}
 \item $\proc{Elem-At-Rank}(V,r)$ retourne l'élément au rang $r$ dans $V$.
@@ -458,6 +694,16 @@ $\proc{Dequeue}(Q) \rightarrow 15$
 \item Implémentation: liste liée, tableau extensible\ldots
 \end{itemize}
 
+\note{Inconvénient des structures précédentes: il faut parcourir la liste pour retrouver le kième élément ($O(1)$ dans un tableau\\
+
+\bigskip
+
+Avantage: espace mémoire $O(n)$.
+
+\bigskip
+
+Comment combiner les deux ?
+}
 \end{frame}
 
 \begin{frame}{Implémentation par un tableau extensible}
@@ -539,9 +785,6 @@ Puisque $c_0+(k-1)m<n\leq c_0+km$, ce coût aurait donc été \alert{$O(n^2)$}.
 
 \end{frame}
 
-\begin{frame}{Liste}
-\end{frame}
-
 \section{File à priorité}
 
 % Implémentation par un tableau, implémentation par un tas.
@@ -597,9 +840,10 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'
 \item Complexité en temps: extraction en $O(1)$ et insertion en $O(n)$ où $n$ est la taille de la file
 \item Complexité en espace: $O(n)$
 \end{itemize}
-\item Exercice: comment obtenir $O(1)$ pour l'insertion et $O(n)$ pour l'extraction?
-%\item Peut-on faire mieux ?
+\item Peut-on faire mieux?
 \end{itemize}
+
+{\it Exercice: comment obtenir $O(1)$ pour l'insertion et $O(n)$ pour l'extraction?}
  \note{Leur demander pourquoi on trie le tableau par ordre croissant de clé et pas par ordre décroissant: parce que retirer le premier élément veut dire qu'on doit décaler tous les autres et donc l'opération serait $O(n)$}
 \end{frame}
 
@@ -705,12 +949,30 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'
 \note{}
 \end{frame}
 
-\begin{frame}{Autres structures}
+\begin{frame}{Ce qu'on a vu}
 
 \begin{itemize}
-\item En fonction des besoins, on peut définir des structures hybrides
-\item Exemple: séquence: mix entre un liste et un vecteur
-\item Quid si on veut faire évoluer la taille de certaines des structures vues (exemple: un tas...)
+\item Quelques structures de données classiques et différentes implémentations pour chacune d'elles
+\begin{itemize}
+\item Pile
+\item Liste
+\item Files simples, doubles et à priorité
+\item Vecteurs
+\end{itemize}
+\item Structures de type liste liées
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Ce qu'on n'a pas vu}
+
+\begin{itemize}
+\item Structures de type séquence: hybride entre le vecteur et le
+  liste
+\item Notion d'itérateur
+\item Tas binomiaux: alternative au tas binaire qui permet la fusion
+  rapide de deux tas
+\item Evolution dynamique de la taille d'un tas (analyse amortie)
 \end{itemize}
 
 \end{frame}
