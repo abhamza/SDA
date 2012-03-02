@@ -32,7 +32,7 @@
 
 Dans ce cours:
 \begin{itemize}
-\item Principalement des \alert{ensembles dynamiques}, amenés à croître, se
+\item Principalement des \alert{ensembles dynamiques} (dynamic sets), amenés à croître, se
   rétrécir et à changer au cours du temps.
 \item Les objets de ces ensembles comportent des attributs.
 \item Un de ces attributs est une \alert{clé} qui permet d'identifier
@@ -66,9 +66,11 @@ Dans ce cours:
 
 \begin{frame}{Implémentation d'une structure de données}
 \begin{itemize}
-\item Etant donné une interface, plusieurs implémentations sont possibles qui différent par le
-  \alert{complexité} des opérations
-\item Une interface définit un type de données abstrait.
+\item Etant donné un TDA (interface), plusieurs implémentations sont généralement possibles
+\item La complexité des opérations dépend de l'implémentation, \alert{pas du TDA}.
+
+\bigskip
+
 \item Les briques de base pour implémenter une structure de données
   dépendent du langage d'implémentation
 \begin{itemize}
@@ -86,13 +88,15 @@ Dans ce cours:
 \begin{itemize}
 \item Pile: collection d'objets accessible selon une politique LIFO
 \item File: collection d'objets accessible selon une politique FIFO
-\item File double: accès LIFO ou FIFO
+\item File double: combine accès LIFO et FIFO
 \item Liste: collection d'objets ordonnés accessible à partir de leur position
 \item Vecteur: collection d'objets ordonnés accessible à partir de leur rang
+\item File à priorité: accès uniquement à l'élément de clé (priorité) maximale
 
 \bigskip
 
-\item Dictionaire: structure qui implémente les 3 opérations search, insert, delete (cf. partie 5)
+\item Dictionaire: structure qui implémente les 3 opérations
+  recherche, insertion, suppression (cf. partie 5)
 \end{itemize}
 
 \end{frame}
@@ -133,6 +137,27 @@ Dans ce cours:
 
 \medskip
 
+\begin{columns}
+\begin{column}{5cm}
+\centerline{\includegraphics[width=3cm]{Figures/04-piletableau.pdf}}
+
+\bigskip
+
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{Push}(S,x)$}
+          \li \If $\attrib{S}{top}\isequal \attrib{S}{length}$
+          \li \Then \Error ``overflow''\End
+          \li $\attrib{S}{top}\gets \attrib{S}{top}+1$
+          \li $S[\attrib{S}{top}]\gets x$
+        \end{codebox}}
+\end{small}
+\end{center}
+
+\end{column}
+\begin{column}{5cm}
     \begin{center}
       \begin{small}
       \fcolorbox{white}{Lightgray}{%
@@ -144,14 +169,8 @@ Dans ce cours:
           \End
         \end{codebox}}
 
-      \bigskip
-      \fcolorbox{white}{Lightgray}{%
-        \begin{codebox}
-          \Procname{$\proc{Push}(S,x)$}
-          \li $\attrib{S}{top}\gets \attrib{S}{top}+1$
-          \li $S[\attrib{S}{top}]\gets x$
-        \end{codebox}}
-      \hfill
+\bigskip
+
       \fcolorbox{white}{Lightgray}{%
         \begin{codebox}
           \Procname{$\proc{Pop(S)}$}
@@ -161,10 +180,14 @@ Dans ce cours:
           \li       \Return $S[top(S)+1]$
           \End
         \end{codebox}}
+
       \end{small}
     \end{center}
+\end{column}
+\end{columns}
+
 \item Complexité en temps \alert{et en espace}: $O(1)$\\
-(L'espace mémoire occupé ne dépend pas du nombre d'objets)
+(Inconvénient: L'espace occupé ne dépend pas du nombre d'objets)
 \end{itemize}
 
 \end{frame}
@@ -404,7 +427,7 @@ Dans ce cours:
 \end{itemize}
 \end{frame}
 
-\section{File}
+\section{Files simple et double}
 
 \begin{frame}{File}
 \begin{itemize}
@@ -425,6 +448,7 @@ Dans ce cours:
 \end{itemize}
 \item $\attrib{Q}{head}$  est la position à la tête de la file
 \item $\attrib{Q}{tail}$ est la première position vide à la fin de la file
+\item Initialement: $\attrib{Q}{head}=\attrib{Q}{tail}=1$
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -616,6 +640,8 @@ Complexité $O(1)$ en temps et $O(n)$ en espace pour $n$ opérations.
 
 \end{frame}
 
+\section{Liste}
+
 \begin{frame}{Liste}
 
 \begin{itemize}
@@ -632,12 +658,19 @@ Complexité $O(1)$ en temps et $O(n)$ en espace pour $n$ opérations.
 
 \bigskip
 
-\item Implémentation similaire à la file double, à l'aide d'une liste doublement liée
+\item Implémentation similaire à la file double, à l'aide d'une liste doublement liée (avec sentinelles)
 \end{itemize}
 
 \end{frame}
 
 \begin{frame}{Implémentation à l'aide d'une liste doublement liée}
+
+
+\begin{columns}
+\begin{column}{5cm}
+\centerline{\includegraphics[width=6cm]{Figures/04-listelisteliee.pdf}}
+
+\bigskip
 
 \begin{center}
   \begin{small}\hfill
@@ -649,18 +682,12 @@ Complexité $O(1)$ en temps et $O(n)$ en espace pour $n$ opérations.
           \li $\attrib{p}{prev}.\id{next} \gets \id{x}$
           \li $\attrib{p}{prev} \gets \id{x}$
           \li $\attrib{L}{size}\gets \attrib{L}{size}+1$
-        \end{codebox}}\hfill
-\fcolorbox{white}{Lightgray}{%
-        \begin{codebox}
-          \Procname{$\proc{insert-after}(L,p,x)$}
-          \li $\attrib{x}{prev}\gets \id{p}$
-          \li $\attrib{x}{next}\gets \attrib{p}{next}$
-          \li $\attrib{p}{next}.\id{prev} \gets \id{x}$
-          \li $\attrib{p}{next} \gets \id{x}$
-          \li $\attrib{L}{size}\gets \attrib{L}{size}+1$
-        \end{codebox}}\hfill~
-
-\bigskip
+        \end{codebox}}
+  \end{small}
+\end{center}
+\end{column}
+\begin{column}{5cm}
+\begin{center}
 
 \fcolorbox{white}{Lightgray}{%
         \begin{codebox}
@@ -670,11 +697,27 @@ Complexité $O(1)$ en temps et $O(n)$ en espace pour $n$ opérations.
           \li $\attrib{L}{size}\gets \attrib{L}{size}-1$
           \li \Return $p$
         \end{codebox}}
-\end{small}
+
+\bigskip
+
+\fcolorbox{white}{Lightgray}{%
+        \begin{codebox}
+          \Procname{$\proc{insert-after}(L,p,x)$}
+          \li $\attrib{x}{prev}\gets \id{p}$
+          \li $\attrib{x}{next}\gets \attrib{p}{next}$
+          \li $\attrib{p}{next}.\id{prev} \gets \id{x}$
+          \li $\attrib{p}{next} \gets \id{x}$
+          \li $\attrib{L}{size}\gets \attrib{L}{size}+1$
+        \end{codebox}}\hfill~
 \end{center}
+\end{column}
+\end{columns}
+
 Complexité $O(1)$ en temps et $O(n)$ en espace pour $n$ opérations.
-\note{\centerline{\includegraphics[width=8cm]{Figures/04-insertionliste.pdf}}}
+%\note{\centerline{\includegraphics[width=8cm]{Figures/04-insertionliste.pdf}}}
 \end{frame}
+
+\section{Vecteur}
 
 \begin{frame}{Vecteur}
 
@@ -830,13 +873,13 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'
 \item Implémentation à l'aide d'un tableau statique
 \begin{itemize}
 \item $Q$ est un tableau statique de taille fixée $\attrib{Q}{length}$.
-\item Les éléments de $Q$ sont triés par ordre \alert{croissant} de clé. $\attrib{Q}{top}$ pointe vers le dernier élément.
+\item Les éléments de $Q$ sont triés par ordre \alert{croissant} de clés. $\attrib{Q}{top}$ pointe vers le dernier élément.
 \item Complexité en temps: extraction en $O(1)$ et insertion en $O(n)$ où $n$ est la taille de la file
 \item Complexité en espace: $O(1)$
 \end{itemize}
 \item Implémentation à l'aide d'une liste liée
 \begin{itemize}
-\item $Q$ est une liste liée où les éléments sont triés par ordre \alert{décroissant} de clé
+\item $Q$ est une liste liée où les éléments sont triés par ordre \alert{décroissant} de clés
 \item Complexité en temps: extraction en $O(1)$ et insertion en $O(n)$ où $n$ est la taille de la file
 \item Complexité en espace: $O(n)$
 \end{itemize}
@@ -863,7 +906,7 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'
 \end{codebox}}~~~~~\fcolorbox{white}{Lightgray}{
   \begin{codebox}
     \Procname{$\proc{Heap-Extract-Max}(A)$}
-    \li \If $\attrib{A}{heap-size}$
+    \li \If $\attrib{A}{heap-size}<1$
     \li \Then \Error ``heap underflow''
     \End
     \li $max \gets A[1]$
@@ -936,7 +979,7 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'
   \begin{codebox}
     \Procname{$\proc{Heap-Insert}(A,key)$}
     \li $\attrib{A}{heap-size}\gets \attrib{A}{heap-size}+1$
-    \li $A[n]\gets -\infty$
+    \li $A[\attrib{A}{heap-size}]\gets -\infty$
     \li $\proc{Heap-Increase-Key}(A,\attrib{A}{heap-size},key)$
 \end{codebox}}
 \end{small}
@@ -959,7 +1002,7 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'
 \item Files simples, doubles et à priorité
 \item Vecteurs
 \end{itemize}
-\item Structures de type liste liées
+\item Structures de type liste liée
 \end{itemize}
 
 \end{frame}
@@ -967,12 +1010,13 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'
 \begin{frame}{Ce qu'on n'a pas vu}
 
 \begin{itemize}
-\item Structures de type séquence: hybride entre le vecteur et le
+\item Structure de type séquence: hybride entre le vecteur et la
   liste
 \item Notion d'itérateur
-\item Tas binomiaux: alternative au tas binaire qui permet la fusion
+\item Tas binomial: alternative au tas binaire qui permet la fusion
   rapide de deux tas
 \item Evolution dynamique de la taille d'un tas (analyse amortie)
+\item \ldots
 \end{itemize}
 
 \end{frame}

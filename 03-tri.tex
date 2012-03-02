@@ -748,21 +748,21 @@ $+1$ parce que sinon l'arbre binaire complet serait de profondeur $h-1$.
 }
 \end{frame}
 
-\begin{frame}{Tas: interface}
+%% \begin{frame}{Tas: interface}
 
-Opérations définies sur un tas $H$:
-\begin{itemize}
-\item $\attrib{H}{heap-size}$: le nombre de clés dans $H$.
-\item $\proc{Build-Max-Heap}(A)$ construit un tas à partir du tableau $A$.
-\item $\proc{Heap-Insert}(H,key)$ insère $key$ dans le tas.
-\item $\proc{Heap-Extract-Max}(H)$ extrait la clé maximale.
-\end{itemize}
+%% Opérations définies sur un tas $H$:
+%% \begin{itemize}
+%% \item $\attrib{H}{heap-size}$: le nombre de clés dans $H$.
+%% \item $\proc{Build-Max-Heap}(A)$ construit un tas à partir du tableau $A$.
+%% \item $\proc{Heap-Insert}(H,key)$ insère $key$ dans le tas.
+%% \item $\proc{Heap-Extract-Max}(H)$ extrait la clé maximale.
+%\end{itemize}
 
-\bigskip
+%\bigskip
 
-\centerline{\includegraphics[width=5cm]{Figures/03-tas-binaire.pdf}}
+%\centerline{\includegraphics[width=5cm]{Figures/03-tas-binaire.pdf}}
 
-\end{frame}
+%\end{frame}
 
 \begin{frame}{Implémentation par un tableau}
 
@@ -783,25 +783,41 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 
 \end{frame}
 
-\begin{frame}{$\proc{Heap-Extract-Max}$}
-
+\begin{frame}{Principe du tri par tas}
 \begin{itemize}
-\item Procédure $\proc{Heap-Extract-Max}$:
+\item On construit un tas à partir du tableau à trier $\rightarrow$ $\proc{Build-max-heap}(A)$.
+\item Tant que le tas contient des éléments:
 \begin{itemize}
-\item Extrait la clé maximale. Elle est toujours à la racine \emph{(Pourquoi ?)}
-\item Réarrange le tas pour maintenir la propriété d'ordre du tas
-\end{itemize}
+\item On extrait l'élément au sommet du tas qu'on place dans le
+  tableau trié) et on le remplace par l'élément le plus à droite
 
-% FIG: Gaetano -> a refaire
 \centerline{\includegraphics[width=5cm]{Figures/03-heap-extract-max2.pdf}~~~~\includegraphics[width=5cm]{Figures/03-heap-extract-max2-2.pdf}}
 
-\item Principe:
-\begin{itemize}
-\item On remplace la racine par la feuille la plus à droite ($A[1]=A[N]$)
-\item Réarrange le tas en tenant compte du fait que les sous-arbres de droite et de gauche sont des tas (appel de $\proc{Max-Heapify}(A,1)$)
+\item On rétablit la propriété de tas en tenant compte du fait que les sous-arbres de droite et de gauche sont des tas $\rightarrow$ $\proc{Max-Heapify}(A,1)$ 
 \end{itemize}
 \end{itemize}
+(Tout se fait dans le tableau initial $\rightarrow$ en place)
 \end{frame}
+
+%% \begin{frame}{$\proc{Heap-Extract-Max}$}
+
+%% \begin{itemize}
+%% \item Procédure $\proc{Heap-Extract-Max}$:
+%% \begin{itemize}
+%% \item Extrait la clé maximale. Elle est toujours à la racine \emph{(Pourquoi ?)}
+%% \item Réarrange le tas pour maintenir la propriété d'ordre du tas
+%% \end{itemize}
+
+%% % FIG: Gaetano -> a refaire
+%% \centerline{\includegraphics[width=5cm]{Figures/03-heap-extract-max2.pdf}~~~~\includegraphics[width=5cm]{Figures/03-heap-extract-max2-2.pdf}}
+
+%% \item Principe:
+%% \begin{itemize}
+%% \item On remplace la racine par la feuille la plus à droite ($A[1]=A[N]$)
+%% \item Réarrange le tas en tenant compte du fait que les sous-arbres de droite et de gauche sont des tas (appel de $\proc{Max-Heapify}(A,1)$)
+%% \end{itemize}
+%% \end{itemize}
+%% \end{frame}
 
 \begin{frame}{$\proc{Max-Heapify}$}
 
@@ -861,17 +877,17 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 
 \begin{frame}{Construction d'un tas}
 
-\begin{center}
+\begin{center}\small
 \fcolorbox{white}{Lightgray}{
       \begin{codebox}
         \Procname{$\proc{Build-Max-Heap}(A)$}
         \li $\attrib{A}{heap-size}\gets\attrib{A}{length}$
-        \li \For $i\gets\lfloor\id{length}(A)/2\rfloor$ \Downto $1$
+        \li \For $i\gets\lfloor \attrib{A}{length}/2\rfloor$ \Downto $1$
         \li \Do $\proc{Max-Heapify}(A,i)$
         \End
       \end{codebox}}
 \end{center}
-
+{\footnotesize (Invariant: chaque n\oe ud i, i+1,\ldots, n est la racine d'un tas)}
 \bigskip
 
 \centerline{\includegraphics[width=10cm]{Figures/03-build-max-heap.pdf}}
@@ -961,14 +977,20 @@ $2^{h-1}$ & + & $2^{h-2}$ & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h}-1$\
         \begin{codebox}
           \Procname{$\proc{Heap-Sort}(A)$}
           \li $\proc{Build-Max-Heap}(A)$
-          \li \For $i\gets\id{length}(A)$ \Downto $1$
+          \li \For $i\gets\attrib{A}{length}$ \Downto $1$
           \li \Do $\id{swap}(A[i],A[1])$
-          \li     $\id{heap-size}(A)\gets\id{heap-size}(A)-1$
+          \li     $\attrib{A}{heap-size} \gets\attrib{A}{heap-size}-1$
           \li     $\proc{Max-Heapify}(A,1)$
           \End
         \end{codebox}}
 \end{center}
 
+\bigskip
+
+{\small
+Invariant:\\
+$A[1\twodots i]$ est un tas contenant les $i$ éléments les plus petits de $A[1\twodots \attrib{A}{length}]$ et $A[i+1\twodots \attrib{A}{length}]$ contient les $n-i$ éléments les plus grands de $A[1\twodots \attrib{A}{length}]$ triés.
+}
 \end{frame}
 
 \begin{frame}{Tri par tas: illustration}
@@ -1028,9 +1050,11 @@ Le tri par tas est cependant généralement battu par le tri rapide
     \hline
     \proc{Quick-Sort} & $\Theta(n^2)$ & $\Theta(n\log{n})$ & $\Theta(n\log{n})$ & oui\\
     \hline
-    \proc{Heap-Sort} & $\Theta(n\log{n})$ & $\Theta(n\log{n})$ & $\Theta(n\log{n})$ & oui\\
+    \proc{Heap-Sort} & $\Theta(n\log{n})$ & $\Theta(n\log{n})$ & $\Theta(n\log{n})^*$ & oui\\
     \hline\hline
-  \end{tabular}
+  \end{tabular}\\
+\medskip
+{~\hfill\footnotesize $^*$ pas montré dans ce cours}
   \end{center}
 
 \end{frame}
@@ -1139,5 +1163,9 @@ $$h\geq \log(n!)>\log((\frac{n}{e})^n)=n\log n - n\log e\Rightarrow h=\Omega(n\l
 \item Méthodes de sélection: trouver l'élément de rang $i$
 \end{itemize}
 
-\note{Demander comment il ferait ça de manière naive}
+\note{Demander comment il ferait ça de manière naive
+
+\bigskip
+
+Tri par comptage: suppose qu'on trie des entiers et qu'on connait le min et le max: on fait un histogramme et puis on parcourt cet histogramme}
 \end{frame}
