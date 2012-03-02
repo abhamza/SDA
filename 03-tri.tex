@@ -868,7 +868,7 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 \bigskip
 
 \begin{itemize}
-\item Complexité ? La hauteur du n\oe ud: $T(n)=\Theta(\log n)$ (Transp. \pageref{03:hauteurtas})
+\item Complexité ? La hauteur du n\oe ud: $T(n)=O(\log n)$ (Transp. \pageref{03:hauteurtas})
 \end{itemize}
 
 \note{On vérifie qu'il y a bien un fils gauche et un fils de droite}
@@ -899,7 +899,14 @@ Propriété d'ordre du tas: $\forall i, A[\proc{Parent}(i)]\geq A[i]$
 \item On tasse les n\oe uds internes de bas en haut et de droite à gauche
 \end{itemize}
 
-\note{Montrer au tableau comment ça marche}
+\note{Montrer au tableau comment ça marche
+
+\bigskip
+
+borne à $length(A)/2$ car fils gauche d'un n\oe ud $i$ est donné par $2*i$. Pas de n\oe ud si $2i>A.length \Leftrightarrow i>A.length/2$.
+
+
+}
 
 \end{frame}
 
@@ -977,7 +984,7 @@ $2^{h-1}$ & + & $2^{h-2}$ & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h}-1$\
         \begin{codebox}
           \Procname{$\proc{Heap-Sort}(A)$}
           \li $\proc{Build-Max-Heap}(A)$
-          \li \For $i\gets\attrib{A}{length}$ \Downto $1$
+          \li \For $i\gets\attrib{A}{length}$ \Downto $2$
           \li \Do $\id{swap}(A[i],A[1])$
           \li     $\attrib{A}{heap-size} \gets\attrib{A}{heap-size}-1$
           \li     $\proc{Max-Heapify}(A,1)$
@@ -1009,9 +1016,9 @@ Tableau initial: $A=[7,4,3,1,2]$
         \begin{codebox}
           \Procname{$\proc{Heap-Sort}(A)$}
           \li $\proc{Build-Max-Heap}(A)$
-          \li \For $i\gets\id{length}(A)$ \Downto $1$
+          \li \For $i\gets\attrib{A}{length}$ \Downto $2$
           \li \Do $\id{swap}(A[i],A[1])$
-          \li     $\id{heap-size}(A)\gets\id{heap-size}(A)-1$
+          \li     $\attrib{A}{heap-size} \gets\attrib{A}{heap-size}-1$
           \li     $\proc{Max-Heapify}(A,1)$
           \End
         \end{codebox}}
@@ -1145,7 +1152,7 @@ $$h\geq \log(n!)>\log((\frac{n}{e})^n)=n\log n - n\log e\Rightarrow h=\Omega(n\l
 
 \bigskip
 
-\item Liens:
+\item Illustration:
 \begin{itemize}
 \item \url{http://www.sorting-algorithms.com/}
 \end{itemize}
