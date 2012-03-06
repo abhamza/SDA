@@ -1,0 +1,111 @@
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{../clrscode3epg}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+% Style
+\parskip=\smallskipamount
+
+% En-têtes
+\title{
+    \textbf{Structures de données et algorithmes}\\
+    Répétition 3: Preuves et correction d'algorithmes
+}
+
+\author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
+\date{9 mars 2012}
+
+% Corps
+\begin{document}
+\maketitle
+
+\section*{Exercice 1}
+
+L'algorithme suivant est-il correct? Partiellement? Totalement?
+
+\begin{codebox}
+    \li \Comment $\{B \geq 0\}$
+    \li $x\gets A$
+    \li $y\gets B$
+    \li $product\gets 0$
+    \li \While $y > 0$
+    \li \Do     $product\gets product + x$
+    \li         $y = y - 1$
+        \End
+    \li \Comment $\{product = A \times B\}$
+    \End
+\end{codebox}
+\vspace{10pt}
+
+\section*{Exercice 2}
+
+Déterminer la post-condition de l'algorithme suivant. Montrer ensuite que l'algorithme est totalement correct.
+
+\begin{codebox}
+    \li \Comment $\{m = A \geq 0\}$
+    \li $r\gets 0$
+    \li \While $(r+1)*(r+1)\leq m$
+    \li \Do     $r\gets r+1$
+        \End
+    \li \Comment $\{Post-condition\}$
+    \End
+\end{codebox}
+\vspace{10pt}
+
+\section*{Exercice 3}
+
+Montrer que l'algorithme suivant est totalement correct.
+
+\begin{codebox}
+    \li \Comment $\{N\geq 0\}$
+    \li $sum\gets 0$
+    \li $exp\gets 0$
+    \li $term\gets 1$
+    \li \While $exp < N$
+    \li \Do     $sum\gets sum + term$
+    \li         $exp = exp + 1$
+    \li         $term = term*2$
+        \End
+    \li \Comment $\{sum = 2^N - 1\}$
+\end{codebox}
+\vspace{10pt}
+
+
+\pagebreak
+\section*{Exercice 4}
+
+\begin{enumerate}
+\item Que fait l'algorithme suivant?
+\item Déterminer sa complexité.
+\item Montrer qu'il est totalement correct.
+\end{enumerate}
+
+\vspace{10pt}
+\begin{codebox}
+    \Procname{$\proc{Power}(x, n)$}
+    \li \If $n == 0$
+    \li \Then   \Return $1$
+    \li \ElseIf $odd(n)$
+    \li \Then   \Return $x * \textsc{Power}(x, n \div 2)^2$
+    \li \Else
+    \li \Return $\textsc{Power}(x, n \div 2)^2$
+        \End
+\end{codebox}
+\vspace{10pt}
+
+\textit{Remarques}: La fonction $odd(n)$ détermine si $n$ est impair. L'opérateur $\div$ est l'opérateur de division entière.
+
+
+% - Montrer que MERGE(A, p, q, r) est correct par un invariant
+
+\end{document}
