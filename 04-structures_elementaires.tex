@@ -95,7 +95,7 @@ Dans ce cours:
 
 \bigskip
 
-\item Dictionaire: structure qui implémente les 3 opérations
+\item Dictionnaire: structure qui implémente les 3 opérations
   recherche, insertion, suppression (cf. partie 5)
 \end{itemize}
 
@@ -163,9 +163,7 @@ Dans ce cours:
       \fcolorbox{white}{Lightgray}{%
         \begin{codebox}
           \Procname{$\proc{Stack-Empty}(S)$}
-          \li \If $\attrib{S}{top}\isequal 0$
-          \li \Then \Return \const{true}
-          \li \Else \Return \const{false}
+          \li \Return $\attrib{S}{top}\isequal 0$
           \End
         \end{codebox}}
 
@@ -375,7 +373,7 @@ Dans ce cours:
         \End
   \end{codebox}}\hfill
 
-\bigskip  
+\bigskip
 
   \fcolorbox{white}{Lightgray}{%
     \begin{codebox}
@@ -415,7 +413,7 @@ Dans ce cours:
           \li \ElseIf $A[i]$ est une parenthèse droite
           \li \Then \If $\proc{Stack-Empty}(S)$
           \li \Then \Return \const{False}
-          
+
           \li \ElseIf  $\proc{Pop}(S)$ n'est pas du même type que $A[i]$
           \li \Then \Return \const{False}
           \End\End\End
@@ -546,7 +544,7 @@ Double ended-queue (deque)
 
 \begin{itemize}
 \item Généralisation de la pile et de la file
-\item Collection ordonnée d'objets offrant la possibilité 
+\item Collection ordonnée d'objets offrant la possibilité
 \begin{itemize}
 \item d'insérer un nouvel objet \alert{avant le premier} ou \alert{après le dernier}
 \item d'extraire le \alert{premier} ou le \alert{dernier} objet
@@ -731,7 +729,7 @@ Complexité $O(1)$ en temps et $O(n)$ en espace pour $n$ opérations.
 \item Interface
 \begin{itemize}
 \item $\proc{Elem-At-Rank}(V,r)$ retourne l'élément au rang $r$ dans $V$.
-\item $\proc{Replace-At-Rank}(V,r,x)$ remplace l'élément situé au rang $r$ par $x$ et retourne cet objet. 
+\item $\proc{Replace-At-Rank}(V,r,x)$ remplace l'élément situé au rang $r$ par $x$ et retourne cet objet.
 \item $\proc{Insert-At-Rank}(V,r,x)$ insère l'élément $x$ au rang $r$, en augmentant le rang des objets suivants.
 \item $\proc{Remove-At-Rank}(V,r)$ extrait l'élément situé au rang $r$ et le retire de $r$, en diminuant le rang des objets suivants.
 \item $\proc{Vector-Size}(V)$ renvoie la taille du vecteur.
