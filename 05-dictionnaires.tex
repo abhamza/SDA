@@ -17,7 +17,7 @@
 
 \begin{frame}{Plan}
 
-\tableofcontents
+\tableofcontents[hideallsubsections]
 
 \end{frame}
 
@@ -31,10 +31,18 @@
   suivantes:
 \begin{itemize}
 \item $\proc{Search}(S,k)$ retourne un pointeur $x$ vers un élément dans $S$ tel que $\attrib{x}{key}=k$, ou $\const{NIL}$ si un tel élément n'appartient pas à $S$.
-\item $\proc{Insert}(S,x)$ insère l'élément $x$ dans le dictionnaire $S$.
-\item $\proc{Delete}(S,x)$ retire l'élément $x$ de $S$.
+\medskip
+\item $\proc{Insert}(S,x)$ insère l'élément $x$ dans le dictionnaire $S$. Si un élément de même clé se trouve déjà dans le dictionnaire, on met à jour sa valeur
+\medskip
+\item $\proc{Delete}(S,x)$ retire l'élément $x$ de $S$. Ne fait rien si l'élément n'est pas dans le dictionnaire.
 \end{itemize}
+\medskip
 \item Pour faciliter la recherche, on peut supposer qu'il existe un ordre total sur les clés.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Dictionnaires}
+\begin{itemize}
 \item Deux objectifs en général:
 \begin{itemize}
 \item minimiser le coût pour l'insertion et l'accès au données
@@ -64,27 +72,47 @@
 }
 \end{frame}
 
-\section{Arbres binaires de recherche}
-
 \begin{frame}{Liste liée}
 Première solution:
 \begin{itemize}
 \item On stocke les paires clé-valeur dans une liste liée
-\item Recherche et suppression par les fonctions $\proc{List-Search}$ et $\proc{List-Delete}$\\
-\item Insertion:
+\item Recherche:
+\begin{center}
+{\footnotesize
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{List-Search}(L,k)$}
+        \li $x\gets \attrib{L}{head}$
+        \li \While $x\ne \const{NIL}\wedge\attrib{x}{key}\ne k$
+        \li \Do $x\gets \attrib{x}{next}$
+            \End
+        \li \Return $x$
+      \end{codebox}}
+%% \fcolorbox{white}{Lightgray}{%
+%%       \begin{codebox}
+%%         \Procname{$\proc{List-Delete}(L,x)$}
+%%         \li \If $\attrib{x}{prev}\ne \const{NIL}$
+%%         \li \Then $\attrib{x}{prev}.\id{next}\gets \attrib{x}{next}$
+%%         \li \Else $\attrib{L}{head}\gets \attrib{x}{next}$\End
+%%         \li \If $\attrib{x}{next}\ne \const{NIL}$
+%%         \li \Then $\attrib{x}{next}.\id{prev}\gets \attrib{x}{prev}$ \End
+%%       \end{codebox}}
+}
+\end{center}
+\item Insertion (resp. Suppression)
 \begin{itemize}
-\item On recherche la clé dans la liste ($\proc{List-Search}$)
-\item Si elle existe, on remplace la valeur
-\item Si elle n'existe pas, on la place en début de liste ($\proc{List-Insert}$)
+\item On recherche la clé dans la liste
+\item Si elle existe, on remplace la valeur (resp. on la supprime)
+\item Si elle n'existe pas, on la place en début de liste (resp. on ne fait rien)
 \end{itemize}
-\item Complexité:
+\item Complexité au pire cas\hfill{\it (meilleur cas ?)}
 % remplacer ça par une table
 \begin{itemize}
 \item Insertion: $O(N)$
 \item Recherche: $O(N)$
 \item Suppression: $O(N)$
 \end{itemize}
-\item Peut-on améliorer la recherche ?
+%\item Peut-on améliorer la recherche ?
 \end{itemize}
 \end{frame}
 
@@ -116,37 +144,196 @@ Deuxième solution:
 \end{center}
 Complexité: $O(\log n)$
 \end{itemize}
-
+\note{Comment est-ce que vous feriez l'insertion? comme insertion sort ?}
 \end{frame}
 
 \begin{frame}{Vecteur trié}
 \begin{itemize}
 \item Insertion: recherche de la position par $\proc{Binary-Search}$ puis insertion dans le vecteur par $\proc{Insert-At-Rank}$ (=décalage des éléments vers la droite).
 \item Suppression: recherche puis suppression par $\proc{Remove-At-Rank}$ (=décalage des éléments vers la gauche).
-\item Complexité:
+\item Complexité au pire cas\hfill{\it (meilleur cas ?)}
 \begin{itemize}
 \item Insertion: $O(N)$ (on doit décaler les éléments à droite de la clé)
 \item Recherche: $O(\log N)$ (recherche dichotomique)
 \item Suppression: $O(N)$ (on doit décaler les éléments à gauche de la clé)
 \end{itemize}
+(Si le vecteur est implémenté par un tableau extensible !)
+\end{itemize}
+
+\note{Est-ce que ça ne vous donne pas une autre idée d'algorithme de tri ? Binary insertion sort: complexité ? Intéressant si le coût d'une comparaison est plus grand que le coût d'un swap: example si la comparaison nécessite de faire un calcul couteux (log(n) comparaison dans un cas, n dans l'aute)}
+
+\end{frame}
+
+\begin{frame}{Dictionnaires: jusqu'ici}
+
+  \begin{center}\small
+    \def\arraystretch{1.5}\renewcommand{\tabcolsep}{1mm}
+    \begin{tabular}{@{}lcccccc@{}}
+    &\multicolumn{3}{c}{\emph{Pire cas}} & \multicolumn{3}{c}{\emph{En moyenne}}\\
+    \emph{Implémentation}& \proc{Search} & \proc{Insert} & \proc{Delete} & \proc{Search} & \proc{Insert} & \proc{Delete}\\
+    \hline\hline
+    Liste &$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$\\
+    \hline
+    Vecteur trié&$\Theta(\log n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(\log n)$&$\Theta(n)$&$\Theta(n)$\\
+    \hline\hline
+  \end{tabular}
+  \end{center}
 
 \bigskip
 
-\item Peut-on obtenir à la fois une insertion et une recherche
-  efficace?\\$\Rightarrow$ Oui, en utilisant un arbre binaire de recherche
+Peut-on obtenir à la fois une insertion et une recherche ``efficace''?
+
+\end{frame}
+
+
+\section{Arbres binaires de recherche}
+
+\begin{frame}{Plan}
+
+\tableofcontents[currentsection]
+
+\end{frame}
+
+\subsection{Type de données abstrait pour un arbre}
+
+\begin{frame}{Type de données abstrait pour un arbre}
+\begin{itemize}
+\item Principe:
+\begin{itemize}
+\item Des données sont associées aux n\oe uds d'un arbre
+\item Les n\oe uds sont accessibles les uns par rapport aux autres selon leur position dans l'arbre
+\end{itemize}
+\item Interface: Pour un arbre $T$ et un noeud $n$
+\begin{itemize}
+\item $\proc{Parent}(T,n)$: renvoie le parent d'un noeud $n$ (signale une erreur si $n$ est la racine)
+\item $\proc{Children}(T,n)$: renvoie une structure de données (ordonnée
+  ou non) contenant les fils du n\oe ud $n$ (exemple: une liste)
+\item $\proc{isRoot}(T,n)$: renvoie vrai si $n$ est la racine de l'arbre
+\item $\proc{isInternal}(T,n)$: renvoie vrai si $n$ est un n\oe ud interne
+\item $\proc{isExternal}(T,n)$: renvoie vrai si $n$ est un n\oe ud externe
+\item $\proc{GetData}(T,n)$: renvoie les données associées au n\oe ud $n$
+\item $\proc{Left}(T,n)$, $\proc{Right}(T,n)$: renvoie les fils gauche et droit de $n$ (pour un arbre binaire)
+\item $\proc{Root}(T)$: renvoie le n\oe ud racine de l'arbre
+\item $\proc{Size}(T)$: renvoie le nombre de n\oe uds de l'arbre
+\item \ldots
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Exemples d'opération sur un arbre}
+\begin{itemize}
+\item Calcul de la profondeur d'un n\oe ud
+
+\begin{center}\small
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Depth-rec}(T,n)$}
+    \li \If $\proc{isRoot}(T,n)$
+    \li \Then \Return 0\End
+    \li \Return $1+\proc{Depth-rec}(T,\proc{Parent}(T,n))$
+\end{codebox}}
+\end{center}
+\item Version itérative
+
+\begin{center}\small
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Depth-iter}(T,n)$}
+    \li $d\gets 0$
+    \li \While \textbf{not} $\proc{isRoot}(T,n)$ \Do
+    \li $d\gets d+1$
+    \li $n\gets \proc{Parent}(T,n)$ \End
+    \li \Return $d$
+\end{codebox}}
+\end{center}
+\item Complexité en temps: $O(n)$, où $n$ est la taille de l'arbre (si
+  les opérations de l'interface sont $O(1)$)
+\end{itemize}
+\note{Complexité en espace: $O(n)$ pour la version récursive}
+\end{frame}
+
+\begin{frame}{Exemples d'opération sur un arbre}
+\begin{itemize}
+\item Calcul de la hauteur de l'arbre
+
+\begin{center}\small
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Height}(T,n)$}
+    \li \If $\proc{isExternal}(T,n)$
+    \li \Then \Return 0 \End
+    \li $h\gets 0$
+    \li \For \textbf{each} $n2$ \textbf{in} $\proc{Children}(T,n)$
+    \li \Do $h\gets \max(h,\proc{Height}(T,n2))$\End
+    \li \Return $h+1$
+\end{codebox}}
+\end{center}
+
+\item Complexité en temps: $O(n)$, où $n$ est la taille de l'arbre (si
+  les opérations de l'interface sont $O(1)$)
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Arbre binaire de recherche}
+\begin{frame}{Implémentation d'un arbre binaire}
+
+Première solution: \alert{numérotation de niveaux}
+\begin{itemize}
+\item L'arbre est représenté par un vecteur (ou un tableau)
+\item Chaque position dans l'arbre est associé à un rang particulier:
+\begin{itemize}
+\item La racine est en position 1
+\item Si un n\oe ud est au rang $r$, son successeur gauche est au rang $2r$, son successeur droit au rang $2r+1$
+\end{itemize}
+\item Si l'arbre binaire n'est pas un arbre binaire complet, le vecteur contiendra des trous (qu'il faudra pouvoir identifier)
+\item Complexité en temps des opérations: $O(1)$
+\item Complexité en espace: $O(2^n)$ pour un arbre de $n$ n\oe uds ($\Theta(n)$ pour un arbre binaire complet)
+\end{itemize}
+
+\note{Au pire, l'arbre aura une profondeur $h=n$, et donc il faudra pouvoir référencer $O(2^h)=O(2^n)$ éléments}
+
+\end{frame}
+
+\begin{frame}{Implémentation d'un arbre binaire}
+
+Deuxième solution: \alert{structure liée}
+\begin{itemize}
+\item Principe: on retient pour chaque n\oe ud $n$ de l'arbre:
+\begin{itemize}
+\item Un champ de données ($\attrib{n}{data}$)
+\item Un pointeur vers son n\oe ud parent ($\attrib{n}{parent}$)
+\item Un pointeur vers ses fils gauche et droit ($\attrib{n}{left}$ et $\attrib{n}{right}$)
+\end{itemize}
+\item Complexité en temps des opérations: $O(1)$
+\item Complexité en espace: $\Theta(n)$ pour $n$ n\oe uds
+\end{itemize}
+
+\bigskip
+
+{\it (généralise la notion de liste liée)}
+\end{frame}
+
+\begin{frame}{Implémentation d'un arbre quelconque}
+
+\begin{itemize}
+\item Même structure liée que pour un arbre binaire
+\item Mais on remplace $\attrib{n}{left}$ et $\attrib{n}{right}$ par un pointeur $\attrib{n}{children}$ vers un ensemble dynamique
+\item Le type d'ensemble dynamique (vecteur, liste, \ldots) dépendra des opérations devant être effectuées
+\end{itemize}
+
+\centerline{\includegraphics[width=9cm]{Figures/05-arbrequelconque.pdf}}
+
+{\it (on peut aussi représenter un arbre quelconque par un arbre binaire)}
+\end{frame}
+
+\begin{frame}{Implémentation des arbres binaires}
+
+Implémentation des arbres binaires dans le reste de ce cours:
 \begin{columns}
 \begin{column}{7.5cm}
 \begin{itemize}
-\item Implémentation:
-\begin{itemize}
 \item $T$ représente l'arbre, qui consiste en un ensemble de n\oe uds
 \item $T.root$ est le n\oe ud racine de l'arbre $T$
-\end{itemize}
 \item N\oe ud $x$
 \begin{itemize}
 \item $\attrib{x}{parent}$ est le parent du n\oe ud $x$
@@ -164,37 +351,40 @@ Complexité: $O(\log n)$
 \end{columns}
 
 \bigskip
+Pour simplifier les notations, nos fonctions seront implémentées directement sur base de cette implémentation (et pas de l'interface générale)
 
-(Généralise la notion de liste liée)
+\note{Le passage à une autre implémentation devrait être relativement aisé}
 
 \end{frame}
 
-\begin{frame}{Arbres binaires de recherche}
-
-\centerline{\includegraphics[width=9cm]{Figures/05-arbresbinaires.pdf}}
+\begin{frame}{Parcours d'arbres (binaire)}
 
 \begin{itemize}
-\item Propriété d'arbre binaire de recherche
+\item Un parcours d'arbre est une façon d'\alert{ordonner} les n\oe uds d'un arbre afin de les parcourir
+\item Différents types de parcours:
 \begin{itemize}
-\item Soient deux n\oe uds $x$ et $y$.
-\item Si $y$ est dans le sous-arbre de gauche de $x$, alors $y.key\leq x.key$
-\item Si $y$ est dans le sous-arbre de droite de $x$, alors $y.key\leq x.key$
+\item Parcours en profondeur:
+\begin{itemize}
+\item Infixe (en ordre)
+\item Préfixe (en préordre)
+\item Suffixe (en postordre)
+\end{itemize}
+\item Parcours en largeur
 \end{itemize}
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}{Parcours infixe}
 
 \begin{center}
-\includegraphics[width=5cm]{Figures/05-onebst.pdf}
+\includegraphics[width=5cm]{Figures/05-onebst2.pdf}
 \bigskip
 
-$\Rightarrow \langle 2, 5, 5, 6, 7, 8\rangle$
+$\Rightarrow \langle A, B, D, F, H, K\rangle$
 \end{center}
 
 \begin{itemize}
-\item Parcours infixe: parcours en ordre des clés de l'arbre
+\item Parcours infixe (en ordre): Chaque n\oe ud est visité \alert{après} son fils gauche et \alert{avant} son fils droit
 
 \bigskip
 \begin{center}
@@ -218,14 +408,14 @@ $\Rightarrow \langle 2, 5, 5, 6, 7, 8\rangle$
 \begin{frame}{Parcours préfixe}
 
 \begin{center}
-\includegraphics[width=6cm]{Figures/05-onebst.pdf}
+\includegraphics[width=6cm]{Figures/05-onebst2.pdf}
 \bigskip
 
-$\Rightarrow \langle 6, 5, 2, 5, 7, 8\rangle$
+$\Rightarrow \langle F, B, A, D, H, K\rangle$
 \end{center}
 
 \begin{itemize}
-\item Parcours préfixe (préordre): chaque n\oe ud est visité \alert{avant} ses fils
+\item Parcours préfixe (en préordre): chaque n\oe ud est visité \alert{avant} ses fils
 
 \bigskip
 \begin{center}
@@ -249,14 +439,14 @@ $\Rightarrow \langle 6, 5, 2, 5, 7, 8\rangle$
 \begin{frame}{Parcours postfixe}
 
 \begin{center}
-\includegraphics[width=6cm]{Figures/05-onebst.pdf}
+\includegraphics[width=6cm]{Figures/05-onebst2.pdf}
 \bigskip
 
-$\Rightarrow \langle 2, 5, 5, 8, 7, 6\rangle$
+$\Rightarrow \langle A, D, B, K, H, F\rangle$
 \end{center}
 
 \begin{itemize}
-\item Parcours postfixe (postordre): chaque n\oe ud est visité \alert{après} ses fils
+\item Parcours postfixe (en postordre): chaque n\oe ud est visité \alert{après} ses fils
 
 \bigskip
 \begin{center}
@@ -278,28 +468,28 @@ $\Rightarrow \langle 2, 5, 5, 8, 7, 6\rangle$
 \end{frame}
 
 \begin{frame}{Complexité des parcours}
-\begin{itemize}
-\item Tous les parcours sont $\Theta(n)$ en temps
+
+
+Tous les parcours en profondeur sont $\Theta(n)$ en temps
 \begin{itemize}
 \item Soit $T(n)$ le nombre d'opérations pour un arbre avec $n$ n\oe uds
 \item On a $T(n)=\Omega(n)$ (on doit au moins parcourir chaque n\oe ud).
 \item Etant donné la récurrence, on a:
-$$T(n)=T(n_l)+T(n-n_L-1) + \Theta(1)$$
-\item On peut prouver par induction que $T(n)=O(n)$
+$$T(n)\leq T(n_L)+T(n-n_L-1) + d$$ où $n_L$ est le nombre de n\oe uds du sous-arbre à gauche et $d$ une constante
+\item On peut prouver par induction que $T(n)< (c+d) n +c$ où $c=T(0)$.
 \item $T(n)=\Omega(n)$ et $T(n)=O(n)$ $\Rightarrow$ $T(n)=\Theta(n)$
 \end{itemize}
-\item Etant donné que la sortie est de longueur $n$, on ne pourra pas faire mieux
-\end{itemize}
 
+\note{Preuve par induction:
+\centerline{\includegraphics[width=10cm]{Figures/05-proofinorder.pdf}}
+}
 \end{frame}
 
 \begin{frame}{Parcours en largeur}
 
-
-
 \begin{itemize}
 \item Parcours en largeur: on visite le n\oe ud le plus proche de la racine qui n'a pas déjà été visité. Correspond à une visite de n\oe ud de profondeur 1, puis 2, \ldots.
-\item Implémentation à l'aide d'une file
+\item Implémentation à l'aide d'une file en $\Theta(n)$
 \end{itemize}
 
 %\bigskip
@@ -307,10 +497,10 @@ $$T(n)=T(n_l)+T(n-n_L-1) + \Theta(1)$$
 \begin{columns}
 \begin{column}{5cm}
 \begin{center}
-\includegraphics[width=6cm]{Figures/05-onebst.pdf}
+\includegraphics[width=6cm]{Figures/05-onebst2.pdf}
 \bigskip
 
-$\Rightarrow \langle 6,5,7,2,5,8\rangle$
+$\Rightarrow \langle F,B,H,A,D,K\rangle$
 \end{center}
 \end{column}~~~~~~~
 \begin{column}{5cm}
@@ -337,9 +527,72 @@ $\Rightarrow \langle 6,5,7,2,5,8\rangle$
 
 \medskip
 
-\emph{(Exercice: Implémenter le parcours en ordre de manière non récursive)}
+\emph{(Exercice: Implémenter les parcours en profondeur de manière non récursive)}
 \note{Solution: il faut utiliser une pile mais une solution simple peut être trouvée avec une comparaison de pointeurs (voir les solutions du bouquin)
+
 }
+\end{frame}
+
+\subsection{Arbre binaire de recherche}
+
+\begin{frame}{Plan}
+
+\tableofcontents[currentsection]
+
+\end{frame}
+
+
+\begin{frame}{Arbres binaires de recherche}
+
+\begin{itemize}
+\item Une structure d'arbre binaire implémentant un dictionnaire, avec
+  des opérations en $O(h)$ où $h$ est la hauteur de l'arbre
+
+
+\bigskip
+
+\item Chaque n\oe ud de l'arbre binaire est associé à une clé
+\item L'arbre satisfait à la propriété d'arbre binaire de recherche
+\begin{itemize}
+\item Soient deux n\oe uds $x$ et $y$.
+\item Si $y$ est dans le sous-arbre de gauche de $x$, alors $y.key<x.key$
+\item Si $y$ est dans le sous-arbre de droite de $x$, alors $y.key\geq x.key$
+\end{itemize}
+\end{itemize}
+
+\centerline{\includegraphics[width=9cm]{Figures/05-arbresbinaires.pdf}}
+
+\end{frame}
+
+\begin{frame}{Parcours d'un arbre binaire de recherche}
+
+\begin{center}
+\includegraphics[width=5cm]{Figures/05-onebst.pdf}
+\bigskip
+
+$\Rightarrow \langle 2, 5, 5, 6, 7, 8\rangle$
+\end{center}
+
+\begin{itemize}
+\item Le parcours infixe d'un arbre binaire de recherche permet d'afficher les clés par ordre croissant
+
+\bigskip
+\begin{center}
+\begin{small}
+\fcolorbox{white}{Lightgray}{%
+  \begin{codebox}
+    \Procname{$\proc{Inorder-Tree-Walk}(x)$}
+    \li \If $x\neq \const{NIL}$
+    \li \Then $\proc{Inorder-Tree-Walk}(\attrib{x}{left})$
+    \li print $\attrib{x}{key}$
+    \li $\proc{Inorder-Tree-Walk}(\attrib{x}{right})$
+    \End
+\end{codebox}}
+\end{small}
+\end{center}
+
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}{Recherche dans un arbre binaire}
@@ -461,10 +714,10 @@ Ex: successeur de 15 $\rightarrow 17$, successeur de 4 $\rightarrow 6$.
 \fcolorbox{white}{Lightgray}{
 \begin{codebox}
       \Procname{$\proc{Tree-Successor}(x)$}
-      \li \If $\attrib{x}{right}\ne\const{NIL}$
-      \li \Return $\proc{Tree-Minimum}(\attrib{x}{right})$
+      \li \If $\attrib{x}{right}\ne\const{NIL}$\Then
+      \li \Return $\proc{Tree-Minimum}(\attrib{x}{right})$\End
       \li $y\gets\attrib{x}{parent}$
-      \li \While $y\ne\const{NIL}$ and $x\isequal\attrib{x}{right}$
+      \li \While $y\ne\const{NIL}$ and $x\isequal\attrib{y}{right}$
       \li \Do $x\gets y$
       \li     $y\gets\attrib{y}{parent}$
       \End
@@ -655,21 +908,7 @@ Complexité: $O(h)$ pour un arbre de hauteur $h$\\(Tout est $O(1)$ sauf l'appel 
 \item En supposant que les éléments ont été insérés en ordre aléatoire
 \end{itemize}
 \end{itemize}
-\item Problème:  le pire cas n'est pas rare
-
-\bigskip
-
-\item Deux solutions:
-\begin{itemize}
-\item Utiliser de la randomisation pour que le probabilité de rencontrer le pire cas soit négligeable
-\item Maintenir les arbres équilibrés
 \end{itemize}
-\end{itemize}
-\note{
-randomization: n'assure pas qu'on ne sera jamais dans le pire cas. Suppose qu'on puisse jouer sur l'ordre d'insertion
-
-Peut-être développer un peu l'insertion sur base des slides de Carzinaga...
-}
 \end{frame}
 
 \begin{frame}{Tri avec un arbre binaire de recherche}
@@ -702,7 +941,55 @@ Peut-être développer un peu l'insertion sur base des slides de Carzinaga...
 \item Complexité en espace cependant plus importante, pour le stockage de la structure d'arbres.
 \end{itemize}
 
+\note{file à priorité avec un arbre:
+pire cas: $O(N)$ pour l'insertion et l'extraction. Cas moyen: $O(log n)$ dans les deux cas.
+}
+
 \end{frame}
+
+\begin{frame}{Dictionnaires: jusqu'ici}
+
+  \begin{center}\small
+    \def\arraystretch{1.5}\renewcommand{\tabcolsep}{1mm}
+    \begin{tabular}{@{}lcccccc@{}}
+    &\multicolumn{3}{c}{\emph{Pire cas}} & \multicolumn{3}{c}{\emph{En moyenne}}\\
+    \emph{Implémentation}& \proc{Search} & \proc{Insert} & \proc{Delete} & \proc{Search} & \proc{Insert} & \proc{Delete}\\
+    \hline\hline
+    Liste &$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$\\
+    \hline
+    Vecteur trié&$\Theta(\log n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(\log n)$&$\Theta(n)$&$\Theta(n)$\\
+\hline
+ABR&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$\\
+    \hline\hline
+  \end{tabular}
+  \end{center}
+
+\bigskip
+
+\begin{itemize}
+\item Peut-on obtenir $\Theta(\log n)$ dans le pire cas?
+\item Deux solutions:
+\begin{itemize}
+\item Utiliser de la randomisation pour que le probabilité de
+  rencontrer le pire cas soit négligeable
+\item Maintenir les arbres équilibrés
+\end{itemize}
+\end{itemize}
+
+\note{
+randomization: n'assure pas qu'on ne sera jamais dans le pire cas. Suppose qu'on puisse jouer sur l'ordre d'insertion
+}
+\end{frame}
+
+
+\subsection{Arbres équilibrés AVL}
+
+\begin{frame}{Plan}
+
+\tableofcontents[currentsection]
+
+\end{frame}
+
 
 \begin{frame}{Arbres équilibrés}
 \begin{itemize}
@@ -1045,16 +1332,16 @@ Cas 2.1\hspace{4cm}Cas 2.2
 \item On effectue un parcours en ordre de l'arbre
 \end{itemize}
 \item Complexité en temps: $\Theta(n\log n)$ (comme pour le tri par tas)
-\item Complexité en espace: $\Theta(n)$ (pour la structure d'arbre temporaire)
-\item Tas versus AVL:
-\begin{itemize}
-\item Tas: optimisé pour retrouver et supprimer le minimum (ou le max)
-\item AVL: optimisé pour retrouver et supprimer un élément arbitraire 
-\item A ELABORER
-\end{itemize}
+\item Complexité en espace: $\Theta(n)$ (pour la structure d'arbre temporaire) (versus $O(1)$ pour le heap-sort)
+%\item Tas: optimisé pour retrouver et supprimer le minimum (ou le max)
+%\item AVL: optimisé pour retrouver et supprimer un élément arbitraire 
+%\item A ELABORER
 \end{itemize}
 
 \end{frame}
+
+
+%%%%
 
 \begin{frame}{Liens}
 \begin{itemize}
@@ -1068,6 +1355,34 @@ Cas 2.1\hspace{4cm}Cas 2.2
 \end{itemize}
 \end{frame}
 
+\begin{frame}{Dictionnaires: jusqu'ici}
+
+  \begin{center}\small
+    \def\arraystretch{1.5}\renewcommand{\tabcolsep}{1mm}
+    \begin{tabular}{@{}lcccccc@{}}
+    &\multicolumn{3}{c}{\emph{Pire cas}} & \multicolumn{3}{c}{\emph{En moyenne}}\\
+    \emph{Implémentation}& \proc{Search} & \proc{Insert} & \proc{Delete} & \proc{Search} & \proc{Insert} & \proc{Delete}\\
+    \hline\hline
+    Liste &$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$\\
+    \hline
+    Vecteur trié&$\Theta(\log n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(\log n)$&$\Theta(n)$&$\Theta(n)$\\
+\hline
+ABR&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$\\
+\hline
+AVL&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$\\
+    \hline\hline
+  \end{tabular}
+  \end{center}
+
+\bigskip
+
+\begin{itemize}
+\item Peut-on faire mieux?
+\item Oui, en changeant radicalement de philosophie
+\end{itemize}
+
+\end{frame}
+
 \section{Table de hachage}
 
 \begin{frame}{Résumé}
@@ -1076,6 +1391,12 @@ Cas 2.1\hspace{4cm}Cas 2.2
 \item Peut-on faire mieux ?
 \item Oui, en changeant radicalement la philosophie
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Plan}
+
+\tableofcontents[hideallsubsections]
 
 \end{frame}
 
