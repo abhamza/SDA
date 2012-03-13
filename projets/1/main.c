@@ -57,9 +57,12 @@ int compareEventByStartTime(const void* a, const void* b)
  ***********************************************************************/
 int main(void)
 {
-  size_t numEvents = 100000;
+  size_t numEvents = 10;
   printf("Num. Events: %d\n", (int)numEvents);
   Event** events = createArrayOfEvents(numEvents);
+
+  for (int i = 0; i < numEvents; ++i)
+    printEvent(events[i]);
 
   const double sec = cpuTimeUsedToSort((const void**)events, numEvents, compareEventByStartTime);
   printf("CPU Time: %f\n", sec);
