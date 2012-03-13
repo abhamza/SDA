@@ -290,7 +290,11 @@ Première solution: \alert{numérotation de niveaux}
 \item Complexité en espace: $O(2^n)$ pour un arbre de $n$ n\oe uds ($\Theta(n)$ pour un arbre binaire complet)
 \end{itemize}
 
-\note{Au pire, l'arbre aura une profondeur $h=n$, et donc il faudra pouvoir référencer $O(2^h)=O(2^n)$ éléments}
+\note{Au pire, l'arbre aura une profondeur $h=n$, et donc il faudra pouvoir référencer $O(2^h)=O(2^n)$ éléments
+
+\bigskip
+
+On peut représenter un arbre k-aire avec le même truc. kr, kr+1, etc. pour les fils. Suppose qu'on connaisse le kmax}
 
 \end{frame}
 
@@ -311,6 +315,8 @@ Deuxième solution: \alert{structure liée}
 \bigskip
 
 {\it (généralise la notion de liste liée)}
+
+\note{Représentation par un tableau (left, right, parent, etc.). Avantage: plus compact mais nécessite un tableau de taille fixée.}
 \end{frame}
 
 \begin{frame}{Implémentation d'un arbre quelconque}
@@ -324,6 +330,7 @@ Deuxième solution: \alert{structure liée}
 \centerline{\includegraphics[width=9cm]{Figures/05-arbrequelconque.pdf}}
 
 {\it (on peut aussi représenter un arbre quelconque par un arbre binaire)}
+\note{Représentation fils-gauche, frère-droit}
 \end{frame}
 
 \begin{frame}{Implémentation des arbres binaires}
@@ -372,6 +379,7 @@ Pour simplifier les notations, nos fonctions seront implémentées directement s
 \item Parcours en largeur
 \end{itemize}
 \end{itemize}
+\note{Parcours en largeur d'un tas ? $\Rightarrow$ on passe simplement séquentiellement sur les éléments}
 \end{frame}
 
 \begin{frame}{Parcours infixe}
@@ -529,6 +537,10 @@ $\Rightarrow \langle F,B,H,A,D,K\rangle$
 
 \emph{(Exercice: Implémenter les parcours en profondeur de manière non récursive)}
 \note{Solution: il faut utiliser une pile mais une solution simple peut être trouvée avec une comparaison de pointeurs (voir les solutions du bouquin)
+
+\bigskip
+
+Quid de l'espace: taille max de la file ?? ($O(n/2)$)
 
 }
 \end{frame}
@@ -797,10 +809,23 @@ Complexité: $O(h)$, où $h$ est la hauteur de l'arbre
       \begin{center}
       \includegraphics[width=5cm]{Figures/05-bstinsertion.pdf}
       \end{center}
+
+\bigskip
+
+\bigskip
+
+Complexité: $O(h)$ où $h$ est la hauteur de l'arbre
     \end{column}
   \end{columns}
 
-\note{$x$ trace le chemin, $y$ maintient le pointeur vers le parent de $x$.}
+\note{On suppose qu'on insère deux fois une clé qui y serait déjà. Sinon, on peut d'abord la chercher. Si elle est là, on update, sinon, on insère. $x$ trace le chemin, $y$ maintient le pointeur vers le parent de $x$.\\
+
+\bigskip
+
+
+\centerline{\includegraphics[width=8cm]{Figures/05-deletebstexample.pdf}}
+}
+
 \end{frame}
 
 \begin{frame}{Suppression}
@@ -812,6 +837,17 @@ Complexité: $O(h)$, où $h$ est la hauteur de l'arbre
 \item $z$ n'a pas de fils droit: remplacer $z$ par son fils gauche
 \centerline{\includegraphics[width=5cm]{Figures/05-bstdelete-2.pdf}}
 \end{itemize}
+
+\note{On pourrait aussi ne rien faire et garder les n\oe uds dans la
+  structure et les marquer. Problème: beaucoup de place pour rien
+
+\bigskip
+
+Virer le minimum et le maximum est facile.
+
+
+
+}
 
 \end{frame}
 
@@ -887,6 +923,11 @@ Complexité: $O(h)$, où $h$ est la hauteur de l'arbre
 \end{columns}
 
 Complexité: $O(h)$ pour un arbre de hauteur $h$\\(Tout est $O(1)$ sauf l'appel à $\proc{Tree-Successor}$).
+
+\note{Transplant: remplace $u$ par $v$ dans $T$. On vérifie qu'il se trouve à gauche ou à la droite de son parent.\\
+\bigskip
+
+Pourquoi pas avec le prédécesseur ??? (Parce qu'on peut avoir la même clé que $z$ à droite ($\geq$)}
 \end{frame}
 
 \begin{frame}{Arbres binaires de recherche}
@@ -941,7 +982,7 @@ Complexité: $O(h)$ pour un arbre de hauteur $h$\\(Tout est $O(1)$ sauf l'appel 
 \item Complexité en espace cependant plus importante, pour le stockage de la structure d'arbres.
 \end{itemize}
 
-\note{file à priorité avec un arbre:
+\note{File à priorité avec un arbre:
 pire cas: $O(N)$ pour l'insertion et l'extraction. Cas moyen: $O(log n)$ dans les deux cas.
 }
 
@@ -1345,9 +1386,10 @@ Cas 2.1\hspace{4cm}Cas 2.2
 
 \begin{frame}{Liens}
 \begin{itemize}
-\item Liens:
+\item Illustrations:
 \begin{small}
 \begin{itemize}
+\item \url{http://people.ksp.sk/~kuko/bak/}
 \item \url{http://www.csi.uottawa.ca/~stan/csi2514/applets/avl/BT.html}
 \item \url{http://www.cs.jhu.edu/~goodrich/dsa/trees/avltree.html}
 \end{itemize}
