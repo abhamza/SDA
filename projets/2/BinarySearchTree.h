@@ -2,9 +2,10 @@
  * BinarySearchTree
  * Interface of a binary search tree.
  *
- * Each key is unique in a tree.
- * Each key is associated to a no-NULL generic object.
- * A tree cannot alter the object values.
+ * Remarks:
+ * - All keys are assumed to be unique.
+ * - All keys are associated to non-NULL objects.
+ * - A tree cannot alter the object values.
  ***********************************************************************/
 
 #ifndef _BINARY_SEARCH_TREE_H_
@@ -29,7 +30,7 @@ BinarySearchTree* createEmptyBinarySearchTree(void);
 
 /***********************************************************************
  * Create a balanced binary search tree from keys/values arrays.
- * The object associated to the keys[i] is values[i]. For 0 <= i < numElements.
+ * The object associated to the keys[i] is values[i], for 0 <= i < numElements.
  * Each keys[i] is unique and each values[i] is != NULL.
  * The binary search tree must later be deleted by calling
  * freeBinarySearchTree().
@@ -37,10 +38,10 @@ BinarySearchTree* createEmptyBinarySearchTree(void);
  * PARAMETERS
  * keys         An array of unique keys to insert in the tree
  * values       An array of objects associated to the array of keys
- * numElements  Size of arrays: keys and values
+ * numElements  Size of both arrays keys and values
  *
  * RETURN
- * tree         Pointer to a balanced binary tree
+ * tree         Pointer to a binary search tree
  * NULL         if an error occured
  ***********************************************************************/
 BinarySearchTree* createBinarySearchTree(int* keys, const void** values, size_t numElements);
@@ -48,7 +49,7 @@ BinarySearchTree* createBinarySearchTree(int* keys, const void** values, size_t 
 /***********************************************************************
  * Destroy a binary search tree that has been created by
  * createEmptyBinarySearchTree() or createBinarySearchTree().
- * This function do not delete objects stored by the tree.
+ * This function do not delete the objects stored in the tree.
  *
  * PARAMETER
  * tree         Pointer to a binary search tree
@@ -84,7 +85,7 @@ size_t getNumElements(const BinarySearchTree* tree);
 const void* insertElement(BinarySearchTree* tree, int key, const void* value);
 
 /***********************************************************************
- * Remove an element of a binary search tree.
+ * Remove an element from a binary search tree.
  * This function returns the object associated to the key to remove.
  *
  * PARAMETERS
@@ -113,9 +114,9 @@ const void* findElement(const BinarySearchTree* tree, int key);
 /***********************************************************************
  * Return the rank of a key in a binary search tree.
  * The rank of a key is its position in the sorted list (in ascending order)
- * of all keys contained in the tree. So, the key with lowest value has a
+ * of all keys contained in the tree. The key with the lowest value has a
  * rank of 0 and the key with the highest value has a rank of
- * getNumElements() - 1.
+ * getNumElements()-1.
  *
  * PARAMETER
  * tree         Pointer to a binary search tree
@@ -128,8 +129,8 @@ const void* findElement(const BinarySearchTree* tree, int key);
 int getRankOf(const BinarySearchTree* tree, size_t key);
 
 /***********************************************************************
- * Search objects with a key in the range [keyMin;keyMax].                // FIXME: elements must be sorted in ascent order ?
- * The last parameter is used as a resulting variable. This function
+ * Search for all objects whose keys are within the range [keyMin; keyMax].
+ * The results parameter is used as a resulting variable. This function
  * allocates memory to this variable. The user must later deletes this
  * memory by calling free().
  *
@@ -145,7 +146,7 @@ int getRankOf(const BinarySearchTree* tree, size_t key);
  *              The pointer is set to NULL in case of allocation error
  *
  * RETURN
- * size         Number of elements in range [keyMin;keyMax]
+ * size         Number of elements in range [keyMin; keyMax]
  ***********************************************************************/
 size_t getElementsInRange(const BinarySearchTree* tree, size_t keyMin, size_t keyMax, const void*** results);
 
