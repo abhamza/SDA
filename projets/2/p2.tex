@@ -30,7 +30,9 @@
 
 \section*{\'Enoncé}
 
-L'objectif du projet est d'implémenter les arbres binaires de recherche. Nous vous demandons de remettre le code source correspondant à votre implémentation ainsi qu'un bref rapport répondant aux questions ci-dessous.
+L'objectif du projet est d'implémenter une structure d'arbre binaire de
+recherche. Nous vous demandons de remettre le code source correspondant à votre
+implémentation ainsi qu'un bref rapport répondant aux questions ci-dessous.
 
 Le projet est à réaliser {\bf individuellement} pour le {\bf 21 avril 2012} à
 {\bf 05h00} (du matin) au plus tard. Le projet est à remettre via une interface
@@ -44,7 +46,7 @@ seront utilisés pour évaluer l'implémentation des algorithmes.
 
 \subsection*{Fichier fourni}
 \begin{description}
-\item[\texttt{BinarySearchTree.h}] contient l'interface à implémenter.
+\item[\texttt{BinarySearchTree.h}] contient l'interface à implémenter
 \end{description}
 \subsection*{Fichiers à rendre}
 Deux fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'archive n'a pas d'importance.
@@ -57,27 +59,32 @@ Deux fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'arch
 correspondant pas à ceux demandés dans l'énoncé ne sera pas pris en compte.
 
 \section{Implémentation}
-L'interface de l'arbre binaire de recherche décrite dans \texttt{BinarySeachTree.h} comprend une structure de donnée et neuf fonctions. La structure d'arbre de recherche proposée stocke des paires clé-valeur, c'est-à-dire que chaque clé sera associée à une valeur (de type générique). De même, chaque clé au sein d'un même arbre est unique.
+
+La structure à implémenter est un dictionnaire permettant de stocker des paires
+clé-valeur. Ce dictionnaire doit être implémenté à partir d'un arbre binaire de
+recherche (simple) dont l'interface est décrite dans le fichier
+\texttt{BinarySeachTree.h}. Une structure de donnée opaque
+\texttt{BinarySearchTree} ainsi que neuf méthodes réalisant diverses fonctions
+sur cette structure y sont définies.
 
 Nous vous demandons d'implémenter les opérations de base suivantes:
 \begin{description}
-\item[\texttt{createEmptyBinarySearchTree}] qui crée un nouvelle arbre de recherche binaire.
-\item[\texttt{freeBinarySearchTree}]  qui libère la mémoire allouée à la structure de arbre.
+\item[\texttt{createEmptyBinarySearchTree}] qui crée un nouvel arbre de recherche binaire.
+\item[\texttt{freeBinarySearchTree}]  qui libère la mémoire allouée par la structure de l'arbre.
 \item[\texttt{getNumElements}] qui retourne le nombre d'éléments dans l'arbre.
 \item[\texttt{insertElement}] qui permet d'ajouter une nouvelle paire clé-valeur dans l'arbre. Si la clé existe déjà, sa valeur est remplacée par la nouvelle.
-\item[\texttt{removeElement}] qui, sur base de la clé, permet de retirer la paire clé-valeur de l'arbre.
+\item[\texttt{removeElement}] qui supprime une paire clé-valeur de l'arbre.
 \item[\texttt{findElement}] qui retourne la valeur associée à une clé de l'arbre.
 \end{description}
 
 De plus, nous vous demandons d'implémenter de manière {\em efficace} les trois fonctions suivantes:
 \begin{description}
-\item[\texttt{createBinarySearchTree}] qui, sur base sur d'un tableau de paires clé-valeur, construit un arbre binaire de recherche {\em équilibré}.
+\item[\texttt{createBinarySearchTree}] qui, sur base sur d'un tableau de paires clé-valeur, construit un arbre binaire de recherche équilibré. \textit{Remarque:} seul l'état initial de l'arbre, après l'insertion initiale des paires clé-valeur, doit correspondre à un arbre équilibré. Tout appel postérieur des autres methodes peut conduire à un déséquilibre de l'arbre.
 \item[\texttt{getRankOf}] qui retourne le rang d'une clé dans l'arbre, c'est-à-dire sa position si les clés de l'arbre étaient triées par ordre croissant dans un tableau.
 \item[\texttt{getElementsInRange}] qui retourne un tableau de valeurs dont les clés sont comprises dans un intervalle. Les valeurs doivent être triées dans l'ordre croissant de leur clé.
 \end{description}
-Votre implémentation doit être réalisée dans le fichier \texttt{BinarySeachTree.c}.
 
-Pour les trois fonctions \texttt{createBinarySearchTree}, \texttt{getRankOf} et \texttt{getElementsInRange} nous vous demandons d'expliquer les algorithmes que vous aurez implémentés et d'analyser le temps d'exécution théorique dans le meilleur des cas, le pire des cas et le cas moyen. Vos réponses doivent être rédigées dans un bref rapport (au format PDF) à joindre avec vos fichiers sources.
+La définition du contenu de la structure \texttt{BinarySearchTree\_t} est libre d'implémentation.
 
 \subsection*{Robustesse}
 
@@ -93,5 +100,14 @@ prototypes}. Si la compilation échoue, le projet reçoit une note de zéro.
 \item De même, vos implémentations ne doivent présenter aucun problème de mémoire (même non manifeste). En particulier, tout ce qui est alloué doit être libéré;
 \item Avec des pointeurs et l’allocation de mémoire dynamique, il est très facile d’introduire des erreurs de mémoire. Pour détecter ce genre de problèmes, il y a des outils extrêmement utiles tels que {\em valgrind};
 \end{itemize}
+
+\section{Questions}
+
+Pour les trois fonctions \texttt{createBinarySearchTree}, \texttt{getRankOf} et
+\texttt{getElementsInRange} nous vous demandons d'expliquer les algorithmes que
+vous aurez implémentés et d'analyser le temps d'exécution théorique dans le
+meilleur des cas et dans le pire des cas. Vos réponses doivent être
+rédigées dans un bref rapport (au format PDF) à joindre avec vos fichiers
+sources.
 
 \end{document}
