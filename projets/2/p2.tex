@@ -69,22 +69,41 @@ sur cette structure y sont définies.
 
 Nous vous demandons d'implémenter les opérations de base suivantes:
 \begin{description}
-\item[\texttt{createEmptyBinarySearchTree}] qui crée un nouvel arbre de recherche binaire.
+\item[\texttt{createEmptyBinarySearchTree}] qui crée un nouvel arbre de recherche binaire vide.
 \item[\texttt{freeBinarySearchTree}]  qui libère la mémoire allouée par la structure de l'arbre.
 \item[\texttt{getNumElements}] qui retourne le nombre d'éléments dans l'arbre.
 \item[\texttt{insertElement}] qui permet d'ajouter une nouvelle paire clé-valeur dans l'arbre. Si la clé existe déjà, sa valeur est remplacée par la nouvelle.
-\item[\texttt{removeElement}] qui supprime une paire clé-valeur de l'arbre.
 \item[\texttt{findElement}] qui retourne la valeur associée à une clé de l'arbre.
+\item[\texttt{removeElement}] qui supprime une paire clé-valeur de l'arbre.
 \end{description}
+La définition du contenu de la structure \texttt{BinarySearchTree\_t}
+est libre d'implémentation. Les fonctions de modification de la
+structure ne doivent pas nécessairement maintenir l'arbre
+équilibré. Pour la suppression, on vous demande d'implémenter une
+version différente de celle du cours qui utilise le prédécesseur
+plutôt que le successeur pour faire le remplacement du n\oe ud
+supprimé.
 
 De plus, nous vous demandons d'implémenter de manière {\em efficace} les trois fonctions suivantes:
 \begin{description}
-\item[\texttt{createBinarySearchTree}] qui, sur base sur d'un tableau de paires clé-valeur, construit un arbre binaire de recherche équilibré. \textit{Remarque:} seul l'état initial de l'arbre, après l'insertion initiale des paires clé-valeur, doit correspondre à un arbre équilibré. Tout appel postérieur des autres methodes peut conduire à un déséquilibre de l'arbre.
-\item[\texttt{getRankOf}] qui retourne le rang d'une clé dans l'arbre, c'est-à-dire sa position si les clés de l'arbre étaient triées par ordre croissant dans un tableau.
-\item[\texttt{getElementsInRange}] qui retourne un tableau de valeurs dont les clés sont comprises dans un intervalle. Les valeurs doivent être triées dans l'ordre croissant de leur clé.
+\item[\texttt{createBinarySearchTree}] qui, sur base sur d'un tableau
+  de paires clé-valeur, construit un arbre binaire de recherche
+  équilibré. %% \textit{Remarque:} seul l'état initial de l'arbre, après
+  %% l'insertion initiale des paires clé-valeur, doit correspondre à un
+  %% arbre équilibré. Tout appel postérieur des autres methodes peut
+  %% conduire à un déséquilibre de l'arbre.
+\item[\texttt{getRankOf}] qui retourne le rang d'une clé dans l'arbre,
+  c'est-à-dire sa position si les clés de l'arbre étaient triées par
+  ordre croissant dans un tableau.
+\item[\texttt{getElementsInRange}] qui retourne un tableau de valeurs
+  dont les clés sont comprises dans un intervalle. Les valeurs doivent
+  être triées dans l'ordre croissant de leur clé.
 \end{description}
-
-La définition du contenu de la structure \texttt{BinarySearchTree\_t} est libre d'implémentation.
+Vous pouvez ajouter des champs supplémentaires à la structure d'arbre
+de manière à améliorer l'efficacité de ces fonctions pour autant que
+vous modifiiez les fonctions d'insertion et de suppression en
+conséquence et que cela n'affecte pas la complexité en temps de ces
+fonctions et la complexité en espace de la structure d'arbre.
 
 \subsection*{Robustesse}
 
@@ -93,21 +112,41 @@ minimum les options de compilation \texttt{--std=c99 --pedantic -Wall -W -Wmissi
 prototypes}. Si la compilation échoue, le projet reçoit une note de zéro.
 
 \begin{itemize}
-\item Le projet doit être réalisé dans le standard C99 (flag \texttt{--std=c99});
-\item Vos implémentations doivent fonctionner correctement, pas de {\em segmentation fault}, ou tout autre crash;
-\item Pour vous aider à déboguer vos programmes, pensez à utiliser une débogueur tel que {\em gdb};
-\item En cas d'erreur (lors d'une allocation, par exemple), le programme peut afficher un message informatif sur {\em stderr} (le flux d'erreur standard). Cet erreur altérera certainement votre algorithme mais elle ne doit en aucun cas provoquer un crash de l'application;
-\item De même, vos implémentations ne doivent présenter aucun problème de mémoire (même non manifeste). En particulier, tout ce qui est alloué doit être libéré;
-\item Avec des pointeurs et l’allocation de mémoire dynamique, il est très facile d’introduire des erreurs de mémoire. Pour détecter ce genre de problèmes, il y a des outils extrêmement utiles tels que {\em valgrind};
+\item Le projet doit être réalisé dans le standard C99 (flag
+  \texttt{--std=c99});
+\item Vos implémentations doivent fonctionner correctement, pas de
+  {\em segmentation fault}, ou tout autre crash;
+\item Pour vous aider à déboguer vos programmes, pensez à utiliser une
+  débogueur tel que {\em gdb};
+\item En cas d'erreur (lors d'une allocation, par exemple), le
+  programme peut afficher un message informatif sur {\em stderr} (le
+  flux d'erreur standard). Cet erreur altérera certainement votre
+  algorithme mais elle ne doit en aucun cas provoquer un crash de
+  l'application;
+\item De même, vos implémentations ne doivent présenter aucun problème
+  de mémoire (même non manifeste). En particulier, tout ce qui est
+  alloué doit être libéré;
+\item Avec des pointeurs et l’allocation de mémoire dynamique, il est
+  très facile d’introduire des erreurs de mémoire. Pour détecter ce
+  genre de problèmes, il y a des outils extrêmement utiles tels que
+  {\em valgrind};
 \end{itemize}
 
 \section{Questions}
 
-Pour les trois fonctions \texttt{createBinarySearchTree}, \texttt{getRankOf} et
-\texttt{getElementsInRange} nous vous demandons d'expliquer les algorithmes que
-vous aurez implémentés et d'analyser le temps d'exécution théorique dans le
-meilleur des cas et dans le pire des cas. Vos réponses doivent être
-rédigées dans un bref rapport (au format PDF) à joindre avec vos fichiers
-sources.
+Pour les trois fonctions \texttt{createBinarySearchTree},
+\texttt{getRankOf} et \texttt{getElementsInRange} nous vous demandons
+d'expliquer les algorithmes que vous aurez implémentés et d'analyser
+le temps d'exécution théorique dans le meilleur des cas et dans le
+pire des cas. Pour les fonctions \texttt{getRankOf} et
+\texttt{getElementsInRange}, faites l'analyse dans le cas où l'arbre
+est équilibré et dans le cas où il ne le serait pas
+nécessairement. Dans le cas de la fonction $\texttt{getRankOf}$,
+formuler ces complexités en fonction du nombre de clés dans
+l'intervalle (noté $r$) et du nombre total de clés dans l'arbre (noté
+$n$).
+
+Vos réponses doivent être rédigées dans un bref rapport (au format
+PDF) à joindre avec vos fichiers sources.
 
 \end{document}
