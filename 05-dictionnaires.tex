@@ -574,6 +574,7 @@ Quid de l'espace: taille max de la file ?? ($O(n/2)$)
 
 \centerline{\includegraphics[width=9cm]{Figures/05-arbresbinaires.pdf}}
 
+\note{Structure qui implémente la recherche binaire qu'on a vue la semaine passée}
 \end{frame}
 
 \begin{frame}{Parcours d'un arbre binaire de recherche}
@@ -950,6 +951,12 @@ Pourquoi pas avec le prédécesseur ??? (Parce qu'on peut avoir la même clé qu
 \end{itemize}
 \end{itemize}
 \end{itemize}
+
+\note{
+Autre représentation: externe:
+
+\centerline{\includegraphics[width=8cm]{Figures/03-external_bst.pdf}}
+}
 \end{frame}
 
 \begin{frame}{Tri avec un arbre binaire de recherche}
@@ -1008,7 +1015,7 @@ ABR&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Thet
 \bigskip
 
 \begin{itemize}
-\item Peut-on obtenir $\Theta(\log n)$ dans le pire cas?
+\item Peut-on obtenir $\Theta(\log n)$ dans le pire cas? Oui !
 \item Deux solutions:
 \begin{itemize}
 \item Utiliser de la randomisation pour que le probabilité de
@@ -1047,13 +1054,13 @@ randomization: n'assure pas qu'on ne sera jamais dans le pire cas. Suppose qu'on
 
 \item Plusieurs types d'arbres équilibrés:
 \begin{itemize}
-\item Arbres AVL
+\item \alert{Arbres AVL}
 \begin{itemize}
-\item Invariant: Arbres $H$-équilibrés
+\item \alert{Invariant: Arbres $H$-équilibrés}
 \end{itemize}
 \item Arbres 2-3-4
 \item Arbres rouges et noirs
-\item Splay trees, Scapegoat trees, treaps,\ldots
+\item Splay trees, Scapegoat trees, treaps\ldots
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1148,7 +1155,7 @@ $$h+1<1,44\log (n+2)$$
 \item Insertion:
 \begin{itemize}
 \item On insère l'élément comme dans un arbre binaire classique
-\item On vérifie que l'invariant soit respecté
+\item On vérifie que l'invariant est respecté
 \item Si ce n'est pas le cas, on modifie l'arbre
 \end{itemize}
 \end{itemize}
@@ -1186,7 +1193,9 @@ Les rotations maintiennent la propriété d'arbre binaire  de recherche
 
 \bigskip
 
-Donner un exemple: $>1-2-3 \Rightarrow 1->2-3$ où $>$ indique la racine}
+Donner un exemple: 
+\centerline{\includegraphics[width=10cm]{Figures/03-rotation.pdf}}
+}
 \end{frame}
 
 \begin{frame}{Insertion dans un AVL}
@@ -1260,7 +1269,8 @@ Cas 1.1\hspace{4cm}Cas 1.2
 \includegraphics[width=8cm]{Figures/05-avlcas1.pdf}
 
 \medskip
-(Déséquilibre à l'extérieur)\hspace{1.3cm}(Déséquilibre à l'intérieur)
+Déséquilibre à l'extérieur\hspace{1.3cm}Déséquilibre à l'intérieur\\
+(Cas droite-droite)\hspace{2cm}(Cas droite-gauche)
 \end{center}
 
 \bigskip
@@ -1269,12 +1279,12 @@ Cas 1.1\hspace{4cm}Cas 1.2
 
 \note{Leur demander pourquoi ce sont les seuls deux cas.
 
-Pourquoi pas B et C de hauteur h ? Parce que sinon, ça voudrait dire que la hauteur du sous-arbre en y a augmenté
+Pourquoi pas B et C de hauteur h ? Parce que sinon, ça voudrait dire que la hauteur du sous-arbre en $y$ n'a pas augmenté (et donc il ne pourrait pas être devenu déséquilibré).
 
 }
 \end{frame}
 
-\begin{frame}{Cas 1.1: déséquilibre à droite, extérieur}
+\begin{frame}{Cas 1.1: déséquilibre à droite, extérieur (droite-droite)}
 \begin{itemize}
 \item Equilibre rétabli par une rotation à gauche de $x$
 \end{itemize}
@@ -1285,7 +1295,7 @@ Pourquoi pas B et C de hauteur h ? Parce que sinon, ça voudrait dire que la hau
 
 \end{frame}
 
-\begin{frame}{Cas 1.2: déséquilibre à droite, intérieur}
+\begin{frame}{Cas 1.2: déséquilibre à droite, intérieur (droite-gauche)}
 \begin{itemize}
 \item Une rotation à gauche ne permet pas de rétablir l'équilibre
 %\end{itemize}
@@ -1302,7 +1312,7 @@ Pourquoi pas B et C de hauteur h ? Parce que sinon, ça voudrait dire que la hau
 
 \end{frame}
 
-\begin{frame}{Cas 1.2: déséquilibre à droite, intérieur}
+\begin{frame}{Cas 1.2: déséquilibre à droite, intérieur (droite-gauche)}
 \begin{itemize}
 \item Equilibre rétabli par deux rotations
 %\end{itemize}
@@ -1329,7 +1339,8 @@ Cas 2.1\hspace{4cm}Cas 2.2
 \includegraphics[width=8cm]{Figures/05-avlcas2.pdf}
 
 \medskip
-(Déséquilibre à l'extérieur)\hspace{1.3cm}(Déséquilibre à l'intérieur)
+Déséquilibre à l'extérieur\hspace{1.3cm}Déséquilibre à l'intérieur\\
+(Cas gauche-gauche)\hspace{2cm}(Cas gauche-droite)
 \end{center}
 
 \begin{itemize}
@@ -1345,7 +1356,7 @@ Cas 2.1\hspace{4cm}Cas 2.2
 \item On l'insère (récursivement) dans le sous-arbre approprié (gauche ou droit)
 \item Si l'arbre résultant $T$ devient déséquilibré, on effectue une rotation simple ou double selon le cas dans lequel on se trouve
 \end{itemize}
-\item L'arbre après rééquilibrage étant de la même hauteur qu'avant l'insertion, on aura à faire qu'au plus une rotation (simple ou double). 
+\item L'arbre après rééquilibrage étant de la même hauteur qu'avant l'insertion, on n'aura à faire qu'au plus une rotation (simple ou double). 
 \item L'implémentation est facilitée si on maintient en chaque n\oe ud $x$ un attribut $\attrib{x}{h}$ avec la hauteur du sous-arbre en $x$.
 \item Complexité:
 \begin{itemize}
@@ -1353,6 +1364,9 @@ Cas 2.1\hspace{4cm}Cas 2.2
 \item c'est-à-dire $O(\log n)$ vu que l'arbre est $H$-équilibré.
 \end{itemize}
 \end{itemize}
+\note{Exemple:
+\centerline{\includegraphics[width=5cm]{Figures/03-avlexemple.pdf}}
+}
 \end{frame}
 
 \begin{frame}{Suppression}
@@ -1384,19 +1398,6 @@ Cas 2.1\hspace{4cm}Cas 2.2
 
 %%%%
 
-\begin{frame}{Liens}
-\begin{itemize}
-\item Illustrations:
-\begin{small}
-\begin{itemize}
-\item \url{http://people.ksp.sk/~kuko/bak/}
-\item \url{http://www.csi.uottawa.ca/~stan/csi2514/applets/avl/BT.html}
-\item \url{http://www.cs.jhu.edu/~goodrich/dsa/trees/avltree.html}
-\end{itemize}
-\end{small}
-\end{itemize}
-\end{frame}
-
 \begin{frame}{Dictionnaires: jusqu'ici}
 
   \begin{center}\small
@@ -1423,18 +1424,30 @@ AVL&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(
 \item Oui, en changeant radicalement de philosophie
 \end{itemize}
 
+\note{Dire que les autres algos d'arbres ont la m\^eme complexit\'e.}
+
+\end{frame}
+
+
+\begin{frame}{Demo}
+Illustrations:
+\begin{small}
+\begin{itemize}
+\item \url{http://people.ksp.sk/~kuko/bak/}
+\item \url{http://www.csi.uottawa.ca/~stan/csi2514/applets/avl/BT.html}
+\item \url{http://www.cs.jhu.edu/~goodrich/dsa/trees/avltree.html}
+\end{itemize}
+\end{small}
+
+\note{Montrer les heap min et max, le BST normal, les AVL et puis peut-être les skip-list
+
+~\bigskip
+
+Pour AVL, demander ce qui va se passer lorsqu'on insère un élément dans l'arbre
+}
 \end{frame}
 
 \section{Table de hachage}
-
-\begin{frame}{Résumé}
-\begin{itemize}
-\item Complexité des différentes opérations dans les BST et les RB-trees
-\item Peut-on faire mieux ?
-\item Oui, en changeant radicalement la philosophie
-\end{itemize}
-
-\end{frame}
 
 \begin{frame}{Plan}
 
@@ -2042,7 +2055,7 @@ $\Rightarrow$ Si $\alpha$ est constant ($n=O(m)$), la recherche est $O(1)$.
 \item structure dynamique (dans les deux cas)
 \end{itemize}
 \end{itemize}
-VOIR LES SLIDES DE SEDGEWICK !!
+{\color{red}VOIR LES SLIDES DE SEDGEWICK !!}
 \end{frame}
 
 \begin{frame}{Ce qu'on n'a pas vu}
