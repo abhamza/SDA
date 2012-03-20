@@ -80,15 +80,16 @@ La définition du contenu de la structure \texttt{BinarySearchTree\_t}
 est libre d'implémentation. Les fonctions de modification de la
 structure ne doivent pas nécessairement maintenir l'arbre
 équilibré. Pour la suppression, on vous demande d'implémenter une
-version différente de celle du cours qui utilise le prédécesseur
-plutôt que le successeur pour faire le remplacement du n\oe ud
-supprimé.
+version différente de celle du cours (transparent 230) qui utilise le
+prédécesseur plutôt que le successeur pour faire le remplacement du
+n\oe ud supprimé.
 
 De plus, nous vous demandons d'implémenter de manière {\em efficace} les trois fonctions suivantes:
 \begin{description}
 \item[\texttt{createBinarySearchTree}] qui, sur base de tableaux
   de clés et de valeurs, construit un arbre binaire de recherche
-  équilibré. %% \textit{Remarque:} seul l'état initial de l'arbre, après
+  équilibré (c'est-à-dire dont la hauteur est $\Theta(\log n)$).
+%% \textit{Remarque:} seul l'état initial de l'arbre, après
   %% l'insertion initiale des paires clé-valeur, doit correspondre à un
   %% arbre équilibré. Tout appel postérieur des autres methodes peut
   %% conduire à un déséquilibre de l'arbre.
@@ -137,14 +138,14 @@ prototypes}. Si la compilation échoue, le projet reçoit une note de zéro.
 Pour les trois fonctions \texttt{createBinarySearchTree},
 \texttt{getRankOf} et \texttt{getElementsInRange} nous vous demandons
 d'expliquer les algorithmes que vous aurez implémentés et d'analyser
-le temps d'exécution théorique dans le meilleur des cas et dans le
-pire des cas. Pour les fonctions \texttt{getRankOf} et
+la complexité en temps dans le meilleur des cas et dans le pire des
+cas. Pour les fonctions \texttt{getRankOf} et
 \texttt{getElementsInRange}, faites l'analyse dans le cas où l'arbre
 est équilibré et dans le cas où il ne le serait pas
-nécessairement. Dans le cas de la fonction \texttt{getElementsInRange}
-formuler ces complexités en fonction du nombre de clés dans
-l'intervalle (noté $r$) et du nombre total de clés dans l'arbre (noté
-$n$).
+nécessairement. Dans le cas de la fonction
+\texttt{getElementsInRange}, formulez ces complexités en fonction du
+nombre de clés dans l'intervalle (noté $r$) et du nombre total de clés
+dans l'arbre (noté $n$).
 
 Vos réponses doivent être rédigées dans un bref rapport (au format
 PDF) à joindre avec vos fichiers sources.
