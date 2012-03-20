@@ -663,6 +663,11 @@ $\proc{Tree-Search}(\attrib{T}{root},k)$
 \bigskip
 
 \end{itemize}
+\note{Invariant: Si $k$ est dans l'arbre, elle se trouve dans le sous-arbre dont la racine est $x$
+
+\bigskip
+
+Faire le lien avec la recherche binaire}
 
 \end{frame}
 
@@ -833,7 +838,7 @@ Complexité: $O(h)$ où $h$ est la hauteur de l'arbre
 
 3 cas à considérer en fonction du n\oe ud $z$ à supprimer:
 \begin{itemize}
-\item $z$ n'a pas de fils gauche: remplacer $z$ par son fils droite
+\item $z$ n'a pas de fils gauche: remplacer $z$ par son fils droit
 \centerline{\includegraphics[width=5cm]{Figures/05-bstdelete-1.pdf}}
 \item $z$ n'a pas de fils droit: remplacer $z$ par son fils gauche
 \centerline{\includegraphics[width=5cm]{Figures/05-bstdelete-2.pdf}}
@@ -1041,7 +1046,7 @@ randomization: n'assure pas qu'on ne sera jamais dans le pire cas. Suppose qu'on
 
 \begin{frame}{Arbres équilibrés}
 \begin{itemize}
-\item Solution générale pour obtenir une complexité au pire cas en $O(n\log n)$:% maintenir en permanence un arbre plus ou moins complet
+\item Solution générale pour obtenir une complexité au pire cas en $O(\log n)$:% maintenir en permanence un arbre plus ou moins complet
 \begin{itemize}
 \item Définir un \alert{invariant} sur la structure d'arbre
 \item Prouver que cette invariant garantit une hauteur $\Theta(\log n)$
@@ -1095,13 +1100,16 @@ Plus précisément, on peut prouver:
 Etant donné un arbre $H$-équilibré de taille $n$ et de hauteur $h\geq 1$, pour $h$ fixé, $n$ est
 \begin{itemize}
 \item Maximum: quand l'arbre est complet, soit quand
-$n=2^{h+1}-1\Rightarrow n+1\leq 2^{h+1} \Rightarrow \log (n+1)\leq h+1$
+$n=2^{h+1}-1\Rightarrow n+1\leq 2^{h+1} \Rightarrow \log (n+1)\leq h+1 \Rightarrow h\in\Omega(log n) $
 \item Minimum: quand $n=N(h)$ où $N(h)$ est la taille d'un arbre $H$-équilibré de hauteur $h$ qui a le moins d'éléments.
 \begin{itemize}
 \item $N(h)$ peut être défini par récurrence par $N(h)=1+N(h-1)+N(h-2)$ avec $N(0)=1$ et $N(1)=2$.
 \end{itemize}
 \end{itemize}
 \centerline{\includegraphics[width=5cm]{Figures/05-avlmaximum.pdf}}
+
+\note{Pour que le nombre n\oe uds soit minimal, il faut que l'arbre soit déséquilibré (sinon, on pourrait enlever des n\oe uds et toujours satisfaire la propriété d'arbre $H$-équilibré)}
+
 \end{frame}
 
 \begin{frame}{~}%{Borne plus simple}
@@ -1115,11 +1123,23 @@ $\Rightarrow$ & $N(h)>2 N(h-2)$ (car $N(h-1)>N(h-2)$)\\
 $\Rightarrow$ & $N(h)>2^{h/2}$\\
 $\Rightarrow$ & $h< 2\log N(h)$\\
 \end{tabular}
+\item dont on peut tirer que
+$h\in O(\log n)$
 \end{itemize}
 \item On en déduit que
 $$h=\Theta(\log n)$$\qed
 \end{itemize}
 
+\note{\begin{eqnarray*}
+N(h)&<&2 N(h-2)\\
+&<& 2^2 N(h-4)\\
+&<& 2^3 N(h-6)\\
+&<&\ldots\\
+&<&2^i N(h-2i)\\
+&<&2^(h/2) N(0)=2^(h/2)
+\end{eqnarray*}
+
+}
 \end{frame}
 
 \begin{frame}{Borne supérieure plus précise}
@@ -1310,6 +1330,7 @@ Pourquoi pas B et C de hauteur h ? Parce que sinon, ça voudrait dire que la hau
 
 \end{itemize}
 
+\note{Pourquoi pas $B_l$ et $B_r$ de hauteur $h-1$ ? Parce qu'alors l'insertion n'aurait pas modifié la hauteur de $B$}
 \end{frame}
 
 \begin{frame}{Cas 1.2: déséquilibre à droite, intérieur (droite-gauche)}
@@ -1356,7 +1377,7 @@ Déséquilibre à l'extérieur\hspace{1.3cm}Déséquilibre à l'intérieur\\
 \item On l'insère (récursivement) dans le sous-arbre approprié (gauche ou droit)
 \item Si l'arbre résultant $T$ devient déséquilibré, on effectue une rotation simple ou double selon le cas dans lequel on se trouve
 \end{itemize}
-\item L'arbre après rééquilibrage étant de la même hauteur qu'avant l'insertion, on n'aura à faire qu'au plus une rotation (simple ou double). 
+\item L'arbre après rééquilibrage étant de la même hauteur qu'avant l'insertion, on n'aura à faire qu'au plus une rotation (simple ou double).
 \item L'implémentation est facilitée si on maintient en chaque n\oe ud $x$ un attribut $\attrib{x}{h}$ avec la hauteur du sous-arbre en $x$.
 \item Complexité:
 \begin{itemize}
@@ -1424,7 +1445,11 @@ AVL&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(
 \item Oui, en changeant radicalement de philosophie
 \end{itemize}
 
-\note{Dire que les autres algos d'arbres ont la m\^eme complexit\'e.}
+\note{Dire que les autres algos d'arbres ont la m\^eme complexit\'e.
+
+\bigskip
+
+Appli: système de réservation: on veut retrouver le prochain (min), }
 
 \end{frame}
 
