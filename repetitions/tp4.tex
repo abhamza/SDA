@@ -1,0 +1,137 @@
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{../clrscode3epg}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+% Style
+\parskip=\smallskipamount
+
+% En-têtes
+\title{
+    \textbf{Structures de données et algorithmes}\\
+    Répétition 4: Liste liée, pile et file
+}
+
+\author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
+\date{23 mars 2012}
+
+% Corps
+\begin{document}
+\maketitle
+
+\section*{Exercice 1}
+
+\begin{enumerate}
+
+\item Soient deux noeuds \texttt{n} et \texttt{m} de listes simplement liées. Que provoquent les opérations suivantes sur la liste auquel \texttt{n} appartient (mais pas \texttt{m})?
+
+\begin{itemize}
+
+\item
+\begin{verbatim}
+n.next = n.next.next
+\end{verbatim}
+
+\item
+\begin{verbatim}
+m.next = n.next
+n.next = m
+\end{verbatim}
+
+\item
+\begin{verbatim}
+n.next = m
+m.next = n.next
+\end{verbatim}
+
+\end{itemize}
+
+\item Soit \texttt{S} une liste simplement liée. Ecrire une fonction \texttt{AvantAvantDernier(S)} permettant de récupérer l'avant-avant dernier noeud de \texttt{S}.
+
+\item Soit \texttt{S} une liste simplement liée. Ecrire une fonction \texttt{Reverse(S)} permettant d'inverser la liste \texttt{S}.
+
+\end{enumerate}
+
+\section*{Exercice 2}
+
+\begin{enumerate}
+\item Soit une pile \texttt{S}. Décrire la sortie des opérations suivantes. Quel est l'état de \texttt{S} en fin d'exécution?
+
+\begin{verbatim}
+push(S, 5)
+push(S, 3)
+pop(S)
+push(S, 2)
+push(S, 8)
+pop(S)
+pop(S)
+push(S, 9)
+push(S, 1)
+pop(S)
+push(S, 7)
+push(S, 6)
+pop(S)
+pop(S)
+push(S, 4)
+pop(S)
+pop(S)
+\end{verbatim}
+
+\item Soit une file \texttt{Q}. Décrire la sortie des opérations suivantes. Quel est l'état de \texttt{Q} en fin d'exécution?
+
+\begin{verbatim}
+enqueue(Q, 5)
+enqueue(Q, 3)
+dequeue(Q)
+enqueue(Q, 2)
+enqueue(Q, 8)
+dequeue(Q)
+dequeue(Q)
+enqueue(Q, 9)
+enqueue(Q, 1)
+dequeue(Q)
+enqueue(Q, 7)
+enqueue(Q, 6)
+dequeue(Q)
+dequeue(Q)
+enqueue(Q, 4)
+dequeue(Q)
+dequeue(Q)
+\end{verbatim}
+
+\end{enumerate}
+
+\section*{Exercice 3}
+
+Réécrire les fonctions \texttt{Enqueue(Q, x)} et \texttt{Dequeue(Q)} du cours de sorte à gérer les erreurs. Considérer l'implémentation par tableau et l'implémentation par liste liée.
+
+\section*{Exercice 4}
+
+Implémenter un buffer \texttt{B} d'éditeur de texte qui correspond à l'ADT suivant.
+
+\begin{itemize}
+\item \texttt{insert(B, c)}: insérér un caractère \texttt{c} à la position courante du curseur;
+\item \texttt{delete(B)}: efface le caractère à la position courante du curseur et le retourne;
+\item \texttt{left(B)}: déplace le curseur d'une position vers la gauche;
+\item \texttt{right(B)}: déplace le curseur d'une position vers la droite;
+\item \texttt{begin(B)}: place le curseur au début du buffer;
+\item \texttt{end(B)}: déplace le curseur à la fin du buffer;
+\item \texttt{size(B)}: retourne la taille du buffer;
+\item \texttt{get(B, i)}: retourne le \texttt{i}-ème caractère du buffer.
+\end{itemize}
+
+\section*{Exercice 5}
+
+Implémenter un algorithme non-récursif permettant de calculer la valeur d'une expression arithmétique en notation postfixe.
+
+\end{document}
