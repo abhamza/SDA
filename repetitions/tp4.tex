@@ -19,7 +19,7 @@
 % En-têtes
 \title{
     \textbf{Structures de données et algorithmes}\\
-    Répétition 4: Liste liée, pile et file
+    Répétition 4: Liste liée, pile, file et vecteur
 }
 
 \author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
@@ -133,5 +133,16 @@ Implémenter un buffer \texttt{B} d'éditeur de texte qui correspond à l'ADT su
 \section*{Exercice 5}
 
 Implémenter un algorithme non-récursif permettant de calculer la valeur d'une expression arithmétique en notation postfixe.
+
+\section*{Exercice 6}
+
+Modifier l'implémentation de \texttt{RemoveAtRank(V, r)} de sorte à réduire par
+2 l'espace mémoire utilisé par le vecteur \texttt{V} si le nombre d'éléments
+qu'il contient devient inférieur à \texttt{V.c / 4} (où \texttt{V.c} est la capacité
+courante de \texttt{V}).
+
+\section*{Exercice 7}
+
+Implémenter un algorithme \texttt{Shuffle(V)} permettant de permuter aléatoirement un vecteur \texttt{V}. Cet algorithme doit garantir l'équiprobabilité de chacune des permutations. On suppose que l'on dispose d'une fonction \texttt{RandomInt(k)} retournant à chaque appel un nombre entier tiré aléatoirement dans l'intervalle $[0; k[$.
 
 \end{document}
