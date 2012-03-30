@@ -779,7 +779,7 @@ Comment combiner les deux ?
   \begin{codebox}
     \Procname{$\proc{Remove-At-Rank}(V,r)$}
     \li $tmp\gets \attrib{V}{A}[r]$
-    \li \For $i\gets r \To \attrib{V}{n}-2$ \Do
+    \li \For $i\gets r \To \attrib{V}{n}-1$ \Do
     \li $\attrib{V}{A}[i]\gets \attrib{V}{A}[i+1]$
     \End
     \li $\attrib{V}{n}\gets \attrib{V}{n}-1$
@@ -793,7 +793,7 @@ Comment combiner les deux ?
 
 \end{frame}
 
-\begin{frame}{Complexité en temps}\label{sec05:amortie}
+\begin{frame}{Complexité en temps}\label{sec04:amortie}
 \begin{itemize}
 %\item Accès à un élément, remplacement de sa valeur: $O(1)$
 \item $\proc{Insert-At-Rank}$:

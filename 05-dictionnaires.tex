@@ -21,7 +21,6 @@
 
 \end{frame}
 
-
 \section{Introduction}
 
 \begin{frame}{Dictionnaires}
@@ -1472,13 +1471,15 @@ Pour AVL, demander ce qui va se passer lorsqu'on insère un élément dans l'arb
 }
 \end{frame}
 
-\section{Table de hachage}
+\section{Tables de hachage}
 
 \begin{frame}{Plan}
 
-\tableofcontents[hideallsubsections]
+\tableofcontents[currentsection]
 
 \end{frame}
+
+\subsection{Principe}
 
 \begin{frame}{Tableau à accès direct}
 
@@ -1506,7 +1507,7 @@ Pour AVL, demander ce qui va se passer lorsqu'on insère un élément dans l'arb
 \begin{small}
 \fcolorbox{white}{Lightgray}{%
   \begin{codebox}
-    \Procname{$\proc{Direct-Address-Search}(T,x)$}
+    \Procname{$\proc{Direct-Address-Search}(T,k)$}
     \li \Return $T[k]$
 \end{codebox}}
 
@@ -1530,7 +1531,7 @@ Pour AVL, demander ce qui va se passer lorsqu'on insère un élément dans l'arb
 \begin{frame}{Tableau à accès direct}
 
 \begin{itemize}
-\item Complexité de toutes les opérations: $O(1)$
+\item Complexité de toutes les opérations: $O(1)$ (dans tous les cas)
 \item Problème:
 \begin{itemize}
 \item Complexité en espace: $\Theta(|U|)$
@@ -1556,10 +1557,11 @@ $\Rightarrow$ \alert{Table de hachage:}
 \begin{frame}{Table de hachage}
 
 \begin{itemize}
+\item Inventée en 1953 par Luhn
 \item Idée:
 \begin{itemize}
 \item Utiliser une table $T$ de taille $m<<|U|$
-\item stocker $x$ à la position $h(\attrib{x}{key})$, où $h$ est une fonction de \alert{hachage}: $$h:U\rightarrow \{1,\ldots,m\}$$
+\item stocker $x$ à la position $h(\attrib{x}{key})$, où $h$ est une fonction de \alert{hachage}: $$h:U\rightarrow \{0,\ldots,m-1\}$$
 \end{itemize}
 \end{itemize}
 
@@ -1590,44 +1592,18 @@ Est-ce que ces algorithmes sont corrects ?
 
 \end{frame}
 
-\begin{frame}{Table de hachage}
+\begin{frame}{Table de hachage: collisions}
 
 \centerline{\includegraphics[width=7cm]{Figures/05-hashtable1.pdf}}
 
 \bigskip
 
 \begin{itemize}
-\item \alert{Collision:} que faire lorsque deux clés distinctes $k_1$ et $k_2$ sont telles que $h(k_1)=h(k_2)$ ?
-\item Cela se produit toujours lorsque le nombre de clés observées est plus grand que la taille du tableau $T$ $|K|>m$
-\item Deux solutions:
-\begin{itemize}
-\item le chaînage (adressage fermé)
-\item le sondage (adressage ouvert)
+\item \alert{Collision:} lorsque deux clés distinctes $k_1$ et $k_2$ sont telles que $h(k_1)=h(k_2)$
+\item Cela se produit toujours lorsque le nombre de clés observées est plus grand que la taille du tableau $T$ ($|K|>m$)
+\item Très probable, même lorsque la fonction de hachage répartit les clés uniformément $\Rightarrow$ \alert{Paradoxe des anniversaire}
 \end{itemize}
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Fréquence des collisions}
-
-\begin{itemize}
-\item Pour éviter les collisions:
-\begin{itemize}
-\item on veille à utiliser une fonction de hachage qui disperse le
-  plus possible les clés vers les différents compartiments.
-\item on utilise un nombre de compartiments suffisamment grand
-\end{itemize}
-\item Cependant, même dans ce cas, la probabilité de collision peut
-  être non négligeable.
-
-\bigskip
-
-\item \alert{Paradoxe des anniversaires}
-\begin{itemize}
-\item Quelle est la probabilité pour que, dans un groupe de $n$ personnes, au moins deux d'entre elles possèdent le même jour d'anniversaire?
-\end{itemize}
-\end{itemize}
-
+\note{Supposons qu'on veuille stocker de l'info sur vous dans un calendrier avec 365 cases}
 \end{frame}
 
 \begin{frame}{Paradoxe des anniversaires}
@@ -1639,11 +1615,12 @@ Est-ce que ces algorithmes sont corrects ?
 \item Les 365 jours présentent la même probabilités d'être un jour d'anniversaire
 \end{itemize}
 \item Si $p$ est la probabilité d'une collision d'anniversaire:
-$$1-p = \frac{364}{365} \cdot \frac{363}{364} \cdot \frac{362}{365} \ldots \frac{365-n+1}{365} = \frac{365!}{(365-n)! 365^n}$$
+$$1-p = \frac{364}{365} \cdot \frac{363}{365} \cdot \frac{362}{365} \ldots \frac{365-n+1}{365} = \frac{365!}{(365-n)! 365^n}$$
 Exemples:
 \begin{itemize}
 \item $n=23 \Rightarrow p>0,5$
 \item $n=57 \Rightarrow p>0,99$
+\item $n=70 \Rightarrow p>0,999$
 \end{itemize}
 \bigskip
 
@@ -1653,11 +1630,40 @@ Exemples:
 \item $m=1000000$ et 2500 clés $\Rightarrow$ plus de 95\% de chance de collision
 \end{itemize}
 \end{itemize}
+\note{Faire l'essai dans la classe: demander qui est ne en avril-mai}
+\end{frame}
+
+\begin{frame}{Collision}
+
+\begin{itemize}
+\item Pour éviter les collisions:
+\begin{itemize}
+\item on veille à utiliser une fonction de hachage qui disperse le
+  plus possible les clés vers les différents compartiments.
+\item on utilise un nombre de compartiments suffisamment grand
+\end{itemize}
+Cependant, même dans ce cas, la probabilité de collision peut
+  être non négligeable.
+
+\bigskip
+
+\item Deux approches pour prendre en compte les collisions:
+\begin{itemize}
+\item Le chaînage (adressage fermé)
+\item Le sondage (adressage ouvert)
+\end{itemize}
+\end{itemize}
+
+\note{Voir plus loin pour la première propriété
+
+\bigskip
+
+On va d'abord voir la première solution. On verra ensuite la seconde}
 
 \end{frame}
 
 
-\begin{frame}{Résolution des collisions par chainage}
+\begin{frame}{Résolution des collisions par chaînage}
 
 Solution: mettre les éléments qui sont ``hachés'' vers la même
 position dans une liste liée (simple ou double)
@@ -1666,7 +1672,7 @@ position dans une liste liée (simple ou double)
 
 \centerline{\includegraphics[width=10cm]{Figures/05-hashtable2.pdf}}
 
-\note{Une liste double est meilleure pour supprimer des éléments}
+\note{Une simple ou une double ? Une liste double est meilleure pour supprimer des éléments}
 \end{frame}
 
 \begin{frame}{Implémentation des opérations}
@@ -1710,7 +1716,7 @@ position dans une liste liée (simple ou double)
 
 \end{frame}
 
-\begin{frame}{Analyse}
+\begin{frame}{Analyse du cas moyen}
 
 %\medskip
 
@@ -1727,17 +1733,18 @@ position dans une liste liée (simple ou double)
 \item $m$ est la taille de la table (c'est-à-dire, le nombre de listes liées)
 \end{itemize}
 \medskip
-\item \alert{hachage uniforme simple}: Pour toute clé $k$,
+\item \alert{hachage uniforme simple}: Pour toute clé $k\in U$,
 $$Proba\{h(k)=i\}=\frac{1}{m}, \forall i\in\{0,\ldots,m-1\}$$
-%% \item On suppose un hachage uniforme simple, c'est-à-dire toute clé a la même probabilité d'être envoyée par $h$ sur n'importe laquelle des positions
 
-%% \item Soit $n_j$ la longueur de la liste $T[j]$ ($j=0,\ldots,m-1$). On a $n=n_0+n_1+\ldots+n_{m-1}$.
-%% \item La valeur moyenne de $n_j$, est $$E\{n_j\}=\alpha=\frac{n}{m}.$$
+\bigskip
+
+\centerline{\includegraphics[width=7cm]{Figures/05-hachageuniforme.pdf}}
+
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Analyse}
+\begin{frame}{Analyse du cas moyen}
 \begin{itemize}
 \item Hypothèses:
 \begin{itemize}
@@ -1750,15 +1757,23 @@ $$Proba\{h(k)=i\}=\frac{1}{m}, \forall i\in\{0,\ldots,m-1\}$$
 \item recherche négative: $\Theta(1+\alpha)$
 \item recherche positive: $\Theta(1+\alpha)$
 \end{itemize}
-\item Si $n=O(m)$, $$\alpha=\frac{O(n)}{m}=O(1)$$
+\item Si $n=O(m)$, \hfill {\it ($m$ croît au moins linéairement avec $n$)}, $$\alpha=\frac{O(m)}{m}=O(1)$$
 \item Toutes les opérations sont donc $O(1)$ en moyenne
 \end{itemize}
+
+\note{
+Pourquoi est-ce qu'on n'écrit pas directement $\Theta(\alpha)$ ? Parce que $\alpha=n/m=f(n)$ et pour que l'analyse ait un sens, il faut que $m$ grandisse avec $n$. Donc, on ne sait pas a priori comment $\alpha$ évolue avec $n$ et donc si on peut négliger 1 par rapport à $\alpha$
+
+\bigskip
+
+
+Si $n=O(m)$, on a $m=\Omega(n)$, ce qui veut dire que la taille de la table croît proportionnellement avec la taille des données. Si elle croît moins que linéairement, lorsque $n$ va croître le alpha va augmenter.}
 \end{frame}
 
-\begin{frame}{Analyse: recherche négative}
+\begin{frame}{Analyse du cas moyen: recherche négative}
 \begin{itemize}
 \item La clé $k$ ne se trouve pas dans la table
-\item Par la propriété de hachage uniforme simple, elle a la même probabilité d'être envoyé vers chaque position dans la table.
+\item Par la propriété de hachage uniforme simple, elle a la même probabilité d'être envoyée vers chaque position dans la table.
 \item Recherche négative requière le parcours de la liste $T[h(k)]$ complète
 \item Cette liste a une longueur moyenne $E[n_{h(k)}]=\alpha$.
 \item Le nombre d'éléments à examiner lors d'une recherche négative est donc $\alpha$.
@@ -1767,11 +1782,11 @@ $$Proba\{h(k)=i\}=\frac{1}{m}, \forall i\in\{0,\ldots,m-1\}$$
 \end{frame}
 
 
-\begin{frame}{Analyse: recherche positive}
+\begin{frame}{Analyse du cas moyen: recherche positive}
 
 \begin{itemize}
 \item La clé $k$ se trouve dans la table
-\item Supposons qu'elle ait été inséré à la $i$-ième étape (parmi $n$).
+\item Supposons qu'elle ait été insérée à la $i$-ième étape (parmi $n$).
 \begin{itemize}
 \item Le nombre d'éléments à examiner pour trouver la clé est le
   nombre d'éléments insérés à la position $h(k)$ après $k$ plus 1 (la clé $k$ elle-même). 
@@ -1779,10 +1794,10 @@ $$Proba\{h(k)=i\}=\frac{1}{m}, \forall i\in\{0,\ldots,m-1\}$$
   $(n-i)/m$ qui correspondront à la position $h(k)$.
 \end{itemize}
 \item $k$ ayant pu être insérée à n'importe quelle étape parmi $n$ avec une probabilité $1/n$:
-\begin{small}
-$$\sum_{i=1}^n \frac{1}{n} (1+\frac{n-i}{m})=1+\frac{1}{m} \sum_{i=1}^n n-\sum_{i=1}^n i=1+\frac{1}{m} (n^2-\frac{n(n+1)}{2})=1+\frac{\alpha}{2}-\frac{\alpha}{2n}$$
-\end{small}
-\item En tenant compte du coût du hachage, le complexité en moyenne
+\begin{footnotesize}
+$$\sum_{i=1}^n \frac{1}{n} (1+\frac{n-i}{m})=1+\frac{1}{n m}(\sum_{i=1}^n n-\sum_{i=1}^n i)=1+\frac{1}{n m} (n^2-\frac{n(n+1)}{2})=1+\frac{\alpha}{2}-\frac{\alpha}{2n}$$
+\end{footnotesize}
+\item En tenant compte du coût du hachage, la complexité en moyenne
   est donc $\Theta(2+\alpha/2-\alpha/2n)=\Theta(1+\alpha)$.
 \end{itemize}
 
@@ -1794,46 +1809,124 @@ $$\sum_{i=1}^n \frac{1}{n} (1+\frac{n-i}{m})=1+\frac{1}{m} \sum_{i=1}^n n-\sum_{
 
 %% Proba totale=$\sum_{i=1}^N 1/N (n-i+1)/m$...
 
+\note{ $2+\alpha/2-\alpha/2n\in \Theta(1+\alpha)$ car $2*(1+\alpha/4)<2+\alpha/2-\alpha/2n<2*(1+\alpha)$ pour $n$ grand}
+
 \end{frame}
+
+\subsection{Fonctions de hachage}
+
+\begin{frame}{Plan}
+
+\tableofcontents[currentsection,currentsubsection]
+
+\end{frame}
+
 
 \begin{frame}{Fonctions de hachage}
 \begin{itemize}
-\item Idéalement, la fonction de hachage devrait satisfaire l'hypothèse de hachage uniforme simple
-\item Très difficile en pratique: la distribution de probabilité des clés n'est pas connue à l'avance et les clés peuvent ne pas être indépendantes
+\item Idéalement, la fonction de hachage
+\begin{itemize}
+\item devrait être facile à calculer ($O(1)$)
+\item devrait satisfaire l'hypothèse de hachage uniforme simple
+\end{itemize}
+\item La deuxième propriété est très difficile à assurer en pratique:
+\begin{itemize}
+\item La distribution des clés est généralement inconnue
+\item Les clés peuvent ne pas être indépendantes
+\end{itemize}
+\item En pratique, on utilise des heuristiques basées sur la nature
+  attendue des clés
+\item Si toutes les clés sont connues, il existe des algorithmes pour
+  construire une fonction de hachage parfaite, sans collision
+  (Exemple: le logiciel gperf)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Fonctions de hachage: codage préalable}
+
+\begin{itemize}
+\item Les fonctions de hachages supposent que les clés sont des nombres naturels
+\item Si ce n'est pas le cas, il faut préalablement utiliser une \alert{fonction de codage}
+\item Exemple: codage des chaînes de caractères:
+\begin{itemize}
+\item On interprète la chaîne comme un entier dans une certaine base
+\item Example pour ``SDA'': valeurs ASCII (128 possibles): $$S=83, D=68, A=65$$
+\item Interprété comme l'entier:\hfill {\it (Pourquoi pas 83+68+65 ?)}
+ $$(83\cdot 128^2)+(68\cdot 128^1)+(65\cdot 128^0)=1368641$$
+\item Calculé efficacement par la méthode de Horner:
+$$((83\cdot 128+68)\cdot 128 + 65)$$
+\end{itemize}
+\end{itemize}
+\note{
+Pourquoi ne pas prendre la somme des entiers (83+68+65) ? reste la même pour une permutation de l'entrée
 
 \bigskip
 
-\item Fonctions de hachages supposent que les clés sont des nombres naturels
-\item Si ce n'est pas le cas, il faut utiliser une fonction de codage
-\item Exemple: codage de la chaîne de caractères $SDA$:
-\begin{itemize}
-\item Valeurs ASCII (128 possibles): $S=83$, $D=68$, $A=65$.
-\item $SDA$ interprété comme l'entier $(83\cdot 128^2)+(68\cdot 128^1)+(65\cdot 128^0)=1368641$.
-\end{itemize}
-\end{itemize}
+Horner: $$C_n x^n+c_{n-1} x^{n-1}+\ldots+C_0 x^0$$
+$$(((C_n x+c_{n-1}) x+c_{n-2})x+\ldots C_1)x+C_0$$
+}
 \end{frame}
 
 \begin{frame}{Méthode de division}
-\begin{itemize}
-\item La fonction de hachage calcule le reste de la division entière de la clé par la taille de la table
+
+La fonction de hachage calcule le reste de la division entière de la clé par la taille de la table
 $$h(k)=k\bmod m.$$
 Exemple: $m=20$ et $k=91$ $\Rightarrow h(k)=11$.
-\item Avantage: simple et rapide (juste une opération de division)
-\item Inconvénient: certaines valeurs de $m$ doivent être évitées:
+
+\bigskip
+
+\alert{Avantages:} simple et rapide (juste une opération de division)
+
+\bigskip
+
+\alert{Inconvénients:} Le choix de $m$ est très sensible et certaines valeurs doivent être évitées
+
+\bigskip
+
+Exemples:
 \begin{itemize}
-\item Si $m=2^p$ pour un entier $p$, $h(k)$ est consistué des $p$ bits
-  les moins significatifs de $k$ et donc la valeur hachée ne dépent
-  pas de toute la clé.
-\item Si $k$ est une chaîne de caractère codée en base $2^p$ et $m=2^p-1$, permuter la chaîne ne modifie pas le valeur de hachage
+\item Si $m=2^p$ pour un entier $p$, $h(k)$ ne dépend que des $p$ bits
+  les moins significatifs de $k$\\
+\begin{itemize}
+\item Exemple: ``SDA'' $\bmod\ 128$= ``GAGA''$\bmod\ 128$=65
 \end{itemize}
-\item Bonne valeur de $m$: un nombre premier pas trop près d'une puissance exacte de 2.
+\item Si $k$ est une chaîne de caractère codée en base $2^p$ et $m=2^p-1$, permuter la chaîne ne modifie pas le valeur de hachage\\
 \begin{itemize}
-\item Propriété: si $m$ est premier avec $b$, alors
+\item Exemple: ``SDA''=1368641, ``DSA''=1124801\\
+$\Rightarrow 1368641\bmod 127=1124801\bmod 127=89$
+\end{itemize}
+\end{itemize}
+\note{Théorie qui motive les clés de hachage est la théorie des nombres. On va donner le minimum ici.
+
+\bigskip
+
+Pourquoi pas: $k m/k_{max}$ ? Parce qu'on ne connaît pas $k_{max}$
+
+\bigskip
+
+Dire que si $m$ est premier, alors la valeur hachée est une
+permutation de $\{0,1,\ldots,m-1\}$
+
+}
+\end{frame}
+
+\begin{frame}{Méthode de division}
+
+\begin{itemize}
+\item Si la fonction de hachage produit des séquences périodiques, il vaut mieux choisir $m$ premier
+\item En effet, si $m$ est premier avec $b$, on a:
 $$\{(a+b\cdot i) \bmod m|i=0,1,2,\ldots\}=\{0,1,2,\ldots,m-1\}$$
+\item Exemple: hachage de $\{206, 211, 216, 221,\ldots\}$
+\begin{itemize}
+\item $m=100$: valeurs hachées possibles: 6, 11,\ldots, 96
+\item $m=101$: toutes les entrées sont exploitées
 \end{itemize}
+
+\bigskip
+
+\item[$\Rightarrow$] Bonne valeur de $m$: un nombre premier pas trop près d'une puissance exacte de 2
 \end{itemize}
-\note{Dire que si $m$ est premier, alors la valeur hachée est une
-  permutation de $\{0,1,\ldots,m-1\}$}
 \end{frame}
 
 \begin{frame}{Méthode de multiplication}
@@ -1842,13 +1935,13 @@ $$\{(a+b\cdot i) \bmod m|i=0,1,2,\ldots\}=\{0,1,2,\ldots,m-1\}$$
 $$h(k)=\lfloor m\cdot(k A \bmod 1)\rfloor$$
 où
 \begin{itemize}
-\item $m$ est la taille de la table de hachage
-\item $k$ est la clé
+%\item $m$ est la taille de la table de hachage
+%\item $k$ est la clé
 \item $A$ est une constante telle que $0<A<1$.
 \item $k A \bmod 1=k A - \lfloor k A \rfloor$ est la partie
   fractionnaire de $kA$.
 \end{itemize}
-\item Inconvenient: plus lent que la méthode de division
+\item Inconvénient: plus lente que la méthode de division
 \item Avantage: la valeur de $m$ n'est plus critique
 \item La méthode marche mieux pour certaines valeurs de $A$. Par
   exemple:$$A=\frac{\sqrt{5}-1}{2}$$
@@ -1856,32 +1949,56 @@ où
 \end{frame}
 
 \begin{frame}{Méthode de multiplication: implémentation}
+Calcul aisé si:
 \begin{itemize}
 \item $m=2^p$ pour un entier $p$
-\item Les mots sont codés en $w$ bits et que les clés $k$ peuvent être codé par un seul mot.
+\item Les mots sont codés en $w$ bits et les clés $k$ peuvent être
+  codées par un seul mot
 \item $A$ de la forme $S/2^w$ pour $0<s<2^w$
 \end{itemize}
 
 \centerline{\includegraphics[width=8cm]{Figures/05-hashtablemultiplication.pdf}}
 
+\bigskip
+
+{\small\it Exemple: $m=2^3$, $w=5$ ($\Rightarrow 0<s<2^5$), $s=13$, $A=13/32$ $\Rightarrow h(21)=4$}
 \end{frame}
 
+\subsection{Adressage ouvert}
+
+\begin{frame}{Plan}
+
+\tableofcontents[currentsection,currentsubsection]
+
+\end{frame}
+
+
 \begin{frame}{Adressage ouvert: principe}
+
 \begin{itemize}
-\item Tous les éléments sont stockés dans le tableau (pas de liste chaînées).
-\begin{itemize}
-\item[$\Rightarrow$] ne fonctionne que si $\alpha\leq 1$
-\end{itemize}
-\item Chaque case contient soit une clé, soit NIL.
-\item Pour insérer une clé $k$, on sonde les cases
+\item Alternative au chaînage pour gérer les collisions
+\item Tous les éléments sont stockés dans le tableau (pas de listes chaînées)
+\item Ne fonctionne que si $\alpha\leq 1$
+\item Pour insérer une clé $k$, on \alert{sonde} les cases
   systématiquement à partir de $h(k)$ jusqu'à en trouver une vide.
-\item On définit une nouvelle fonction de hachage qui dépend de la clé et du numéro du sondage:
+\item Différentes méthodes en fonction de la stratégie de sondage
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Adressage ouvert: stratégie de sondage}
+
+On définit une nouvelle fonction de hachage qui dépend de la clé
+  et du numéro du sondage:
 $$h:U\times\{0,1,\ldots,m-1\} \rightarrow \{0,1,\ldots,m-1\}$$
-et qui est tel que
+et qui est telle que
 $$\langle h(k,0), h(k,1), \ldots, h(k,m-1)\rangle$$
 est une permutation de $\langle 0, 1, \ldots, m-1\rangle$.
-\item La table peut donc être totalement remplie et la suppression est difficile.
-\end{itemize}
+%\item La table peut donc être totalement remplie et la suppression est difficile.
+
+
+\centerline{\includegraphics[width=7cm]{Figures/05-hashopenaddressing.pdf}}
+
 \end{frame}
 
 \begin{frame}{Adressage ouvert: recherche et insertion}
@@ -1914,17 +2031,19 @@ est une permutation de $\langle 0, 1, \ldots, m-1\rangle$.
 
 \end{center}
 
-\centerline{\includegraphics[width=7cm]{Figures/05-openaddressing.pdf}}
+\centerline{\includegraphics[width=7cm]{Figures/05-hashopenaddressing.pdf}}
+
+\note{Suppression ??}
 
 \end{frame}
 
 \begin{frame}{Adressage ouvert: suppression}
 \begin{itemize}
-\item La suppression est possible mais pas facile
+\item La suppression est possible mais pas aisée
 \begin{itemize}
 \item On évitera l'utilisation de l'adressage ouvert si on prévoit de nombreuses suppressions de clés dans le dictionnaire
 \end{itemize}
-\item On ne peut pas naïvement mettre $\const{NIL}$ dans la case contenant la clé $k$ qu'on désire effacer (\emph{pourquoi ?})
+\item On ne peut pas naïvement mettre $\const{NIL}$ dans la case contenant la clé $k$ qu'on désire effacer%\hfill (\emph{Pourquoi ?})
 \item Solution:
 \begin{itemize}
 \item Utiliser une valeur spéciale $\const{DELETED}$ au lieu
@@ -1933,9 +2052,9 @@ est une permutation de $\langle 0, 1, \ldots, m-1\rangle$.
   $\const{DELETED}$ comme une case contenant une clé
 \item Lors d'une insertion: considérer une case contenant $\const{DELETED}$ comme une case vide.
 \end{itemize}
-\item Inconvénient: le temps de recherche ne dépend maintenant plus du facteur de charge $\alpha$ de la table (\emph{Pourquoi ?})
+\item Inconvénient: le temps de recherche ne dépend maintenant plus du facteur de charge $\alpha$ de la table%\hfill(\emph{Pourquoi ?})
 \end{itemize}
-
+\note{Demander pourquoi le temps de recherche ne dépend plus du facteur de charge (plutôt du facteur de charge maximum sur la durée de vie de la table)}
 \end{frame}
 
 \begin{frame}{Stratégies de sondage}
@@ -1965,19 +2084,29 @@ est une permutation de $\langle 0, 1, \ldots, m-1\rangle$.
 \end{frame}
 
 \begin{frame}{Sondage linéaire}
+
+\centerline{\includegraphics[width=7cm]{Figures/05-linearprobing.pdf}}
+
+\bigskip
+
 $$h(k,i)=(h'(k)+i) \bmod m,$$
 où $h'(k)$ est une fonction de hachage ordinaire à valeurs dans $\{0,1,\ldots,m-1\}$.
 
-\bigskip
+%\bigskip
 
 Propriétés:
 \begin{itemize}
 \item très facile à implémenter
-\item grappe forte: création de longues suites de cellules occupées
+\item effet de grappe fort: création de longues suites de cellules occupées
+\begin{itemize}
+\item La probabilité de remplir un cellule vide est $\frac{i+1}{m}$ où $i$ est le nombre de cellules pleines précédant la cellule vide
+\end{itemize}
 \item pas très uniforme
 \end{itemize}
 
 \note{On sonde les positions qui suivent directement la case trouvée en cyclant sur le tableau
+
+\bigskip
 
 longues suites augmentent les temps de calcul pour l'insertion et la recherche: on tombe souvent sur une collision}
 
@@ -1993,10 +2122,16 @@ où $h'$ est une fonction de hachage ordinaire à valeurs dans $\{0,1,\ldots,m-1
 Propriétés:
 \begin{itemize}
 \item nécessité de bien choisir les constantes $c_1$ et $c_2$ (pour
-  avoir une permutation de $\langle 0,1,\ldots,m-1\rangle$
-\item grappe faible: $h(k,0)=h(k',0)\Rightarrow h(k,i)=h(k',i)$
+  avoir une permutation de $\langle 0,1,\ldots,m-1\rangle$)
+\item effet de grappe plus faible mais tout de même existant:
+\begin{itemize}
+\item  Deux clés de même valeur de hachage suivront le même chemin
+$$h(k,0)=h(k',0)\Rightarrow h(k,i)=h(k',i)$$
+\end{itemize}
 \item meilleur que le sondage linéaire
 \end{itemize}
+
+\note{probleme: le saut ne depend pas de la clé $\rightarrow$ on crée des grappes malgré tout. Solution: rendre le saut dépendant de la clé (double hachage)}
 
 \end{frame}
 
@@ -2047,48 +2182,176 @@ $\Rightarrow$ Si $\alpha$ est constant ($n=O(m)$), la recherche est $O(1)$.
 \item Si $\alpha=0.9$, une recherche nécessite en moyenne 10 sondages ($1/(1-0.9)$).
 \end{itemize}
 
+\note{Sans démonstration}
+
+\end{frame}
+
+\begin{frame}{Adressage ouvert versus chaînage}
+\begin{itemize}
+\item Chaînage:
+\begin{itemize}
+\item Peut gérer un nombre illimité d'éléments et de collisions
+\item Performances plus stables
+\item Surcoût lié à la gestion et le stockage en mémoire des listes liées
+\end{itemize}
+\item Adressage ouvert:
+\begin{itemize}
+\item Rapide and peu gourmand en mémoire
+\item Choix de la fonction de hachage plus difficile (pour éviter les grappes)
+\item On ne peut pas avoir $n>m$
+\item Suppression problématique
+\end{itemize}
+
+\bigskip
+
+\item D'autres alternatives existent:
+\begin{itemize}
+\item Two-probe hashing
+\item Cuckoo hashing
+\item \ldots
+\end{itemize}
+\end{itemize}
+
+\note{Cuckoo hashing: on utilise plusieurs fonctions de hachage: si collision, on déplace l'élément à une nouvelle position en utilisant la fonction de hachage. Si re-collision, on prend la suivante, et ainsi de suite. Recherche: on utilise les fonctions de hachages en séquence.
+
+\bigskip
+
+Two-probe hashing: deux fonctions de hachage: on hache deux fois en cas de collision et on insère la clé dans la chaîne la plus courte. $\log\log n$ pour la longueur moyenne d'une chaîne.}
+
 \end{frame}
 
 \begin{frame}{Le rehachage}
 \begin{itemize}
-\item Lorsque $\alpha$ se rapproche de 1, les performances s'effondrent.
-\item Solution: rehachage: création d'une table plus grande
+\item Lorsque $\alpha$ se rapproche de 1, les performances s'effondrent
+\item Solution: \alert{rehachage}: création d'une table plus grande
 \begin{itemize}
 \item allocation d'une nouvelle table
 \item détermination d'une nouvelle fonction de hachage, tenant compte du nouveau $m$
 \item parcours des entrées de la table originale et insertion dans la nouvelle table
 \end{itemize}
-\item Si la taille est doublée, le coût asymptotique constant des opérations est conservé (voir slide \pageref{sec05:amortie}).
+\item Si la taille est doublée, le coût asymptotique constant des opérations est conservé (voir slide \pageref{sec04:amortie}).
+\end{itemize}
+
+\note{Comment pourrait-on attaquer un système ?}
+
+\end{frame}
+
+\begin{frame}{Universal hashing}
+\begin{itemize}
+\item Les performances d'un table de hachage se dégrade fortement en
+  cas de collisions multiples
+\item Connaissant la fonction de hachage, un adversaire malintentionné pourrait s'amuser à entrer des clés créant des collisions. Exemples:
+\begin{itemize}
+\item Création de fichiers avec des noms bien choisis dans le kernel Linux 2.4.20
+\item 28/12/2011: {\scriptsize \url{http://www.securityweek.com/hash-table-collision-attacks-could-trigger-ddos-massive-scale}}
+\end{itemize}
+\item C'est un exemple d'\alert{attaque par déni de service}
+
+\bigskip
+
+\item Parade: \alert{hachage universel}: choisir la fonction de hachage aléatoirement à chaque création d'une nouvelle instance de la table 
+\item Exemple:
+$$h(k)=((ak+b) \bmod p)\bmod m,$$
+où $p$ est un premier très grand et $a$ et $b$ deux entiers choisis aléatoirement
+\end{itemize}
+
+\note{Si il utilise tout le temps la même clé, ça va écraser la valeur et ça ne posera pas de problème
+
+\bigskip
+
+fonction aléatoire $\Rightarrow$ l'utilisateur ne peut pas savoir a priori quelles clés vont créer des collisions
+}
+
+\end{frame}
+
+\begin{frame}{Demo}
+
+\begin{small}
+\begin{itemize}
+\item \url{http://groups.engin.umd.umich.edu/CIS/course.des/cis350/hashing/WEB/HashApplet.htm}
+\end{itemize}
+\end{small}
+
+\end{frame}
+
+\subsection{Comparaisons}
+
+\begin{frame}{Plan}
+
+\tableofcontents[currentsection,currentsubsection]
+
+\end{frame}
+
+\begin{frame}{Dictionnaires: résumé}
+
+  \begin{center}\small
+    \def\arraystretch{1.5}\renewcommand{\tabcolsep}{1mm}
+    \begin{tabular}{@{}lcccccc@{}}
+    &\multicolumn{3}{c}{\emph{Pire cas}} & \multicolumn{3}{c}{\emph{En moyenne}}\\
+    \emph{Implémentation}& \proc{Search} & \proc{Insert} & \proc{Delete} & \proc{Search} & \proc{Insert} & \proc{Delete}\\
+    \hline\hline
+    Liste &$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$\\
+    \hline
+    Vecteur trié&$\Theta(\log n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(\log n)$&$\Theta(n)$&$\Theta(n)$\\
+\hline
+ABR&$\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$\\
+\hline
+AVL&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$&$\Theta(\log n)$\\
+\hline
+Table de hachage & $\Theta(n)$&$\Theta(n)$&$\Theta(n)$&$\Theta(1)$&$\Theta(1)$&$\Theta(1)$\\
+    \hline\hline
+  \end{tabular}
+  \end{center}
+
+\begin{itemize}
+\item Cas moyen valable uniquement sous l'hypothèse de hachage uniforme
+\item Comment obtenir $\Theta(\log n)$ dans le pire cas avec une table de hachage ?
+\end{itemize}
+
+\note{Leur demander ici de relever les avantages et inconvénients des arbres et tables de hachage...}
+\end{frame}
+
+\begin{frame}{ABR/AVL versus table de hachage}
+
+Tables de hachage:
+\begin{itemize}
+\item Faciles à implémenter
+\item Seule solution pour des clés non ordonnées
+\item Accès et insertion très rapides en moyenne (pour des clés simples)
+\item Espace gaspillé lorsque $\alpha$ est petit
+\item Pas de garantie au pire cas (performance ``instables'')
+\end{itemize}
+
+\bigskip
+
+Arbres binaire de recherche (équilibrés):
+\begin{itemize}
+\item Performance garantie dans tous les cas (stabilité)
+\item Taille de structure s'adapte à la taille des données
+\item Supportent des opérations supplémentaires lorsque les clés sont ordonnées (parcours en ordre, successeur, prédécesseur, etc.)
+\item Accès et insertion plus lente en moyenne
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Comparaison des différentes structures}
-\begin{itemize}
-\item Tableau à accès directe et table hash:
-\begin{itemize}
-\item Accès et insertion très rapide: $O(1)$ (dans les deux cas)
-\item Mais structure statique et espace gaspillé (surtout pour le tableau à accès directe)
-\item Facile à coder
-\item Pas d'autre solution pour des clés non ordonnées
-\item Pas facile de trouver une bonne fonction de hachage
-\item Performances pas vraiment garanties
-\end{itemize}
-\item Tableau trié et ABR
-\begin{itemize}
-\item Accès plus lent (surtout pour le tableau trié)
-\item structure dynamique (dans les deux cas)
-\end{itemize}
-\end{itemize}
-{\color{red}VOIR LES SLIDES DE SEDGEWICK !!}
-\end{frame}
 
-\begin{frame}{Ce qu'on n'a pas vu}
+%% \begin{frame}{Applications}
 
-\begin{itemize}
-\item D'autres types d'arbres équilibrés: red-black trees, ...
-\item Fonctions de hachages sophistiquées
-\item Démonstrations formelles de certaines complexités
-\end{itemize}
+%% Quelles implémentations pour les applications suivantes:
+%% \begin{itemize}
+%% \item Spotlight
+%% \item Itunes song
+%% \item IP lookup
+%% \item Dictionnaire pour le spell checking
+%% \end{itemize}
+%% \end{frame}
 
-\end{frame}
+%% \begin{frame}{Ce qu'on a vu}
+
+%% \begin{itemize}
+%% \item D'autres types d'arbres équilibrés: red-black trees, ...
+%% \item Fonctions de hachages sophistiquées
+%% \item Démonstrations formelles de certaines complexités
+%% \end{itemize}
+
+%% \end{frame}

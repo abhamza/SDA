@@ -1,42 +1,1333 @@
 \part{Résolution de problèmes}
 
-% Superbe site web avec les differents algorithmes
-
-% http://www.sorting-algorithms.com/
+% Rajouter les slides d'outline et un découpe des sections par exemple
+% Mettre Exemple 1, 2, etc.
+% maximum/maximal ?
 
 \begin{frame}{Plan}
 
-\tableofcontents
+\tableofcontents[hideallsubsections]
 
 \end{frame}
 
-
 \section{Introduction}
 
-\begin{frame}{Introduction}
+\begin{frame}{Méthodes de résolution de problèmes}
 
-On va voir 4 manières d'aborder des problèmes nouveaux:
+Quelques approches génériques pour aborder la résolution d'un problème:
 \begin{itemize}
-\item Approche naïve/exhaustive
-\item Approche gloutonne
-\item Programmation dynamique
-\item Diviser pour régner
+\item \alert{Approche par force brute:} résoudre directement le problème, à partir de sa définition ou par une recherche exhaustive
+\item \alert{Diviser pour régner:} diviser le problème en sous-problèmes, les résoudre, fusionner les solutions pour obtenir une solution au problème original
+\item \alert{Programmation dynamique:} obtenir la solution optimale à un problème en combinant des solutions optimales à des sous-problèmes similaires plus petits
+\item \alert{Approche gloutonne:} construire la solution incrémentalement, en optimisant de manière aveugle un critère local
 \end{itemize}
 
 \end{frame}
 
-\section{Divide and Conquer}
+\section{Approche par force brute}
 
-\begin{frame}{Divide and Conquer}
+\begin{frame}{Approche par force brute (brute-force)}
+\begin{itemize}
+\item Consiste à appliquer la solution la plus directe à un problème
+\item Généralement obtenue en appliquant à la lettre la définition du problème
+\item Exemple simple:
+\begin{itemize}
+\item Rechercher un élément dans un tableau (trié ou non) en le parcourant linéairement
+\item Calculer $a^n$ en multipliant $a$ $n$ fois avec lui-même
+\item Implémentation récursive naïve du calcul des nombres de Fibonacci
+\item \ldots
+\end{itemize}
+\item Souvent pas très efficace en terme de temps de calcul mais facile à implémenter et fonctionnel
+\end{itemize}
+
 \end{frame}
 
-\section{Algorithme glouton}
+\begin{frame}{Exemple: tri}
 
-\begin{frame}{Algorithme glouton}
+Approches par force brute pour le tri:
+\begin{itemize}
+\item Un tableau est trié (en ordre croissant) si tout élément est plus petit que l'élément à sa droite
+\item $\Rightarrow$ tri à bulle: parcourir le tableau de gauche à droite en inversant toutes les paires d'éléments ne respectant pas cette définition
+\item Complexité: $O(n^2)$
+\item $\Rightarrow$ tri par sélection: trouver le minimum du tableau, l'échanger avec le premier élément, répéter pour trier le reste du tableau
+\item Complexité: $\Theta(n^2)$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Recherche exhaustive}
+\begin{itemize}
+\item Une solution par force brute au problème de la recherche d'un élément possédant une propriété particulière
+\item Générer toutes les solutions possibles jusqu'à en obtenir une qui possède la propriété recherchée
+\item Exemple pour le tri:
+\begin{itemize}
+\item Générer toutes les permutations du tableau de départ (une et une seule fois)
+\item Vérifier si chaque tableau permuté est trié. S'arrêter si c'est le cas.
+\item Complexité: $O(n!\cdot n)$
+\end{itemize}
+\item Généralement utilisable seulement pour des problèmes de petite taille
+\item Dans la plupart des cas, il existe une meilleure solution
+\item Dans certain cas, c'est la seule solution possible
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Problème du voyageur de commerce}
+\begin{itemize}
+\item Etant donné $n$ villes et les distances entre ces villes
+\item Trouver le plus court chemin qui passe par toutes les villes
+  exactement une fois avant de revenir à la ville de départ
+\end{itemize}
+
+\centerline{\includegraphics[width=3cm]{Figures/06-tsp.pdf}}
+
+\end{frame}
+
+\begin{frame}{Force brute/recherche exhaustive}
+Avantages:
+\begin{itemize}
+\item Simple et d'application très large
+\item Un bon point de départ pour trouver de meilleurs algorithmes
+\item Parfois, faire mieux n'en vaut pas la peine
+\end{itemize}
+
+\bigskip
+
+Inconvénients:
+\begin{itemize}
+\item Produit rarement des solutions efficaces
+\item Moins éléguant et créatif que les autres techniques que nous verrons
+\end{itemize}
+
+\bigskip
+
+Dans ce qui suit, on commencera la plupart du temps par fournir la solution par force brute des problèmes qu'on cherchera à résoudre par les autres techniques
+
+\end{frame}
+
+% truc interessant:
+
+\section{Diviser pour régner}
+
+\begin{frame}{Méthodes de résolution de problèmes}
+
+Quelques approches génériques pour aborder la résolution d'un problème:
+\begin{itemize}
+\item \alert{Approche par force brute:} résoudre directement le problème, à partir de sa définition ou par une recherche exhaustive
+\item \alert{Diviser pour régner:} diviser le problème en sous-problèmes, les résoudre, fusionner les solutions pour obtenir une solution au problème original
+\item \alert{Programmation dynamique:} obtenir la solution optimale à un problème en combinant des solutions optimales à des sous-problèmes similaires plus petits
+\item \alert{Approche gloutonne:} construire la solution incrémentalement, en optimisant de manière aveugle un critère local
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Plan}
+
+\tableofcontents[currentsection,hideothersubsections]
+
+\end{frame}
+
+\begin{frame}{Approche diviser-pour-régner {\it (Divide and conquer)}}
+
+Principe général:
+\begin{itemize}
+\item Si le problème est trivial, on le résoud directement
+\item Sinon:
+\begin{enumerate}
+\item Diviser le problème en sous-problèmes de taille inférieure (Diviser)
+\item Résoudre récursivement ces sous-problèmes (Régner)
+\item Fusionner les solutions aux sous-problèmes pour produire une solution au problème original
+\end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Exemples déjà rencontrés}
+
+\begin{itemize}
+\item \alert{Merge sort:}
+\begin{enumerate}
+\item Diviser: couper le tableau en deux sous-tableaux de même taille
+\item Régner: Trier récursivement les deux sous-tableaux
+\item Fusionner: fusionner les deux sous-tableaux
+\end{enumerate}
+Complexité: $\Theta(n\log n)$ (force brute: $\Theta(n^2)$)
+\item \alert{Quicksort:}
+\begin{enumerate}
+\item Diviser: partionner le tableau selon le pivot
+\item Régner: Trier récursivement les deux sous-tableaux
+\item Fusionner: /
+\end{enumerate}
+Complexité: $\Theta(n\log n)$ (force brute: $\Theta(n^2)$)
+\item \alert{Recherche binaire} (dichotomique):
+\begin{enumerate}
+\item Diviser: contrôler l'élement central du tableau
+\item Régner: Chercher récursivement dans un des sous-tableaux
+\item Fusionner: trivial
+\end{enumerate}
+Complexité: $O(\log n)$ (force brute: $O(n)$)
+\end{itemize}
+
+\end{frame}
+
+\subsection{Exemple 1: calcul du minimum/maximum d'un tableau}
+
+\begin{frame}{Exemple 1: Calcul du minimum/maximum d'un tableau}
+
+\begin{itemize}
+\item Approche par force brute pour trouver le minimum ou le maximum d'un tableau
+\end{itemize}
+
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Min}(A)$}
+        \li $min\gets A[1]$
+        \li \For $i\gets 2$ \To $\attrib{A}{length}$
+        \li \Do \If $min>A[i]$
+        \li \Then $min\gets A[i]$\End\End
+        \li \Return $min$
+      \end{codebox}}
+}
+\end{center}
+\end{column}
+\begin{column}{5cm}
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Max}(A)$}
+        \li $max\gets A[1]$
+        \li \For $i\gets 2$ \To $\attrib{A}{length}$
+        \li \Do \If $max<A[i]$
+        \li \Then $max\gets A[i]$\End\End
+        \li \Return $max$
+      \end{codebox}}
+}
+\end{center}
+\end{column}
+\end{columns}
+
+\bigskip
+
+\begin{itemize}
+\item Complexité: $\Theta(n)$ ($n-1$ comparaisons)
+\item Peut-on faire mieux ?
+\begin{itemize}
+\item Non, pas en notation asymptotique (le problème est $\Theta(n)$)
+\item Par contre, on peut diminuer le nombre total de comparaisons pour calculer à la fois le minimum et le maximum
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Calcul simultané du minimum et du maximum}
+
+\begin{itemize}
+\item Approche diviser-pour-régner pour le calcul simultané du minimum et du maximum
+\end{itemize}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Max-Min}(A,p,r)$}
+        \li \If $\id{r}-\id{p}\leq 1$
+        \li \Then \If $A[p]<A[r]$
+        \li \Then \Return $(A[r],A[p])$
+        \li \Else \Return $(A[p],A[r])$\End\End
+        \li $q\gets \lfloor\frac{p+r}{2}\rfloor$
+        \li $(max1,min1)=\proc{Max-Min}(A,p,q)$
+        \li $(max2,min2)=\proc{Max-Min}(A,q+1,r)$
+        \li \Return $(\proc{max}(max1,max2),\proc{min}(min1,min2))$
+      \end{codebox}}
+}
+\end{center}
+
+\centerline{Appel initial: $\proc{Max-Min}(A,1,A.length)$}
+
+\bigskip
+
+\begin{itemize}
+\item Correct ? Oui (preuve par induction)
+\item Complexité ?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Analyse de complexité}
+
+\begin{itemize}
+\item En supposant que $n$ est une puissance de 2, le nombre de
+  comparaisons $T(n)$ est donné par: {\small
+\[
+T(n) = \left\{
+\begin{array}{ll}
+ 1 & \mbox{si }n=2\\
+2 T(n/2)+2 & \mbox{sinon}
+\end{array}
+\right.
+\]}
+\item qui se résoud en:
+{\footnotesize
+\begin{eqnarray*}
+T(n) & = & 2 T(n/2)+2\\
+%& = & 2(2 T(n/4)+2)+2\\
+& = & 4 T(n/4)+4+2\\
+& = & 8 T(n/4)+8+4+2\\
+& = & 2^i T(n/2^i)+\sum_{j=1}^i 2^j\\
+& = & 2^{\log_2(n-1)} T(2)+\sum_{j=1}^{\log_2(n)-1} 2^j\\
+& = & 3/2 n -2
+\end{eqnarray*}}
+\item C'est-à-dire 25\% de comparaisons en moins que les méthodes séparées
+\end{itemize}
+
+\end{frame}
+
+\subsection{Exemple 2: Recherche de pics}
+
+\begin{frame}{Exemple 2: Recherche de pics}
+
+\centerline{\includegraphics[width=6cm]{Figures/06-peakfinding.pdf}}
+
+\bigskip
+
+\begin{itemize}
+\item Soit un tableau $A[1\twodots \attrib{A}{length}]$. On supposera
+  que $A[0]=A[\attrib{A}{length}+1]=-\infty$.
+\item Définition: $A[i]$ est un \alert{pic} s'il n'est pas plus petit que ses voisins:
+$$A[i-1]\leq A[i]\geq A[i+1]$$
+\item \alert{But:} trouver un pic dans le tableau (n'importe lequel)
+\item Note: il en existe toujours un
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Approche par force brute}
+\begin{itemize}
+\item Tester toutes les positions séquentiellement:
+
+\bigskip
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Peak1d}(A)$}
+        \li \For $i\gets 1$ \To $\attrib{A}{length}$
+        \li \Do \If $A[i-1]\leq A[i]\geq A[i+1]$
+        \li \Then \Return $i$\End\End
+      \end{codebox}}
+}
+\end{center}
+
+\bigskip
+
+\item Complexité: $O(n)$ dans le pire cas
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Approche par force brute 2}
+\begin{itemize}
+\item Le maximum global du tableau est un maximum local et donc un pic
+
+\bigskip
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Peak1d}(A)$}
+        \li $m\gets A[0]$
+        \li \For $i\gets 1$ \To $\attrib{A}{length}$
+        \li \Do \If $A[i]>A[m]$
+        \li \Then $m\gets i$\End\End
+        \li \Return m
+      \end{codebox}}
+}
+\end{center}
+
+\bigskip
+
+\item Complexité: $\Theta(n)$ dans tous les cas
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Une meilleure idée}
+
+Approche diviser-pour-régner:
+\begin{itemize}
+\item Sonder un élément $A[i]$ et ses voisins $A[i-1]$ et $A[i+1]$
+\item Si c'est un pic: renvoyer $i$
+\item Sinon:
+\begin{itemize}
+\item les valeurs doivent croître au moins d'un côté
+$$A[i-1]>A[i]\mbox{ ou }A[i]<A[i+1]$$
+%\item Il doit y avoir un pic de ce côté
+\item Si $A[i-1]>A[i]$, on cherche le pic dans $A[1\twodots i-1]$
+\item Si $A[i+1]>A[i]$, on cherche le pic dans $A[i+1\twodots \attrib{A}{length}]$
+\end{itemize}
+
+\bigskip
+
+\centerline{\includegraphics[width=7cm]{Figures/06-peakfinding-idea.pdf}}
+
+\item A quel position $i$ faut-il sonder ?
+\end{itemize}
+
+\note{montrer graphiquement\\
+Il faut sonder au milieu pour accélerer les calculs}
+\end{frame}
+
+\begin{frame}{Algorithme}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Peak1d}(A,p,r)$}
+        \li $q\gets \lfloor\frac{p+r}{2}\rfloor$
+        \li \If $A[q-1]\leq A[q]\geq A[q+1]$
+        \li \Then \Return $q$
+        \li \ElseIf $A[q-1]>A[q]$
+        \li \Then \Return $\proc{Peak1d}(A,i,q-1)$
+        \li \ElseIf $A[q]<A[q+1]$
+        \li \Then \Return $\proc{Peak1d}(A,q+1,r)$\End
+      \end{codebox}}
+}
+\end{center}
+
+\centerline{Appel initial: $\proc{Peak1d}(A,1,A.length)$}
+
+\bigskip
+
+\begin{itemize}
+\item Complexité: $\Theta(n)$ dans tous les cas
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Analyse}
+\begin{itemize}
+\item Correction: oui
+\begin{itemize}
+\item On doit prouver qu'il y aura un pic du côté choisi
+\item Preuve par l'absurde:
+\begin{itemize}
+\item Supposons que $A[q+1]>A[q]$ et qu'il n'y ait pas de pic dans $A[q+1\twodots r]$
+\item On doit avoir $A[q+2]>A[q+1]$ (sinon $A[q+1]$ serait un pic)
+\item On doit avoir $A[q+3]>A[q+2]$ (sinon $A[q+1]$ serait un pic)
+\item \ldots
+\item On doit avoir $A[r]>A[r-1]$ (sinon $A[r-1]$ serait un pic)
+\item Comme $A[r]>A[r+1]=\infty$, $A[r]$ est un pic, ce qui contredit l'hypothèse
+\end{itemize}
+\end{itemize}
+
+\bigskip
+
+\item Complexité:
+\begin{itemize}
+\item Dans le pire cas, on a $T(n)=T(n/2)+c_1$ et $T(1)=c_2$
+\item $\Rightarrow T(n)=O(\log n)$
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Extension à un tableau 2D}
+
+\begin{columns}
+\begin{column}{5cm}
+\begin{itemize}
+\item Soit une matrice $n\times n$ de nombres
+\item Trouver un élement plus grand ou égal à ses 4 voisins (max)
+\end{itemize}
+
+\bigskip
+
+\centerline{\includegraphics[width=2cm]{Figures/06-2dpeak-constraints.pdf}}
+\end{column}
+\begin{column}{5cm}
+\centerline{\includegraphics[width=5cm]{Figures/06-2dpeak.pdf}}
+~\hfill{\scriptsize(Demaine \& Leiserson)}
+\end{column}
+\end{columns}
+
+\bigskip
+
+\begin{itemize}
+\item Approche par force brute: $O(n^2)$
+\item Recherche du maximum: $\Theta(n^2)$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Approche diviser-pour-régner}
+
+\begin{columns}
+\begin{column}{7cm}
+\begin{itemize}
+\item Chercher le maximum global dans la colonne \alert{centrale}
+\item Si c'est un pic, le renvoyer
+\item Sinon appeler la fonction récursivement sur les colonnes à
+  gauche (resp. droite) si le voisin à gauche (resp. droite) est plus grand
+\end{itemize}
+
+\end{column}
+\begin{column}{4cm}
+\centerline{\includegraphics[width=4cm]{Figures/06-2dpeak-dc.pdf}}
+~\hfill{\scriptsize(Demaine \& Leiserson)}
+\end{column}
+\end{columns}
+
+\bigskip
+
+\end{frame}
+
+\begin{frame}{Analyse: correction}
+
+\begin{itemize}
+\item On doit prouver qu'il y a bien un pic du côté choisi
+\item Preuve par l'absurde:
+\begin{itemize}
+\item Supposons qu'il n'y ait pas de pic
+\item Soient $A[i,j]$ le maximum de la colonne centrale et $A[i,k]$ le voisin le plus grand ($k=j-1$ ou $k=j+1$)
+\item $A[i,k]$ doit avoir un voisin $A[p_1,q_1]$ avec une valeur plus élevée (sinon, ce serait un pic)
+\item $A[p_1,q_1]$ doit avoir un voisin $A[p_2,q_2]$ avec une valeur plus élevée (sinon, ce serait un pic)
+\item \ldots
+\item Le voisin doit toujours rester du même côté de la colonne centrale (puisque $A[i,k]>A[i,j]$ et $A[i,j]$ est la maximum de la colonne $j$)
+\item A un certain point, on va manquer de points
+\item Il doit donc y avoir un pic
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Analyse: complexité}
+
+\begin{itemize}
+\item $O(n)$ pour trouver le maximum d'une colonne
+\item $O(\log n)$ itérations
+\item $O(n\log n)$ au total
+\bigskip
+
+\item Peut-on faire mieux ? Oui, il est possible de proposer un algorithme en $O(n)$ (pas vu dans ce cours)
+\end{itemize}
+
+\end{frame}
+
+\subsection{Exemple 3: sous-séquence de somme maximale}
+
+\begin{frame}{Exemple 3: Achat/vente d'actions}
+
+\centerline{\includegraphics[width=8cm]{Figures/06-stockprice.pdf}}
+
+\bigskip
+
+\begin{itemize}
+\item Soit le prix d'une action au cours de $n$ jours consécutifs (prix à la fermeture)
+\item On aimerait déterminer retrospectivement:
+\begin{itemize}
+\item à quel moment, on aurait du acheter et
+\item à quel moment, on aurait du vendre
+\end{itemize}
+de manière à maximiser notre gain
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Exemple 3: Achat/vente d'actions}
+
+Première stratégie:
+\begin{itemize}
+\item Acheter au prix minimum, vendre au prix maximum
+\item Pas correct: Le prix maximum ne suit pas nécessairement le prix minimum
+\end{itemize}
+
+\bigskip
+
+Deuxième stratégie:
+\begin{itemize}
+\item Soit acheter au prix minimum et vendre au prix le plus élevé qui suit
+\item Soit vendre au prix maximum et acheter au prix le plus bas qui précède
+\item Pas correct:
+\end{itemize}
+\vspace{-0.5cm}
+~\hfill\includegraphics[width=4cm, height=2cm]{Figures/06-stockprice-2.pdf}
+
+\bigskip
+\vspace{-0.5cm}
+Troisième stratégie:
+\begin{itemize}
+\item Tester toutes les paires (force brute)
+\item Correct ? Complexité ?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Achat/vente d'actions: transformation}
+
+\centerline{\includegraphics[width=8cm]{Figures/06-stockprice-3.pdf}}
+
+\bigskip
+
+\begin{itemize}
+\item Transformation du problème:
+\begin{itemize}
+\item Calculer le tableau $A[i]=\mbox{(prix du jour i)-(prix du jour i)}$ (de taille $A.length=n$ en supposant qu'on démarre avec un prix au jour 0)
+\item Déterminer la sous-séquence  non vide contiguë de somme maximale dans $A$
+\item Soit $A[i\twodots j]$ cette sous-séquence. Il aurait fallu acheter juste avant le jour $i$ (juste après le jour $i-1$) et vendu juste après le jour $j$.
+\end{itemize}
+\item Exemple sur la tableau ci-dessus: $A[8\twodots 11]$ est la sous-séquence maximale de somme 43 $\Rightarrow$ acheter juste avant le jour 8 et vendre juste après le jour 11.
+\item Si on peut trouver la sous-séquence maximale dans un tableau, on aura une solution à notre problème d'achat/vente d'actions
+%\item Est-ce que la transformation est utile ?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Approche par force brute}
+\centerline{\includegraphics[width=8cm]{Figures/06-maxsubarray.pdf}}
+
+\bigskip
+
+\begin{itemize}
+\item Implémentation naïve:
+\begin{itemize}
+\item On génère tous les sous-tableaux 
+\item On calcule la somme des éléments de chaque sous-tableau
+\item On renvoie les bornes du (d'un) sous-tableau de somme maximale
+\end{itemize}
+\item Complexité: $\Theta(n^2)$ sous-tableaux et $O(n)$ pour le calcul
+  de la somme d'un sous-tableau $\Rightarrow$ $O(n^3)$
+\item On peut l'implémenter en $\Theta(n^2)$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Approche par force brute}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Max-subarray-brute-force}(A)$}
+        \li $n=A.length$
+        \li $\id{max-so-far}\gets -\infty$
+        \li \For $i\gets 1$ \To n
+        \li \Do $sum=0$
+        \li \For $h\gets l$ \To n
+        \li \Do $sum\gets sum+A[h]$
+        \li \If $sum>\id{max-so-far}$
+        \li \Then $\id{max-so-far}=sum$
+        \li $low=l$
+        \li $high=h$\End\End\End
+        \li \Return $(low,high)$
+      \end{codebox}}
+}
+\end{center}
+
+Complexité: $\Theta(n^2)$\\
+
+Peut-on faire mieux ?
+
+\end{frame}
+
+\begin{frame}{Approche diviser-pour-régner}
+
+\begin{itemize}
+\item Nouveau problème:
+\begin{itemize}
+\item trouver un sous-tableau maximal dans $A[low\twodots high]$
+\item fonction $\proc{maximum-subarray}(A,low,high)$
+\end{itemize}
+\item Diviser:
+\begin{itemize}
+\item diviser le sous-tableau en deux sous-tableau de tailles aussi proches que possible
+\item Choisir $mid=\lfloor (low+high)/2 \rfloor$
+\end{itemize}
+\item Régner:
+\begin{itemize}
+\item trouver récursivement les sous-tableaux maximaux dans ces deux sous-tableaux
+\item Appeler $\proc{maximum-subarray}(A,low,mid)$ et $\proc{maximum-subarray}(A,mid+1,high)$
+\end{itemize}
+\item Fusionner: ?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Approche diviser-pour-régner}
+
+\centerline{\includegraphics[width=7cm]{Figures/06-maxsubarray-cross.pdf}}
+
+\bigskip
+
+\begin{itemize}
+\item Fusionner:
+\begin{itemize}
+\item Rechercher un sous-tableau maximum qui traverse la jonction
+\item Choisir la meilleur solution parmi les 3
+\end{itemize}
+\item $\proc{max-crossing-subarray}(A,low,mid,high)$
+\begin{itemize}
+\item Force brute: $\Theta(n^2)$ (car n/2 choix pour l'extrémité gauche, n/2 choix pour l'extrémité droite)
+\item Meilleure solution: on recherche indépendamment les extrémités gauche et droite
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{$\proc{max-crossing-subarray}$}
+
+{\footnotesize
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Max-crossing-subarray}(A,low,mid,high)$}
+        \li $\id{left-sum}=-\infty$
+        \li $sum=0$
+        \li \For $i\gets mid$ \Downto $low$
+        \li \Do $sum=sum+A[i]$
+        \li \If $sum>\id{left-sum}$
+        \li \Then $\id{left-sum}=sum$
+        \li $\id{max-left}=i$\End\End
+        \li $\id{right-sum}=-\infty$
+        \li $sum=0$
+        \li \For $j\gets mid+1$ \To $high$
+        \li \Do $sum=sum+A[j]$
+        \li \If $sum>\id{right-sum}$
+        \li \Then $\id{right-sum}=sum$
+        \li $\id{max-right}=j$\End\End
+        \li \Return $(\id{max-left},\id{max-right},\id{left-sum}+\id{right-sum})$
+      \end{codebox}}
+}\\
+\vspace{-0.5cm}
+Complexité: $\Theta(n)$~\hfill\includegraphics[width=6cm]{Figures/06-maxsubarray-cross-algo.pdf}
+\end{frame}
+
+\begin{frame}{$\proc{Max-subarray}$}
+
+\begin{center}
+{\footnotesize
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Max-subarray}(A)$}
+        \li \If $high\isequal low$
+        \li \Then \Return $(low,hig,A[low])$
+        \li \Else $mid=\lfloor (low+high)/2 \rfloor$
+        \li $(\id{left-low},\id{left-high},\id{left-sum})=\proc{Max-subarray}(A,low,mid)$
+        \li $(\id{right-low},\id{right-high},\id{right-sum})=\proc{Max-subarray}(A,mid+1,high)$
+        \li $(\id{cross-low},\id{cross-high},\id{cross-sum})=$
+        \li \Indent $\proc{Max-crossing-subarray}(A,low,mid,high)$
+        \li \If $\id{left-sum}\geq \id{right-sum}$ and $\id{left-sum}\geq \id{cross-sum}$
+        \li \Then \Return $(\id{left-low},\id{left-high},\id{left-sum})$
+        \li \ElseIf $\id{right-sum}\geq \id{right-sum}$ and $\id{right-sum}\geq \id{cross-sum}$
+        \li \Then \Return $(\id{right-low},\id{right-high},\id{right-sum})$
+        \li \Else \Return $(\id{cross-low},\id{cross-high},\id{cross-sum})$
+      \end{codebox}}
+}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Analyse}
+
+\begin{itemize}
+\item Si on suppose que $n$ est un multiple de 2, le nombre d'opérations $T(n)$ est donné par:
+\[
+T(n) = \left\{
+\begin{array}{ll}
+ c_1 & \mbox{si }n=1\\
+2 T(n/2)+c_2 n & \mbox{sinon}
+\end{array}
+\right.
+\]
+\item Même complexité que le tri par fusion $\Rightarrow$ $\Theta(n\log n)$
+\item Peut-on faire mieux ? On verra plus loin que oui
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Divide pour régner: conclusions}
+
+\begin{itemize}
+\item Mène à des algorithmes très efficaces
+\item Pas toujours applicable mais quand même très utile
+
+\bigskip
+
+\item Applications:
+\begin{itemize}
+\item Tris optimaux
+\item Recherche binaire
+\item Problème de sélection
+\item Trouver la paire de points les plus proches
+\item Recherche de l'enveloppe convexe (conver-hull)
+\item Multiplication de matrice (méthode de Strassens)
+\item \ldots
+\end{itemize}
+\end{itemize}
+
 \end{frame}
 
 \section{Programmation dynamique}
 
-\begin{frame}{Programmation dynamique}
+\begin{frame}{Méthodes de résolution de problèmes}
+
+Quelques approches génériques pour aborder la résolution d'un problème:
+\begin{itemize}
+\item \alert{Approche par force brute:} résoudre directement le problème, à partir de sa définition ou par une recherche exhaustive
+\item \alert{Diviser pour régner:} diviser le problème en sous-problèmes, les résoudre, fusionner les solutions pour obtenir une solution au problème original
+\item \alert{Programmation dynamique:} obtenir la solution optimale à un problème en combinant des solutions optimales à des sous-problèmes similaires plus petits
+\item \alert{Approche gloutonne:} construire la solution incrémentalement, en optimisant de manière aveugle un critère local
+\end{itemize}
+
 \end{frame}
 
+\begin{frame}{Plan}
+
+\tableofcontents[currentsection,hideothersubsections]
+
+\end{frame}
+
+\subsection{Exemple 1: découpage de tiges d'acier}
+
+\begin{frame}{Exemple 1: découpage de tiges d'acier}
+
+\bigskip
+
+\centerline{\includegraphics[width=4cm]{Figures/06-steelrod.pdf}}
+
+\bigskip
+
+\begin{itemize}
+\item Soit une tige d'acier qu'on découpe pour la vendre morceau par morceau
+\item La découpe ne peut se faire que par nombre entier de centimètres
+\item Le prix de vente d'une tige dépend (non linéairement) de sa longueur
+\item On veut déterminer le revenu maximum qu'on peut attendre de la vente d'une tige de $n$ centimètre
+\item Problème algorithmique:
+\begin{itemize}
+\item Entrée: une longueur $n>0$ et une table de prix $p_i$, pour $i=1,2,\ldots,n$
+\item Sortie: Le revenu maximum qu'on peut obtenir pour des tiges de longueur $n$
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Illustration}
+\begin{itemize}
+\item Soit la table de prix:
+\bigskip
+
+\begin{center}\small
+\begin{tabular}{l|llllllllll}
+Longueur $i$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10\\
+\hline
+Prix $p_i$ & 1 & 5 & 8 & 9 & 10 & 17 & 17 & 20 & 24 & 30\\
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\item Découpe possible d'une tige de longueur $n=4$
+
+\bigskip
+
+\centerline{\includegraphics[width=10cm]{Figures/06-rodcutting.pdf}}
+
+\bigskip
+
+\item Meilleur revenu: découpage en 2 tiges de 2 centimètres, revenu de 10
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Approche par force brute}
+
+\begin{itemize}
+\item Enumérer toutes les découpes, calculer leur revenu, déterminer le revenu maximum
+\item Complexité: exponentielle en $n$:
+\begin{itemize}
+\item Il y a $2^{n-1}$ manières de découper une tige de longueur $n$ (on peut couper ou non après chacun des $n-1$ premiers centimètres)
+\item Plusieurs découpes sont équivalentes (1+1+2 et 1+2+1 par
+  exemple) mais même en prenant cela en compte, le nombre de découpes
+  reste exponentiel
+\end{itemize}
+\item Infaisable pour $n$ un peu grand
+\end{itemize}
+
+\note{dessiner un arbre avec toutes les possibilités. Dire que le nombre de feuille est $2^{n-1}$.}
+\end{frame}
+
+\begin{frame}{Idée}
+\begin{itemize}
+\item Soit $r_i$ le revenu maximum pour une tige de longueur $i$
+\item Déterminons $r_i$ pour notre exemple:
+\begin{center}
+\footnotesize
+\begin{tabular}{l|cl}
+i & $r_i$ & solution optimale\\
+\hline
+1 & 1 & 1 (pas de découpe)\\
+2 & 5 & 2 (pas de découpe)\\
+3 & 8 & 3 (pas de découpe)\\
+4 & 10 & 2+2\\
+5 & 13 & 2+3\\
+6 & 17 & 6 (pas de découpe)\\
+7 & 18 & 1+6 ou 2+2+3\\
+8 & 22 & 2+6
+\ldots\\
+\end{tabular}
+\end{center}
+\end{itemize}
+
+\note{Dans le cas $n=4$, on doit comparer: 4, 1+3, 2+2, 3+1, 1+1+2, 1+2+1, 2+1+1, 1+1+1+1\\
+
+Le max de 1+3, 1+2+1, 1+1+2, 1+1+1+1 est égal au prix de 1 plus $r_3$}
+\end{frame}
+
+\begin{frame}{Formulation récursive de $r_n$: version naïve}
+\begin{itemize}
+\item $r_n$ peut être calculé comme le maximum de:
+\begin{itemize}
+\item $p_n$: le prix sans découpe
+\item $r_1+r_{n-1}$: le revenu max pour une tige de 1 et une tige de $n-1$
+\item $r_2+r_{n-2}$: le revenu max  pour une tige de 2 et une tige de $n-2$
+\item \ldots
+\item $r_{n-1}+r_1$.
+\end{itemize}
+\item C'est-à-dire $$r_n=\max(p_n,r_1+r_{n-1},r_2+r_{n-2},\ldots,r_{n-1}+r_1)$$
+
+\bigskip
+
+\item Le problème satisfait la \alert{propriété de sous-structure optimale:} 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Formulation récursive de $r_n$: version simplifiée}
+
+\begin{itemize}
+\item Toute solution optimale a un découpe la plus à gauche
+\item On peut calculer $r_n$ en considérant toutes les tailles pour la première découpe et en combinant avec le découpage optimal pour la partie à droite
+\item Pour chaque cas, on n'a donc qu'à résoudre un seul sous-problème (au lieu de deux), celui du découpage de la partie droite
+\item En supposant $r_0=0$, on obtient ainsi:
+$$r_n=\max_{1\leq i \leq n} (p_i+r_{n-1})$$
+\end{itemize}
+
+\note{Faire un dessin au tableau avec la partie gauche de toutes les tailles}
+
+\end{frame}
+
+\begin{frame}{Implémentation récursive directe}
+
+\begin{itemize}
+\item La formule récursive peut être implémentée directement
+
+\bigskip
+
+\begin{center}
+{\footnotesize
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Cut-rod}(p,n)$}
+        \li \If $n\isequal 0$
+        \li \Then \Return 0
+        \li $q=-\infty$
+        \li \For $i\gets 1$\To $n$
+        \li \Do $q\gets \max(q,p[i]+\proc{Cut-Rod}(p,n-i))$\End
+        \li \Return $q$
+      \end{codebox}}
+}
+\end{center}
+(p est un tableau de taille $n$ contenant les prix des tiges de tailles 1 à $n$)
+\bigskip
+\item Complexité ?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Implémentation récursive directe: analyse}
+
+\begin{itemize}
+\item L'algorithme est extrêmement inefficace à cause des appels récursifs redondant
+\item Exemple: arbre des appels récursifs pour le calcul de $r_4$
+
+\centerline{\includegraphics[width=5cm]{Figures/06-rodcutting-recursiontree.pdf}}
+
+%% \item Le sous-problème de taille 3 est résolu 1 fois, le sous-problème de taille 2 est résolu 2 fois, le sous-problème de taille 1 est résolu 4 fois, le sous-problème de taille 0 est résolu 8 fois
+\item En général, le nombre de n\oe uds $T(n)$ de l'arbre est $2^n$.\\
+{\small Preuve par induction:
+\begin{itemize}
+\item Cas de base: $T(1)=1$
+\item Cas inductif: $$T(n)=1+\sum_{j=0}^{n-1} T(j)=1+\sum_{j=0}^{n-1} 2^j=1+2^n-1=2^n$$
+\end{itemize}}
+\item Complexité de l'algorithme est exponentielle en $n$
+\end{itemize}
+\note{Compter sur le graphe: nombre de 3, nombre de 1, nombre de 2}
+\end{frame}
+
+\begin{frame}{Solution par programmation dynamique}
+
+\begin{itemize}
+\item Solution: plutôt que de résoudre les mêmes sous-problèmes plusieurs fois,
+  s'arranger pour ne les résoudre chacun qu'une seule fois
+\item Comment ? En sauvegardant les solutions dans une table et en se
+  référant à la table à chaque demande de résolution d'un
+  sous-problème déjà rencontré
+\item On échange des temps de calcul contre de la mémoire
+\item Permet de transformer une solution en temps exponentiel en une solution en temps polynomial
+\item Deux implémentations possibles:
+\begin{itemize}
+\item descendante (top-down) avec \alert{mémoization}
+\item ascendante (bottom-up)
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Approche descendante avec mémoization}
+
+\begin{center}
+{\footnotesize
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Memoized-Cut-rod}(p,n)$}
+        \li Let $r[0\twodots n]$ be a new array
+        \li \For $i\gets 1$ \To $n$
+        \li \Do $r[i]\gets -\infty$\End
+        \li \Return $\proc{memoized-cut-rod-aux}(p,n,r)$
+      \end{codebox}}
+
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Memoized-Cut-rod-aux}(p,n,r)$}
+        \li \If $r[n]\geq 0$
+        \li \Then \Return $r[n]$\End
+        \li \If $n\isequal 0$
+        \li \Then \Return $q=0$
+        \li \Else $q=-\infty$
+        \li \For $i\gets 1$ \To $n$
+        \li \Do $q=\max(q,p[i]+\proc{memoized-cut-rod-aux}(p,n-i,r))$\End\End
+        \li $r[n]=q$
+        \li \Return $q$
+      \end{codebox}}
+}
+\end{center}
+
+(Attention: suppose que le tableau est passé par pointeur)
+
+\note{Dire qu'ils doivent bien réfléchir pour être sûr de comprendre\\
+
+\bigskip
+
+{\color{red} Montrer sur l'arbre de récursion comme ça fonctionne !!!}
+}
+\end{frame}
+
+\begin{frame}{Approche ascendante}
+
+Principe: résoudre les sous-problèmes par taille en commençant d'abord par les plus petits
+
+\bigskip
+
+\begin{center}
+{\footnotesize
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Bottom-up-Cut-rod}(p,n)$}
+        \li Let $r[0\twodots n]$ be a new array
+        \li $r[0]=0$
+        \li \For $j\gets 1$ \To $n$
+        \li \Do $q=-\infty$
+        \li \For  $i\gets 1$ \To $j$
+        \li \Do $q=\max(q,p[i]+r[j-i])$\End
+        \li $r[j]=q$\End
+        \li \Return $r[n]$
+      \end{codebox}}
+}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Programmation dynamique: analyse}
+
+\begin{itemize}
+\item Solution ascendante est clairement $\Theta(n^2)$ (deux boucles imbriquées)
+\item Solution descendante est également $\Theta(n^2)$
+\begin{itemize}
+\item Chaque sous-problème est résolu une et une seule fois
+\item La résolution d'un sous-problème passe par une boucle à $n$ itérations
+\end{itemize}
+\item Graphes des sous-problèmes:
+
+\centerline{\includegraphics[width=1.5cm]{Figures/06-subproblems-graph.pdf}}
+
+(une flèche de $x$ à $y$ indique que la résolution de $x$ dépend de la résolution de $y$)
+\end{itemize}
+
+\note{On voit bien que c'est $n^2$ sur ce graphe}
+
+\end{frame}
+
+\begin{frame}{Reconstruction de la solution}
+\begin{itemize}
+\item Fonction $\proc{Bottom-up-Cut-rod}$ calcule le revenu maximum mais ne donne pas directement la découpe correspondant à ce revenu
+\item On peut étendre l'approche ascendante pour enregistrer également la solution dans une autre table
+\end{itemize}
+
+\begin{center}
+{\footnotesize
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Extended-Bottom-up-Cut-rod}(p,n)$}
+        \li Let $r[0\twodots n]$ and $s[0\twodots n]$ be new arrays
+        \li $r[0]=0$
+        \li \For $j\gets 1$ \To $n$
+        \li \Do $q=-\infty$
+        \li \For  $i\gets 1$ \To $j$
+        \li \Do \If $q<p[i]+r[j-i]$
+        \li \Then $q=p[i]+r[j-i]$
+        \li $s[j]=i$\End\End
+        \li $r[j]=q$\End
+        \li \Return $r$ and $s$
+      \end{codebox}}
+}
+\end{center}
+
+\begin{itemize}
+\item $s[j]$ contient la coupure la plus à gauche d'une solution optimale au problème de taille $i$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Reconstruction de la solution}
+\begin{itemize}
+\item Pour afficher la solution, on doit ``remonter'' dans $s$
+\bigskip
+
+\begin{center}
+{\footnotesize
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Print-cut-rod-solution}(p,n)$}
+        \li $(r,s)=\proc{Extended-bottom-up-cut-rod}(p,n)$
+        \li \While $n>0$
+        \li \Do $\proc{print}$ $s[n]$
+        \li $n=n-s[n]$\End
+      \end{codebox}}
+}
+\end{center}
+
+\bigskip
+
+\item Exemple:
+\bigskip
+\begin{center}\small
+\begin{tabular}{c|llllllllll}
+$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+\hline
+$p[i]$ & 0 & 1 & 5 & 8 & 9 & 10 & 17 & 17 & 20 \\
+$r[i]$ & 0 &  1 & 5 & 8 & 10 & 13 & 17 & 18 & 22\\
+$s[i]$ & 0 & 1 & 2 & 3 & 2 & 2 & 6 & 1 & 2\\
+\end{tabular}
+\end{center}
+\bigskip
+$$\proc{print-cut-rod-solution}(p,8) \Rightarrow ``2 6''$$
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Programmation dynamique: généralités}
+\begin{itemize}
+\item La programmation dynamique s'applique aux problèmes d'\alert{optimisation} qui peuvent se décomposer en sous-problèmes de même nature, et qui possèdent les deux propriétés suivantes:
+\begin{itemize}
+\item \alert{Sous-structure optimale:} on peut calculer la solution d'un problème de taille $n$ à partir de la solution de sous-problèmes de taille inférieure
+\item \alert{Chevauchement des sous-problèmes:} Certains sous-problèmes distincts partagent une partie de leurs sous-problèmes
+\end{itemize}
+\item Implémentation directe récursive donne une solution de complexité exponentielle
+\item Sauvegarde des solutions aux sous-problèmes donne une complexité linéaire dans le nombre d'arcs et de sommets du graphe des sous-problèmes
+\end{itemize}
+\end{frame}
+
+\subsection{Exemple 2: Fibonacci}
+
+\begin{frame}{Exemple 2: Fibonacci}
+
+\begin{itemize}
+\item La fonction $\proc{Fibonacci-Iter}$ vue au début du cours est un
+  exemple de programmation dynamique (ascendante)
+\end{itemize}
+
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}\footnotesize
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\Procname{$\proc{Fibonacci-Iter}(n)$}
+\li \If $n \leq 1$
+\li \Then \Return n \End
+\li \Else
+\li \Then $pprev\gets 0$
+\li $prev\gets 1$
+\li \For $i\gets 2 \To n$
+\li \Do $f\gets prev+pprev$
+\li $pprev\gets prev$
+\li $prev\gets f$\End
+\li \Return f \End
+\end{codebox}
+}
+\end{center}
+\end{column}
+\begin{column}{5cm}
+\centerline{\includegraphics[width=0.8cm]{Figures/06-subproblem-graph-fibonacci.pdf}}
+\end{column}
+\end{columns}
+
+\begin{itemize}
+\item On peut se contenter de ne stocker que les deux dernières valeurs
+\item Complexité $\Theta(n)$ (graphe contient $n+1$ n\oe uds et $2n-2$ arcs)
+\end{itemize}
+{\it (Exercice: écrivez la version descendante avec mémoization)}
+
+\end{frame}
+
+\begin{frame}{Fibonacci en $\Theta(\log n)$}
+\begin{itemize}
+\item Peut-on faire mieux que $\Theta(n)$ pour Fibonacci ? Oui !
+\item Propriété: {\small $$\begin{pmatrix} F_{n+1} &F_n\\F_n&F_{n-1}\\\end{pmatrix}=\begin{pmatrix} 1&1\\1&0\\\end{pmatrix}^n$$}
+\item Preuve par induction:
+\begin{itemize}
+\item Cas de base ($n=1$): ok puisque $F_0=0$, $F_1=1$, et $F_2=1$
+\item Cas inductif ($n\geq 2$):
+{\small
+\begin{eqnarray*}
+\begin{pmatrix} F_{n+1} &F_n\\F_n&F_{n-1}\\\end{pmatrix} & = & \begin{pmatrix} F_{n} &F_{n-1}\\F_{n-1}&F_{n-2}\\\end{pmatrix} \cdot \begin{pmatrix} 1&1\\1&0\\\end{pmatrix}\\
+& =&  \begin{pmatrix} 1&1\\1&0\\\end{pmatrix}^{n-1} \cdot \begin{pmatrix} 1&1\\1&0\\\end{pmatrix}\\
+& = & \begin{pmatrix} 1&1\\1&0\\\end{pmatrix}^{n}
+\end{eqnarray*}}\qed
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Fibonacci en $\Theta(\log n)$}
+\begin{itemize}
+\item Approche par force brute pour le calcul de $\begin{pmatrix} 1&1\\1&0\\\end{pmatrix}^n$: $\Theta(n)$
+\item Idée: utiliser le diviser-pour-régner pour le calcul de $a^n$
+\[
+a^n = \left\{
+\begin{array}{ll}
+a^{n/2} \cdot a^{n/2}  & \mbox{si }n\mbox{ est pair}\\
+a^{(n-1)/2}\cdot a^{(n-1)/2} \cdot a & \mbox{si }n\mbox{ est impair}
+\end{array}
+\right.
+\]
+\item Complexité: $\Theta(\log n)$ (comme la recherche binaire)
+\end{itemize}
+
+\bigskip
+
+{\it (Exercice: implémenter l'algorithme)}
+\end{frame}
+
+\subsection{Exemple 3: sous-séquence de somme maximale}
+
+\begin{frame}{Exemple 3: sous-séquence maximale}
+%(ou la revenge de la programmation dynamique)
+
+\bigskip
+
+%Algorithme de Kadane pour la recherche d'un sous-séquence de somme maximale dans un tableau
+
+\begin{columns}
+\begin{column}{7cm}
+\begin{center}
+{\footnotesize
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Max-subarray-linear}(A)$}
+        \li Let $m[0\twodots n]$ be a new array
+        \li $\id{max-so-far}\gets -\infty$
+        \li $m[0]=-\infty$
+        \li \For $i\gets 1$ \To $A.length$
+        \li \Do \If $m[i-1]>0$
+        \li \Then $m[i]=m[i-1]+A[i]$
+        \li \Else $m[i]=A[i]$\End\End
+        \li \Return $m[A.length]$
+      \end{codebox}}
+}
+\end{center}
+\end{column}
+\begin{column}{3cm}
+\centerline{\includegraphics[width=0.7cm]{Figures/06-subproblems-graph-max.pdf}}
+\end{column}
+\end{columns}
+
+\bigskip
+
+\begin{itemize}
+\item Complexité: $\Theta(n)$ (diviser pour régner: $\Theta(n\log n)$)
+\item $m[i]$ est la somme de la sous-séquence maximale qui se termine en $i$
+\item L'algorithme calcule $m[i]$ à partir de $m[i-1]$
+\item Forme de programmation dynamique ascendante (très simple)
+\end{itemize}
+
+{\it\small (Exercice: ajouter le calcul des bornes d'un sous-tableau solution, remplacer le tableau $m$ par une seule variable)}
+
+\end{frame}
+
+%%%%% fin premier cours sur méthodes de résolution
+
+\begin{frame}{Etapes clés de la programmation dynamique}
+
+\begin{itemize}
+\item Charactérise l'optimalité
+\item Recursively define an optimal solution - analyze the problem in a top-down fashion to determine how subproblems relate to the original
+\item Solve the subproblems - start with a base case and solve the subproblems in a bottom-up manner to find the optimal value
+\item Reconstruct the optimal solution - (optionally) determine the solution that produces the optimal value
+\end{itemize}
+
+\end{frame}
+
+\subsection{Exemple 4: la plus longue sous-séquence commune}
+
+\begin{frame}{Plus longue sous-séquence commune}
+
+(Mettre le problème et leur demander d'y réfléchir)
+
+\end{frame}
+
+\subsection{Exemple 5: le problème 0-1 du sac-à-dos}
+
+\begin{frame}{Sac à dos}
+
+\end{frame}
+
+\begin{frame}{Discussion}
+
+Mettre une discussion comme dans les slides de CLRS sur la
+programmation dynamique en général
+
+voir slide Kevin Wayne, Tardos, Kleinberg pour exemple d'algorithmes célèbres
+
+\end{frame}
+
+\section{Algorithmes gloutons}
+
+\begin{frame}{Méthodes de résolution de problèmes}
+
+\end{frame}
+
+\begin{frame}{Algorithme glouton}
+
+Change de pieces de Benard Boigelot\\
+
+Activity scheduling\\
+
+Code Huffman\\
+
+fractionnal Knapsack
+
+\end{frame}
+
+\begin{frame}{Synthèse}
+
+Mettre les algos qu'on a vu ici. Proposer d'autres exercices ?
+
+\end{frame}
