@@ -17,9 +17,9 @@
 Quelques approches génériques pour aborder la résolution d'un problème:
 \begin{itemize}
 \item \alert{Approche par force brute:} résoudre directement le problème, à partir de sa définition ou par une recherche exhaustive
-\item \alert{Diviser pour régner:} diviser le problème en sous-problèmes, les résoudre, fusionner les solutions pour obtenir une solution au problème original
-\item \alert{Programmation dynamique:} obtenir la solution optimale à un problème en combinant des solutions optimales à des sous-problèmes similaires plus petits
-\item \alert{Approche gloutonne:} construire la solution incrémentalement, en optimisant de manière aveugle un critère local
+\semitransp{\item Diviser pour régner: diviser le problème en sous-problèmes, les résoudre, fusionner les solutions pour obtenir une solution au problème original
+\item Programmation dynamique: obtenir la solution optimale à un problème en combinant des solutions optimales à des sous-problèmes similaires plus petits et se chevauchant
+\item Approche gloutonne: construire la solution incrémentalement, en optimisant de manière aveugle un critère local}
 \end{itemize}
 
 \end{frame}
@@ -76,8 +76,29 @@ Approches par force brute pour le tri:
 \item Trouver le plus court chemin qui passe par toutes les villes
   exactement une fois avant de revenir à la ville de départ
 \end{itemize}
-
+\begin{columns}
+\begin{column}{5cm}
 \centerline{\includegraphics[width=3cm]{Figures/06-tsp.pdf}}
+\end{column}
+\begin{column}{5cm}
+\footnotesize
+\begin{tabular}{ll}
+Tour & Coût\\
+\hline
+A-B-C-D-A & 17\\
+A-B-D-C-A & 21\\
+A-C-B-D-A & 20\\
+A-C-D-B-A & 21\\
+A-D-B-C-A & 20\\
+A-D-C-B-A & 17\\
+\end{tabular}
+\end{column}
+\end{columns}
+
+\begin{itemize}
+\item Recherche exhaustive: $O(n!)$
+\item On n'a pas encore pu trouver un algorithme de complexité polynomiale (et il y a peu de chance qu'on y arrive)
+\end{itemize}
 
 \end{frame}
 
@@ -94,12 +115,12 @@ Avantages:
 Inconvénients:
 \begin{itemize}
 \item Produit rarement des solutions efficaces
-\item Moins éléguant et créatif que les autres techniques que nous verrons
+\item Moins éléguant et créatif que les autres techniques
 \end{itemize}
 
 \bigskip
 
-Dans ce qui suit, on commencera la plupart du temps par fournir la solution par force brute des problèmes qu'on cherchera à résoudre par les autres techniques
+Dans ce qui suit, on commencera la plupart du temps par fournir la solution par force brute des problèmes, qu'on cherchera ensuite à résoudre par d'autres techniques
 
 \end{frame}
 
@@ -113,8 +134,9 @@ Quelques approches génériques pour aborder la résolution d'un problème:
 \begin{itemize}
 \item \alert{Approche par force brute:} résoudre directement le problème, à partir de sa définition ou par une recherche exhaustive
 \item \alert{Diviser pour régner:} diviser le problème en sous-problèmes, les résoudre, fusionner les solutions pour obtenir une solution au problème original
-\item \alert{Programmation dynamique:} obtenir la solution optimale à un problème en combinant des solutions optimales à des sous-problèmes similaires plus petits
-\item \alert{Approche gloutonne:} construire la solution incrémentalement, en optimisant de manière aveugle un critère local
+\semitransp{
+\item {Programmation dynamique:} obtenir la solution optimale à un problème en combinant des solutions optimales à des sous-problèmes similaires plus petits et se chevauchant
+\item {Approche gloutonne:} construire la solution incrémentalement, en optimisant de manière aveugle un critère local}
 \end{itemize}
 
 \end{frame}
@@ -145,21 +167,21 @@ Principe général:
 \begin{itemize}
 \item \alert{Merge sort:}
 \begin{enumerate}
-\item Diviser: couper le tableau en deux sous-tableaux de même taille
+\item Diviser: Couper le tableau en deux sous-tableaux de même taille
 \item Régner: Trier récursivement les deux sous-tableaux
 \item Fusionner: fusionner les deux sous-tableaux
 \end{enumerate}
 Complexité: $\Theta(n\log n)$ (force brute: $\Theta(n^2)$)
 \item \alert{Quicksort:}
 \begin{enumerate}
-\item Diviser: partionner le tableau selon le pivot
+\item Diviser: Partionner le tableau selon le pivot
 \item Régner: Trier récursivement les deux sous-tableaux
 \item Fusionner: /
 \end{enumerate}
 Complexité: $\Theta(n\log n)$ (force brute: $\Theta(n^2)$)
 \item \alert{Recherche binaire} (dichotomique):
 \begin{enumerate}
-\item Diviser: contrôler l'élement central du tableau
+\item Diviser: Contrôler l'élement central du tableau
 \item Régner: Chercher récursivement dans un des sous-tableaux
 \item Fusionner: trivial
 \end{enumerate}
@@ -269,7 +291,7 @@ T(n) = \left\{
 \end{array}
 \right.
 \]}
-\item qui se résoud en:
+qui se résoud en:
 {\footnotesize
 \begin{eqnarray*}
 T(n) & = & 2 T(n/2)+2\\
@@ -298,6 +320,7 @@ T(n) & = & 2 T(n/2)+2\\
   que $A[0]=A[\attrib{A}{length}+1]=-\infty$.
 \item Définition: $A[i]$ est un \alert{pic} s'il n'est pas plus petit que ses voisins:
 $$A[i-1]\leq A[i]\geq A[i+1]$$
+($A[i]$ est un maximum local)
 \item \alert{But:} trouver un pic dans le tableau (n'importe lequel)
 \item Note: il en existe toujours un
 \end{itemize}
@@ -402,12 +425,6 @@ Il faut sonder au milieu pour accélerer les calculs}
 
 \centerline{Appel initial: $\proc{Peak1d}(A,1,A.length)$}
 
-\bigskip
-
-\begin{itemize}
-\item Complexité: $\Theta(n)$ dans tous les cas
-\end{itemize}
-
 \end{frame}
 
 \begin{frame}{Analyse}
@@ -422,7 +439,7 @@ Il faut sonder au milieu pour accélerer les calculs}
 \item On doit avoir $A[q+3]>A[q+2]$ (sinon $A[q+1]$ serait un pic)
 \item \ldots
 \item On doit avoir $A[r]>A[r-1]$ (sinon $A[r-1]$ serait un pic)
-\item Comme $A[r]>A[r+1]=\infty$, $A[r]$ est un pic, ce qui contredit l'hypothèse
+\item Comme $A[r]>A[r+1]=-\infty$, $A[r]$ est un pic, ce qui contredit l'hypothèse
 \end{itemize}
 \end{itemize}
 
@@ -430,7 +447,7 @@ Il faut sonder au milieu pour accélerer les calculs}
 
 \item Complexité:
 \begin{itemize}
-\item Dans le pire cas, on a $T(n)=T(n/2)+c_1$ et $T(1)=c_2$
+\item Dans le pire cas, on a $T(n)=T(n/2)+c_1$ et $T(1)=c_2$ (idem recherche binaire)
 \item $\Rightarrow T(n)=O(\log n)$
 \end{itemize}
 \end{itemize}
@@ -528,10 +545,10 @@ Il faut sonder au milieu pour accélerer les calculs}
 
 \begin{itemize}
 \item Soit le prix d'une action au cours de $n$ jours consécutifs (prix à la fermeture)
-\item On aimerait déterminer retrospectivement:
+\item On aimerait déterminer rétrospectivement:
 \begin{itemize}
-\item à quel moment, on aurait du acheter et
-\item à quel moment, on aurait du vendre
+\item à quel moment, on aurait dû acheter et
+\item à quel moment, on aurait dû vendre
 \end{itemize}
 de manière à maximiser notre gain
 \end{itemize}
@@ -568,14 +585,14 @@ Troisième stratégie:
 
 \begin{frame}{Achat/vente d'actions: transformation}
 
-\centerline{\includegraphics[width=8cm]{Figures/06-stockprice-3.pdf}}
+\centerline{\includegraphics[width=10cm]{Figures/06-stockprice-3.pdf}}
 
 \bigskip
 
 \begin{itemize}
 \item Transformation du problème:
 \begin{itemize}
-\item Calculer le tableau $A[i]=\mbox{(prix du jour i)-(prix du jour i)}$ (de taille $A.length=n$ en supposant qu'on démarre avec un prix au jour 0)
+\item Calculer le tableau $A[i]=\mbox{(prix du jour i)-(prix du jour i-1)}$ (de taille $A.length=n$ en supposant qu'on démarre avec un prix au jour 0)
 \item Déterminer la sous-séquence  non vide contiguë de somme maximale dans $A$
 \item Soit $A[i\twodots j]$ cette sous-séquence. Il aurait fallu acheter juste avant le jour $i$ (juste après le jour $i-1$) et vendu juste après le jour $j$.
 \end{itemize}
@@ -643,12 +660,12 @@ Peut-on faire mieux ?
 \item Diviser:
 \begin{itemize}
 \item diviser le sous-tableau en deux sous-tableau de tailles aussi proches que possible
-\item Choisir $mid=\lfloor (low+high)/2 \rfloor$
+\item choisir $mid=\lfloor (low+high)/2 \rfloor$
 \end{itemize}
 \item Régner:
 \begin{itemize}
 \item trouver récursivement les sous-tableaux maximaux dans ces deux sous-tableaux
-\item Appeler $\proc{maximum-subarray}(A,low,mid)$ et $\proc{maximum-subarray}(A,mid+1,high)$
+\item appeler $\proc{maximum-subarray}(A,low,mid)$ et $\proc{maximum-subarray}(A,mid+1,high)$
 \end{itemize}
 \item Fusionner: ?
 \end{itemize}
@@ -665,7 +682,7 @@ Peut-on faire mieux ?
 \item Fusionner:
 \begin{itemize}
 \item Rechercher un sous-tableau maximum qui traverse la jonction
-\item Choisir la meilleur solution parmi les 3
+\item Choisir la meilleure solution parmi les 3
 \end{itemize}
 \item $\proc{max-crossing-subarray}(A,low,mid,high)$
 \begin{itemize}
@@ -776,8 +793,8 @@ Quelques approches génériques pour aborder la résolution d'un problème:
 \begin{itemize}
 \item \alert{Approche par force brute:} résoudre directement le problème, à partir de sa définition ou par une recherche exhaustive
 \item \alert{Diviser pour régner:} diviser le problème en sous-problèmes, les résoudre, fusionner les solutions pour obtenir une solution au problème original
-\item \alert{Programmation dynamique:} obtenir la solution optimale à un problème en combinant des solutions optimales à des sous-problèmes similaires plus petits
-\item \alert{Approche gloutonne:} construire la solution incrémentalement, en optimisant de manière aveugle un critère local
+\item \alert{Programmation dynamique:} obtenir la solution optimale à un problème en combinant des solutions optimales à des sous-problèmes similaires plus petits et se chevauchant
+\semitransp{\item {Approche gloutonne:} construire la solution incrémentalement, en optimisant de manière aveugle un critère local}
 \end{itemize}
 
 \end{frame}
@@ -806,7 +823,7 @@ Quelques approches génériques pour aborder la résolution d'un problème:
 \item Problème algorithmique:
 \begin{itemize}
 \item Entrée: une longueur $n>0$ et une table de prix $p_i$, pour $i=1,2,\ldots,n$
-\item Sortie: Le revenu maximum qu'on peut obtenir pour des tiges de longueur $n$
+\item Sortie: le revenu maximum qu'on peut obtenir pour des tiges de longueur $n$
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -826,7 +843,7 @@ Prix $p_i$ & 1 & 5 & 8 & 9 & 10 & 17 & 17 & 20 & 24 & 30\\
 
 \bigskip
 
-\item Découpe possible d'une tige de longueur $n=4$
+\item Découpes possibles d'une tige de longueur $n=4$
 
 \bigskip
 
@@ -893,10 +910,6 @@ Le max de 1+3, 1+2+1, 1+1+2, 1+1+1+1 est égal au prix de 1 plus $r_3$}
 \item $r_{n-1}+r_1$.
 \end{itemize}
 \item C'est-à-dire $$r_n=\max(p_n,r_1+r_{n-1},r_2+r_{n-2},\ldots,r_{n-1}+r_1)$$
-
-\bigskip
-
-\item Le problème satisfait la \alert{propriété de sous-structure optimale:} 
 \end{itemize}
 \end{frame}
 
@@ -945,7 +958,7 @@ $$r_n=\max_{1\leq i \leq n} (p_i+r_{n-1})$$
 \begin{frame}{Implémentation récursive directe: analyse}
 
 \begin{itemize}
-\item L'algorithme est extrêmement inefficace à cause des appels récursifs redondant
+\item L'algorithme est extrêmement inefficace à cause des appels récursifs redondants
 \item Exemple: arbre des appels récursifs pour le calcul de $r_4$
 
 \centerline{\includegraphics[width=5cm]{Figures/06-rodcutting-recursiontree.pdf}}
@@ -1001,7 +1014,7 @@ $$r_n=\max_{1\leq i \leq n} (p_i+r_{n-1})$$
         \li \If $r[n]\geq 0$
         \li \Then \Return $r[n]$\End
         \li \If $n\isequal 0$
-        \li \Then \Return $q=0$
+        \li \Then $q=0$
         \li \Else $q=-\infty$
         \li \For $i\gets 1$ \To $n$
         \li \Do $q=\max(q,p[i]+\proc{memoized-cut-rod-aux}(p,n-i,r))$\End\End
@@ -1128,7 +1141,7 @@ $s[i]$ & 0 & 1 & 2 & 3 & 2 & 2 & 6 & 1 & 2\\
 \end{tabular}
 \end{center}
 \bigskip
-$$\proc{print-cut-rod-solution}(p,8) \Rightarrow ``2 6''$$
+$$\proc{print-cut-rod-solution}(p,8) \Rightarrow \mbox{"2 6"}$$
 
 \end{itemize}
 \end{frame}
@@ -1187,7 +1200,7 @@ $$\proc{print-cut-rod-solution}(p,8) \Rightarrow ``2 6''$$
 
 \end{frame}
 
-\begin{frame}{Fibonacci en $\Theta(\log n)$}
+\begin{frame}{Interlude: Fibonacci en $\Theta(\log n)$}
 \begin{itemize}
 \item Peut-on faire mieux que $\Theta(n)$ pour Fibonacci ? Oui !
 \item Propriété: {\small $$\begin{pmatrix} F_{n+1} &F_n\\F_n&F_{n-1}\\\end{pmatrix}=\begin{pmatrix} 1&1\\1&0\\\end{pmatrix}^n$$}
@@ -1206,7 +1219,7 @@ $$\proc{print-cut-rod-solution}(p,8) \Rightarrow ``2 6''$$
 
 \end{frame}
 
-\begin{frame}{Fibonacci en $\Theta(\log n)$}
+\begin{frame}{Interlude: Fibonacci en $\Theta(\log n)$}
 \begin{itemize}
 \item Approche par force brute pour le calcul de $\begin{pmatrix} 1&1\\1&0\\\end{pmatrix}^n$: $\Theta(n)$
 \item Idée: utiliser le diviser-pour-régner pour le calcul de $a^n$
