@@ -126,7 +126,7 @@ const void* findElement(const BinarySearchTree* tree, int key);
  * >= 0         The rank of the key
  * < 0          If the key does not exist
  ***********************************************************************/
-int getRankOf(const BinarySearchTree* tree, size_t key);
+int getRankOf(const BinarySearchTree* tree, int key);
 
 /***********************************************************************
  * Search for all objects whose keys are within the range [keyMin; keyMax].
@@ -148,7 +148,7 @@ int getRankOf(const BinarySearchTree* tree, size_t key);
  * RETURN
  * size         Number of elements in range [keyMin; keyMax]
  ***********************************************************************/
-size_t getElementsInRange(const BinarySearchTree* tree, size_t keyMin, size_t keyMax, const void*** results);
+size_t getElementsInRange(const BinarySearchTree* tree, int keyMin, int keyMax, const void*** results);
 
 #endif // _BINARY_SEARCH_TREE_H_
 
