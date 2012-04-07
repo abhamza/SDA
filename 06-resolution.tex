@@ -47,7 +47,7 @@ Quelques approches génériques pour aborder la résolution d'un problème:
 Approches par force brute pour le tri:
 \begin{itemize}
 \item Un tableau est trié (en ordre croissant) si tout élément est plus petit que l'élément à sa droite
-\item $\Rightarrow$ tri à bulle: parcourir le tableau de gauche à droite en inversant toutes les paires d'éléments ne respectant pas cette définition
+\item $\Rightarrow$ tri à bulle: parcourir le tableau de gauche à droite en échangeant toutes les paires d'éléments consécutifs ne respectant pas cette définition
 \item Complexité: $O(n^2)$
 \item $\Rightarrow$ tri par sélection: trouver le minimum du tableau, l'échanger avec le premier élément, répéter pour trier le reste du tableau
 \item Complexité: $\Theta(n^2)$
@@ -237,8 +237,8 @@ Complexité: $O(\log n)$ (force brute: $O(n)$)
 \item Complexité: $\Theta(n)$ ($n-1$ comparaisons)
 \item Peut-on faire mieux ?
 \begin{itemize}
-\item Non, pas en notation asymptotique (le problème est $\Theta(n)$)
-\item Par contre, on peut diminuer le nombre total de comparaisons pour calculer à la fois le minimum et le maximum
+\item<2> Non, pas en notation asymptotique (le problème est $\Theta(n)$)
+\item<2> Par contre, on peut diminuer le nombre total de comparaisons pour calculer à la fois le minimum et le maximum
 \end{itemize}
 \end{itemize}
 
@@ -560,15 +560,17 @@ de manière à maximiser notre gain
 Première stratégie:
 \begin{itemize}
 \item Acheter au prix minimum, vendre au prix maximum
+\pause
 \item Pas correct: Le prix maximum ne suit pas nécessairement le prix minimum
 \end{itemize}
 
 \bigskip
-
+\pause
 Deuxième stratégie:
 \begin{itemize}
 \item Soit acheter au prix minimum et vendre au prix le plus élevé qui suit
 \item Soit vendre au prix maximum et acheter au prix le plus bas qui précède
+\pause
 \item Pas correct:
 \end{itemize}
 \vspace{-0.5cm}
@@ -576,6 +578,7 @@ Deuxième stratégie:
 
 \bigskip
 \vspace{-0.5cm}
+\pause
 Troisième stratégie:
 \begin{itemize}
 \item Tester toutes les paires (force brute)
@@ -585,7 +588,7 @@ Troisième stratégie:
 
 \begin{frame}{Achat/vente d'actions: transformation}
 
-\centerline{\includegraphics[width=10cm]{Figures/06-stockprice-3.pdf}}
+\centerline{\includegraphics[width=11cm]{Figures/06-stockprice-3.pdf}}
 
 \bigskip
 
@@ -826,6 +829,7 @@ Quelques approches génériques pour aborder la résolution d'un problème:
 \item Sortie: le revenu maximum qu'on peut obtenir pour des tiges de longueur $n$
 \end{itemize}
 \end{itemize}
+\note{Pourquoi est-ce que je mets non linéairement ? Parce que la dépendance est linéaire, peu importe la manière dont on coupe la tige}
 \end{frame}
 
 \begin{frame}{Illustration}
@@ -875,6 +879,7 @@ Prix $p_i$ & 1 & 5 & 8 & 9 & 10 & 17 & 17 & 20 & 24 & 30\\
 \begin{frame}{Idée}
 \begin{itemize}
 \item Soit $r_i$ le revenu maximum pour une tige de longueur $i$
+\item Peut-on formuler $r_n$ de manière récursive ?
 \item Déterminons $r_i$ pour notre exemple:
 \begin{center}
 \footnotesize
@@ -942,7 +947,7 @@ $$r_n=\max_{1\leq i \leq n} (p_i+r_{n-1})$$
         \li \If $n\isequal 0$
         \li \Then \Return 0
         \li $q=-\infty$
-        \li \For $i\gets 1$\To $n$
+        \li \For $i\gets 1$ \To $n$
         \li \Do $q\gets \max(q,p[i]+\proc{Cut-Rod}(p,n-i))$\End
         \li \Return $q$
       \end{codebox}}
@@ -983,7 +988,7 @@ $$r_n=\max_{1\leq i \leq n} (p_i+r_{n-1})$$
 \item Comment ? En sauvegardant les solutions dans une table et en se
   référant à la table à chaque demande de résolution d'un
   sous-problème déjà rencontré
-\item On échange des temps de calcul contre de la mémoire
+\item On échange du temps de calcul contre de la mémoire
 \item Permet de transformer une solution en temps exponentiel en une solution en temps polynomial
 \item Deux implémentations possibles:
 \begin{itemize}
@@ -1075,7 +1080,10 @@ Principe: résoudre les sous-problèmes par taille en commençant d'abord par le
 (une flèche de $x$ à $y$ indique que la résolution de $x$ dépend de la résolution de $y$)
 \end{itemize}
 
-\note{On voit bien que c'est $n^2$ sur ce graphe}
+\note{On voit bien que c'est $n^2$ sur ce graphe\\
+
+On ne doit plus suivre les flèches. Chaque flèche correspond à un lookup dans une table
+}
 
 \end{frame}
 
@@ -1107,6 +1115,8 @@ Principe: résoudre les sous-problèmes par taille en commençant d'abord par le
 \begin{itemize}
 \item $s[j]$ contient la coupure la plus à gauche d'une solution optimale au problème de taille $i$
 \end{itemize}
+
+\note{Si on met à jour le max dans q, c'est que c'est mieux de couper d'abord en i et puis couper le reste de manière optimale}
 \end{frame}
 
 \begin{frame}{Reconstruction de la solution}
@@ -1286,6 +1296,9 @@ a^{(n-1)/2}\cdot a^{(n-1)/2} \cdot a & \mbox{si }n\mbox{ est impair}
 \end{frame}
 
 %%%%% fin premier cours sur méthodes de résolution
+
+\begin{frame}
+\end{frame}
 
 \begin{frame}{Etapes clés de la programmation dynamique}
 
