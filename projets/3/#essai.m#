@@ -1,5 +1,0 @@
-
-f=[1,1,1,1,1,1,1];
-
-[cmap,errmin,posmin,valmin]=reducecolors(f,1);
-
