@@ -1,0 +1,200 @@
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{../../clrscode3epg}
+%\usepackage{fullpage}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+% Style
+\parskip=\smallskipamount
+
+% En-têtes
+\title{
+    \textbf{Structures de données et algorithmes}\\
+    Projet 3: Résolutions de problème et graphes
+}
+
+\author{Julien \textsc{Becker} - Gilles \textsc{Louppe}}
+\date{16 mars 2012}
+
+% Corps
+\begin{document}
+\maketitle
+
+\section*{\'Enoncé}
+
+Ce projet vise à illustrer les techniques de résolution de problème et
+les algorithmes de manipulation de graphes sur deux problèmes
+d'analyse d'images. Nous vous demandons de remettre le code source
+correspondant à votre implémentation ainsi qu'un bref rapport
+répondant aux questions ci-dessous.
+
+Le projet est à réaliser {\bf individuellement} pour le {\bf 18 avril
+  2012} à {\bf 05h00} (du matin) au plus tard. Le projet est à
+remettre via une interface web disponible sur
+\href{http://www.montefiore.ulg.ac.be/~glouppe/2011-2012/students.info0902.php}{la
+  page des TPs}.
+
+Un projet non rendu à temps recevra automatiquement une cote nulle. En
+cas de plagiat avéré, l'étudiant se verra affecter une cote nulle à
+l'ensemble du projet. Les mêmes critères de correction que ceux
+utilisés dans le cadre du cours
+\href{http://www.montefiore.ulg.ac.be/~info0030/}{INFO0030 - Projet de
+  programmation} seront utilisés pour évaluer l'implémentation des
+algorithmes.
+
+\subsection*{Fichier fourni}
+
+Pour tester vos fonctions, nous vous fournissons:
+\begin{itemize}
+\item Une fonction ... qui charge une image au format ... et la stocke dans un tableau I.
+\item Une fonction ... qui prend en argument un tableau, les dimensions de l'image, le nom de fichier et qui crée un fichier au nom fourni par l'utilisateur contenant l'image au format PGM
+\item Une fonction permet d'afficher une image ...
+\end{itemize}
+
+\subsection*{Fichiers à rendre}
+
+Deux fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'archive n'a pas d'importance.
+\begin{description}
+\item[\texttt{ImageQuantizer.c}] implémente une fonction permettant de réduire le nombre de couleurs d'une image en 256 niveaux de gris à un nombre fourni par l'utilisateur
+\item[\texttt{CountObjectsInImage.c}] implémente une fonction comptant les objets dans une image.
+\item[\texttt{Rapport.pdf}] contient vos réponses aux questions
+\end{description}
+
+{\em Note}: Les noms de fichiers font partie de l'énoncé. Tout fichier ne
+correspondant pas à ceux demandés dans l'énoncé ne sera pas pris en compte.
+
+\section{Réduction des couleurs}
+
+On souhaite écrire une fonction permettant de diminuer le nombre de
+couleurs d'une image en $n$ niveaux de gris (par exemple $n=256$) vers
+un nombre de niveaux $k$ inférieur (par exemple $n=8$). L'objectif est
+d'effectuer cette simplification en préservant autant que possible la
+qualité de l'image de départ. Même si le projet n'abordera pas cet
+aspect, le principal intérêt de réduire le nombre de couleurs est de
+permettre une compression de l'image. Cette réduction ainsi que par
+exemple la visualisation simultanée sur un écran de plusieurs images
+dont le nombre de couleurs au départ égal le nombre de couleur de
+l'écran.
+
+\subsection*{Formalisation du problème}
+
+Soit l'image de départ représentée par une matrice $I$ de taille
+$w\times h$ telle que $I[i,j]\in\{1,\ldots,n\}$. Le problème consiste
+à associer à chaque niveau $v\in \{1,\ldots,n\}$ une valeur parmi $k$
+valeurs $v_k$ On définira l'{\it erreur} associée à la réduction comme
+la somme sur tous les pixels de l'images.
+
+$\sum_{i=1}^w\sum_{j=1}^h (I[i,j]-h(I[i,j]))^2$
+
+On peut montrer que la somme peut se réécrire en:
+$\sum$
+où $f_i=\sum_{i=1}^n$ est le nombre de pixels de l'images $I$ tels que $I$.
+
+L'objectif est de déterminer la fonction $h$ 
+
+L'algorithme procédera de la sorte: on va diviser l'intervalle de niveaux de gris en k intervalle et on va associer à chaque intervalle un niveau constant.
+
+L'objectif sera de déterminer le découpage de et pour chacun d'eux un niveau de gris de manière à optimiser l'erreur ...
+
+On écrira deux fonctions principales:
+\begin{itemize}
+\item 
+\item 
+\end{itemize}
+
+veut écrire une fonction qui renvoie:
+
+Trois tableaux:
+
+Exemple:\\
+(donner un exemple de segmentation)
+
+Nous vous fournissons une fonction ...uniforme qui calcule
+l'intervalle de façon naïve en découpant de manière uniforme et en
+associant à chaque sous-intervalle la valeur moyenne ...
+$int( int(niveau/(n/k)) * (n/k))$
+
+\subsection*{Marche à suivre}
+
+Nous vous suggérons d'adopter la démarche suivante:
+\begin{itemize}
+\item Ecrire une fonction permettant de calculer l'histogramme de couleur dans l'image
+\item Ecrivez une fonction permettant de calculer le niveau de gris qui minimise l'erreur entre i et j si un seul
+  niveau est permis.
+\item Soit un histogramme de niveau $p$, utilisez la programmation dynamique pour calculer $Err(p,n,k)$
+\item Modifier l'algorithme résultant pour calculer le partionement de l'intervalle et les valeurs qui minimisent l'erreur
+\item 
+\end{itemize}
+
+\subsection*{Questions}
+
+Dans le rapport:
+\begin{itemize}
+\item Expliquez la solution par programmation dynamique que vous avez obtenu
+\item Complexité de votre approche par programmation dynamique en fonction de $n$ et de $k$ (Réponse: $\Theta(n^3 k)$ ou $\Theta(n^2 k)$ s'ils ont précalculé de manière intelligente les valeurs de $Err_{min}^1$)
+\item Complexité de l'approche force-brute en fonction de $n$ et de $k$ ?
+\item Comparer votre approche à celle implémentée par la fonction de
+  base (uniform). Pourquoi cette approche est-elle préférable à
+  l'approche basique ?
+\item Bonus: si votre implémentation est $O(n^2 k)$.
+\item Bonus: expliquer pourquoi la formulation ... est en fait équivalente à la formulation...
+\end{itemize}
+
+\section{Comptage d'objets au sein d'une image}
+
+A partir d'une image contenant un certain nombre d'objets brillants sur un fond sombrte, l'objectif est de compter le nombre d'objets dans une image. Cette fonction peut par exemple être utilisée pour compter le nombre d'étoiles dans des images astronomiques.
+
+Un objet 
+
+Utiliser pour compter des objets, par exemple des ... ou des images
+
+\subsection*{Formalization}
+
+Soit une image $I$ de taille $w\times h$ en 256 niveaux de gris. On
+définira les pixels brillants comme ceux dont l'intensité est
+supérieure à un seuil donné $i_{th}$. Chacun des pixels brillants peut
+être considéré comme un sommet d'un graphe non dirigé. Les sommets correspondant à deux pixels
+sont connectés par un arc dans le graphe si les deux pixels sont voisins dans
+l'image. On considèrera qu'un pixel de coordonnée $(x,y)$ est voisin des 8 pixels de coordonnées $(x+1,y), (x,y+1)...$ (bien sûr pour autant qu'ils existent dans les limites de l'image).
+
+Le problème du comptage d'objets revient alors à calculer le nombre de
+composantes connexes dans le graphe.
+
+Par exemple si l'image est donnée par: ...(prendre l'exemple du web).
+
+On vous demande d'écrire une fonction prenant en argument un fichier d'image et renvoyant le nombre d'objets présents dans l'image.
+
+\subsection*{Marche à suivre}
+
+Nous vous suggérons d'adopter la démarche suivante:
+\begin{itemize}
+\item Déterminer le seuil automatiquement en utilisant la fonction ... développée précédemment
+\item A partir du graphe (la réprésentation du graphe est libre)
+\item Comptez le nombre de composantes revient à calculer le nombre de composantes connexes de ce graphe
+\item Ecrivez une fonction auxiliaire prenant en argument un graphe et calculant le nombre de composantes connexe. Deux possibilités
+\begin{itemize}
+\item Parcourir les n\oe uds: a chaque n\oe ud, faire un parcours du graphe (en largeur ou en profondeur) 
+\item Associer une liste liée:
+\end{itemize}
+\end{itemize}
+
+\subsection*{Questions}
+
+\begin{itemize}
+\item Décrivez et justifiez la solution que vous aurez adoptée
+\item Caractérisez sa complexité de la manière la plus possible précise possible
+\item Utilisez votre algorithme pour calculer le nombre d'étoiles dans
+  l'image star.png fournie.
+\item Bonus: A votre avis, peut-on faire mieux ?
+\end{itemize}
+
+
+\end{document}
