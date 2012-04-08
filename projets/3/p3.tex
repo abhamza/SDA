@@ -18,11 +18,12 @@
 % En-têtes
 \title{
     \textbf{Structures de données et algorithmes}\\
-    Projet 3: Résolutions de problème et graphes
+    Projet 3: Analyse d'images
 }
 
-\author{Julien \textsc{Becker} - Gilles \textsc{Louppe}}
-\date{16 mars 2012}
+\author{Julien \textsc{Becker} - Gilles \textsc{Louppe} - Pierre \textsc{Geurts}}
+
+\date{8 avril 2012}
 
 % Corps
 \begin{document}
@@ -75,125 +76,191 @@ correspondant pas à ceux demandés dans l'énoncé ne sera pas pris en compte.
 
 On souhaite écrire une fonction permettant de diminuer le nombre de
 couleurs d'une image en $n$ niveaux de gris (par exemple $n=256$) vers
-un nombre de niveaux $k$ inférieur (par exemple $n=8$). L'objectif est
-d'effectuer cette simplification en préservant autant que possible la
-qualité de l'image de départ. Même si le projet n'abordera pas cet
-aspect, le principal intérêt de réduire le nombre de couleurs est de
-permettre une compression de l'image. Cette réduction ainsi que par
-exemple la visualisation simultanée sur un écran de plusieurs images
-dont le nombre de couleurs au départ égal le nombre de couleur de
-l'écran.
+un nombre de niveaux $k$ inférieur (par exemple $k=8$). Cette
+réduction entraînant immanquablement une perte de détails dans
+l'image, l'objectif est de l'effectuer en préservant autant que
+possible la qualité de l'image de départ. Un tel algorithme a beaucoup
+d'applications telles que par exemple la compression d'image,
+l'affichage d'une image sur un écran au nombre de couleurs limité ou
+encore comme prétraitement pour permettre d'autres opérations
+(identification de zones, etc.).
 
 \subsection*{Formalisation du problème}
 
 Soit l'image de départ représentée par une matrice $I$ de taille
-$w\times h$ telle que $I[i,j]\in\{1,\ldots,n\}$. Le problème consiste
-à associer à chaque niveau $v\in \{1,\ldots,n\}$ une valeur parmi $k$
-valeurs $v_k$ On définira l'{\it erreur} associée à la réduction comme
-la somme sur tous les pixels de l'images.
+$w\times h$ tel que $I[i,j]\in\{0,\ldots,n-1\}$ est le niveau du pixel
+$(i,j)$. Le problème consiste à associer à chaque niveau $v\in
+\{0,\ldots,n-1\}$ une nouvelle valeur parmi $k$ valeurs $\{v_1,
+v_2,\ldots, v_k\} \subseteq \{0,\ldots, n-1\}$ telle que définie par une
+fonction $g(v)$. On définira l'{\it erreur} associée à la réduction
+comme la somme sur tous les pixels de l'image du carré de la
+différence entre la valeur originale et la valeur compressée:
+$$\sum_{i=1}^w\sum_{j=1}^h (I[i,j]-g(I[i,j]))^2,$$ où $g(.)$ est la
+fonction qui associe à chaque niveau sa valeur ``compressée''.
 
-$\sum_{i=1}^w\sum_{j=1}^h (I[i,j]-h(I[i,j]))^2$
+Cette somme peut se réécrire en une somme sur tous les niveaux:
+\begin{equation}\label{eqn:erreur}
+\sum_{i=0}^{n-1} h[i] (i-g(i))^2,
+\end{equation}
+où $h[i]$, pour $i=0,\ldots,n-1$, est le nombre de pixels de l'image
+de valeur $i$ (c'est-à-dire l'histogramme de l'image). L'objectif est
+de déterminer la fonction $g$ et les valeurs $v_k$ qui minimise cette
+erreur.
 
-On peut montrer que la somme peut se réécrire en:
-$\sum$
-où $f_i=\sum_{i=1}^n$ est le nombre de pixels de l'images $I$ tels que $I$.
+On peut montrer que le problème est équivalent à déterminer une
+partition de $\{0,\ldots,n-1\}$ en $k$ sous-intervalles de valeurs
+consécutives représentées chacunes par une même valeur, c'est-à-dire
+considérer les fonctions $g$ de la forme:
+\[
+g(i)=\left\{
+\begin{array}{ll}
+v_1\mbox{ si }0\leq i<p_1\\
+v_2\mbox{ si }p_1\leq i < p_2\\
+\ldots\\
+v_k\mbox{ si }p_{k-1}\leq i< n\\
+\end{array}
+\right.,
+\]
+où $0\leq p_1<p_2<\ldots<p_{k-1}<n$ et $v_1\leq v_2\leq\ldots \leq v_k$. Trouver la meilleure réduction revient
+donc à déterminer les $k-1$ seuils $p_j$, $j=1,\ldots, k-1$ et les $k$
+valeurs $v_j$, $j=1,\ldots,k$ de manière à minimiser l'erreur
+(\ref{eqn:erreur}).
 
-L'objectif est de déterminer la fonction $h$ 
 
-L'algorithme procédera de la sorte: on va diviser l'intervalle de niveaux de gris en k intervalle et on va associer à chaque intervalle un niveau constant.
+\paragraph{Exemple:} Soit l'image $5\times 5$
+$$I=\left(\begin{matrix}
+     3 & 6 & 0 & 4 & 0\\
+     7 & 4 & 3 & 3 & 4\\
+     4 & 1 & 1 & 0 & 0\\
+     4 & 1 & 7 & 5 & 6\\
+     6 & 7 & 5 & 0 & 6\\
+\end{matrix}\right)
+$$
+en 8 valeurs de gris. Le vecteur du nombre de pixels par niveau est donné par:
+$$h=[5,3,0,3,5,2,4,3].$$ Une représentation optimale en 3 niveaux est donnée par:
+\[g(i)=\left\{
+\begin{array}{ll}
+1\mbox{ si }0\leq i<2\\
+5\mbox{ si }2\leq i < 5\\
+7\mbox{ si }5\leq i\leq 8\\
+\end{array}
+\right.,
+\]
+et son erreur est 11.
 
-L'objectif sera de déterminer le découpage de et pour chacun d'eux un niveau de gris de manière à optimiser l'erreur ...
+On vous demande d'implémenter les deux fonctions suivantes:
+\begin{description}
+%\item[] prenant comme argument une image et calculant le vecteur $f$ de fréquences des valeurs
+\item[\texttt{computeOptimalReduction}] qui calcule les valeurs optimales de $p_1,\ldots,p_{k-1}$ et $v_1,\ldots,v_k$ à partir d'un vecteur de comptage $f$ et une valeur de $k$.
+\item[\texttt{quantizeGreyImage}] qui réduit le nombre de niveaux de gris d'une image à un nombre $k$ de manière à minimiser l'erreur \ref{eqn:erreur}.
+\end{description}
 
-On écrira deux fonctions principales:
-\begin{itemize}
-\item 
-\item 
-\end{itemize}
+Une méthode de réduction du nombre de couleurs naïve qui ne tient pas
+compte de l'erreur consiste à diviser l'intervalle $[0,n-1]$ en $k$
+sous-intervalles de même taille et à associer à chaque sous-intervalle
+la valeur centrale de l'intervalle. Cette variante est implémentée par
+la fonction \texttt{quantizeGreyImageNaive} et vous est fournie pour
+comparaison.
 
-veut écrire une fonction qui renvoie:
+%% Nous vous fournissons une fonction ... uniforme qui calcule
+%% l'intervalle de façon naïve en découpant de manière uniforme et en
+%% associant à chaque sous-intervalle la valeur moyenne ...
+%% $int( int(niveau/(n/k)) * (n/k))$
 
-Trois tableaux:
-
-Exemple:\\
-(donner un exemple de segmentation)
-
-Nous vous fournissons une fonction ...uniforme qui calcule
-l'intervalle de façon naïve en découpant de manière uniforme et en
-associant à chaque sous-intervalle la valeur moyenne ...
-$int( int(niveau/(n/k)) * (n/k))$
-
-\subsection*{Marche à suivre}
+\subsection*{Suggestions}
 
 Nous vous suggérons d'adopter la démarche suivante:
 \begin{itemize}
-\item Ecrire une fonction permettant de calculer l'histogramme de couleur dans l'image
-\item Ecrivez une fonction permettant de calculer le niveau de gris qui minimise l'erreur entre i et j si un seul
-  niveau est permis.
-\item Soit un histogramme de niveau $p$, utilisez la programmation dynamique pour calculer $Err(p,n,k)$
-\item Modifier l'algorithme résultant pour calculer le partionement de l'intervalle et les valeurs qui minimisent l'erreur
-\item 
+\item Ecrivez une fonction permettant de calculer l'histogramme $h$ à
+  partir d'une image
+\item Pour un histogramme donné, déterminez (sur papier) le niveau de gris qui minimise l'erreur lorsqu'on réduit tous les niveaux entre $i$ et $j$ à ce même niveau et implémentez une fonction calculant cette valeur
+\item Pour écrire la fonction \texttt{computeOptimalReduction}:
+\begin{itemize}
+\item Déterminez une formule de récurrence pour calculer l'erreur minimale résultant de la compression de $f$ en fonction de $n$ et de $k$;
+\item Implémentez cette récurrence de manière efficace en utilisant le principe de programmation dynamique;
+\item Modifiez votre implémentation pour calculer les valeurs des $p_i$ et $v_i$;
+\item Améliorer éventuellement votre implémentation pour réduire les
+  besoins en mémoire et accélérer les temps de calcul.
+\end{itemize}
 \end{itemize}
 
 \subsection*{Questions}
 
-Dans le rapport:
+Dans votre rapport:
 \begin{itemize}
-\item Expliquez la solution par programmation dynamique que vous avez obtenu
-\item Complexité de votre approche par programmation dynamique en fonction de $n$ et de $k$ (Réponse: $\Theta(n^3 k)$ ou $\Theta(n^2 k)$ s'ils ont précalculé de manière intelligente les valeurs de $Err_{min}^1$)
-\item Complexité de l'approche force-brute en fonction de $n$ et de $k$ ?
-\item Comparer votre approche à celle implémentée par la fonction de
-  base (uniform). Pourquoi cette approche est-elle préférable à
-  l'approche basique ?
-\item Bonus: si votre implémentation est $O(n^2 k)$.
-\item Bonus: expliquer pourquoi la formulation ... est en fait équivalente à la formulation...
+%\item Pourquoi est-ce que la méthode naïve n'est pas bonne ?
+\item Expliquez la solution par programmation dynamique que vous avez implémentée
+\item Comparer votre approche avec l'approche naïve sur l'image ...png fournie. Pourquoi est-ce que l'approche naïve ne fonctionne pas sur cette image ? Quand les deux approches sont-elles identiques ?
+\item Analyser la complexité de la fonction \texttt{computeOptimalReduction} en fonction de $n$ et de $k$
+%(Réponse: $\Theta(n^3 k)$ ou $\Theta(n^2 k)$ s'ils ont précalculé de manière intelligente les valeurs de $Err_{min}^1$)
+%\item Complexité de l'approche force-brute en fonction de $n$ et de $k$ ?
+%\item Comparer votre approche à celle implémentée par la fonction de compression naïve sur l'image ... fournie. Laquelle des deux approches est préférable ? Pourquoi ?
+%  base (uniforme). Pourquoi cette approche est-elle préférable à
+%  l'approche basique ?
+%\item Bonus: si votre implémentation est $O(n^2 k)$.
+%\item Bonus: expliquer pourquoi la formulation ... est en fait équivalente à la formulation
 \end{itemize}
 
 \section{Comptage d'objets au sein d'une image}
 
-A partir d'une image contenant un certain nombre d'objets brillants sur un fond sombrte, l'objectif est de compter le nombre d'objets dans une image. Cette fonction peut par exemple être utilisée pour compter le nombre d'étoiles dans des images astronomiques.
+A partir d'une image contenant un certain nombre d'objets (représentés par des agglomérats de pixels claires sur un fond sombre), l'objectif est de compter le nombre d'objets
+distincts dans l'image. Cette fonction peut par exemple être utilisée
+pour compter le nombre d'étoiles dans des images astronomiques.
 
-Un objet 
+\subsection*{Formalisation du problème}
 
-Utiliser pour compter des objets, par exemple des ... ou des images
-
-\subsection*{Formalization}
-
-Soit une image $I$ de taille $w\times h$ en 256 niveaux de gris. On
-définira les pixels brillants comme ceux dont l'intensité est
-supérieure à un seuil donné $i_{th}$. Chacun des pixels brillants peut
-être considéré comme un sommet d'un graphe non dirigé. Les sommets correspondant à deux pixels
-sont connectés par un arc dans le graphe si les deux pixels sont voisins dans
-l'image. On considèrera qu'un pixel de coordonnée $(x,y)$ est voisin des 8 pixels de coordonnées $(x+1,y), (x,y+1)...$ (bien sûr pour autant qu'ils existent dans les limites de l'image).
+On travaillera ici sur des images de tailles quelconques $w\times h$
+en 256 niveaux de gris et on représentera une image par une matrice
+comme dans la première partie du projet. On définira les pixels
+claires constitutifs des objets comme ceux dont l'intensité est
+supérieure à un seuil $i_{th}$ (fourni par l'utilisateur ou calculé
+automatiquement en appelant l'algorithme de réduction de couleur avec
+$k=2$). Chacun des pixels clairs peut être considéré comme un sommet
+d'un graphe non dirigé. Les sommets correspondant à deux pixels sont
+connectés par un arc dans le graphe si les deux pixels sont voisins
+dans l'image. On considèrera qu'un pixel de coordonnées $(x,y)$ est
+voisin des 8 pixels de coordonnées $(x-1,y-1), (x,y-1), (x+1,y-1),
+(x+1,y), (x+1, y+1), (x,y+1), (x-1,y+1), (x-1,y)$ (pour autant que
+ceux-ci existent dans les limites de l'image).
 
 Le problème du comptage d'objets revient alors à calculer le nombre de
 composantes connexes dans le graphe.
 
-Par exemple si l'image est donnée par: ...(prendre l'exemple du web).
+\paragraph{Exemple:} Soit l'image $4\times 4$
+$$I=\left(\begin{matrix}
+170&220&110&250\\
+100&10&230&215\\
+210&90&60&150\\
+230&80&120&40
+\end{matrix}\right).
+$$
+En prenant un seuil $i_{th}=200$, le graphe des pixels clairs est donné par:
+\begin{center}
+\includegraphics[width=4cm]{pict3.pdf}
+\end{center}
 
-On vous demande d'écrire une fonction prenant en argument un fichier d'image et renvoyant le nombre d'objets présents dans l'image.
+On vous demande d'écrire une fonction \texttt{countObjectInImage}
+prenant en argument une image et un seuil $i_{th}$ et renvoyant le nombre d'objets
+présents dans l'image.
 
-\subsection*{Marche à suivre}
+\subsection*{Suggestions}
 
 Nous vous suggérons d'adopter la démarche suivante:
 \begin{itemize}
-\item Déterminer le seuil automatiquement en utilisant la fonction ... développée précédemment
-\item A partir du graphe (la réprésentation du graphe est libre)
-\item Comptez le nombre de composantes revient à calculer le nombre de composantes connexes de ce graphe
-\item Ecrivez une fonction auxiliaire prenant en argument un graphe et calculant le nombre de composantes connexe. Deux possibilités
-\begin{itemize}
-\item Parcourir les n\oe uds: a chaque n\oe ud, faire un parcours du graphe (en largeur ou en profondeur) 
-\item Associer une liste liée:
-\end{itemize}
+%\item Déterminer le seuil automatiquement en utilisant la fonction ... développée précédemment
+\item Implémentez une fonction calculant le graphe des pixels clairs à partir de l'image et du seuil $i_{th}$
+\item Ecrivez une fonction auxiliaire prenant en argument un graphe et calculant le nombre de composantes connexes.
 \end{itemize}
 
 \subsection*{Questions}
 
 \begin{itemize}
-\item Décrivez et justifiez la solution que vous aurez adoptée
-\item Caractérisez sa complexité de la manière la plus possible précise possible
+\item Expliquez et motivez la solution que vous aurez adoptée
+\item Analyser la complexité de votre implémentation d'abord en fonction de la
+  taille du graphe extrait de l'image et ensuite en fonction de la taille de
+  l'image.
 \item Utilisez votre algorithme pour calculer le nombre d'étoiles dans
-  l'image star.png fournie.
-\item Bonus: A votre avis, peut-on faire mieux ?
+  l'image star.png fournie, après avoir déterminé le seuil $i_{th}$ en utilisant la fonction \texttt{quantizeGreyImage} avec $k=2$ ($i_{th}$ sera alors pris égal à $p_1$).
 \end{itemize}
 
 
