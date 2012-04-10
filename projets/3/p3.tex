@@ -55,9 +55,10 @@ algorithmes.
 
 Pour tester vos fonctions, nous vous fournissons:
 \begin{itemize}
-\item Une fonction ... qui charge une image au format ... et la stocke dans un tableau I.
-\item Une fonction ... qui prend en argument un tableau, les dimensions de l'image, le nom de fichier et qui crée un fichier au nom fourni par l'utilisateur contenant l'image au format PGM
-\item Une fonction permet d'afficher une image ...
+\item Une fonction \texttt{createImageFromFile} qui charge une image au format PGM et la stocke dans une structure \texttt{PortableGrayMap}.
+\item Une fonction \texttt{saveImageToFile} qui prend en argument le nom de fichier et une structure \texttt{PortableGrayMap} et qui crée un fichier au nom fourni par l'utilisateur contenant l'image au format PGM.
+\item Une fonction \texttt{createEmptyImage} qui permet de créer une image vide aux dimensions données.
+\item Une fonction \texttt{deleteImage} qui permet de libérer la mémoire allouée à une image.
 \end{itemize}
 
 \subsection*{Fichiers à rendre}
@@ -152,14 +153,14 @@ On vous demande d'implémenter les deux fonctions suivantes:
 \begin{description}
 %\item[] prenant comme argument une image et calculant le vecteur $f$ de fréquences des valeurs
 \item[\texttt{computeOptimalReduction}] qui calcule les valeurs optimales de $p_1,\ldots,p_{k-1}$ et $v_1,\ldots,v_k$ à partir d'un vecteur de comptage $f$ et une valeur de $k$.
-\item[\texttt{quantizeGreyImage}] qui réduit le nombre de niveaux de gris d'une image à un nombre $k$ de manière à minimiser l'erreur \ref{eqn:erreur}.
+\item[\texttt{quantizeGrayImage}] qui réduit le nombre de niveaux de gris d'une image à un nombre $k$ de manière à minimiser l'erreur \ref{eqn:erreur}.
 \end{description}
 
 Une méthode de réduction du nombre de couleurs naïve qui ne tient pas
 compte de l'erreur consiste à diviser l'intervalle $[0,n-1]$ en $k$
 sous-intervalles de même taille et à associer à chaque sous-intervalle
 la valeur centrale de l'intervalle. Cette variante est implémentée par
-la fonction \texttt{quantizeGreyImageNaive} et vous est fournie pour
+la fonction \texttt{quantizeGrayImageNaive} et vous est fournie pour
 comparaison.
 
 %% Nous vous fournissons une fonction ... uniforme qui calcule
@@ -239,7 +240,7 @@ En prenant un seuil $i_{th}=200$, le graphe des pixels clairs est donné par:
 \includegraphics[width=4cm]{pict3.pdf}
 \end{center}
 
-On vous demande d'écrire une fonction \texttt{countObjectInImage}
+On vous demande d'écrire une fonction \texttt{countObjectsInImage}
 prenant en argument une image et un seuil $i_{th}$ et renvoyant le nombre d'objets
 présents dans l'image.
 
@@ -260,7 +261,7 @@ Nous vous suggérons d'adopter la démarche suivante:
   taille du graphe extrait de l'image et ensuite en fonction de la taille de
   l'image.
 \item Utilisez votre algorithme pour calculer le nombre d'étoiles dans
-  l'image star.png fournie, après avoir déterminé le seuil $i_{th}$ en utilisant la fonction \texttt{quantizeGreyImage} avec $k=2$ ($i_{th}$ sera alors pris égal à $p_1$).
+  l'image star.png fournie, après avoir déterminé le seuil $i_{th}$ en utilisant la fonction \texttt{quantizeGrayImage} avec $k=2$ ($i_{th}$ sera alors pris égal à $p_1$).
 \end{itemize}
 
 
