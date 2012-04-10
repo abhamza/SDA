@@ -6,8 +6,6 @@
 
 #include "PortableGrayMap.h"
 
-static uint16_t getMaxValue(const PortableGrayMap* image);
-
 PortableGrayMap* createImageFromFile(const char* filename)
 {
   FILE* file = fopen(filename, "r");
@@ -81,6 +79,11 @@ PortableGrayMap* createImageFromFile(const char* filename)
   }
   res->type = type;
 
+  // skip space in binary format
+  
+  if (res->type == BINARY)
+    fgetc(file);
+
   // fill image
   for (size_t i = 0; i < res->height; ++i)
     for (size_t j = 0; j < res->width; ++j)
@@ -120,14 +123,14 @@ int saveImageToFile(const PortableGrayMap* image, const char* filename)
 
   fprintf(file, image->type == BINARY ? "P5\n" : "P2\n");
   fprintf(file, "%lu %lu\n", image->width, image->height);
-  const uint16_t maxValue = getMaxValue(image);
-  fprintf(file, "%u\n", maxValue);
+  fprintf(file, "%u\n", image->maxValue);
+
   for (size_t i = 0; i < image->height; ++i)
   {
     for (size_t j = 0; j < image->width; ++j)
     {
       if (image->type == BINARY)
-        maxValue > 256 ? fputc((uint16_t)image->array[i][j], file)
+        image->maxValue > 256 ? fputc((uint16_t)image->array[i][j], file)
                        : fputc((uint8_t)image->array[i][j], file);
       else
         fprintf(file, "%u ", image->array[i][j]);
@@ -188,13 +191,4 @@ void deleteImage(PortableGrayMap* image)
   return;
 }
 
-static uint16_t getMaxValue(const PortableGrayMap* image)
-{
-  uint16_t maxValue = 0;
-  for (size_t i = 0; i < image->height; ++i)
-    for (size_t j = 0; j < image->width; ++j)
-      if (image->array[i][j] > maxValue)
-        maxValue = image->array[i][j];
-  return maxValue;
-}
 

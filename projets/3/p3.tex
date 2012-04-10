@@ -23,7 +23,7 @@
 
 \author{Julien \textsc{Becker} - Gilles \textsc{Louppe} - Pierre \textsc{Geurts}}
 
-\date{8 avril 2012}
+\date{11 avril 2012}
 
 % Corps
 \begin{document}
@@ -37,7 +37,7 @@ d'analyse d'images. Nous vous demandons de remettre le code source
 correspondant à votre implémentation ainsi qu'un bref rapport
 répondant aux questions ci-dessous.
 
-Le projet est à réaliser {\bf individuellement} pour le {\bf 18 avril
+Le projet est à réaliser {\bf individuellement} pour le {\bf 18 mai
   2012} à {\bf 05h00} (du matin) au plus tard. Le projet est à
 remettre via une interface web disponible sur
 \href{http://www.montefiore.ulg.ac.be/~glouppe/2011-2012/students.info0902.php}{la
@@ -107,7 +107,7 @@ Cette somme peut se réécrire en une somme sur tous les niveaux:
 \sum_{i=0}^{n-1} h[i] (i-g(i))^2,
 \end{equation}
 où $h[i]$, pour $i=0,\ldots,n-1$, est le nombre de pixels de l'image
-de valeur $i$ (c'est-à-dire l'histogramme de l'image). L'objectif est
+de valeur $i$ (c'est-à-dire l'{\it histogramme} de l'image). L'objectif est
 de déterminer la fonction $g$ et les valeurs $v_k$ qui minimise cette
 erreur.
 
@@ -141,16 +141,26 @@ $$I=\left(\begin{matrix}
 \end{matrix}\right)
 $$
 en 8 valeurs de gris. Le vecteur du nombre de pixels par niveau est donné par:
-$$h=[5,3,0,3,5,2,4,3].$$ Une représentation optimale en 3 niveaux est donnée par:
+$$h=[5,3,0,3,5,2,4,3].$$ Une réduction optimale en 3 niveaux est donnée par:
 \[g(i)=\left\{
 \begin{array}{ll}
-1\mbox{ si }0\leq i<2\\
-5\mbox{ si }2\leq i < 5\\
-7\mbox{ si }5\leq i\leq 8\\
+0\mbox{ si }0\leq i<2\\
+4\mbox{ si }2\leq i < 5\\
+6\mbox{ si }5\leq i\leq 8\\
 \end{array}
 \right.,
 \]
-et son erreur est 11.
+et son erreur est 11. L'image compressée est donnée par:
+$$
+\hat{I}=\left(\begin{matrix}
+  4 & 6 & 0 & 4 & 0\\
+  6 & 4 & 4 & 4 & 4\\
+  4 & 0 & 0 & 0 & 0\\
+  4 & 0 & 6 & 6 & 6\\
+  6 & 6 & 6 & 0 & 6\\
+\end{matrix}\right).
+$$
+
 
 On vous demande d'implémenter les deux fonctions suivantes:
 \begin{description}
@@ -161,10 +171,10 @@ On vous demande d'implémenter les deux fonctions suivantes:
 
 Une méthode de réduction du nombre de couleurs naïve qui ne tient pas
 compte de l'erreur consiste à diviser l'intervalle $[0,n-1]$ en $k$
-sous-intervalles de même taille et à associer à chaque sous-intervalle
-la valeur centrale de l'intervalle. Cette variante est implémentée par
-la fonction \texttt{quantizeGrayImageNaive} et vous est fournie pour
-comparaison.
+sous-intervalles de taille approximativement égale et à associer à
+chaque sous-intervalle la valeur centrale de l'intervalle. Cette
+variante est implémentée par la fonction
+\texttt{quantizeGrayImageNaive} et vous est fournie pour comparaison.
 
 %% Nous vous fournissons une fonction ... uniforme qui calcule
 %% l'intervalle de façon naïve en découpant de manière uniforme et en
@@ -183,7 +193,7 @@ Nous vous suggérons d'adopter la démarche suivante:
 \item Déterminez une formule de récurrence pour calculer l'erreur minimale résultant de la compression de $f$ en fonction de $n$ et de $k$;
 \item Implémentez cette récurrence de manière efficace en utilisant le principe de programmation dynamique;
 \item Modifiez votre implémentation pour calculer les valeurs des $p_i$ et $v_i$;
-\item Améliorer éventuellement votre implémentation pour réduire les
+\item Améliorez éventuellement votre implémentation pour réduire les
   besoins en mémoire et accélérer les temps de calcul.
 \end{itemize}
 \end{itemize}
@@ -191,19 +201,12 @@ Nous vous suggérons d'adopter la démarche suivante:
 \subsection*{Questions}
 
 Dans votre rapport:
-\begin{itemize}
+\begin{enumerate}
 %\item Pourquoi est-ce que la méthode naïve n'est pas bonne ?
 \item Expliquez la solution par programmation dynamique que vous avez implémentée.
-\item Comparer votre approche avec l'approche naïve sur l'image \texttt{lena.pgm} fournie. Pourquoi est-ce que l'approche naïve ne fonctionne pas sur cette image ? Quand les deux approches sont-elles identiques?
-\item Analyser la complexité de la fonction \texttt{computeOptimalReduction} en fonction de $n$ et de $k$.
-%(Réponse: $\Theta(n^3 k)$ ou $\Theta(n^2 k)$ s'ils ont précalculé de manière intelligente les valeurs de $Err_{min}^1$)
-%\item Complexité de l'approche force-brute en fonction de $n$ et de $k$ ?
-%\item Comparer votre approche à celle implémentée par la fonction de compression naïve sur l'image ... fournie. Laquelle des deux approches est préférable ? Pourquoi ?
-%  base (uniforme). Pourquoi cette approche est-elle préférable à
-%  l'approche basique ?
-%\item Bonus: si votre implémentation est $O(n^2 k)$.
-%\item Bonus: expliquer pourquoi la formulation ... est en fait équivalente à la formulation
-\end{itemize}
+\item Comparez visuellement votre approche avec l'approche naïve sur l'image \texttt{lena.pgm} fournie (par exemple pour un réduction en 16 niveaux). Dans quels cas est-ce que l'approche naïve ne fonctionnera pas ? Dans quels cas est-ce que les deux approches sont identiques ?
+\item Analysez la complexité de la fonction \texttt{computeOptimalReduction} en fonction de $n$ et de $k$.
+\end{enumerate}
 
 \section{Comptage d'objets au sein d'une image}
 
@@ -214,21 +217,21 @@ pour compter le nombre d'étoiles dans des images astronomiques.
 \subsection*{Formalisation du problème}
 
 On travaillera ici sur des images de tailles quelconques $w\times h$
-en 256 niveaux de gris et on représentera une image par une matrice
+en $n$ niveaux de gris et on représentera une image par une matrice
 comme dans la première partie du projet. On définira les pixels
 claires constitutifs des objets comme ceux dont l'intensité est
 supérieure à un seuil $i_{th}$ (fourni par l'utilisateur ou calculé
 automatiquement en appelant l'algorithme de réduction de couleur avec
 $k=2$). Chacun des pixels clairs peut être considéré comme un sommet
 d'un graphe non dirigé. Les sommets correspondant à deux pixels sont
-connectés par un arc dans le graphe si les deux pixels sont voisins
+connectés par un arc dans le graphe si les deux pixels sont {\it voisins}
 dans l'image. On considèrera qu'un pixel de coordonnées $(x,y)$ est
 voisin des 8 pixels de coordonnées $(x-1,y-1), (x,y-1), (x+1,y-1),
 (x+1,y), (x+1, y+1), (x,y+1), (x-1,y+1), (x-1,y)$ (pour autant que
 ceux-ci existent dans les limites de l'image).
 
 Le problème du comptage d'objets revient alors à calculer le nombre de
-composantes connexes dans le graphe.
+composantes connexes dans le graphe défini par les pixels clairs.
 
 \paragraph{Exemple:} Soit l'image $4\times 4$
 $$I=\left(\begin{matrix}
@@ -242,19 +245,22 @@ En prenant un seuil $i_{th}=200$, le graphe des pixels clairs est donné par:
 \begin{center}
 \includegraphics[width=4cm]{pict3.pdf}
 \end{center}
+qui contient deux composantes connexes et donc deux objets.
 
 On vous demande d'écrire une fonction \texttt{countObjectsInImage}
-prenant en argument une image et un seuil $i_{th}$ et renvoyant le nombre d'objets
-présents dans l'image.
+prenant en argument une image et un seuil $i_{th}$ et renvoyant le
+nombre d'objets présents dans l'image.
 
-\subsection*{Suggestions}
+\subsection*{Marche à suivre}
 
-Nous vous suggérons d'adopter la démarche suivante:
+Nous vous demandons d'adopter la démarche suivante:
 \begin{itemize}
 %\item Déterminer le seuil automatiquement en utilisant la fonction ... développée précédemment
 \item Implémentez une fonction calculant le graphe des pixels clairs à partir de l'image et du seuil $i_{th}$.
 \item Ecrivez une fonction auxiliaire prenant en argument un graphe et calculant le nombre de composantes connexes.
+\item Combinez les deux pour écrire la fonction \texttt{countObjetsInImage}
 \end{itemize}
+La manière de représenter le graphe et de calculer le nombre de composantes connexes est libre (plusieurs approches sont possibles).
 
 \subsection*{Questions}
 
@@ -264,8 +270,17 @@ Nous vous suggérons d'adopter la démarche suivante:
   taille du graphe extrait de l'image et ensuite en fonction de la taille de
   l'image.
 \item Utilisez votre algorithme pour calculer le nombre d'étoiles dans
-  l'image star.png fournie, après avoir déterminé le seuil $i_{th}$ en utilisant la fonction \texttt{quantizeGrayImage} avec $k=2$ ($i_{th}$ sera alors pris égal à $p_1$).
+  l'image \texttt{stars.pgm} fournie, après avoir déterminé le seuil $i_{th}$ en utilisant la fonction \texttt{quantizeGrayImage} avec $k=2$ ($i_{th}$ sera alors pris égal à $p_1$).
 \end{itemize}
+
+\subsection*{Question bonus (facultative)}
+
+L'approche proposée ci-dessus n'est pas l'approche la plus directe
+pour résoudre ce problème. Il est en effet possible d'écrire un
+algorithme qui calcule le nombre d'objets en effectuant un seul
+parcours de l'image. Vous obtiendrez un bonus à l'examen si vous
+implementez cette variante (en plus de l'approche par graphe) et que
+vous en analysez la complexité.
 
 
 \end{document}
