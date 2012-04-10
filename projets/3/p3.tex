@@ -51,9 +51,9 @@ utilisés dans le cadre du cours
   programmation} seront utilisés pour évaluer l'implémentation des
 algorithmes.
 
-\subsection*{Fichier fourni}
+\subsection*{Fichiers fournis}
 
-Pour tester vos fonctions, nous vous fournissons:
+Pour tester vos fonctions, nous vous fournissons une interface \texttt{PortableGrayMap.h} accompagnée de son implémentation \texttt{PortableGrayMap.c} et contenant:
 \begin{itemize}
 \item Une fonction \texttt{createImageFromFile} qui charge une image au format PGM et la stocke dans une structure \texttt{PortableGrayMap}.
 \item Une fonction \texttt{saveImageToFile} qui prend en argument le nom de fichier et une structure \texttt{PortableGrayMap} et qui crée un fichier au nom fourni par l'utilisateur contenant l'image au format PGM.
@@ -61,13 +61,16 @@ Pour tester vos fonctions, nous vous fournissons:
 \item Une fonction \texttt{deleteImage} qui permet de libérer la mémoire allouée à une image.
 \end{itemize}
 
+Les fichiers \texttt{ImageQuantizer.h}, \texttt{ImageQuantizerNaive.c}, \texttt{CountObjectsInImage.h}, \texttt{lena.pgm} et \texttt{stars.pgm} vous sont également fournis (c.f., les explications ci-après).
+
 \subsection*{Fichiers à rendre}
 
 Deux fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'archive n'a pas d'importance.
+
 \begin{description}
-\item[\texttt{ImageQuantizer.c}] implémente une fonction permettant de réduire le nombre de couleurs d'une image en 256 niveaux de gris à un nombre fourni par l'utilisateur
-\item[\texttt{CountObjectsInImage.c}] implémente une fonction comptant les objets dans une image.
-\item[\texttt{Rapport.pdf}] contient vos réponses aux questions
+\item[\texttt{ImageQuantizer.c}] implémente une fonction permettant de réduire le nombre de couleurs d'une image en 256 niveaux de gris à un nombre fourni par l'utilisateur. L'interface à implémenter est définie dans le fichier \texttt{ImageQuantizer.h}.
+\item[\texttt{CountObjectsInImage.c}] implémente une fonction comptant les objets dans une image. L'interface à implémenter est définie dans le fichier \texttt{CountObjectsInImage.h}.
+\item[\texttt{Rapport.pdf}] contient vos réponses aux questions.
 \end{description}
 
 {\em Note}: Les noms de fichiers font partie de l'énoncé. Tout fichier ne
@@ -173,8 +176,8 @@ comparaison.
 Nous vous suggérons d'adopter la démarche suivante:
 \begin{itemize}
 \item Ecrivez une fonction permettant de calculer l'histogramme $h$ à
-  partir d'une image
-\item Pour un histogramme donné, déterminez (sur papier) le niveau de gris qui minimise l'erreur lorsqu'on réduit tous les niveaux entre $i$ et $j$ à ce même niveau et implémentez une fonction calculant cette valeur
+  partir d'une image.
+\item Pour un histogramme donné, déterminez (sur papier) le niveau de gris qui minimise l'erreur lorsqu'on réduit tous les niveaux entre $i$ et $j$ à ce même niveau et implémentez une fonction calculant cette valeur.
 \item Pour écrire la fonction \texttt{computeOptimalReduction}:
 \begin{itemize}
 \item Déterminez une formule de récurrence pour calculer l'erreur minimale résultant de la compression de $f$ en fonction de $n$ et de $k$;
@@ -190,9 +193,9 @@ Nous vous suggérons d'adopter la démarche suivante:
 Dans votre rapport:
 \begin{itemize}
 %\item Pourquoi est-ce que la méthode naïve n'est pas bonne ?
-\item Expliquez la solution par programmation dynamique que vous avez implémentée
-\item Comparer votre approche avec l'approche naïve sur l'image ...png fournie. Pourquoi est-ce que l'approche naïve ne fonctionne pas sur cette image ? Quand les deux approches sont-elles identiques ?
-\item Analyser la complexité de la fonction \texttt{computeOptimalReduction} en fonction de $n$ et de $k$
+\item Expliquez la solution par programmation dynamique que vous avez implémentée.
+\item Comparer votre approche avec l'approche naïve sur l'image \texttt{lena.pgm} fournie. Pourquoi est-ce que l'approche naïve ne fonctionne pas sur cette image ? Quand les deux approches sont-elles identiques?
+\item Analyser la complexité de la fonction \texttt{computeOptimalReduction} en fonction de $n$ et de $k$.
 %(Réponse: $\Theta(n^3 k)$ ou $\Theta(n^2 k)$ s'ils ont précalculé de manière intelligente les valeurs de $Err_{min}^1$)
 %\item Complexité de l'approche force-brute en fonction de $n$ et de $k$ ?
 %\item Comparer votre approche à celle implémentée par la fonction de compression naïve sur l'image ... fournie. Laquelle des deux approches est préférable ? Pourquoi ?
@@ -249,14 +252,14 @@ présents dans l'image.
 Nous vous suggérons d'adopter la démarche suivante:
 \begin{itemize}
 %\item Déterminer le seuil automatiquement en utilisant la fonction ... développée précédemment
-\item Implémentez une fonction calculant le graphe des pixels clairs à partir de l'image et du seuil $i_{th}$
+\item Implémentez une fonction calculant le graphe des pixels clairs à partir de l'image et du seuil $i_{th}$.
 \item Ecrivez une fonction auxiliaire prenant en argument un graphe et calculant le nombre de composantes connexes.
 \end{itemize}
 
 \subsection*{Questions}
 
 \begin{itemize}
-\item Expliquez et motivez la solution que vous aurez adoptée
+\item Expliquez et motivez la solution que vous aurez adoptée.
 \item Analyser la complexité de votre implémentation d'abord en fonction de la
   taille du graphe extrait de l'image et ensuite en fonction de la taille de
   l'image.
