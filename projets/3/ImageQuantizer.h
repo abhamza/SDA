@@ -25,13 +25,13 @@
  * histogram        - The histogram vector (h)
  * histogramLength  - Size of the histogram vector (n)
  * reductionLength  - The number of thresholds to compute (k-1)
- * threshold        - An allocated vector of size k-1 where the computed
+ * thresholds       - An allocated vector of size k-1 where the computed
  *                    thresholds (p_1, ..., p_{k-1}) will be stored
  * levels           - An allocated vector of size k where the computed levels
  *                    (v_1, ..., v_k) will be stored
  ***********************************************************************/
 void computeOptimalReduction(const size_t* histogram, size_t histogramLength,
-			                       size_t reductionLength, size_t* threshold,
+			     size_t reductionLength, size_t* thresholds,
                              uint16_t* levels);
 
 /***********************************************************************
