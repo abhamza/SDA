@@ -148,6 +148,7 @@ int saveImageToFile(const PortableGrayMap* image, const char* filename)
   }
 
   fclose(file);
+  return 0;
 }
 
 PortableGrayMap* createEmptyImage(size_t width, size_t height, size_t numLevels)

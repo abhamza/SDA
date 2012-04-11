@@ -51,6 +51,10 @@ PortableGrayMap* createImageFromFile(const char* filename);
  * PARAMETERS
  * image        - The image to save
  * filename     - Destination file name
+ *
+ * RETURN
+ * 0            - If no error
+ * non-0        - Otherwise
  ***********************************************************************/
 int saveImageToFile(const PortableGrayMap* image, const char* filename);
 
