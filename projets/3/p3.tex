@@ -166,7 +166,7 @@ On vous demande d'implémenter les deux fonctions suivantes:
 \begin{description}
 %\item[] prenant comme argument une image et calculant le vecteur $f$ de fréquences des valeurs
 \item[\texttt{computeOptimalReduction}] qui calcule les valeurs optimales de $p_1,\ldots,p_{k-1}$ et $v_1,\ldots,v_k$ à partir d'un vecteur de comptage $h$ et une valeur de $k$.
-\item[\texttt{quantizeGrayImage}] qui réduit le nombre de niveaux de gris d'une image à un nombre $k$ de manière à minimiser l'erreur \ref{eqn:erreur}.
+\item[\texttt{quantizeGrayImage}] qui réduit le nombre de niveaux de gris d'une image à un nombre $k$ de manière à minimiser l'erreur (\ref{eqn:erreur}).
 \end{description}
 
 Une méthode de réduction du nombre de couleurs naïve qui ne tient pas
@@ -190,7 +190,7 @@ Nous vous suggérons d'adopter la démarche suivante:
 \item Pour un histogramme donné, déterminez (sur papier) le niveau de gris qui minimise l'erreur lorsqu'on réduit tous les niveaux entre $i$ et $j$ à ce même niveau et implémentez une fonction calculant cette valeur.
 \item Pour écrire la fonction \texttt{computeOptimalReduction}:
 \begin{itemize}
-\item Déterminez une formule de récurrence pour calculer l'erreur minimale résultant de la compression de $f$ en fonction de $n$ et de $k$;
+\item Déterminez une formule de récurrence pour calculer l'erreur minimale résultant de la réduction de $h$ en fonction de $n$ et de $k$;
 \item Implémentez cette récurrence de manière efficace en utilisant le principe de programmation dynamique;
 \item Modifiez votre implémentation pour calculer les valeurs des $p_i$ et $v_i$;
 \item Améliorez éventuellement votre implémentation pour réduire les
