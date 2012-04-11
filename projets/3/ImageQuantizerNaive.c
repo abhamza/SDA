@@ -1,6 +1,6 @@
 /***********************************************************************
  * ImageQuantizerNaive
- * Implementation of a naive algorithm that quantize an image.
+ * Implementation of a naive algorithm that quantizes an image.
  ***********************************************************************/
 
 #include "ImageQuantizer.h"

@@ -1,6 +1,7 @@
 /***********************************************************************
  * PortableGrayMap
  * Implementation of the interface PortableGrayMap.h
+ *
  * Documentation about the PGM format can be found at
  * http://netpbm.sourceforge.net/doc/pgm.html
  ************************************************************************/

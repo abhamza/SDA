@@ -46,8 +46,8 @@ typedef struct
 PortableGrayMap* createImageFromFile(const char* filename);
 
 /***********************************************************************
- * Save an image to a file
- * 
+ * Save an image to a file.
+ *
  * PARAMETERS
  * image        - The image to save
  * filename     - Destination file name
@@ -61,11 +61,11 @@ int saveImageToFile(const PortableGrayMap* image, const char* filename);
  * PARAMETERS
  * width        - The width of the image
  * height       - The height of the image
- * numLevels    - Number of gray level of the image
+ * numLevels    - Number of gray levels of the image
  *
  * RETURN
  * NULL         - if any error
- * image        - A new image where each pixel where initialized to 0
+ * image        - A new image where each pixel is initialized to 0
  ***********************************************************************/
 PortableGrayMap* createEmptyImage(size_t width, size_t height, size_t numLevels);
 
