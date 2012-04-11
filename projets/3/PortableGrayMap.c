@@ -1,3 +1,10 @@
+/***********************************************************************
+ * PortableGrayMap
+ * Implementation of the interface PortableGrayMap.h
+ * Documentation about the PGM format can be found at
+ * http://netpbm.sourceforge.net/doc/pgm.html
+ ************************************************************************/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -80,7 +87,6 @@ PortableGrayMap* createImageFromFile(const char* filename)
   res->type = type;
 
   // skip space in binary format
-  
   if (res->type == BINARY)
     fgetc(file);
 
@@ -131,7 +137,7 @@ int saveImageToFile(const PortableGrayMap* image, const char* filename)
     {
       if (image->type == BINARY)
         image->maxValue > 256 ? fputc((uint16_t)image->array[i][j], file)
-                       : fputc((uint8_t)image->array[i][j], file);
+                              : fputc((uint8_t)image->array[i][j], file);
       else
         fprintf(file, "%u ", image->array[i][j]);
     }
@@ -190,5 +196,4 @@ void deleteImage(PortableGrayMap* image)
   free(image);
   return;
 }
-
 

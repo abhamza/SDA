@@ -1,7 +1,22 @@
+/***********************************************************************
+ * CountObjectsInImage
+ * Interface of the function countObjectsInImage
+ ***********************************************************************/
+
 #ifndef _COUNT_OBJECTS_IN_IMAGE_H_
 # define _COUNT_OBJECTS_IN_IMAGE_H_
 
-size_t countObjectsInImage(const PortableGrayMap* image);
+/***********************************************************************
+ * Count the number of objects in the given image I. A pixel I[i,j] is a
+ * part of an object if its intensity is greater than the given threshold
+ * (e.i., I[i,j] > threshold). Two pixels are considered as part of the
+ * same object if there are neighbor.
+ *
+ * PARAMETERS
+ * image        - The image I
+ * threshold    - The threshold that determine pixels of interest
+ ***********************************************************************/
+size_t countObjectsInImage(const PortableGrayMap* image, uint16_t threshold);
 
 #endif // !_COUNT_OBJECTS_IN_IMAGE_H_
 
