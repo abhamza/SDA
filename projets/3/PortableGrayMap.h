@@ -23,11 +23,11 @@ typedef enum
 /* Representation of a PGM image */
 typedef struct
 {
-  PortableGrayMapType type;
-  size_t width;
-  size_t height;
-  uint16_t maxValue;
-  uint16_t** array;
+  PortableGrayMapType type;     // Encoding format (ASCII or BINARY)
+  size_t width;                 // Number of columns of array
+  size_t height;                // Number of rows of array
+  uint16_t maxValue;            // Maximum gray value (do not edit)
+  uint16_t** array;             // Image of size 'height x width'
 } PortableGrayMap;
 
 /* Functions */
