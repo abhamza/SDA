@@ -1297,40 +1297,445 @@ a^{(n-1)/2}\cdot a^{(n-1)/2} \cdot a & \mbox{si }n\mbox{ est impair}
 
 %%%%% fin premier cours sur méthodes de résolution
 
-\begin{frame}
-\end{frame}
+%% \begin{frame}{Programmation dynamique}
 
-\begin{frame}{Etapes clés de la programmation dynamique}
+%% \begin{itemize}
+%% \item S'applique typiquement à des problèmes d'{\it optimisation}. On chercher à maximiser/minimiser une fonction objectif
+%% \item Stratégie générale:
+%% \begin{itemize}
+%% \item Charactérise l'optimalité
+%% \item Recursively define an optimal solution - analyze the problem in a top-down fashion to determine how subproblems relate to the original
+%% \item Solve the subproblems - start with a base case and solve the subproblems in a bottom-up manner to find the optimal value
+%% \item Reconstruct the optimal solution - (optionally) determine the solution that produces the optimal value
+%% \end{itemize}
+
+%% \end{frame}
+
+\subsection{Exemple 4: plus longue sous-séquence commune}
+
+\begin{frame}{Exemple 4: plus longue sous-séquence commune}
 
 \begin{itemize}
-\item Charactérise l'optimalité
-\item Recursively define an optimal solution - analyze the problem in a top-down fashion to determine how subproblems relate to the original
-\item Solve the subproblems - start with a base case and solve the subproblems in a bottom-up manner to find the optimal value
-\item Reconstruct the optimal solution - (optionally) determine the solution that produces the optimal value
+\item Définition: Une \alert{sous-séquence} (non contiguë) d'une séquence $\langle x_1,\ldots,x_m$ est une séquence $\langle x_{i_1}, x_{i_2}, \ldots, x_{i_k}\rangle$, où $1\leq i_1 < i_2 < \ldots <i_k\leq m$.
+\item Problème: Etant donné 2 séquences, $X=\langle
+  x_1,\ldots,x_m\rangle$ and $Y=\langle y_1,\ldots,y_n\rangle$, trouver une plus grande sous-séquence commune aux deux séquences
+\item Exemples:
+\centerline{\includegraphics[width=8cm]{Figures/06-exemples-lcs.pdf}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Solution par force brute}
+
+\begin{itemize}
+\item On énumère toutes les sous-séquences de la séquence la plus courte
+\item Pour chacune d'elles, on vérifie si c'est une sous-séquence de la séquence la plus longue
+
+\bigskip
+
+\item Complexité: $\Theta(n\cdot 2^m)$ (en supposant que $n<m$)
+\begin{itemize}
+\item $2^m$ sous-séquences possibles dans une séquence de longueur $m$
+\item Vérification de l'occurence d'une sous-séquence dans une
+  séquence de longueur $n$ en $\Theta(n)$
+
+\bigskip
+~\hfill{\it (Exercice:
+    implémenter la vérification)}
+\end{itemize}
 \end{itemize}
 
 \end{frame}
 
-\subsection{Exemple 4: la plus longue sous-séquence commune}
+\begin{frame}{Solution par programmation dynamique}
 
-\begin{frame}{Plus longue sous-séquence commune}
+Propriété de sous-structure:
+\begin{itemize}
+\item Soit $X_i=\langle x_1,\ldots,x_i\rangle$ un préfixe de $X$ et
+  $Y_i=\langle y_1,\ldots,y_i\rangle$ un préfixe de $Y$
+\item Soit $Z=\langle z_1,\ldots,z_k\rangle$ une plus longue sous-séquence commune de $X$ et $Y$
+\item Les propriétés suivantes sont vérifiées:
+\begin{itemize}
+\item Si $x_m=y_n$, alors $z_k=x_m=y_n$ et $Z_{k-1}$ est une plus
+  longue sous-séquence commune de $X_{m-1}$ et $Y_{n-1}$.
+\item Si $x_m\neq y_n$, alors $z_k\neq x_m\Rightarrow Z$ est une plus
+  longue sous-séquence commune à $X_{m-1}$ et $Y$
+\item Si $x_m\neq y_n$, alors $z_k\neq y_n\Rightarrow$ $Z$ est une
+  plus longue sous-séquence commune à $X$ et $Y_{n-1}$
+\end{itemize}
+\end{itemize}
+\alert{$\Rightarrow$} Une plus longue sous-séquence commune de deux séquence a pour préfixe
+une plus longue sous-séquence des préfixes des deux séquences.
 
-(Mettre le problème et leur demander d'y réfléchir)
+\end{frame}
+
+\begin{frame}{Solution par programmation dynamique}
+\begin{itemize}
+\item Soit $c[i,j]$ la longueur d'une plus longue sous-séquence de $X_i$ et $Y_j$.
+\item Formulation récursive:
+\[c[i,j]=\left\{
+\begin{array}{ll}
+0 & \mbox{ si } i=0\mbox{ ou }j=0,\\
+c[i-1,j-1]+1 & \mbox{ si }i,j>0\mbox{ et }x_i=y_j,\\
+\max(c[i-1,j],c[i,j-1]) & \mbox{ si }i,j>0\mbox{ et }x_i\neq y_j,\\
+\end{array}
+\right.
+\]
+\item Graphe des sous-problèmes:
+\end{itemize}
+
+\centerline{\includegraphics[width=4cm]{Figures/06-lcs-subproblemsgraph.pdf}}
+
+\note{Leur faire remplir la table. En mettant un exemple: amputation et spanking}
+
+\end{frame}
+
+\begin{frame}{Implémentation (ascendante)}
+
+{\small
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{LCS-Length}(X,Y,m,n)$}
+        \li Let $c[0\twodots m, 0\twodots n]$ be a new table
+        \li \For $i=1$ \To $m$
+        \li \Do c[i,0]=0 \End
+        \li \For $j=0$ \To $n$
+        \li \Do c[0,j]=0 \End
+        \li \For $i=1$ \To $m$
+        \li \Do \For $j=1$ \To $n$
+        \li \Do \If $x_i\isequal y_j$
+        \li \Then $c[i,j]=c[i-1,j-1]+1$
+        \li \ElseIf  $c[i-1,j]\geq c[i,j-1]$
+        \li \Then $c[i,j]=c[i-1,j]$
+        \li \Else $c[i,j]=c[i,j-1]$\End\End\End
+        \li \Return $c$
+      \end{codebox}}
+\end{center}
+}
+
+\bigskip
+
+Complexité: $\Theta(m\cdot n)$
+
+\end{frame}
+
+\begin{frame}{Illustration}
+$amputation$ versus $spanking$
+
+\bigskip
+
+\centerline{\includegraphics[width=8cm]{Figures/06-lcs-algoexemple.pdf}}
+
+\end{frame}
+
+\begin{frame}{Trouver la plus longue sous-séquence}
+
+\begin{columns}
+\begin{column}{5cm}
+{\scriptsize
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{LCS-Length}(X,Y,m,n)$}
+        \li Let $c[0\twodots m, 0\twodots n]$ be a new table
+        \li {\color{red} Let $b[1\twodots m,1\twodots n]$ be a new table}
+        \li \For $i=1$ \To $m$
+        \li \Do c[i,0]=0 \End
+        \li \For $j=0$ \To $n$
+        \li \Do c[0,j]=0 \End
+        \li \For $i=1$ \To $m$
+        \li \Do \For $j=1$ \To $n$
+        \li \Do \If $x_i\isequal y_j$
+        \li \Then $c[i,j]=c[i-1,j-1]+1$
+        \li {\color{red} $b[i,j]="\nwarrow"$}
+        \li \ElseIf  $c[i-1,j]\geq c[i,j-1]$
+        \li \Then $c[i,j]=c[i-1,j]$
+        \li {\color{red} $b[i,j]="\uparrow"$}
+        \li \Else $c[i,j]=c[i,j-1]$
+        \li {\color{red} $b[i,j]="\leftarrow"$}\End\End\End        
+        \li \Return $c$ {\color{red} and $b$}
+      \end{codebox}}
+\end{center}
+}
+\end{column}
+\begin{column}{5cm}
+{\scriptsize
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Print-LCS}(b,X,i,j)$}
+        \li \If $i\isequal 0$ or $j\isequal 0$
+        \li \Then \Return\End
+        \li \If $b[i,j]\isequal"\nwarrow"$
+        \li \Then $\proc{Print-LCS}(b,X,i-1,j-1)$
+        \li print $x_i$\End
+        \li \ElseIf $b[i,j]\isequal "\uparrow"$
+        \li \Then $\proc{Print-LCS}(b,X,i-1,j)$
+        \li \Else $\proc{Print-LCS}(b,X,i,j-1)$
+      \end{codebox}}
+\end{center}
+}
+\end{column}
+\end{columns}
 
 \end{frame}
 
 \subsection{Exemple 5: le problème 0-1 du sac-à-dos}
 
-\begin{frame}{Sac à dos}
+\begin{frame}{Exemple 5: le problème du sac-à-dos}
+
+Problème:
+\begin{itemize}
+\item Un voleur se rend dans un musée pour commettre un méfait avec un
+  sac à dos pouvant contenir $W$ kg.
+\item Le musée comprend $n$ \oe uvres d'art, chacune de poids $p_i$ et
+  de prix $v_i$ ($i=1,\ldots,n$)
+\item Le problème pour le voleur est de déterminer une sélection
+  d'objets de valeur maximale et n'excédant pas le poids total
+  admissible dans la sac-à-dos.
+\end{itemize}
+
+\bigskip
+
+Formellement:
+\begin{itemize}
+\item Soit un ensemble $S$ de $n$ objets de poids $p_i>0$ et de valeur $v_i>0$
+\item Trouver $x_1, x_2, \ldots, x_n \in \{0,1\}$ tels que:
+\begin{itemize}
+\item $\sum_{i=1}^n x_i\cdot p_i\leq W$, et
+\item $\sum_{i=1}^n x_i\cdot v_i$ est maximal.
+\end{itemize}
+\end{itemize}
 
 \end{frame}
 
-\begin{frame}{Discussion}
+\begin{frame}{Exemple}
 
-Mettre une discussion comme dans les slides de CLRS sur la
-programmation dynamique en général
+\begin{columns}
+\begin{column}{5cm}
 
-voir slide Kevin Wayne, Tardos, Kleinberg pour exemple d'algorithmes célèbres
+Capacité du sac-à-dos:
+
+$$W=11$$
+\end{column}
+\begin{column}{5cm}
+\begin{center}
+\begin{tabular}{ccc}
+$i$ & $v_i$ & $p_i$\\
+\hline
+1 & 1 & 1\\
+2 & 6 & 2\\
+3 & 18 & 5\\
+4 & 22 & 6\\
+5 & 28 & 7
+\end{tabular}
+\end{center}
+\end{column}
+\end{columns}
+
+\bigskip
+
+Exemple:
+\begin{itemize}
+\item $\{5,2,1\}$ a un poids de 10 et une valeur de 35
+\item $\{3,4\}$ a un poids de 11 et une valeur de 40
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Approche par force brute}
+
+\begin{itemize}
+\item Recherche exhaustive: on énumère tous les sous-ensembles de $S$, et on calcule leur poids et leur valeur
+\item Complexité en temps: $O(2^n)$
+\item Améliorations:
+\begin{itemize}
+\item Ne tester que les sous-ensembles de $W/p_{min}$ objets où
+  $p_{min}$ est la taille minimale
+\item Tester les objets par ordre croissant et s'arrêter dès que l'un
+  d'entre eux n'entre plus
+\end{itemize}
+\item Diminue la constante mais la complexité reste la même
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Approche par programmation dynamique}
+
+\begin{itemize}
+\item Définition: soit $M(k,w)$, $0\leq k\leq n$ et $0\leq w\leq W$, le bénéfice
+  maximum qu'on puisse obtenir avec les objets 1,\ldots,$k$ de $S$ et
+  un sac-à-dos de charge maximale $w$\\
+{\it (On suppose que les poids $p_i$ et $W$ sont entiers)}
+\item Deux cas:
+\begin{itemize}
+\item On ne sélectionne pas l'objet $k$: $M(k,w)$ est le bénéfice maximum
+  en sélectionnant parmi les $k-1$ premiers objets avec
+  comme limite $w$ ($M(k-1,w)$)
+\item On sélectionne l'objet $k$: $M(k,w)$ est la valeur de l'objet
+  $k$ plus le bénéfice maximum en sélectionnant parmi les $k-1$
+  premiers objets avec la limite $w-p_k$
+\end{itemize}
+\end{itemize}
+
+\[M(k,w)=\left\{\begin{array}{ll}
+0 & \mbox{ si }i=0\\
+M(k-1,w) & \mbox{ si } p_i>w\\
+\max\{M(k-1,w),v_k+M(k-1,w-p_k)\} &  \mbox{ sinon}
+\end{array}
+\right.
+\]
+
+\end{frame}
+
+\begin{frame}{Implementation}
+
+{\small
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{KnapSack}(p,v,n,W)$}
+        \li Let $M[0\twodots n, 0\twodots W]$ be a new table
+        \li \For $w=1$ \To $W$
+        \li \Do M[0,w]=0 \End
+        \li \For $k=1$ \To $n$
+        \li \Do $M[k,0]=0$ \End
+        \li \For $k=1$ \To $n$
+        \li \Do \For $w=1$ \To $W$
+        \li \Do \If $w[k]>w$
+        \li \Then $M[k,w]=M[k-1,w]$
+        \li \ElseIf $M[k-1,w]>v[k]+M[k-1,w-p[k]]$
+        \li     \Do $M[k,w]=M[k-1,w]$
+        \li \Else $M[k,w]=v[k]+M[i-1,w-p[k]]$
+        \End\End\End
+        \li \Return $M[n,W]$
+      \end{codebox}}
+\end{center}
+}
+
+
+\end{frame}
+
+\begin{frame}{Exemple}
+
+\begin{tabular}{c|cccccccccccc}
+$M$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
+\hline
+$\emptyset$ &     {\color{red}0} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+$\{1\}$ &         {\color{red}0} & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+$\{1,2\}$ &       {\color{red}0} & 1 & 6 & 7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 & 7\\
+$\{1,2,3\}$ &     0 & 1 & 6 & 7 & 7 & {\color{red}18}& 19& 24& 25& 25& 25& 25\\
+$\{1,2,3,4\}$ &   0 & 1 & 6 & 7 & 7 & 18& 22& 24& 28& 29& 29& {\color{red}40}\\
+$\{1,2,3,4,5\}$ & 0 & 1 & 6 & 7 & 7 & 18& 22& 28& 29& 34& 34& {\color{red}40}\\
+\end{tabular}
+
+\begin{columns}
+\begin{column}{5cm}
+Solution optimale: $\{4, 3\}$\\
+Bénéfice: $22+18=40$
+\end{column}
+\begin{column}{5cm}
+\begin{center}
+$W=11$~~~~
+\begin{tabular}{ccc}
+$i$ & $v_i$ & $p_i$\\
+\hline
+1 & 1 & 1\\
+2 & 6 & 2\\
+3 & 18 & 5\\
+4 & 22 & 6\\
+5 & 28 & 7
+\end{tabular}
+\end{center}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+\begin{frame}{Récupération des $x_i$}
+
+En remontant dans le tableau $M$:
+
+{\small
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{KnapSack}(p,v,n,W)$}
+        \li \Comment Compute M
+        \li \ldots
+        \li \Comment Retrieve solution
+        \li Let $x[1\twodots n]$ be a new table
+        \li $w=W$
+        \li \For $k=n$ \Downto $1$
+        \li \Do \If $M[k,w]\isequal M[k-1,w]$
+        \li    \Then $x[k]=0$
+        \li \Else
+        \li $x[k]=1$
+        \li $w=w-p[k]$ \End\End
+        \li \Return $x$
+      \end{codebox}}
+\end{center}
+}
+
+\end{frame}
+
+\begin{frame}{Complexité}
+
+\begin{itemize}
+\item Complexité en temps et en espace: $\Theta(n W)$
+\begin{itemize}
+\item Remplissage de la matrice $M$: $\Theta(n W)$
+\item Recherche de la solution: $\Theta(n)$
+\end{itemize}
+{\it (Exercice: proposez une version $\Theta(n+W)$ en espace)}
+
+\bigskip
+
+\item Note: L'algorithme n'est en fait pas polynomial en fonction de la taille de l'entrée
+\begin{itemize}
+\item Si $W$ nécessite $n_w$ bits pour son codage, la complexité est $\Theta(n 2^{n_w})$
+\item Comme pour le voyageur de commerce, on n'a pas encore trouvé d'algorithme polynomial pour le problème du sac-à-dos (et il y a peu de chance qu'on y arrive)
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Programmation dynamique: résumé}
+
+Grandes étapes:
+\begin{itemize}
+\item Caractériser la structure du problème
+\item Définir de manière récursive la \alert{valeur} de la solution optimale
+\item Calculer les valeurs de la solution optimale (c'est-à-dire remplir un tableau)
+\item Reconstruire la (une) solution optimale à partir de l'information calculée
+\end{itemize}
+\bigskip
+
+Applications:
+\begin{itemize}
+\item Command unix diff (comparaison de fichiers)
+\item Algorithme de Viterbi (reconnaissance vocale)
+\item Alignement de séquences d'ADN (Smith-Waterman)
+\item Plus court chemin dans un graphe (Bellman-Ford)
+\item Compilateurs (reconnaissance d'un language et optimisation du code assembleur généré)
+\item \ldots
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Programmation dynamique versus diviser-pour-régner}
+\begin{itemize}
+\item L'approche Diviser-pour-régner décompose aussi le problème en sous-problèmes
+\item Mais ces sous-problèmes sont significativement plus petits que le problème de départ ($n \rightarrow n/2$)
+\begin{itemize}
+\item Alors que la programmation dynamique réduit généralement un problème de taille $n$ en sous-problèmes de taille $n-1$
+\end{itemize}
+\item Et ces sous-problèmes sont indépendants
+\begin{itemize}
+\item Alors qu'en programmation dynamique, ils se recouvrent
+\end{itemize}
+\item Pour ces deux raisons, la récursivité ne fonctionne pas pour la programmation dynamique
+\end{itemize}
 
 \end{frame}
 
