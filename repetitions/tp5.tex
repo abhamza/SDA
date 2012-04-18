@@ -1,0 +1,115 @@
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{../clrscode3epg}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+% Style
+\parskip=\smallskipamount
+
+% En-têtes
+\title{
+    \textbf{Structures de données et algorithmes}\\
+    Répétition 5: Tas et arbres
+}
+
+\author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
+\date{20 avril 2012}
+
+% Corps
+\begin{document}
+\maketitle
+
+\section*{Exercice 1}
+
+Dessiner tous les tas-\textsc{min} possibles avec l'ensemble des clés $\{A, B, C, D, E\}$, où chaque clé n'apparaît qu'une seule fois.
+
+\section*{Exercice 2}
+
+Soit un tas-\textsc{min} \texttt{H}. Illustrer l'exécution des opérations suivantes:
+
+\begin{verbatim}
+heapInsert(H, 5)
+heapInsert(H, 4)
+heapInsert(H, 7)
+heapInsert(H, 1)
+heapExtractMin(H)
+heapInsert(H, 3)
+heapInsert(H, 6)
+heapExtractMin(H)
+heapExtractMin(H)
+heapInsert(H, 8)
+heapExtractMin(H)
+heapInsert(H, 2)
+heapExtractMin(H)
+heapExtractMin(H)
+\end{verbatim}
+
+\section*{Exercice 4}
+
+\begin{enumerate}
+
+\item Comment implémenter une pile au moyen d'une file à priorité?
+
+\item Comment implémenter une file au moyen d'une file à priorité?
+
+\item Comment implémenter une file aléatoire au moyen d'une file à priorité?
+
+\end{enumerate}
+
+\section*{Exercice 5}
+
+Ecrire un algorithme alternatif à \texttt{buildMinHeap(A)} permettant de construire un tas-\textsc{min} \texttt{H} à partir des clés contenues dans le tableau \texttt{A} et dont la complexité est $O(n)$, où $n$ est le nombre d'éléments dans \texttt{A}.
+
+\section*{Exercice 6}
+
+Soit un arbre binaire de recherche \texttt{T} initialement vide.
+
+\begin{enumerate}
+
+\item Déterminez graphiquement l'arbre qui résulte de l'insertion des clés 30, 40, 24, 58, 48, 26, 11, 13, 35 et 36 (dans cet ordre).
+
+\item Déterminez ensuite graphiquement l'arbre qui résulte de la suppression des clés 13, 58, et 30 (dans cet ordre).
+
+\end{enumerate}
+
+\section*{Exercice 7}
+
+Le parcours préfixe d'un arbre binaire de recherche donne :
+\begin{verbatim}
+A B C - - D - - E - F - -
+\end{verbatim}
+
+En donner les parcours infixe et postfixe. Les lettres correspondent aux
+noeuds internes et les tirets à des feuilles de l'arbre.
+
+\section*{Exercice 8}
+
+Soit un arbre binaire recherche \texttt{T}.
+
+\begin{enumerate}
+
+\item Ecrire une méthode \texttt{getHeight(T)} qui détermine la hauteur de l'arbre \texttt{T}.
+
+\item Ecrire une méthode \texttt{isComplete(T)} qui détermine si l'arbre \texttt{T} est complet ou non.
+
+\item Ecrire une méthode \texttt{isBalanced(T)} qui détermine si l'arbre \texttt{T} est équilibré.
+
+\item Ecrire une méthode \texttt{mirror(T)} qui retourne l'arbre miroir de l'arbre \texttt{T}.
+
+\end{enumerate}
+
+\section*{Exercice 9}
+
+Prouver que le nombre de feuilles d'un arbre binaire est égal au nombre de noeuds de degré 2, plus 1.
+
+\end{document}
