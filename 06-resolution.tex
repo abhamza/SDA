@@ -178,7 +178,7 @@ Complexité: $\Theta(n\log n)$ (force brute: $\Theta(n^2)$)
 \item Régner: Trier récursivement les deux sous-tableaux
 \item Fusionner: /
 \end{enumerate}
-Complexité: $\Theta(n\log n)$ (force brute: $\Theta(n^2)$)
+Complexité en moyenne: $\Theta(n\log n)$ (force brute: $\Theta(n^2)$)
 \item \alert{Recherche binaire} (dichotomique):
 \begin{enumerate}
 \item Diviser: Contrôler l'élement central du tableau
@@ -299,7 +299,7 @@ T(n) & = & 2 T(n/2)+2\\
 & = & 4 T(n/4)+4+2\\
 & = & 8 T(n/4)+8+4+2\\
 & = & 2^i T(n/2^i)+\sum_{j=1}^i 2^j\\
-& = & 2^{\log_2(n-1)} T(2)+\sum_{j=1}^{\log_2(n)-1} 2^j\\
+& = & 2^{\log_2(n)-1} T(2)+\sum_{j=1}^{\log_2(n)-1} 2^j\\
 & = & 3/2 n -2
 \end{eqnarray*}}
 \item C'est-à-dire 25\% de comparaisons en moins que les méthodes séparées
@@ -416,7 +416,7 @@ Il faut sonder au milieu pour accélerer les calculs}
         \li \If $A[q-1]\leq A[q]\geq A[q+1]$
         \li \Then \Return $q$
         \li \ElseIf $A[q-1]>A[q]$
-        \li \Then \Return $\proc{Peak1d}(A,i,q-1)$
+        \li \Then \Return $\proc{Peak1d}(A,p,q-1)$
         \li \ElseIf $A[q]<A[q+1]$
         \li \Then \Return $\proc{Peak1d}(A,q+1,r)$\End
       \end{codebox}}
@@ -766,7 +766,7 @@ T(n) = \left\{
 
 \end{frame}
 
-\begin{frame}{Divide pour régner: conclusions}
+\begin{frame}{Diviser pour régner: résumé}
 
 \begin{itemize}
 \item Mène à des algorithmes très efficaces
@@ -925,7 +925,7 @@ Le max de 1+3, 1+2+1, 1+1+2, 1+1+1+1 est égal au prix de 1 plus $r_3$}
 \item On peut calculer $r_n$ en considérant toutes les tailles pour la première découpe et en combinant avec le découpage optimal pour la partie à droite
 \item Pour chaque cas, on n'a donc qu'à résoudre un seul sous-problème (au lieu de deux), celui du découpage de la partie droite
 \item En supposant $r_0=0$, on obtient ainsi:
-$$r_n=\max_{1\leq i \leq n} (p_i+r_{n-1})$$
+$$r_n=\max_{1\leq i \leq n} (p_i+r_{n-i})$$
 \end{itemize}
 
 \note{Faire un dessin au tableau avec la partie gauche de toutes les tailles}
@@ -945,7 +945,7 @@ $$r_n=\max_{1\leq i \leq n} (p_i+r_{n-1})$$
       \begin{codebox}
         \Procname{$\proc{Cut-rod}(p,n)$}
         \li \If $n\isequal 0$
-        \li \Then \Return 0
+        \li \Then \Return 0\End
         \li $q=-\infty$
         \li \For $i\gets 1$ \To $n$
         \li \Do $q\gets \max(q,p[i]+\proc{Cut-Rod}(p,n-i))$\End
@@ -972,7 +972,7 @@ $$r_n=\max_{1\leq i \leq n} (p_i+r_{n-1})$$
 \item En général, le nombre de n\oe uds $T(n)$ de l'arbre est $2^n$.\\
 {\small Preuve par induction:
 \begin{itemize}
-\item Cas de base: $T(1)=1$
+\item Cas de base: $T(0)=1$
 \item Cas inductif: $$T(n)=1+\sum_{j=0}^{n-1} T(j)=1+\sum_{j=0}^{n-1} 2^j=1+2^n-1=2^n$$
 \end{itemize}}
 \item Complexité de l'algorithme est exponentielle en $n$
@@ -1265,14 +1265,16 @@ a^{(n-1)/2}\cdot a^{(n-1)/2} \cdot a & \mbox{si }n\mbox{ est impair}
 \fcolorbox{white}{Lightgray}{%
       \begin{codebox}
         \Procname{$\proc{Max-subarray-linear}(A)$}
-        \li Let $m[0\twodots n]$ be a new array
-        \li $\id{max-so-far}\gets -\infty$
-        \li $m[0]=-\infty$
-        \li \For $i\gets 1$ \To $A.length$
+        \li Let $m[1\twodots n]$ be a new array
+        \li $\id{max-so-far}\gets A[1]$
+        \li $m[1]=A[1]$
+        \li \For $i\gets 2$ \To $A.length$
         \li \Do \If $m[i-1]>0$
         \li \Then $m[i]=m[i-1]+A[i]$
-        \li \Else $m[i]=A[i]$\End\End
-        \li \Return $m[A.length]$
+        \li \Else $m[i]=A[i]$\End
+        \li \If $m[i]>\id{max-so-far}$
+        \li \Then $\id{max-so-far}=m[i]$\End\End 
+        \li \Return $\id{max-so-far}$
       \end{codebox}}
 }
 \end{center}
@@ -1295,28 +1297,12 @@ a^{(n-1)/2}\cdot a^{(n-1)/2} \cdot a & \mbox{si }n\mbox{ est impair}
 
 \end{frame}
 
-%%%%% fin premier cours sur méthodes de résolution
-
-%% \begin{frame}{Programmation dynamique}
-
-%% \begin{itemize}
-%% \item S'applique typiquement à des problèmes d'{\it optimisation}. On chercher à maximiser/minimiser une fonction objectif
-%% \item Stratégie générale:
-%% \begin{itemize}
-%% \item Charactérise l'optimalité
-%% \item Recursively define an optimal solution - analyze the problem in a top-down fashion to determine how subproblems relate to the original
-%% \item Solve the subproblems - start with a base case and solve the subproblems in a bottom-up manner to find the optimal value
-%% \item Reconstruct the optimal solution - (optionally) determine the solution that produces the optimal value
-%% \end{itemize}
-
-%% \end{frame}
-
 \subsection{Exemple 4: plus longue sous-séquence commune}
 
 \begin{frame}{Exemple 4: plus longue sous-séquence commune}
 
 \begin{itemize}
-\item Définition: Une \alert{sous-séquence} (non contiguë) d'une séquence $\langle x_1,\ldots,x_m$ est une séquence $\langle x_{i_1}, x_{i_2}, \ldots, x_{i_k}\rangle$, où $1\leq i_1 < i_2 < \ldots <i_k\leq m$.
+\item Définition: Une \alert{sous-séquence} (non contiguë) d'une séquence $\langle x_1,\ldots,x_m\rangle$ est une séquence $\langle x_{i_1}, x_{i_2}, \ldots, x_{i_k}\rangle$, où $1\leq i_1 < i_2 < \ldots <i_k\leq m$.
 \item Problème: Etant donné 2 séquences, $X=\langle
   x_1,\ldots,x_m\rangle$ and $Y=\langle y_1,\ldots,y_n\rangle$, trouver une plus grande sous-séquence commune aux deux séquences
 \item Exemples:
@@ -1480,9 +1466,9 @@ $amputation$ versus $spanking$
 
 \end{frame}
 
-\subsection{Exemple 5: le problème 0-1 du sac-à-dos}
+\subsection{Exemple 5: le problème 0-1 du sac à dos}
 
-\begin{frame}{Exemple 5: le problème du sac-à-dos}
+\begin{frame}{Exemple 5: le problème du sac à dos (knapsack)}
 
 Problème:
 \begin{itemize}
@@ -1491,15 +1477,15 @@ Problème:
 \item Le musée comprend $n$ \oe uvres d'art, chacune de poids $p_i$ et
   de prix $v_i$ ($i=1,\ldots,n$)
 \item Le problème pour le voleur est de déterminer une sélection
-  d'objets de valeur maximale et n'excédant pas le poids total
-  admissible dans la sac-à-dos.
+  d'objets de valeur totale maximale et n'excédant pas le poids total
+  admissible dans le sac à dos.
 \end{itemize}
 
 \bigskip
 
 Formellement:
 \begin{itemize}
-\item Soit un ensemble $S$ de $n$ objets de poids $p_i>0$ et de valeur $v_i>0$
+\item Soit un ensemble $S$ de $n$ objets de poids $p_i>0$ et de valeurs $v_i>0$
 \item Trouver $x_1, x_2, \ldots, x_n \in \{0,1\}$ tels que:
 \begin{itemize}
 \item $\sum_{i=1}^n x_i\cdot p_i\leq W$, et
@@ -1514,7 +1500,7 @@ Formellement:
 \begin{columns}
 \begin{column}{5cm}
 
-Capacité du sac-à-dos:
+Capacité du sac à dos:
 
 $$W=11$$
 \end{column}
@@ -1547,7 +1533,7 @@ Exemple:
 
 \begin{itemize}
 \item Recherche exhaustive: on énumère tous les sous-ensembles de $S$, et on calcule leur poids et leur valeur
-\item Complexité en temps: $O(2^n)$
+\item Complexité en temps: $O(n 2^n)$
 \item Améliorations:
 \begin{itemize}
 \item Ne tester que les sous-ensembles de $W/p_{min}$ objets où
@@ -1564,8 +1550,8 @@ Exemple:
 
 \begin{itemize}
 \item Définition: soit $M(k,w)$, $0\leq k\leq n$ et $0\leq w\leq W$, le bénéfice
-  maximum qu'on puisse obtenir avec les objets 1,\ldots,$k$ de $S$ et
-  un sac-à-dos de charge maximale $w$\\
+  maximum qu'on peut obtenir avec les objets 1,\ldots,$k$ de $S$ et
+  un sac à dos de charge maximale $w$\\
 {\it (On suppose que les poids $p_i$ et $W$ sont entiers)}
 \item Deux cas:
 \begin{itemize}
@@ -1585,7 +1571,7 @@ M(k-1,w) & \mbox{ si } p_i>w\\
 \end{array}
 \right.
 \]
-
+\label{part6:knapsack}
 \end{frame}
 
 \begin{frame}{Implementation}
@@ -1602,7 +1588,7 @@ M(k-1,w) & \mbox{ si } p_i>w\\
         \li \Do $M[k,0]=0$ \End
         \li \For $k=1$ \To $n$
         \li \Do \For $w=1$ \To $W$
-        \li \Do \If $w[k]>w$
+        \li \Do \If $p[k]>w$
         \li \Then $M[k,w]=M[k-1,w]$
         \li \ElseIf $M[k-1,w]>v[k]+M[k-1,w-p[k]]$
         \li     \Do $M[k,w]=M[k-1,w]$
@@ -1626,7 +1612,7 @@ $\{1\}$ &         {\color{red}0} & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
 $\{1,2\}$ &       {\color{red}0} & 1 & 6 & 7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 & 7\\
 $\{1,2,3\}$ &     0 & 1 & 6 & 7 & 7 & {\color{red}18}& 19& 24& 25& 25& 25& 25\\
 $\{1,2,3,4\}$ &   0 & 1 & 6 & 7 & 7 & 18& 22& 24& 28& 29& 29& {\color{red}40}\\
-$\{1,2,3,4,5\}$ & 0 & 1 & 6 & 7 & 7 & 18& 22& 28& 29& 34& 34& {\color{red}40}\\
+$\{1,2,3,4,5\}$ & 0 & 1 & 6 & 7 & 7 & 18& 22& 28& 29& 34& 35& {\color{red}40}\\
 \end{tabular}
 
 \begin{columns}
@@ -1695,7 +1681,7 @@ En remontant dans le tableau $M$:
 \item Note: L'algorithme n'est en fait pas polynomial en fonction de la taille de l'entrée
 \begin{itemize}
 \item Si $W$ nécessite $n_w$ bits pour son codage, la complexité est $\Theta(n 2^{n_w})$
-\item Comme pour le voyageur de commerce, on n'a pas encore trouvé d'algorithme polynomial pour le problème du sac-à-dos (et il y a peu de chance qu'on y arrive)
+\item Comme pour le voyageur de commerce, on n'a pas encore trouvé d'algorithme polynomial pour le problème du sac à dos (et il y a peu de chance qu'on y arrive)
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1707,7 +1693,7 @@ Grandes étapes:
 \item Caractériser la structure du problème
 \item Définir de manière récursive la \alert{valeur} de la solution optimale
 \item Calculer les valeurs de la solution optimale (c'est-à-dire remplir un tableau)
-\item Reconstruire la (une) solution optimale à partir de l'information calculée
+\item Reconstruire la (une) solution optimale à partir de l'information calculée (``bottom-up'')
 \end{itemize}
 \bigskip
 
@@ -1717,7 +1703,7 @@ Applications:
 \item Algorithme de Viterbi (reconnaissance vocale)
 \item Alignement de séquences d'ADN (Smith-Waterman)
 \item Plus court chemin dans un graphe (Bellman-Ford)
-\item Compilateurs (reconnaissance d'un language et optimisation du code assembleur généré)
+\item Compilateurs (analyse syntaxique et optimisation du code)
 \item \ldots
 \end{itemize}
 
@@ -1743,22 +1729,785 @@ Applications:
 
 \begin{frame}{Méthodes de résolution de problèmes}
 
+Quelques approches génériques pour aborder la résolution d'un problème:
+\begin{itemize}
+\item \alert{Approche par force brute:} résoudre directement le problème, à partir de sa définition ou par une recherche exhaustive
+\item \alert{Diviser pour régner:} diviser le problème en sous-problèmes, les résoudre, fusionner les solutions pour obtenir une solution au problème original
+\item \alert{Programmation dynamique:} obtenir la solution optimale à un problème en combinant des solutions optimales à des sous-problèmes similaires plus petits et se chevauchant
+\item \alert{Approche gloutonne:} construire la solution incrémentalement, en optimisant de manière aveugle un critère local
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Plan}
+
+\tableofcontents[currentsection,hideothersubsections]
+
+\end{frame}
+
+\begin{frame}{Algorithme glouton (greedy)}
+
+\begin{itemize}
+\item Utilisé pour résoudre des problèmes d'optimisation (comme la programmation dynamique)
+\item Idée principale:
+\begin{itemize}
+\item Quand on a un choix local à faire, faire le choix (glouton) qui semble le meilleur tout de suite (et ne jamais le remettre en question)
+\end{itemize}
+\item Pour que l'approche fonctionne, le problème doit satisfaire deux propriétés:
+\begin{itemize}
+\item \alert{Propriété des choix gloutons optimaux}: On peut toujours arriver
+  à une solution optimale en faisant un choix localement optimal
+\item \alert{Propriété de sous-structure optimale}: Une solution optimale du problème est composée de solutions optimales à des sous-problèmes
+\end{itemize}
+\item Même si ces propriétés ne sont pas satisfaites, l'approche
+  gloutonne peut parfois fournir une approximation intéressante au problème
+\item Parfois, il est possible de caractériser la distance de la
+  solution gloutonne à la solution optimale
+\end{itemize}
+
+\end{frame}
+
+%Change de pieces de Benard Boigelot\\
+
+%Activity scheduling\\
+
+%Code Huffman\\
+
+%fractionnal Knapsack
+
+\subsection{Exemple 1: rendre la monnaie}
+
+\begin{frame}{Exemple 1: rendre la monnaie}
+
+\begin{itemize}
+\item Objectif: Etant donné des pièces de 1, 2, 5, 10, et 20
+  cents, trouver une méthode pour rembourser une somme de $x$ cents en
+  utilisant le moins de pièces possible.
+\item Exemple: 34 cents:
+\begin{itemize}
+\item 1ère possibilité: $\{1,1,2,5,5,20\} \rightarrow 6$ pièces
+\item 2ième possibilité: $\{2,2,10,20\} \rightarrow 4$ pièces
+\end{itemize}
+\bigskip
+
+\item Algorithme de la caissière: A chaque itération, ajouter une
+  pièce de la plus grande valeur qui ne dépasse pas la somme restant à rembourser
+\item Exemple: 49 cents $\rightarrow \{20,20,5,2,2\}$ (5 pièces)
+\end{itemize}
+
+\note{Demander à l'un d'entre eux comment il ferait pour rendre la monnaie sur un montant donné.}
+
+\end{frame}
+
+\begin{frame}{Implémentation}
+
+\begin{itemize}
+\item Algorithme de la caissière: A chaque itération, ajouter une
+  pièce de la plus grande valeur qui ne dépasse pas la somme restant à rembourser
+\end{itemize}
+
+%% \begin{columns}
+%% \begin{column}{5cm}
+%% {\small
+%% \begin{center}
+%% \fcolorbox{white}{Lightgray}{%
+%%       \begin{codebox}
+%%         \Procname{$\proc{CoinchangingGreedy}(x,c,n)$}
+%%         \li \Comment $c[1\twodots n]$ contains the $n$ coin values in increasing order
+%%         \li Let $S$ the set of coins to give to the customer
+%%         \li $S=\emptyset$
+%%         \li \While $x\neq 0$\Do
+%%         \li  $k=$ the largest integer such that $c_k\leq x$
+%%         \li  \If $k\isequal 0$
+%%         \li  \Then \Return ``No solution found''\End
+%%         \li  $x=x-c[k]$
+%%         \li  $S=S\cup \{k\}$\End
+%%         \li \Return $S$
+%%       \end{codebox}}
+%% \end{center}
+%% }
+%% \end{column}
+%% \begin{column}{5cm}
+{\small
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{CoinchangingGreedy}(x,c,n)$}
+        \li \Comment $c[1\twodots n]$ contains the $n$ coin values in decreasing order
+        \li Let $s[1\twodots n]$ be a new table
+        \li \Comment s[i] is the number of $i$th coin in solution
+        \li $CoinCount=0$
+        \li \For $i=1$ \Downto $n$ \Do
+        \li  $s[i]=\lfloor x/c[i]\rfloor$
+        \li  $x=x - s[i]*c[i]$
+        \li  $CoinCount=CoinCount+s[i]$\End
+        \li \Return $(s, CoinCount)$
+      \end{codebox}}
+\end{center}
+}
+%% \end{column}
+%% \end{columns}
+
+\begin{itemize}
+\item Complexité: $O(n)$ (sans compter le tri des pièces)
+\item Cet algorithme permet-il de trouver une solution optimale?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Analyse de $\proc{CoinChangingGreedy}$}
+
+\alert{Théorème:} l'algorithme $\proc{CoinChangingGreedy}$ est optimal pour $c=[20,10,5,2,1]$
+
+\bigskip
+
+\alert{Preuve:}
+\begin{itemize}
+\item Soit $S^*(x)$ l'ensemble optimal de pièces pour un montant $x$ et soit $c^*$ le plus grand $c[i]\leq x$. On doit montrer que:
+\begin{enumerate}
+\item $S^*(x)$ contient $c^*$\hfill{\it (propriété des choix gloutons optimaux)}
+\item $S^*(x)=\{c^*\}\cup S^*(x-c^*)$\hfill{\it (propriété de sous-structure optimale)}
+\end{enumerate}
+
+\bigskip
+
+\item Propriété (2) découle directement de (1)
+\begin{itemize}
+\item $S^*(x)$ contient $c^*$ par (1)
+\item Donc $S^*(x)\setminus\{c^*\}$ représente le change pour un montant de $x-c^*$
+\item Ce change doit être optimal sinon $S'=\{c^*\}\cup S^*(x-c^*)$ serait une meilleure solution que $S^*(x)$ pour un montant de $x$
+\item On a donc $S^*(x)=\{c^*\}\cup S^*(x-c^*)$
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item Propriété (1): $S^*(x)$ contient $c^*$
+\begin{itemize}
+\item Avec $c=[20,10,5,2,1]$, une solution optimale ne contient jamais:
+\begin{itemize}
+\item plus d'une pièce de 1, 5, ou de 10 (car $2\times 1=2$, $2\times 5=10$, $2\times 10=20$)
+\item plus de deux pièces de 2 (car $3\times 2=5+1$)
+\end{itemize}
+\item Analysons les différents cas pour $x$:
+\begin{itemize}
+\item[$x=1$:] $c^*=1$, meilleure solution $S^*(x)=\{1\}$ contient $c^*$
+\item[$2\leq x<5$:] $c^*=2$, avec un seul 1, on ne peut pas obtenir $x$ $\Rightarrow c^*\in S^*(x)$
+\item[$x=5$:] $c^*=5$, meilleure solution $S^*(x)=\{5\}$ contient $c^*$
+\item[$5< x<10$:] $c^*=5$, avec un seul 1, et deux 2, on ne peut pas obtenir $x$ $\Rightarrow c^*\in S^*(x)$
+\item[$x=10$:] $c^*=10$, meilleure solution $S^*(x)=\{10\}$ contient $c^*$
+\item[$10<x<20$:] $c^*=10$, avec un seul 1, deux 2, et 1 seul 5, on ne peut pas obtenir $x$ $\Rightarrow c^*\in S^*(x)$
+\item[$x=20$:] $c^*=20$, meilleure solution  $S^*(x)=\{20\}$ contient $c^*$
+\item[$x>20$:] $c^*=20$, avec un seul 1, deux 2, 1 seul 5 et 1 seul 10, on ne peut pas obtenir $x$ $\Rightarrow c^*\in S^*(x)$
+\end{itemize}
+\item $S^*(x)$ contient donc toujours bien $c^*$
+\end{itemize}
+\end{itemize}\qed
+
+\end{frame}
+
+\begin{frame}{Analyse de $\proc{CoinChangingGreedy}$}
+\begin{itemize}
+\item L'approche greedy n'est correcte que pour certains choix particuliers de valeurs de pièces
+\begin{itemize}
+\item ok pour la plupart des monnaies courantes, euros, dollars\ldots
+\end{itemize}
+\item Contre-exemple: $C=[1,10,21,34,70,100]$ (valeurs de timbres aux USA) et $x=140$
+\begin{itemize}
+\item Algorithme glouton: $100,34,1,1,1,1,1,1$
+\item Solution optimale: $70,70$
+\end{itemize}
+\bigskip
+\item Solution pour résoudre le cas général: programmation dynamique
+\item Très proche du problème de découpage de tige et du sac à dos
+\end{itemize}
+
+\bigskip
+
+{\it (Exercice: écrivez une fonction $\proc{CoinChangeDP}$)}
+
+\end{frame}
+
+\subsection{Exemple 2: sélection d'activités}
+
+\begin{frame}{Exemple 2: sélection d'activités}
+\begin{itemize}
+\item Un salle est utilisée pour différentes activités
+\begin{itemize}
+\item Soit $S=\{a_1, a_2,\ldots,a_n\}$ un ensemble de $n$ activités
+\item $a_i$ démarre au temps $s_i$ et se termine au temps $f_i$
+\item Deux activités $a_i$ et $a_j$ sont \alert{compatibles} si soit $f_i\leq s_j$, soit $f_j\leq s_i$
+\end{itemize}
+Problème: trouver le plus grand sous-ensemble de tâches compatibles
+\item Exemple:
+\centerline{\includegraphics[width=5cm]{Figures/06-activityselection-table.pdf}}
+
+\centerline{\includegraphics[width=9cm]{Figures/06-activityselection-graph.pdf}}
+
+\end{itemize}
+\note{Solutions optimales: par exemple: $a_1, a_3, a_6, a_8$}
+\end{frame}
+
+\begin{frame}{Sélection d'activités: approche gloutonne}
+
+
+\begin{itemize}
+\item Schéma d'une solution gloutonne:
+\begin{itemize}
+\item définir un ordre ``naturel'' sur les activités
+\item sélectionner les activités dans cet ordre pour autant qu'elles soient compatibles avec celles déjà choisies
+\end{itemize}
+\item Exemples: trier les activités selon $s_i$ (début), selon $f_i$ (fin), selon $f_i-s_i$ (durée), nombre de conflit avec d'autres activités...
+\item Montrer par des contre-exemples que seul le tri selon $f_i$ fonctionne
+\end{itemize}
+
+\centerline{\includegraphics[width=7cm]{Figures/04-activity-sorted.pdf}}
+
+\note{\centerline{\includegraphics[width=10cm]{Figures/06-activity-contre-exemples.pdf}}}
+
+\end{frame}
+
+\begin{frame}{Sélection d'activités: approche gloutonne}
+\begin{itemize}
+\item Considérer les activités par ordre croissant de $f_i$ et sélectionner chaque activité compatible avec celles déjà prises
+\item Implémentations: en supposant $s$ et $f$ ordonnés selon $f$
+\end{itemize}
+
+\begin{columns}
+\begin{column}{6cm}
+{\scriptsize
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Rec-activity-selector}(s,f,k,n)$}
+        \li $m=k+1$
+        \li \While $m\leq n$ and $s[m]<f[k]$
+        \li \Do $m=m+1$\End
+        \li \If $m\leq n$
+        \li \Then \Return $\{a_m\}\cup...$\Indentmore 
+        \li $...\proc{Rec-activity-selector}(s,f,m,n)$\End
+        \li \Else \Return $\emptyset$\End
+      \end{codebox}}
+\end{center}
+Appel initial: $\proc{Rec-activity-selector}(s,f,0,s.length)$
+}
+\end{column}
+\begin{column}{4cm}
+{\scriptsize
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Iter-activity-selector}(s,f)$}
+        \li $n=s.length$
+        \li $A=\{a_1\}$
+        \li $k=1$
+        \li \For $m=2$ \To $n$
+        \li \Do \If $s[m]\geq f[k]$
+        \li \Then $A=A\cup\{a_m\}$
+        \li $k=m$\End\End
+        \li \Return $A$
+      \end{codebox}}
+\end{center}
+~\\
+~\\
+}
+\end{column}
+\end{columns}
+
+\bigskip
+
+\begin{itemize}
+\item Complexité: $\Theta(n)$ ($+\Theta(n\log n)$ pour le tri selon $f_i$)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Sélection d'activités: analyse}
+\begin{itemize}
+\item La solution gloutonne est-elle correcte ?
+
+\bigskip
+
+\item \alert{1. Propriété des choix gloutons optimaux:} Soit $a_x\in S$ tel que $f_x\leq f_i$ pour tout $a_i\in S$. Il existe une solution optimale $OPT^*$ qui contient $a_x$.
+\item \alert{Preuve:}
+\begin{itemize}
+\item Soit une solution optimale $OPT$ telle que $a_x\notin OPT$
+\item Soit $a_m$ l'activité qui se termine en premier dans $OPT$
+\item Construisons $OPT^*=(OPT\setminus \{a_m\})\cup \{a_x\}$
+\item $OPT^*$ est valide:
+\begin{itemize}
+\item Toute activité $a_i\in OPT\setminus \{a_m\}$ débute en un temps $s_i\geq f_m$
+\item Par définition de $a_x$, $f_m\geq f_x$ et donc pour tout activité $a_i$, $s_i\geq f_x$
+\item Toute activité $a_i$ est donc compatible avec $a_x$
+\end{itemize}
+\item $OPT^*$ est donc optimale puisque $|OPT^*|=|OPT|$
+\end{itemize}\qed
+\end{itemize}
+
+\note{Montrer sur le schéma trié}
+
+\end{frame}
+
+\begin{frame}{Sélection d'activités: analyse}
+\begin{itemize}
+\item La solution gloutonne est-elle correcte ?
+
+\bigskip
+
+\item \alert{2. Propriété du sous-structure optimale:} Soit $a_x\in S$ le choix glouton et $S'=\{a_i|s_i\geq f_x\}$ les activités de $S$ compatibles avec $a_x$. Soit $OPT^*=\{a_x\}\cup OPT'$. Si $OPT'$ est une solution optimale pour $S'$ alors $OPT^*$ est une solution optimale pour $S$.
+\item \alert{Preuve:}
+\begin{itemize}
+\item Soit $OPT$ une solution optimale pour $S$
+\item Si $OPT^*$ n'est pas une solution optimale pour $S$, alors $|OPT^*|<|OPT|$ et donc aussi $|OPT'|<|OPT|-1$
+\item Soit $a_m$ l'activité qui se termine en premier dans $OPT$ et $\bar{S}=\{a_i|s_i\geq f_m\}$
+\item Par construction, $OPT\setminus\{a_m\}$ est une solution pour $\bar{S}$
+\item Par construction, $\bar{S}\subseteq S'$ et $OPT\setminus\{a_m\}$
+  est une solution valide pour $S'$ (pas nécessairement optimale)
+\item Ce qui veut dire qu'il existe une solution pour $S'$ de taille $|OPT|-1$, ce qui contredit  $|OPT'|<|OPT|-1$ et $OPT'$ optimal pour $S'$ (par hypothèse).
+\end{itemize}\qed
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Problèmes similaires}
+
+D'autres problèmes similaires pour lesquels il existe un algorithme glouton:
+\begin{itemize}
+\item Allocations de resources:
+\begin{itemize}
+\item Etant donnée un ensemble d'activité $S$ avec leurs temps de début et de fin, trouver le nombre minimum de salles permettant de les réaliser toutes
+%\item Solution gloutonne: trier les activités par ordre croissant du temps de départ
+\end{itemize}
+
+\bigskip
+
+\item Planification de tâches:
+\begin{itemize}
+\item Soit un ensemble de tâches avec leur durée et l'instant à laquelle elles doivent chacun être terminée (leur deadline)
+\item Sachant qu'on ne peut exécuter qu'une seule tâche simultanément,
+  trouver l'ordonnancement de ces tâches qui minimise le dépassement maximal des deadlines associées aux tâches (latence).
+%\item Solution gloutonne: trier les tâches en fonction de leur deadline
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\subsection{Exemple 3: problème du sac à dos}
+
+\begin{frame}{Exemple 3: problème du sac à dos}
+
+Rappel: problème (0/1) du sac à dos:
+\begin{itemize}
+\item Soit un ensemble $S$ de $n$ objets de poids $p_i>0$ et de valeur $v_i>0$
+\item Trouver $x_1, x_2, \ldots, x_n \in \{0,1\}$ tels que:
+\begin{itemize}
+\item $\sum_{i=1}^n x_i\cdot p_i\leq W$, et
+\item $\sum_{i=1}^n x_i\cdot v_i$ est maximal.
+\end{itemize}
+\end{itemize}
+
+\bigskip
+
+Solution par programmation dynamique: $\Theta(n W)$
+
+\bigskip
+
+Peut-on le résoudre par une approche gloutonne ?
+
+
+\note{Leur demander de venir avec une solution.}
+
+\end{frame}
+
+
+\begin{frame}{Programmation dynamique versus approche gloutonne}
+\begin{itemize}
+\item Rappel du transparent \pageref{part6:knapsack}:
+\begin{itemize}
+\item soit $M(k,w)$, $0\leq k\leq n$ et $0\leq w\leq W$, le bénéfice
+  maximum qu'on peut obtenir avec les objets 1,\ldots,$k$ de $S$ et un
+  sac à dos de charge maximale $w$. On a:
+  {\small \[M(k,w)=\left\{\begin{array}{ll} 0 & \mbox{ si
+    }i=0\\ M(k-1,w) & \mbox{ si }
+    p_i>w\\ \max\{M(k-1,w),v_k+M(k-1,w-p_k)\} & \mbox{ sinon}
+\end{array}
+\right.
+\]}
+\end{itemize}
+\item Approche greedy: consiste à remplacer le \alert{max} par le choix qui nous semble le meilleur localement
+\item Quels choix possibles ?
+\begin{itemize}
+\item Le moins lourd, le plus lourd ?
+\item Le moins couteux, le plus couteux ?
+\item Le meilleur rapport valeur/poids ?
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Approche gloutonne}
+
+\begin{itemize}
+\item Idée d'algorithme:
+\begin{itemize}
+\item Ajouter à chaque itération l'objet de rapport $\frac{v_i}{p_i}$ maximal qui rentre dans le sac
+\item Implémentation très proche du problème de change: $\Theta(n\log n)$
+\end{itemize}
+\item Est-ce que ça fonctionne ? Non !
+%\begin{columns}
+%\begin{column}{5cm}
+%Solution optimale: $\{4, 3\}$\\
+%Bénéfice: $22+18=40$
+%\end{column}
+%\begin{column}{5cm}
+\begin{center}
+\begin{tabular}{cccc}
+$i$ & $v_i$ & $p_i$ & $v_i/p_i$\\
+\hline
+1 & 1 & 1 & 1\\
+2 & 6 & 2 & 3\\
+3 & 18 & 5 & 3,6\\
+4 & 22 & 6 & 3,7\\
+5 & 28 & 7 & 4\\
+\end{tabular}
+\end{center}
+%\end{column}
+%\end{columns}
+W=11:
+\begin{itemize}
+\item Solution greedy: $\{5,2,1\} \Rightarrow$ valeur=35
+\item Solution DP: $\{4,3\} \Rightarrow$ valeur=40
+\end{itemize}
+%\item Peut-on caractériser de combien on se trompe ?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Problème fractionnel du sac à dos (fractional knapsack)}
+
+Par rapport au problème 0/1, il est maintenant permis d'inclure
+des fractions d'objets ($\leq 1$):
+\begin{itemize}
+\item Soit un ensemble $S$ de $n$ objets de poids $p_i>0$ et de valeur $v_i>0$
+\item Trouver $x_1, x_2, \ldots, x_n \in {\color{red}[0,1]}$ tels que:
+\begin{itemize}
+\item $\sum_{i=1}^n x_i\cdot p_i\leq W$, et
+\item $\sum_{i=1}^n x_i\cdot v_i$ est maximal.
+\end{itemize}
+\end{itemize}
+\bigskip
+{\small
+Exemple:
+\vspace{-0.5cm}
+\begin{center}\small
+\begin{tabular}{cccc}
+$i$ & $v_i$ & $p_i$ & $v_i/p_i$\\
+\hline
+1 & 1 & 1 & 1\\
+2 & 6 & 2 & 3\\
+3 & 18 & 5 & 3,6\\
+4 & 22 & 6 & 3,7\\
+5 & 28 & 7 & 4\\
+\end{tabular}
+\end{center}
+W=11:
+\begin{itemize}
+\item Solution optimale 0/1: $x_1=0$, $x_2=0$, $x_3=1$, $x_4=1$, $x_5=0$ $\Rightarrow$ valeur=40
+\item Solution optimale fractionnelle: $x_1=0$, $x_2=0$, $x_3=0$, $x_4=2/3$, $x_5=1$ $\Rightarrow$ valeur=42,66
+\end{itemize}
+}
+\end{frame}
+
+
+\begin{frame}{Algorithme glouton}
+
+\begin{itemize}
+\item Pour la version fractionnelle, l'algorithme glouton est optimal
+\item Implémentation:
+
+\bigskip
+
+{\small
+\begin{center}
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{FracKnapSack}(p,v,n,W)$}
+        \li \Comment {\color{red}Assume the objects are sorted according to $v[i]/p[i]$}
+        \li Let $x[1\twodots n]$ a new table
+        \li $w=0$
+        \li \For $i=1$ \To $n$
+        
+        \li \Do $d=min(p[i],W-w)$
+        \li $w\gets w+d$
+        \li $x[i]=d/p[i]$\End
+        \li \Return $x$
+      \end{codebox}}
+\end{center}
+}
+\bigskip
+
+\item Complexité: $\Theta(n)$ (+ $\Theta(n\log n)$ pour le tri)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Correction}
+
+\alert{Théorème:} Le problème fractionnel du sac à dos possède la propriété des choix gloutons optimaux
+
+\bigskip
+
+\alert{Preuve:}
+\begin{itemize}
+\item Soit deux objets $i$ et $j$ tels que
+$$\frac{v_i}{p_i}>\frac{v_j}{p_j}$$
+\item Etant donné un choix $(x_1,x_2,\ldots,x_n)$, on le transforme en $(x'_1,x'_2,\ldots, x'_n)$ tel que:
+\begin{itemize}
+\item $\forall k\in [1,n]\setminus\{i,j\}: x'_k=x_k,$
+\item $x'_i=x_i+\frac{\Delta}{w_i}$, et
+\item $x'_j=x_j+\frac{\Delta}{w_j}$,
+\end{itemize}
+où $\Delta=\min(p_i(1-x_i),p_jx_j)$.
+\item Cette transformation ne modifie pas le poids total, mais améliore le bénéfice.
+\item On en déduit qu'il est toujours avantageux de prendre la fraction maximale de l'objet $i$ possédant le plus grand rapport $\frac{v_i}{p_i}$.\qed
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Algorithme glouton: résumé}
+
+\begin{itemize}
+\item Très efficaces quand ils fonctionnent. Simples et faciles à
+  implémenter
+\item Ne fonctionne pas toujours. Leur correction peut être assez
+  difficile à prouver
+\end{itemize}
+
+\bigskip
+
+Applications:
+\begin{itemize}
+\item Arbre de couverture minimal (voir partie 7)
+\item Plus court chemin dans un graphe (algorithme de Dijkstra)
+\item Allocation de resources
+\item Codage de Huffman
+\item \ldots
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Approche gloutonne versus programmation dynamique}
+
+\begin{itemize}
+\item Tous deux nécessite la propriété de sous-structure optimale
+
+\bigskip
+
+\item Les algorithmes gloutons nécessite que la propriété de choix gloutons optimaux soit satisfaite
+\begin{itemize}
+\item On n'a pas besoin de solutionner plus d'un sous-problème
+\item Le choix glouton est fait \alert{avant} de résoudre le sous-problème
+\item Il n'y a pas besoin de stocker les résultats intermédiares
+\end{itemize}
+
+\bigskip
+
+\item La programmation dynamique marche sans la propriété des choix gloutons optimaux
+\begin{itemize}
+\item On doit solutionner plusieurs sous-problèmes et choisir dynamiquement l'un deux pour obtenir la solution globale
+\item La solution doit être assemblée ``bottom-up''
+\item Les sous-solutions aux sous-problèmes sont réutilisées et doivent donc être stockées
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\subsection{Exemple 4: codage de Huffman}
+
+\begin{frame}{Exemple 4: codage de Huffman}
+\begin{itemize}
+\item Soit une séquence $S$ très longue définie sur base de 6 caractères: a, b, c, d, e et f
+\begin{itemize}
+\item Par exemple, $n=|S|=10^9$
+\end{itemize}
+
+\bigskip
+
+\item Quelle est la manière la plus efficace de stocker cette séquence ?
+
+\bigskip
+
+\item Première approche: encoder chaque symbole par mot binaire de
+  longueur fixe:
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+Symbole & a & b & c & d & e & f\\
+\hline
+Codage & 000 & 001 & 010 & 011 & 100 & 101\\
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item 6 symboles nécessite 3 bits par symboles
+\item $3\times 10^9/8=3.75\times 10^8$bytes (un peu moins de 400Mb)
+\end{itemize}
+\item Peut-on faire mieux ?
+\end{itemize}
+
+\note{Observer que pour e et f par exemple, il n'y a pas besoin de 3 symboles}
+\end{frame}
+
+\begin{frame}{Idée}
+
+\begin{itemize}
+\item Codage avec des mots de longueur fixe:
+\begin{center}
+\begin{tabular}{c|cccccc}
+Symbole & a & b & c & d & e & f\\
+\hline
+Codage & 000 & 001 & 010 & 011 & 100 & 101\\
+\end{tabular}
+\end{center}
+
+\item Observation: l'encodage de e et f est redondant:
+\begin{itemize}
+\item Le second bit ne nous aide pas à distinguer e de f
+\item En d'autres termes, si le premier bit est 1, le second ne nous donne pas d'information et peut être supprimé
+\end{itemize}
+\item Suggère de considérer un codage avec des mots binaires de
+  longueurs variables
+\begin{center}
+\begin{tabular}{c|cccccc}
+Symbole & a & b & c & d & e & f\\
+\hline
+Codage & 000 & 001 & 010 & 011 & {\color{red}10}& {\color{red}11}\\
+\end{tabular}
+\end{center}
+\item Encodage et décodage sont bien définis et non ambigüs
+\item Permet de gagner $n_e+n_f$ bits, où $n_e$ et $n_f$ sont les nombres de e et de f dans la séquence
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Définition du problème}
+\begin{itemize}
+\item Soit un ensemble de symboles $C$ et $f(c)$ la fréquence du symbole $c\in C$.
+\item Trouver un code $E: C\rightarrow \{0,1\}^*$ tel que
+\begin{itemize}
+\item $E$ est un code \alert{sans préfixe}
+\begin{itemize}
+\item Aucun mot de code $E(c_1)$ n'est le préfixe d'un autre mot de code $E(c_2)$
+\end{itemize}
+\item La longueur moyenne des mots de code est \alert{minimale}
+$$B(S)=\sum_{c\in C} f(c)|E(c)|$$
+($n B(S)$ est la longueur de l'encodage de $S$)
+\end{itemize}
+\item Exemple:
+\begin{center}\small
+\begin{tabular}{c|cccccc|c}
+c & a & b & c & d & e & f & \\
+f(c) & 45\% & 13\% & 12\% & 16\% & 9\% & 5\% & $B(S)$\\
+\hline
+Code 1 & 000 & 001 & 010 & 011 & 100& 101 & 3.00\\
+Code 2 & 000 & 001 & 010 & 011 & 10& 11 & 2.86\\
+Code 3 & 0 & 101 & 100 & 111 & 1101 & 1100 & 2.24\\
+\end{tabular}
+\end{center}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Code sans préfixe}
+
+\centerline{\includegraphics[width=5cm]{Figures/06-huffman-tree1.pdf}~~~\includegraphics[width=3.7cm]{Figures/06-huffman-tree2.pdf}}
+
+\begin{itemize}
+\item Un code sans préfixe peut toujours se représenter sous la forme d'une arbre binaire
+\begin{itemize}
+\item Chaque feuille est associée à un symbole
+\item Le chemin de la racine à une feuille est le code du symbole
+\item La fréquence d'un n\oe ud est la fréquence du préfixe
+\end{itemize}
+\item Un code optimal est toujours représenté par un arbre binaire entier {\it (Pourquoi ?)}
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}{Algorithme glouton}
 
-Change de pieces de Benard Boigelot\\
+On peut montrer que le codage optimal peut être obtenu par un
+  algorithme glouton
+\begin{itemize}
+\item On construit l'arbre de bas en haut en partant des feuilles
+\item A chaque étape, on fait le choix ``glouton'' de fusionner les deux n\oe uds les moins fréquents (symboles ou préfixes)
+\end{itemize}
 
-Activity scheduling\\
+\bigskip
 
-Code Huffman\\
-
-fractionnal Knapsack
+Idée de la preuve (pour information):
+\begin{itemize}
+\item Choix gloutons optimaux:
+\begin{itemize}
+\item Il existe un code sans préfixe optimal où les deux symboles les moins fréquents sont frères et à la profondeur maximale
+\item Par l'absurde: si un tel code n'existait pas, on pourrait l'obtenir en échangeant la position des deux symboles les moins fréquents avec les feuilles les plus profondes sans augmenter $B(S)$
+\end{itemize}
+\item Sous-structure optimale:
+\begin{itemize}
+\item Si l'arbre qui a pour feuille le nouveau n\oe ud issu de la fusion gloutonne est optimal, l'arbre complet est optimal
+\item Plus difficile à montrer
+\end{itemize}
+\end{itemize}
 
 \end{frame}
 
-\begin{frame}{Synthèse}
+\begin{frame}{Algorithme glouton: exemple}
 
-Mettre les algos qu'on a vu ici. Proposer d'autres exercices ?
+\centerline{\includegraphics[width=11cm]{Figures/06-huffman-tree-build.pdf}}
+
+\note{Demander comment ils l'implémenteraient}
+\end{frame}
+
+\begin{frame}{Algorithme glouton: implémentation}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Huffman}(C)$}
+        \li $n=|C|$
+        \li $Q=$"create a min-priority queue from $C$"
+        \li \For $i=1$ \To $n-1$
+        \li \Do Allocate a new node $z$
+        \li $z.left=\proc{Extract-Min}(Q)$
+        \li $z.right=\proc{Extract-Min}(Q)$
+        \li $z.freq=z.left.freq+z.right.freq$
+        \li $\proc{Insert}(Q,z)$\End
+        \li \Return $\proc{Extract-min}(Q)$
+      \end{codebox}}
+}
+\end{center}
+
+\bigskip
+
+\begin{itemize}
+\item Implémentation avec une file à priorité
+\item Complexité: $O(n\log n)$ si $Q$ est implémentée avec un tas (min)
+\begin{itemize}
+\item Ligne 2: $O(n)$ si on utilise $\proc{Build-min-heap}$
+\item Ligne 8: $O(\log n)$ (répétée $n-1$ fois)
+\end{itemize}
+\end{itemize}
 
 \end{frame}
+
+%% \begin{frame}{Conclusion}
+
+%% \begin{itemize}
+%% \item Trois méthodes de résolutions de problèmes
+%% \item Plusieurs exemples de problèmes 
+%% \item Des problèmes pouvant être 
+%% \end{itemize}
+
+%% \end{frame}
