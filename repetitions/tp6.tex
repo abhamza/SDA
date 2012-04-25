@@ -1,0 +1,93 @@
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{../clrscode3epg}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+% Style
+\parskip=\smallskipamount
+
+% En-têtes
+\title{
+    \textbf{Structures de données et algorithmes}\\
+    Répétition 6: Tables de hachage et résolution de problèmes
+}
+
+\author{Gilles \textsc{Louppe}, Pierre \textsc{Geurts} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
+\date{27 avril 2012}
+
+% Corps
+\begin{document}
+\maketitle
+
+\section*{Exercice 1}
+
+Soit une table de hachage \texttt{T} initialement vide, d'une capacité de 11 éléments et dont les collisions sont gérées au moyen de listes simplement liées. Illustrer graphiquement l'insertion des clés $$\{23, 56, 44, 13, 88, 94, 16, 27, 9\}.$$ La fonction de hachage utilisée est la fonction $$h(k) = (2k + 5) \mod 11.$$
+
+\section*{Exercice 2}
+
+Dans le JDK1.1, la fonction de hachage d'une chaîne de caractères était implémentée de la façon suivante. Quel est le défaut de cette fonction?
+
+\begin{verbatim}
+public int hashCode() {
+    int hash = 0;
+    if (length() < 16) {
+        for (int i = 0; i < length(); i++)
+            hash = (hash * 37) + charAt(i);
+    }
+    else {
+        int skip = length() / 8;
+        for (int i = 0; i < length(); i = i + skip)
+            hash = (hash * 37) + charAt(i);
+    }
+    return hash;
+}
+\end{verbatim}
+
+\section*{Exercice 3}
+
+Soient deux ensembles $S$ et $T$ de valeurs quelconques.
+
+\begin{enumerate}
+\item Proposer une structure pour représenter un ensemble.
+\item Proposer un algorithme qui teste si $S$ est un sous-ensemble de $T$. Analyser sa complexité.
+\end{enumerate}
+
+\section*{Exercice 4}
+
+On souhaite déterminer le zéro $r$ d'une fonction $f(x)$ monotone sur un intervalle $[u, v]$.
+
+\begin{enumerate}
+\item Un algorithme par force brute est-il envisageable pour résoudre ce problème?
+\item Proposer un algorithme par \textit{divide-and-conquer}.
+\end{enumerate}
+
+\section*{Exercice 5}
+
+% http://www.csc.liv.ac.uk/~ped/teachadmin/algor/d_and_c.html
+
+Soit un ensemble $P = \{p_1, p_2, ..., p_n\}$ de points répartis dans un plan et tels que $p_i = (x_i, y_i)$. Proposer un algorithme qui détermine la distance entre les deux points les plus proches. La mesure de distance utilisée est la distance euclidienne.
+
+\section*{Exercice 6}
+
+On souhaite multiplier une série $n$ matrices sous la forme: $$A = A_0 A_1 ... A_{n-1}$$
+
+On note $d_k \times d_{k+1}$ les dimensions de la matrice $A_k$.
+
+\begin{enumerate}
+\item L'ordre des multiplications importe t-il?
+\item Quelle serait la complexité d'une méthode par force brute pour déterminer le parenthésage optimal à effectuer?
+\item Proposer un algorithme par programmation dynamique pour déterminer le parenthésage optimal.
+\end{enumerate}
+
+
+\end{document}
