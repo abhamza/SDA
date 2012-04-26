@@ -25,17 +25,13 @@
 \item Applications: modélisation de:
 \begin{itemize}
 \item Réseaux sociaux
-\item Internet
-\item World wide web
+\item Réseaux informatiques
+\item World Wide Web
 \item Cartes routières
 \item \ldots
 \end{itemize}
 \end{itemize}
 
-\end{frame}
-
-\begin{frame}{Exemples}
-(mettre des graphes dirigés ou non)
 \end{frame}
 
 \begin{frame}{Terminologie}
@@ -47,6 +43,8 @@ Graphe non dirigé:
 \item Le \alert{degré} d'un n\oe ud est égal au nombre de ses arêtes incidentes
 \item Le \alert{degrée d'un graphe} est le nombre maximal d'arêtes incidentes à tout sommet.
 \item Un graphe est \alert{connexe} s'il existe un chemin de tout sommet à tout autre.
+\item Une \alert{composante connexe} d'un graphe non orienté est un sous-graphe connexe
+  maximal de ce graphe
 \end{itemize}
 
 \end{frame}
@@ -58,7 +56,7 @@ Graphe dirigé:
 \item Une arête $(v_1,v_2)$ possède l'\alert{origine} $v_1$ et la \alert{destination}
   $v_2$. Cette arête est \alert{sortante} pour $v_1$ et \alert{entrante} pour $v_2$
 \item Le degré \alert{entrant} ({\it in-degree}) et le degré \alert{sortant}
-  ({\it out-degree}) d'un n\oe ud $v$ sont respectivement égaux aux nombre d'arêtes entrantes et d'arêtes sortantes de $v$
+  ({\it out-degree}) d'un n\oe ud $v$ sont respectivement égaux aux nombres d'arêtes entrantes et d'arêtes sortantes de $v$
 \item Un graphe est \alert{acyclique} s'il n'y a aucun cycle, c'est-à-dire
   s'il n'est pas possible de suivre les arêtes du graphes à partir
   d'un sommet $x$ et de revenir à ce même sommet $x$
@@ -68,10 +66,10 @@ Graphe dirigé:
 
 \begin{frame}{Type de graphes}
 \begin{itemize}
-\item Un graphe est \alert{simple} s'il ne possède pas de boule composées d'une seule arête, c'est-à-dire tel que:
+\item Un graphe est \alert{simple} s'il ne possède pas de boucle composée d'une seule arête, c'est-à-dire tel que:
 $$\forall v \in V: (v,v)\notin E$$
 \item Un \alert{arbre} est un graphe acyclique connexe
-\item Un \alert{multigraphe} est une généralisation des graphes pour laquelles
+\item Un \alert{multigraphe} est une généralisation des graphes pour laquelle
   il est permis de définir plus d'une arête liant un sommet à un autre
 
 \bigskip
@@ -79,7 +77,7 @@ $$\forall v \in V: (v,v)\notin E$$
 \item Un graphe est \alert{pondéré} si les arêtes sont annotées par des \alert{poids}
 \begin{itemize}
 \item Exemple: réseau entre villes avec comme poids la distance entre
-  les villes, réseau internet avec comme poids la bande passante entre routeur, etc.
+  les villes, réseau internet avec comme poids la bande passante entre routeurs, etc.
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -216,8 +214,8 @@ Graphe dirigé
 \item Listes d'adjacence:
 \begin{itemize}
 \item Complexité en espace optimal
-\item Mauvais pour des graphes \alert{dense} et des algorithmes qui ont besoin d'accéder aux arêtes
-\item Préférable pour des graphes \alert{creux} ou de degré faible
+\item Mauvais pour des graphes \alert{denses\footnote{$|E|\approx |V|^2$}} et des algorithmes qui ont besoin d'accéder aux arêtes
+\item Préférable pour des graphes \alert{creux\footnote{$|E|\ll |V|^2$}} ou de degré faible
 \end{itemize}
 
 \bigskip
@@ -242,12 +240,13 @@ Graphe dirigé
 
 \begin{frame}{Parcours de graphes}
 \begin{itemize}
-\item Objectif: parcourir tous les n\oe uds d'un graphe qui sont accessibles à partir d'un n\oe uds $v$ donné
-\item Un n\oe ud $v'$ est accessible à partir de $v$ si:
+\item Objectif: parcourir tous les sommets d'un graphe qui sont
+  accessibles à partir d'un sommet $v$ donné
+\item Un sommet $v'$ est accessible à partir de $v$ si:
 \begin{itemize}
 \item soit $v'=v$,
 \item soit $v'$ est adjacent à $v$,
-\item soit $v'$ est adjacent à un n\oe ud $v''$ qui est accessible à partir de $v$
+\item soit $v'$ est adjacent à un sommet $v''$ qui est accessible à partir de $v$
 \end{itemize}
 
 \bigskip
@@ -270,10 +269,16 @@ Graphe dirigé
 
 \item Entrées: un graphe $G=(V,E)$ et un sommet $s\in V$
 \begin{itemize}
-\item Parcourt le graphe en ``touchant'' tous les sommets qui sont accessibles à partir de $s$
+\item Parcourt le graphe en visitant tous les sommets qui sont accessibles à partir de $s$
 \item Parcourt les sommets par ordre croissant de leur distance (en
   nombre minimum d'arêtes) par rapport à $s$
-\item Calcule pour chaque sommet $v\in V$ sa distance $v.d$ à $s$
+\begin{itemize}
+\item on visite $s$
+\item tous les voisins de $s$
+\item tous les voisins des voisins de $s$
+\item etc.
+\end{itemize}
+%\item Calcule pour chaque sommet $v\in V$ sa distance $v.d$ à $s$
 %\item Produit un arbre {\it en profondeur d'abord} ayant pour racine $s$
 \item Fonctionne aussi bien pour des graphes dirigés que non dirigés
 \end{itemize}
@@ -283,11 +288,22 @@ Graphe dirigé
 
 \begin{frame}{Exemple}
 
-\centerline{\includegraphics[width=9cm]{Figures/07-breadth-first-graph.pdf}}
+\centerline{\includegraphics[width=8cm]{Figures/07-breadth-first-graph.pdf}}
+Un parcours en largeur à partir de $s$: $s$-$a$-$c$-$e$-$g$-$b$-$h$-$i$-$f$
+
+\bigskip
+
+Pour l'implémentation:
+\begin{itemize}
+\item On doit retenir les sommets déjà visités de manière à éviter de
+  boucler infiniment
+\item On doit retenir les sommets visités dont on n'a pas encore
+  visité les voisins
+\end{itemize}
 
 \end{frame}
 
-\begin{frame}{Parcours en largeur d'abord: Algorithme}
+\begin{frame}{Parcours en largeur d'abord: implémentation}
 
 \begin{columns}
 \begin{column}{6cm}
@@ -299,9 +315,9 @@ Graphe dirigé
         \li \For each vertex $u \in G.V\setminus \{s\}$
         \li \Do $u.d=\infty$\End
         \li $s.d=0$
-        \li $Q=\emptyset$
+        \li $Q=$"create empty Queue"
         \li $\proc{Enqueue}(Q,s)$
-        \li \While $Q\neq \emptyset$
+        \li \While not $\proc{Queue-Empty}(Q)$
         \li \Do $u=\proc{Dequeue}(Q)$
         \li \For each $v\in G.Adj[u]$
         \li\Do \If $v.d=\infty$
@@ -330,11 +346,18 @@ Graphe dirigé
 }
 \end{center}
 \end{column}
-\begin{column}{5cm}
+\begin{column}{6cm}
 \begin{itemize}
-\item $Q$ est une file (LIFO) qui contient les n\oe uds ``touchés'' mais pas encore visités
-\item Le calcul de l'attribut $d$ n'est pas nécessaire (on peut le
-  remplacer par un drapeau binaire)
+\item $v.d$ est la distance de $v$ à $s$
+\begin{itemize}
+\item si un sommet $v$ a été visité, $v.d$ est fini
+\item on peut remplacer $d$ par un drapeau binaire
+\end{itemize}
+
+\bigskip
+
+\item $Q$ est une file (LIFO) qui contient les sommets visités mais
+  dont les voisins n'ont pas encore été visités
 \end{itemize}
 \end{column}
 \end{columns}
@@ -342,7 +365,7 @@ Graphe dirigé
 \end{frame}
 
 
-\begin{frame}{Parcours en largeur d'abord: Complexité}
+\begin{frame}{Parcours en largeur d'abord: complexité}
 
 \begin{columns}
 \begin{column}{6cm}
@@ -388,7 +411,7 @@ Graphe dirigé
 \begin{column}{5cm}
 \begin{itemize}
 \item Chaque sommet est enfilé au plus une fois
-  ($v.d infini \rightarrow v.d$ fini)
+  ($v.d$ infini $\rightarrow v.d$ fini)
 \item Boucle $\While$ exécutée $O(|V|)$ fois
 \item Boucle interne: $O(|E|)$ \alert{au total}
 \item Au total: $O(|V|+|E|)$
@@ -404,7 +427,9 @@ Graphe dirigé
 \item Correction:
 \begin{itemize}
 \item L'algorithme fait bien un parcours du graphe en largeur et $v.d$ contient bien la distance minimale de $s$ à $v$
-\item Pas évident à montrer. On le fera plus loin pour l'algorithme de Dijkstra (calcul du plus court chemin)
+\item Ok intuitivement mais pas évident à montrer formellement. On le
+  fera plus loin pour l'algorithme de Dijkstra (calcul du plus court
+  chemin)
 \end{itemize}
 
 \bigskip
@@ -430,63 +455,75 @@ Graphe dirigé
 \begin{itemize}
 \item Au lieu de les placer dans une file comme dans le parcours en largeur
 \end{itemize}
-\item On revient en arrière quand le sommet visité n'a plus de sommets adjacents non visités
+\item On revient en arrière ({\it backtrack}) quand le sommet visité
+  n'a plus de sommets adjacents non visités
 \end{itemize}
 
 \bigskip
 
-\item Entrée: un graphe $G=(V,E)$ (pas de sommet source !)
-\item Sortie: 2 ``dates'' associées à chaque sommet $v$:
-\begin{itemize}
-\item $v.d$=début du traitement du sommet $v$ (découverte du sommet)
-\item $v.f$=fin du traitement du sommet $v$
+\item Exemple:
+\centerline{\includegraphics[width=10cm]{Figures/07-dfs-exemple-onenode.pdf}}
+
+\bigskip
+
+Parcours en profondeur à partir de $A$: $A$-$D$-$F$-$G$-$B$-$E$ ($C$ et $H$ pas accessibles)
 \end{itemize}
-\end{itemize}
+
+%% \item Entrée: un graphe $G=(V,E)$ (pas de sommet source !)
+%% \item Sortie: 2 ``dates'' associées à chaque sommet $v$:
+%% \begin{itemize}
+%% \item $v.d$=début du traitement du sommet $v$ (découverte du sommet)
+%% \item $v.f$=fin du traitement du sommet $v$
+%% \end{itemize}
+%% \end{itemize}
 
 \note{On ne voit pas un algo qui parcourt le graphe comme le
   bread-first parce que l'algo ici sera utile pour d'autres
   applications. Notamment le tri topologique}
 \end{frame}
 
-\begin{frame}{Exemple}
+%% \begin{frame}{Exemple}
 
-\centerline{\includegraphics[width=10cm]{Figures/07-dfs-exemple-onenode.pdf}}
+%% \centerline{\includegraphics[width=10cm]{Figures/07-dfs-exemple-onenode.pdf}}
 
-\bigskip
+%% \bigskip
 
-Parcours en profondeur à partir de $A$: $A$-$D$-$F$-$G$-$B$-$E$ ($C$ et $H$ pas accessibles)
+%% Parcours en profondeur à partir de $A$: $A$-$D$-$F$-$G$-$B$-$E$ ($C$ et $H$ pas accessibles)
 
-\end{frame}
+%% \end{frame}
 
-\begin{frame}{Parcours en profondeur d'abord: implémentation}
+\begin{frame}{Parcours en profondeur: implémentation avec une pile}
 
 \begin{columns}
-\begin{column}{5cm}
+\begin{column}{5.5cm}
 \begin{center}
-{\small\vspace{-0.3cm}
+{\small
 \fcolorbox{white}{Lightgray}{%
       \begin{codebox}
         \Procname{$\proc{DFS}(G,s)$}
-        \li \For each vertex $u \in G.V\setminus \{s\}$
-        \li \Do $u.color=\const{White}$\End
-        \li $s.color=\const{Black}$        
-        \li $S=\emptyset$
+        \li \For each vertex $u \in G.V$
+        \li \Do $u.visited=\const{False}$\End
+        \li $S=$"create empty stack"
         \li $\proc{Push}(S,s)$
-        \li \While $S\neq \emptyset$
+        \li \While not $\proc{Stack-empty}(S)$
         \li \Do $u=\proc{Pop}(S)$
+        \li \If $u.visited\isequal \const{False}$
+        \li \Then $u.visited=\const{True}$        
         \li \For each $v\in G.Adj[u]$
-        \li\Do \If $v.color=\const{White}$
-        \li \Then $v.color=\const{Black}$
-        \li $\proc{Push}(S,v)$\End\End\End
+        \li\Do \If $v.visited\isequal\const{False}$
+        \li \Then $\proc{Push}(S,v)$\End\End\End\End
       \end{codebox}}
 }
 \end{center}
 \end{column}
-\begin{column}{5cm}
+\begin{column}{4.5cm}
 \begin{itemize}
 \item On remplace la file $Q$ par une pile $S$
-\item Chaque sommet est visité au plus une fois ($v.color$ blanc
-  $\rightarrow$ noir)
+\item L'attribut $visited$ marque les sommets visités
+
+\bigskip
+
+\item Chaque sommet est empilé au plus une fois
 \item Boucle $\While$ executées $O(|V|)$ fois
 \item Boucle interne: $O(|E|)$ \alert{au total}
 \item Complexité: $O(|V|+|E|)$
@@ -494,9 +531,20 @@ Parcours en profondeur à partir de $A$: $A$-$D$-$F$-$G$-$B$-$E$ ($C$ et $H$ pas
 \end{column}
 \end{columns}
 
+\note{Faire tourner l'algorithme sur l'exemple précédent
+
+\bigskip
+
+Au plus une fois: au premier appel sur un sommet, visited est mis à
+true et il n'y a plus d'autre appel sur un sommet dont visited est à true
+
+\bigskip
+
+Au lieu de visisted, on pourrait stocker les sommets dans une table hash}
+
 \end{frame}
 
-\begin{frame}{Parcours en profondeur d'abord: implémentation}
+\begin{frame}{Parcours en profondeur: implémentation récursive}
 
 \begin{columns}
 \begin{column}{5cm}
@@ -504,13 +552,74 @@ Parcours en profondeur à partir de $A$: $A$-$D$-$F$-$G$-$B$-$E$ ($C$ et $H$ pas
 {\small
 \fcolorbox{white}{Lightgray}{%
       \begin{codebox}
-        \Procname{$\proc{DFS}(G)$}
+        \Procname{$\proc{DFS}(G,s)$}
         \li \For each vertex $u \in G.V$
-        \li \Do $u.color=\const{White}$\End
-        \li $time=0$ \Comment global variable
-        \li \For each $u\in G.V$
-        \li  \Do \If $u.color\isequal \const{White}$
-        \li   \Then $\proc{DFS-Visit}(G,u)$\End\End
+        \li \Do $u.visited=\const{False}$\End
+        \li $\proc{DFS-rec}(G,s)$
+      \end{codebox}}
+
+\bigskip
+
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{DFS-Rec}(G,s)$}
+        \li $s.visited=\const{True}$
+        \li \For each $v\in G.Adj[s]$
+        \li \Do \If $v.visited\isequal\const{False}$
+        \li \Then $\proc{DFS-Rec}(G,v)$
+      \end{codebox}}
+}
+\end{center}
+\end{column}
+\begin{column}{5.5cm}
+\begin{itemize}
+\item Remplace la pile par la récursion
+\bigskip
+\item $\proc{DFS-REC}$ appelée au plus $|V|$ fois
+\item Chaque arête est considérée au plus une fois dans la boucle $\For$
+\item Complexité: $O(|V|+|E|)$
+\end{itemize}
+\end{column}
+\end{columns}
+
+\note{Faire tourner l'algorithme sur l'exemple précédent}
+
+\end{frame}
+
+\begin{frame}{Parcourir tous les sommets d'un graphe}
+
+\begin{itemize}
+\item $\proc{BFS}$ et $\proc{DFS}$ ne visitent que les n\oe uds
+  accessibles à partir de la source $s$
+\begin{itemize}
+\item Graphe non dirigé: seule la composante connexe contenant $s$ est visitée
+\item Graphe dirigé: certains sommets peuvent ne pas être accessibles
+  de $s$ en suivant le sens des arêtes
+\end{itemize}
+\item Pour parcourir tous les sommets d'un graphe:
+\begin{enumerate}
+\item On choisit un sommet arbitraire $v$
+\item On visite tous les sommets accessibles depuis $v$ (en profondeur ou en largeur)
+\item S'il reste certains sommets non visités, on en choisit un et on retourne en (2)
+\end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Parcours en profondeur de tous les sommets}
+
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{DFS-all}(G)$}
+        \li \For each vertex $u \in G.V$
+        \li \Do $u.visited=\const{False}$\End
+        \li \For each vertex $u \in G.V$
+        \li \Do \If $u.visited\isequal \const{False}$
+        \li \Then $\proc{DFS-Rec}(G,u)$
       \end{codebox}}
 }
 \end{center}
@@ -520,16 +629,11 @@ Parcours en profondeur à partir de $A$: $A$-$D$-$F$-$G$-$B$-$E$ ($C$ et $H$ pas
 {\small
 \fcolorbox{white}{Lightgray}{%
       \begin{codebox}
-        \Procname{$\proc{DFS-Visit}(G,u)$}
-        \li $time=time+1$
-        \li $u.d=time$
-        \li $u.color=\const{Gray}$
-        \li \For each $v\in G.Adj[u]$
-        \li \Do \If $v.color\isequal \const{White}$
-        \li \Then $\proc{DFS-Visit}(G,v)$\End\End
-        \li $u.color=\const{Black}$
-        \li $time = time + 1$
-        \li $u.f=time$
+        \Procname{$\proc{DFS-Rec}(G,s)$}
+        \li $s.visited=\const{True}$
+        \li \For each $v\in G.Adj[s]$
+        \li \Do \If $v.visited\isequal\const{False}$
+        \li \Then $\proc{DFS-Rec}(G,v)$
       \end{codebox}}
 }
 \end{center}
@@ -538,76 +642,103 @@ Parcours en profondeur à partir de $A$: $A$-$D$-$F$-$G$-$B$-$E$ ($C$ et $H$ pas
 
 \bigskip
 
-L'attribut $color$ permet de marquer les sommets déjà découverts:
 \begin{itemize}
-\item $\const{White}$: sommets non découverts
-\item $\const{Gray}$: sommets découverts mais pas encore traités complètement
-\item $\const{Black}$: sommets traités complètement
+\item Complexité: $\Theta(|V|+|E|)$
+\begin{itemize}
+\item $\proc{DFS-Rec}$ est appelé sur chaque sommet une et une seule fois
+$$\Theta(|V|)$$
+\item La boucle $\For$ de $\proc{DFS-Rec}$ parcourt chaque liste
+  d'adjacence une et une seule fois $$\Theta(\sum_{u\in G.V} outdegree(u))=\Theta(|E|)$$
 \end{itemize}
-(la couleur $\const{Gray}$ n'est pas nécessaire)
+\end{itemize}
+
+\note{Au moins une fois, par la boucle dans $\proc{DFS-All}$. Au plus
+  une fois car $visited$ est mis à true la première fois}
 
 \end{frame}
 
-\begin{frame}{Exemple}
+\begin{frame}{Sous-graphe de liaison}
 
-\centerline{\includegraphics[width=10cm]{Figures/07-dfs-exemple.pdf}}
-
-\end{frame}
-
-\begin{frame}{Parcours en profondeur d'abord: complexité}
-
-\begin{columns}
-\begin{column}{5cm}
-\begin{center}
-{\small
-\fcolorbox{white}{Lightgray}{%
-      \begin{codebox}
-        \Procname{$\proc{DFS}(G)$}
-        \li \For each vertex $u \in G.V$
-        \li \Do $u.color=\const{White}$\End
-        \li $time=0$ \Comment global variable
-        \li \For each $u\in G.V$
-        \li  \Do \If $u.color\isequal \const{White}$
-        \li   \Then $\proc{DFS-Visit}(G,u)$\End\End
-      \end{codebox}}
-}
-\end{center}
-\end{column}
-\begin{column}{5cm}
-\begin{center}
-{\small
-\fcolorbox{white}{Lightgray}{%
-      \begin{codebox}
-        \Procname{$\proc{DFS-Visit}(G,u)$}
-        \li $time=time+1$
-        \li $u.d=time$
-        \li $u.color=\const{Gray}$
-        \li \For each $v\in G.Adj[u]$
-        \li \Do \If $v.color\isequal \const{White}$
-        \li \Then $\proc{DFS-Visit}(G,v)$\End\End
-        \li $u.color=\const{Black}$
-        \li $time = time + 1$
-        \li $u.f=time$
-      \end{codebox}}
-}
-\end{center}
-\end{column}
-\end{columns}
+Un parcours en profondeur de tous les sommets d'un graphe construit un
+ensemble d'arbres (une \alert{forêt}), appelé sous-graphe de liaison, où:
+\begin{itemize}
+\item les sommets sont les sommets du graphe,
+\item un sommet $w$ est le fils d'un sommet $v$ dans la forêt si
+  $\proc{DFS-rec}(G,w)$ est appelé depuis $\proc{DFS-rec}(G,v)$
+\end{itemize}
 
 \bigskip
 
-\begin{itemize}
-\item Boucle lignes 4-6 de $\proc{DFS-Visit}(G,u)$: $\Theta(out-degree(u))$
-\item $\proc{DFS-Visit}(G,u)$ est appelé une seule fois pour chaque sommet
-\begin{itemize}
-\item On l'appelle sur un sommet blanc uniquement et on le marque gris directement après l'appel
-\end{itemize}
-\item Complexité globale: $\Theta(|V|+|E|)$
-\end{itemize}
+Exemple:
 
-\note{Pourquoi $\Theta$ ? Parce que l'algorithme parcourt tout le graphe contrairement au breadth-first}
+\centerline{\includegraphics[width=9cm]{Figures/07-dfs-forest.pdf}}
 
+\bigskip
+
+{\it (Exercice: modifiez $\proc{DFS-All}$ et $\proc{DFS-Rec}$ pour construire la forêt)}
+
+\note{L'arbre n'est pas unique !!
+
+\bigskip
+
+Que se passe-t'il si on applique ça à un graphe non orienté ? Combien y aura-t'il d'arbres ?
+}
 \end{frame}
+
+%% \begin{frame}{Parcours en profondeur d'abord: complexité}
+
+%% \begin{columns}
+%% \begin{column}{5cm}
+%% \begin{center}
+%% {\small
+%% \fcolorbox{white}{Lightgray}{%
+%%       \begin{codebox}
+%%         \Procname{$\proc{DFS}(G)$}
+%%         \li \For each vertex $u \in G.V$
+%%         \li \Do $u.color=\const{White}$\End
+%%         \li $time=0$ \Comment global variable
+%%         \li \For each $u\in G.V$
+%%         \li  \Do \If $u.color\isequal \const{White}$
+%%         \li   \Then $\proc{DFS-Visit}(G,u)$\End\End
+%%       \end{codebox}}
+%% }
+%% \end{center}
+%% \end{column}
+%% \begin{column}{5cm}
+%% \begin{center}
+%% {\small
+%% \fcolorbox{white}{Lightgray}{%
+%%       \begin{codebox}
+%%         \Procname{$\proc{DFS-Visit}(G,u)$}
+%%         \li $time=time+1$
+%%         \li $u.d=time$
+%%         \li $u.color=\const{Gray}$
+%%         \li \For each $v\in G.Adj[u]$
+%%         \li \Do \If $v.color\isequal \const{White}$
+%%         \li \Then $\proc{DFS-Visit}(G,v)$\End\End
+%%         \li $u.color=\const{Black}$
+%%         \li $time = time + 1$
+%%         \li $u.f=time$
+%%       \end{codebox}}
+%% }
+%% \end{center}
+%% \end{column}
+%% \end{columns}
+
+%% \bigskip
+
+%% \begin{itemize}
+%% \item Boucle lignes 4-6 de $\proc{DFS-Visit}(G,u)$: $\Theta(out-degree(u))$
+%% \item $\proc{DFS-Visit}(G,u)$ est appelé une seule fois pour chaque sommet
+%% \begin{itemize}
+%% \item On l'appelle sur un sommet blanc uniquement et on le marque gris directement après l'appel
+%% \end{itemize}
+%% \item Complexité globale: $\Theta(|V|+|E|)$
+%% \end{itemize}
+
+%% \note{Pourquoi $\Theta$ ? Parce que l'algorithme parcourt tout le graphe contrairement au breadth-first}
+
+%% \end{frame}
 
 \begin{frame}{Application: tri topologique}
 \begin{itemize}
@@ -616,7 +747,8 @@ L'attribut $color$ permet de marquer les sommets déjà découverts:
 \item Etant donné un \alert{graphe acyclique dirigé} (DAG), trouver un
   ordre des sommets tel qu'il n'y ait pas d'arête d'un n\oe ud vers un
   des n\oe uds qui le précède dans l'ordre
-\item C'est toujours possible si le graphe est acyclique
+\item On peut montrer que c'est possible si (et seulement si) le
+  graphe est acyclique
 \end{itemize}
 
 \bigskip
@@ -649,47 +781,173 @@ Une tri topologique
 
 \end{frame}
 
-\begin{frame}{Algorithme}
+\begin{frame}{Marquage des sommets pour le parcours en profondeur}
 
-Deux solutions:
 \begin{itemize}
-\item En utilisant le parcours en profondeur
+\item Dans le cadre d'un parcours en profondeur de tous les sommets,
+  $\proc{DFS-rec}$ est appelé une et une seule fois sur chaque sommet
+\item Lors de l'exécution de $\proc{DFS-All}$, on dira qu'un sommet
+  $v$ est \alert{fini} si l'appel $\proc{DFS-rec}(G,v)$ est terminé
+\item A un moment donné, les sommets peuvent être dans les trois états suivants:
+\begin{itemize}
+\item pas encore visité (on dira que $v$ est \alert{blanc})
+\item visité mais pas encore fini ($v$ est \alert{gris})
+\item fini ($v$ est \alert{noir})
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Marquage des sommets pour le parcours en profondeur}
+
+\begin{columns}
+\begin{column}{5cm}
 \begin{center}
 {\small
 \fcolorbox{white}{Lightgray}{%
       \begin{codebox}
-        \Procname{$\proc{Topological-sort}(G)$}
-        \li $\proc{DFS}(G)$
-        \li Return nodes in $G.V$ in reverse order of $v.f$
-        \end{codebox}}
+        \Procname{$\proc{DFS-all}(G)$}
+        \li \For each vertex $u \in G.V$
+        \li \Do $u.color=\const{White}$\End
+        \li \For each vertex $u \in G.V$
+        \li \Do \If $u.color\isequal \const{White}$
+        \li \Then $\proc{DFS-Rec}(G,u)$
+      \end{codebox}}
 }
 \end{center}
+\end{column}
+\begin{column}{5cm}
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{DFS-Rec}(G,s)$}
+        \li $s.color=\const{Gray}$
+        \li \For each $v\in G.Adj[s]$
+        \li \Do \If $s.color\isequal\const{White}$
+        \li \Then $\proc{DFS-Rec}(G,v)$\End\End
+        \li $s.color=\const{Black}$
+      \end{codebox}}
+}
+\end{center}
+\end{column}
+\end{columns}
+
 \bigskip
 
-\item Une solution gloutonne:
+\bigskip
+
 \begin{itemize}
-\item Rechercher un sommet qui n'a pas d'arête entrante 
-\item Ajouter ce sommet à un tri topologique du graphe dont on a retiré ce sommet et toute ses arêtes
+\item \alert{Lemme.} Soit $s$ un sommet de $G$. Considérons le moment
+  de l'exécution de $\proc{DFS-All}(G)$ où $\proc{DFS-Rec}(G,s)$ est
+  appelé. Pour tout sommet $v$, on a:
+\begin{enumerate}
+\item Si $v$ est blanc et accessible depuis $s$, alors $v$ sera noir avant $s$
+\item Si $v$ est gris, alors $s$ est accessible depuis $v$
+\end{enumerate}
 \end{itemize}
+
+\note{Propriété 2: si $v$ est gris, ça veut dire qu'on est dans la
+  partie 2-4 de DFS-Rec et donc qu'on a atteint $s$ en parcourant le
+  graphe depuis $s$ en profondeur. Donc, $s$ est accessible depuis $v$.}
+
+\end{frame}
+
+\begin{frame}{Trouver un tri topologique par DFS}
+\begin{itemize}
+\item Soit un graphe $G=(V,E)$ et l'ordre suivant défini sur $V$:
+$$s\prec v\Leftrightarrow v\mbox{ devient noir avant }s$$
+\item Si $G$ est un DAG, alors $\prec$ définit un ordre topologique sur $G$
 
 \bigskip
 
-\item Complexité dans les deux cas: $\Theta(|E|+|V|)$
+\item \alert{Preuve:}
+\begin{itemize}
+\item Soit $(s,v)\in E$. On doit montrer que $s\prec v$.
+\item Considérons le moment où $\proc{DFS-rec}(G,s)$ est appelé:
+\begin{itemize}
+\item Si $v$ est déjà noir, alors $s\prec v$ par définition de $\prec$
+\item Si $v$ est blanc, alors $v$ sera noir avant $s$ par le lemme
+  précédent. Donc $s\prec v$
+\item Si $v$ est gris, $s$ est accessible depuis $v$ et donc il y a un
+  cycle (puisque $(s,v)\in E$). Ce qui ne peut pas arriver vu que $G$ est un DAG.
+\end{itemize}\qed
 \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Tri topologique: implémentation}
+
+\begin{columns}
+\begin{column}{5.5cm}
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Top-Sort}(G)$}
+        \li \For each vertex $u \in G.V$
+        \li \Do $u.color=\const{White}$\End
+        \li $L=$"create empty linked list"
+        \li \For each vertex $u \in G.V$
+        \li \Do \If $u.color\isequal \const{White}$
+        \li \Then $\proc{Top-Sort-Rec}(G,u,L)$\End\End
+        \li \Return $L$
+      \end{codebox}}
+}
+\end{center}
+\end{column}
+\begin{column}{5.5cm}
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Top-Sort-Rec}(G,s,L)$}
+        \li $s.color=\const{Gray}$
+        \li \For each $v\in G.Adj[s]$
+        \li \Do \If $s.color\isequal\const{White}$
+        \li \Then $\proc{Top-Sort-Rec}(G,v,L)$
+        \li \ElseIf $s.color\isequal\const{Grey}$
+        \li \Then $\proc{Error}$ "$G$ has a cycle"\End\End        
+        \li $s.color=\const{Black}$
+        \li $\proc{Insert-First}(L,s)$
+      \end{codebox}}
+}
+\end{center}
+\end{column}
+\end{columns}
+
+\bigskip
+
+Complexité: $\Theta(|V|+|E|)$
 
 \end{frame}
 
 \begin{frame}{Illustration}
 
-Calcul de $v.d$ et $v.f$ sur l'exemple illustratif
+Graphe
 
-\centerline{\includegraphics[width=8cm]{Figures/07-tritopo-annotated.pdf}}
+\centerline{\includegraphics[width=8cm]{Figures/07-tritopo-exemple.pdf}}
 
-Tri selon $v.f$
+\bigskip
 
-\centerline{\includegraphics[width=10cm]{Figures/07-tritopo-annotated-2.pdf}}
+Une tri topologique
+
+\centerline{\includegraphics[width=10cm]{Figures/07-tritopo-exemple-solution.pdf}}
 
 \end{frame}
+
+\begin{frame}{Une autre solution}
+
+\begin{itemize}
+\item Approche gloutonne:
+\begin{itemize}
+\item Rechercher un sommet qui n'a pas d'arête entrante 
+\item Ajouter ce sommet à un tri topologique du graphe dont on a retiré ce sommet et toutes ses arêtes
+\end{itemize}
+\item Complexité identique à l'approche DFS: $\Theta(|E|+|V|)$
+\end{itemize}
+
+\end{frame}
+
 
 \section{Plus courts chemins}
 
