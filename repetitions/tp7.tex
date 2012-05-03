@@ -1,0 +1,64 @@
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{../clrscode3epg}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+% Style
+\parskip=\smallskipamount
+
+% En-têtes
+\title{
+    \textbf{Structures de données et algorithmes}\\
+    Répétition 7: Résolution de problèmes (suite)
+}
+
+\author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
+\date{4 mai 2012}
+
+% Corps
+\begin{document}
+\maketitle
+
+\section*{Exercice 1}
+
+Soit une chaîne de caractère \texttt{S} au format ASCII.
+
+\begin{enumerate}
+\item Ce codage est-il optimal en termes d'espace mémoire utilisé? Illustrer par un exemple.
+\item Comment réduire la mémoire utilisée?
+\item Proposer un algorithme glouton pour compresser \texttt{S}.
+\item Quel serait le codage de \texttt{S} pour l'exemple proposé en (a)?
+\end{enumerate}
+
+\section*{Exercice 2}
+
+% http://people.csail.mit.edu/bdean/6.046/dp/
+
+Soit une expression booléenne composée des symboles \texttt{true}, \texttt{false}, \texttt{and} et \texttt{or}. Proposer un algorithme qui détermine le nombre de façon de parenthèser l'expression de sorte qu'elle soit évaluée à \texttt{true}.
+
+\section*{Exercice 3 (B. Boigelot, 2009)}
+
+On considère un terrain de jeu rectangulaire possédant $n.m$ cases organisées en
+$n$ lignes et $m$ colonnes. Des sommes d'argent sont initialement placées sur
+ces cases. Un joueur traverse le terrain à partir du coin supérieur gauche
+jusqu'au coin inférieur droit. A chaque étape de ce trajet, le joueur collecte
+la somme d'argent placée sur la case où il se trouve, et a ensuite le choix de
+se déplacer d'une case soit vers la droite, soit vers le bas (les déplacements
+vers la gauche, vers le haut ou en diagonale sont interdits).
+
+\begin{enumerate}
+\item Ecrire un algorithme capable de calculer une suite de mouvements qui permet au joueur d'atteindre la case inférieure droite en ayant accumulé le plus d'argent possible.
+\item Calculer la complexité en temps et en espace de l'algorithme proposé.
+\end{enumerate}
+
+\end{document}
