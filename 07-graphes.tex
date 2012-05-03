@@ -34,9 +34,10 @@
 
 \end{frame}
 
-\begin{frame}{Terminologie}
+\begin{frame}{Terminologie: graphe non dirigé}
 
-Graphe non dirigé:
+\centerline{\includegraphics[width=3cm]{Figures/07-exemple-graphenondirige.pdf}}
+{\small $$V=\{1,2,3,4,5\}, E=\{(1,2),(1,5),(2,5),(2,3),(3,4),(4,5)\}$$}
 \begin{itemize}
 \item Deux n\oe uds sont \alert{adjacents} s'ils sont liés par une même arête
 \item Une arête $(v_1,v_2)$ est dite \alert{incidente} aux n\oe uds $v_1$ et $v_2$
@@ -49,9 +50,10 @@ Graphe non dirigé:
 
 \end{frame}
 
-\begin{frame}{Terminologie}
+\begin{frame}{Terminologie: graphe dirigé}
 
-Graphe dirigé:
+\centerline{\includegraphics[width=4cm]{Figures/07-exemple-graphedirige.pdf}}
+{\small $$V=\{1,2,3,4,5,6\}, E=\{(1,2),(1,4),(2,5),(3,5),(3,6),(4,2),(5,4),(6,6)\}$$}
 \begin{itemize}
 \item Une arête $(v_1,v_2)$ possède l'\alert{origine} $v_1$ et la \alert{destination}
   $v_2$. Cette arête est \alert{sortante} pour $v_1$ et \alert{entrante} pour $v_2$
@@ -126,28 +128,31 @@ Graphe dirigé
 
 \begin{frame}{Complexités}
 \begin{itemize}
-\item Complexité en espace: $O(|V|+|E|)$
+\item Complexité en espace: \uncover<2->{$O(|V|+|E|)$
 \begin{itemize}
 \item optimal
-\end{itemize}
-\item Accéder à un sommet: $O(1)$
+\end{itemize}}
+\item Accéder à un sommet: \uncover<3->{$O(1)$
 \begin{itemize}
 \item optimal
-\end{itemize}
-\item Parcourir tous les sommets: $\Theta(|V|)$
+\end{itemize}}
+\item Parcourir tous les sommets: \uncover<4->{$\Theta(|V|)$
 \begin{itemize}
 \item optimal
-\end{itemize}
-\item Parcourir toutes les arêtes: $\Theta(|V|+|E|)$
+\end{itemize}}
+\item Parcourir toutes les arêtes: \uncover<5->{$\Theta(|V|+|E|)$
 \begin{itemize}
 \item ok (mais pas optimal)
-\end{itemize}
-\item Vérifier l'existence d'une arête $(u,v)\in E$: $O(|V|)$
+\end{itemize}}
+\item Vérifier l'existence d'une arête $(u,v)\in E$: \uncover<6->{$O(|V|)$
 \begin{itemize}
 \item ou encore $O(min(degree(u),degree(v)))$
 \item mauvais
+\end{itemize}}
 \end{itemize}
-\end{itemize}
+
+{\it (Exercice: insertion, suppression de n\oe uds et d'arêtes ?)}
+
 \note{Discuter des opérations d'insertion et de deletion de n\oe uds et d'arêtes}
 \end{frame}
 
@@ -186,27 +191,28 @@ Graphe dirigé
 
 \begin{frame}{Complexités}
 \begin{itemize}
-\item Complexité en espace: $O(|V|^2)$
+\item Complexité en espace: \uncover<2->{$O(|V|^2)$
 \begin{itemize}
 \item potentiellement très mauvais
-\end{itemize}
-\item Accéder à un sommet: $O(1)$
+\end{itemize}}
+\item Accéder à un sommet: \uncover<3->{$O(1)$
 \begin{itemize}
 \item optimal
-\end{itemize}
-\item Parcourir tous les sommets: $\Theta(|V|)$
+\end{itemize}}
+\item Parcourir tous les sommets: \uncover<4->{$\Theta(|V|)$
 \begin{itemize}
 \item optimal
-\end{itemize}
-\item Parcourir toutes les arêtes: $\Theta(|V|^2)$
+\end{itemize}}
+\item Parcourir toutes les arêtes: \uncover<5->{$\Theta(|V|^2)$
 \begin{itemize}
 \item potentiellement très mauvais
-\end{itemize}
-\item Vérifier l'existence d'une arête $(u,v)\in E$: $O(1)$
+\end{itemize}}
+\item Vérifier l'existence d'une arête $(u,v)\in E$: \uncover<6->{$O(1)$
 \begin{itemize}
 \item optimal
+\end{itemize}}
 \end{itemize}
-\end{itemize}
+{\it (Exercice: insertion, suppression de n\oe uds et d'arêtes ?)}
 \end{frame}
 
 \begin{frame}{Représentations}
@@ -214,7 +220,7 @@ Graphe dirigé
 \item Listes d'adjacence:
 \begin{itemize}
 \item Complexité en espace optimal
-\item Mauvais pour des graphes \alert{denses\footnote{$|E|\approx |V|^2$}} et des algorithmes qui ont besoin d'accéder aux arêtes
+\item Pas appropriée pour des graphes \alert{denses\footnote{$|E|\approx |V|^2$}} et des algorithmes qui ont besoin d'accéder aux arêtes
 \item Préférable pour des graphes \alert{creux\footnote{$|E|\ll |V|^2$}} ou de degré faible
 \end{itemize}
 
@@ -222,8 +228,8 @@ Graphe dirigé
 
 \item Matrice d'adjacence:
 \begin{itemize}
-\item Complexité en espace très mauvaise
-\item Bonne pour des algorithmes qui désirent accéder aléatoirement aux arêtes
+\item Complexité en espace très mauvaise pour des graphes creux
+\item Appropriée pour des algorithmes qui désirent accéder aléatoirement aux arêtes
 \item Préférable pour des graphes \alert{denses}
 \end{itemize}
 \end{itemize}
@@ -323,25 +329,6 @@ Pour l'implémentation:
         \li\Do \If $v.d=\infty$
         \li \Then $v.d=u.d+1$
         \li $\proc{Enqueue}(Q,v)$\End\End\End
-        %% \Procname{$\proc{BFS}(G,s)$}
-        %% \li \For each vertex $u \in G.V\setminus \{s\}$
-        %% \li \Do $u.color=\const{White}$
-        %% \li $u.d=\infty$
-        %% \li $u.\pi=\const{NIL}$\End
-        %% \li $s.color=\const{Gray}$
-        %% \li $s.d=0$
-        %% \li $s.\pi=\const{NIL}$
-        %% \li $Q=\emptyset$
-        %% \li $\proc{Enqueue}(Q,s)$
-        %% \li \While $Q\neq \emptyset$
-        %% \li \Do $u=\proc{Dequeue}(Q)$
-        %% \li \For each $v\in G.Adj[u]$
-        %% \li\Do \If $v.color\isequal \const{White}$
-        %% \li \Then $v.color=\const{Gray}$
-        %% \li $v.d=u.d+1$
-        %% \li $v.\pi = u$
-        %% \li $\proc{Enqueue}(Q,v)$\End\End
-        %% \li $u.color=\const{Black}$\End
       \end{codebox}}
 }
 \end{center}
@@ -453,7 +440,7 @@ Pour l'implémentation:
 \begin{itemize}
 \item On suit immédiatement les arêtes incidentes au dernier sommet visité
 \begin{itemize}
-\item Au lieu de les placer dans une file comme dans le parcours en largeur
+\item Au lieu de les mettre en attente dans une file
 \end{itemize}
 \item On revient en arrière ({\it backtrack}) quand le sommet visité
   n'a plus de sommets adjacents non visités
@@ -869,7 +856,7 @@ $$s\prec v\Leftrightarrow v\mbox{ devient noir avant }s$$
 \item Si $v$ est blanc, alors $v$ sera noir avant $s$ par le lemme
   précédent. Donc $s\prec v$
 \item Si $v$ est gris, $s$ est accessible depuis $v$ et donc il y a un
-  cycle (puisque $(s,v)\in E$). Ce qui ne peut pas arriver vu que $G$ est un DAG.
+  cycle (puisque $(s,v)\in E$). Ce qui ne peut pas arriver vu que $G$ est un DAG
 \end{itemize}\qed
 \end{itemize}
 \end{itemize}
@@ -933,6 +920,8 @@ Une tri topologique
 
 \centerline{\includegraphics[width=10cm]{Figures/07-tritopo-exemple-solution.pdf}}
 
+\note{Est-ce que vous avez une autre idée, basée sur une approche gloutonne ?}
+
 \end{frame}
 
 \begin{frame}{Une autre solution}
@@ -940,8 +929,14 @@ Une tri topologique
 \begin{itemize}
 \item Approche gloutonne:
 \begin{itemize}
-\item Rechercher un sommet qui n'a pas d'arête entrante 
+\item Rechercher un sommet qui n'a pas d'arête entrante
+\begin{itemize}
+\item C'est toujours possible dans un graphe acyclique
+\end{itemize}
 \item Ajouter ce sommet à un tri topologique du graphe dont on a retiré ce sommet et toutes ses arêtes
+\begin{itemize}
+\item Ce graphe reste acyclique
+\end{itemize}
 \end{itemize}
 \item Complexité identique à l'approche DFS: $\Theta(|E|+|V|)$
 \end{itemize}
@@ -957,7 +952,801 @@ Une tri topologique
 
 \end{frame}
 
-\begin{frame}{Plus courts chemins}
+% definition du probleme + propriétés (cycles négatifs, etc.)
+
+\begin{frame}{Définitions}
+
+\begin{itemize}
+\item Soit un graphe dirigé $G=(V,E)$ et une fonction de poids $w:
+  E\rightarrow I\!R$
+\item Un chemin (du sommet $v_1$ au sommet $v_k$) est une séquence de
+  n\oe uds $v_1, v_2,\ldots, v_k$ telle que $\forall i=1,\ldots,k-1$,
+  $(v_i,v_{i+1})\in E$.
+\item Le poids (ou coût) d'un chemin $p$ est la somme du poids des arêtes qui le composent:
+$$w(p)=w(v_1,v_2)+w(v_2,v_3)+\ldots+w(v_{k-1},v_k)$$
+\item Exemple
+\centerline{\includegraphics[width=4cm]{Figures/07-poidschemin.pdf}}
+$$w(s\rightarrow y \rightarrow t\rightarrow x\rightarrow z)=5+1+6+2=14$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Plus courts chemins: définition}
+
+\begin{itemize}
+\item Un plus court chemin entre deux sommets $u$ et $v$ est un chemin
+  $p$ de $u$ à $v$ de poids $w(p)$ le plus faible possible
+\item $\delta(u,v)$ est le poids d'un plus court chemin de $u$ à $v$:
+$$\delta(u,v)=\min_p\{w(p)|p \mbox{ est un chemin de }u\mbox{ à }v\}$$
+(S'il n'y a pas de chemin entre $u$ et $v$, $\delta(u,v)=\infty$ par définition)
+\item Exemples:
+
+\bigskip
+
+\centerline{\includegraphics[width=9cm]{Figures/07-pcc-exemples.pdf}}
+
+%{\small(Chaque n\oe ud $v$ est marqué de la valeur de $\delta(0,v)$)}
+
+\end{itemize}
+
+\note{Plusieurs plus court chemin}
+
+\end{frame}
+
+\begin{frame}{Plus courts chemins: exemple d'application}
+
+%% \begin{itemize}
+%% \item Les poids représentent n'impor
+%% \end{itemize}
+
+%% \bigskip
+
+\centerline{\includegraphics[width=9cm]{Figures/07-pcc-montef-1.pdf}}
+
+\end{frame}
+
+\begin{frame}{Propriété de sous-structure optimale}
+
+\begin{itemize}
+\item \alert{Lemme:} Tout sous-chemin d'un chemin le plus court est un chemin le plus court entre ses extrémités
+
+\bigskip
+
+\item \alert{Preuve:} Par l'absurde
+\begin{itemize}
+\item Soit un plus court chemin $p_{uv}$ entre $u$ et $v$ et soit un sous-chemin $p_{xy}$ de ce chemin défini par ses extrémité $x$ et $y$
+\item S'il existe un chemin plus court que $p_{xy}$ entre $x$ et $y$, on pourrait remplacer $p_{xy}$ par ce chemin dans le chemin entre $u$ et $v$ et obtenir ainsi un chemin plus court que $p_{uv}$ entre $u$ et $v$
+\end{itemize}
+\end{itemize}
+
+\bigskip
+
+\centerline{\includegraphics[width=7cm]{Figures/07-pcc-sousstructure.pdf}}
+
+\end{frame}
+
+\begin{frame}{Poids négatifs}
+
+\begin{itemize}
+\item Les poids peuvent être négatifs
+\item Ok la plupart du temps mais non permis par certains algorithmes (Dijkstra)
+\item Problème en cas de cycles de poids négatifs (\alert{cycle absorbant}):
+\begin{itemize}
+\item En cyclant dans le cycle négatif, on peut diminuer arbitrairement le poids du chemin
+\item Par définition, on fixera $\delta(u,v)=-\infty$ s'il y a un chemin de $u$ à $v$ qui passe par un cycle négatif
+\end{itemize}
+\end{itemize}
+
+\centerline{\includegraphics[width=5cm]{Figures/07-pcc-negative.pdf}}
+
+$$\delta(s,e)=\delta(s,f)=\delta(s,g)=-\infty$$
+
+\end{frame}
+
+\begin{frame}{Cycles}
+
+Un chemin le plus court ne peut pas contenir de cycles
+\begin{itemize}
+\item Cycles de poids négatifs: on les a déjà exclus par définition
+\item Cycles de poids positifs: on peut obtenir un chemin plus court en les supprimant
+\item Cycles de poids nuls: il n'y a pas de raison de les utiliser. On ne les utilisera pas
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Plus courts chemins: variantes de problèmes}
+
+Différentes variantes du problème:
+\begin{itemize}
+\item \alert{Origine unique}: trouver tous les plus courts chemins d'un sommet à tous les autres
+\begin{itemize}
+\item Algorithmes de Dijkstra et Bellman-Ford
+\end{itemize}
+\item \alert{Destination unique}: trouver tous les plus courts chemins de tous les sommets vers un sommet donné
+\begin{itemize}
+\item Essentiellement le même problème que l'origine unique
+\end{itemize}
+\item \alert{Paire unique}: trouver un plus court chemin entre deux sommets donnés.
+\begin{itemize}
+\item Pas de meilleure solution que de résoudre le problème ``origine unique''.
+\end{itemize}
+\item \alert{Toutes les paires}: trouver tous les plus courts chemin de $u$ à
+  $v$ pour toutes les paires de sommets $(u,v)\in V\times V$.
+\begin{itemize}
+\item Algorithme de Floyd-Warshall
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+% Principe des algorithmes
+
+
+\begin{frame}{Recherche du plus court chemin, origine unique}
+
+\begin{itemize}
+\item Entrées: un graphe dirigé pondéré et un sommet $s$ (l'origine)
+\item Sorties: deux attributs pour chaque sommet:
+\begin{itemize}
+\item $v.d=\delta(s,v)$, la plus courte distance de $s$ vers chaque n\oe ud
+\item $v.\pi=$ le prédécesseur de chaque sommet $v$ dans un plus court chemin de $s$ à $v$\\
+(formant \alert{l'arbre} des plus courts chemins partant de $s$)
+\end{itemize}
+\end{itemize}
+
+\centerline{\includegraphics[width=5cm]{Figures/07-pcc-sssp.pdf}}
+
+\end{frame}
+
+\begin{frame}{Approche force brute}
+
+\begin{itemize}
+\item Calculer le poids de tous les chemins entre deux n\oe uds et renvoyer le plus court
+\item Problème:
+\begin{itemize}
+\item Le nombre de chemin peut être infini (dans le cas de cycles)\\
+
+(mettre une figure)
+
+\item Le nombre de chemin peut être exponentielle par rapport au nombre de sommets et d'arêtes\\
+
+(mettre une figure)
+
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Schéma général d'un algorithme}
+
+\begin{itemize}
+\item Objectif: calculer $v.d=\delta(s,v)$ pour tout $v\in V$
+
+\bigskip
+
+\item Idée d'algorithme:
+\begin{itemize}
+\item $v.d$ à un itération donné contient une \alert{estimation} du poids d'un plus court chemin de $s$ à $v$
+\item Invariant: $v.d\geq \delta(s,v)$
+\item Initialisation: $v.d=+\infty$ ($\forall v \in V$)
+\item A chaque itération, on tente d'améliorer (c'est-à-dire diminuer) $v.d$ en maintenant l'invariant
+\item A la convergence, on aura $v.d=\delta(s,v)$
+\item L'amélioration est basée sur l'utilisation de l'inégalité triangulaire
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Inégalité triangulaire et relaxation}
+\begin{itemize}
+\item \alert{Théorème:} Pour tout $u, v, x \in V$, on a
+$$\delta(u,v)\leq \delta(u,x)+\delta(x,v)$$
+\item \alert{Preuve:} Aller de $u$ à $v$ en empruntant un plus court chemin passant par $x$ ne peut pas être plus court qu'un plus court chemin de $u$ à $v$.
+
+\bigskip
+
+\item \alert{Corrolaire:} Pour tout $(u,v)\in E$, on a $$\delta(s,v)\leq \delta(s,u)+w(u,v)$$
+
+\bigskip
+
+\item Amélioration d'une arête (\alert{Relaxation}):
+\end{itemize}
+
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Relax}(u,v,w)$}
+        \li \If $v.d>u.d+w(u,v)$
+        \li \Then $v.d=u.d+w(u,v)$
+      \end{codebox}
+}}
+\end{center}
+\end{column}
+\begin{column}{5cm}
+\centerline{\includegraphics[width=5cm]{Figures/07-pcc-relaxation.pdf}}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Schéma général d'un algorithme}
+
+\begin{columns}
+\begin{column}{5cm}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Single-source-SP}(G,w,s)$}
+        \li $\proc{Init-single-source}(G,s)$
+        \li \While $\exists (u,v): v.d\geq u.d+w(u,v)$
+        \li \Do Pick one edge (u,v)
+        \li $\proc{Relax}(u,v,w)$\End
+      \end{codebox}
+}}
+\end{column}
+\begin{column}{5cm}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Init-single-source}(G,s)$}
+        \li \For each $v \in G.V$
+        \li \Do $v.d=\infty$\End
+        \li $s.d=0$
+      \end{codebox}
+}}
+\end{center}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Relax}(u,v,w)$}
+        \li \If $v.d>u.d+w(u,v)$
+        \li \Then $v.d=u.d+w(u,v)$
+      \end{codebox}
+}}
+\end{center}
+\end{column}
+\end{columns}
+
+\begin{itemize}
+\item On obtient différents algorithmes en modifiant la manière dont on sélectionne les arêtes
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Schéma général d'un algorithme}
+
+
+\begin{columns}
+\begin{column}{5cm}
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Single-source-SP}(G,w,s)$}
+        \li $\proc{Init-single-source}(G,s)$
+        \li \While $\exists (u,v): v.d\geq u.d+w(u,v)$
+        \li \Do Pick one edge (u,v)
+        \li $\proc{Relax}(u,v,w)$\End
+      \end{codebox}
+}}
+\end{center}
+\end{column}
+\begin{column}{5cm}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Init-single-source}(G,s)$}
+        \li \For each $v \in G.V$
+        \li \Do $v.d=\infty$
+        \li  {\color{red}$v.\pi=\const{NIL}$} \End
+        \li $s.d=0$
+      \end{codebox}
+}}
+\end{center}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Relax}(u,v,w)$}
+        \li \If $v.d>u.d+w(u,v)$
+        \li \Then $v.d=u.d+w(u,v)$
+        \li {\color{red} $v.\pi=u$}\End
+      \end{codebox}
+}}
+\end{center}
+\end{column}
+\end{columns}
+
+\begin{itemize}
+\item En ajoutant la construction de l'arbre des plus courts chemins
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Propriétés de l'algorithme général}
+
+\begin{itemize}
+\item \alert{Propriété 1:} L'algorithme général maintient toujours l'invariant
+
+\bigskip
+
+\item \alert{Preuve:} Par induction sur le nombre d'itérations
+\begin{itemize}
+\item Cas de base: l'invariant est vérifié après l'initialisation
+\item Cas inductif:
+\begin{itemize}
+\item Soit un appel à $relax(u,v,w)$
+\item Avant l'appel, on suppose que l'invariant est vérifié et donc $u.d\geq \delta(s,u)$
+\item Par l'inégalité triangulaire:
+\begin{eqnarray*}
+\delta(s,v) &\leq& \delta(s,u)+\delta(u,v)\\
+&\leq& u.d+w(u,v)
+\end{eqnarray*}
+\item Suite à l'assignation $v.d=u.d+w(u,v)$, on a bien $$v.d\geq \delta(s,v)$$
+\end{itemize}
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+\bigskip
+
+\begin{frame}{Propriétés de l'algorithme général}
+
+\begin{itemize}
+\item \alert{Propriété 2:} Une fois que $v.d=\delta(s,v)$, il n'est plus modifié
+\item \alert{Preuve:} On a toujours $v.d\geq \delta(s,v)$ et une relaxation ne peut que diminuer $v.d$
+
+\bigskip
+
+\bigskip
+
+\item Vu les propriétés 1 et 2, pour montrer qu'un algorithme du plus court chemin est
+  correct, on devra montrer que le \alert{choix} des arêtes à relaxer
+  mènera bien à $v.d=\delta(s,v)$ pour tout $v$.
+
+\end{itemize}
+
+\end{frame}
+
+
+
+% Algorithme de Bellman-Ford
+
+\begin{frame}{Algorithme de Bellman-Ford}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Single-source-SP}(G,w,s)$}
+        \li $\proc{Init-single-source}(G,s)$
+        \li \While $\exists (u,v): v.d\geq u.d+w(u,v)$
+        \li \Do Pick one edge (u,v)
+        \li $\proc{Relax}(u,v,w)$\End
+      \end{codebox}
+}}
+\end{center}
+
+\bigskip
+
+\begin{itemize}
+\item Algorithme basé sur la relaxation
+\item Soit les arêtes $e_1,\ldots,e_m$, dans un ordre quelconque.
+\item La relaxation se fait dans cet ordre:
+$$\underbrace{\underbrace{e_1,e_2,\ldots,e_m};\underbrace{e_1,e_2,\ldots,e_m};\ldots;\underbrace{e_1,e_2,\ldots,e_m}}_{|V|-1 fois}$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Algorithme de Bellman-Ford}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Bellman-Ford}(G,w,s)$}
+        \li $\proc{Init-single-source}(G,s)$
+        \li \For i=1 \To $|G.V|-1$
+        \li \Do \For each edge $(u,v)\in G.E$
+        \li \Do $\proc{Relax}(u,v,w)$\End\End
+      \end{codebox}
+}}
+\end{center}
+
+\bigskip
+
+Illustration sur un exemple:
+
+\centerline{\includegraphics[width=5cm]{Figures/07-bellman-ford.pdf}}
+
+\end{frame}
+
+
+\begin{frame}{Analyse: complexité}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Bellman-Ford}(G,w,s)$}
+        \li $\proc{Init-single-source}(G,s)$
+        \li \For i=1 \To $|G.V|-1$
+        \li \Do \For each edge $(u,v)\in G.E$
+        \li \Do $\proc{Relax}(u,v,w)$\End\End
+      \end{codebox}
+}}
+\end{center}
+
+\begin{itemize}
+\item La boucle principale relaxe toutes les arêtes $|V|-1$ fois
+\item Complexité: $\Theta(|V|\cdot |E|)$
+\item En supposant qu'on puisse parcourir les arêtes en $O(|E|)$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Analyse: correction}
+
+\begin{itemize}
+\item On supposera qu'il n'y a pas de cycle de poids négatifs
+\item Propriété 3: Après $i$ itérations de l'algorithme, $v.d$ est le
+  poids d'un plus court chemin de $s$ à $v$ utilisant au plus $i$ arêtes:
+$$v.d\leq \min\{w(p): |p|\leq i\}$$
+\item Preuve: Par induction:
+\begin{itemize}
+\item Cas de base: $v.d=+\infty$ si $i=0$
+\item Cas inductif:
+\begin{itemize}
+\item Avant l'itération $i$, on a $v.d\leq \min\{w(p):|p|\leq i-1\}$
+\item Cette propriété reste vrai à tout moment de l'itération puisque
+  $\proc{Relax}$ ne peut que diminuer les $v.d$
+\item L'itération $i$ considère tous les chemins avec $i$ arêtes ou moins en relaxant tous les arêtes entrantes en $v$
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\centerline{\includegraphics[width=4cm]{Figures/07-pcc-bellmanford-proof.pdf}}
+
+\note{Pas un égal mais un plus petit ou égal car l'ordre des n\oe uds n'étant pas fixé, on va mixer les updates de path}
+
+\end{frame}
+
+\begin{frame}{Analyse: correction}
+
+\begin{itemize}
+\item Si le graphe ne contient pas de cycles de poids négatif, alors,
+  à la fin de l'exécution de l'algorithme de Bellman-Ford, on a
+  $v.d=\delta(s,v)$ pour tout $v\in V$.
+
+\bigskip
+
+\item Preuve:
+\begin{itemize}
+\item Sans cycle négatif, tout plus court chemin est \alert{simple}, c'est-à-dire sans cycle
+\item Tout chemin simple a au plus $|V|$ sommets et donc $|V|-1$ arêtes
+\item Par la propriété 3, on a $v.d\leq \delta(s,v)$ après 
+$|V|-1$ itérations
+\item Par l'invariant, on a $v.d\leq \delta(s,v)$ \qed
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Programmation dynamique}
+
+\begin{itemize}
+\item L'algorithme de Bellman-Ford implémente en fait une approche par
+  programmation dynamique\footnote{Bellman est en fait l'inventeur de la programmation dynamique}
+\item Soit $v.d[i]$, la longueur du plus court chemin de $s$ à $v$ utilisant au plus $i$ arêtes
+\item On a
+{\small
+\[v.d[i]=\left\{\begin{array}{ll}
+0 & \mbox{si }v=s\mbox{ et }i=0\\
++\infty & \mbox{si }v\neq s\mbox{ et }i=0\\
+\min_{(u,v)\in E}\{u.d[i-1]+w(u,v)\} & \mbox{sinon}\\
+  \end{array}\right.\]}
+\end{itemize}
+
+\bigskip
+
+{\it (Exercice: implémenter l'algorithme de Bellman-Ford à partir de
+  la récurrence et comparer le avec la version précédente)}
+
+\note{Différences:
+\begin{itemize}
+\item Récurrence suggère de parcourir les noeuds et puis pour chaque noeud les arêtes entrantes
+\item Bellman-Ford parcourt les arêtes dans n'importe quel ordre (notre preuve montre que l'ordre n'a pas d'importance)
+\item Pour la récurrence, on doit stocker un tableau de la taille du nombre de noeud. L'autre implémentation ne nécessite pas cette table !
+\end{itemize}
+}
+\end{frame}
+
+
+\begin{frame}{Détection des cycles négatifs}
+
+\begin{columns}
+\begin{column}{4.5cm}
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Bellman-Ford}(G,w,s)$}
+        \li $\proc{Init-single-source}(G,s)$
+        \li \For i=1 \To $|G.V|-1$
+        \li \Do \For each edge $(u,v)\in G.E$
+        \li \Do $\proc{Relax}(u,v,w)$\End\End
+        \li {\color{red}\For each edge $(u,v)\in G.E$}
+        \li \Do {\color{red}\If $v.d>u.d+w(u,v)$}
+        \li \Then {\color{red}\Return $\const{False}$}\End\End
+        \li {\color{red}\Return $\const{true}$}
+      \end{codebox}
+}}
+\end{center}
+\end{column}
+\begin{column}{5.5cm}
+\begin{itemize}
+\item Renvoie $\const{True}$ si un cycle négatif (accessible depuis
+  $s$) existe, $\const{False}$ sinon
+\item En cas de cycle négatif, il existe toujours au moins un $v.d$ qu'on
+  peut améliorer par relaxation d'un arc $(u,v)$
+\end{itemize}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+% Algorithme de Dijkstra
+
+\begin{frame}{Poids unitaires: parcours en largeur d'abord}
+
+\begin{itemize}
+\item On peut obtenir une solution plus rapide en mettant certaines
+  contraintes sur les poids
+\item Si les poids sont tous égaux à 1, le parcours en largeur permet
+  de calculer les $v.d$ en $O(|V|+|E|)$
+\end{itemize}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{BFS}(G,s)$}
+        \li \For each vertex $u \in G.V\setminus \{s\}$
+        \li \Do $u.d=\infty$\End
+        \li $s.d=0$
+        \li $Q=$"create empty Queue"
+        \li $\proc{Enqueue}(Q,s)$
+        \li \While not $\proc{Queue-Empty}(Q)$
+        \li \Do $u=\proc{Dequeue}(Q)$
+        \li \For each $v\in G.Adj[u]$
+        \li\Do \If $v.d=\infty$
+        \li \Then $v.d=u.d+1$
+        \li $\proc{Enqueue}(Q,v)$\End\End\End
+      \end{codebox}}
+}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Poids unitaires: parcours en largeur d'abord}
+
+\centerline{\includegraphics[width=8cm]{Figures/07-pcc-bfs.pdf}}
+
+\end{frame}
+
+\begin{frame}{Poids entiers, positifs et bornés}
+
+\begin{itemize}
+\item Si les poids sont des entiers compris entre $1\ldots W$:
+\begin{itemize}
+\item On définit un nouveau graphe en éclatant chaque arêtes de poids $w$ en $w$ arêtes de poids 1
+\item On applique le parcours en largeur sur ce nouveau graphe
+\end{itemize}
+\item Complexité: $O(|V|+W |E|)$
+\end{itemize}
+
+\centerline{\includegraphics[width=5cm]{Figures/07-integerweights.pdf}}
+
+\end{frame}
+
+\begin{frame}{Poids positifs: approche gloutonne}
+
+\begin{itemize}
+\item On peut généraliser l'idée du parcours en largeur à des poids positifs non entiers
+
+\bigskip
+
+\item Idée:
+\begin{itemize}
+\item On maintient un ensemble $S$ de sommets dont le poids d'un plus
+  court chemin à partir de $s$ est connu
+\item A chaque étape, on ajoute à $S$ un sommet $v\in V\setminus S$ dont la distance à $s$ est minimale
+\item On met à jour les distances estimées des sommets adjacents à $v$
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Algorithme de Dijkstra}
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Dijkstra}(G,w,s)$}
+        \li $\proc{Init-Single-Source}(G,s)$
+        \li $S=\emptyset$
+        \li $Q=$"create an empty min priority queue from $G.V$"
+        \li \While not $\proc{Empty}(Q)$
+        \li \Do $u=\proc{Extract-Min}(Q)$
+        \li $S=S\cup \{u\}$
+        \li \For each $v\in G.Adj[u]$
+        \li\Do $\proc{Relax}(u,v,w)$ {\color{red}\Comment ! $\proc{Relax}$ doit modifier la clé de $v$ dans $Q$}\End\End
+      \end{codebox}}
+}
+\end{center}
+
+\bigskip
+
+Illustration sur un exemple:
+
+\centerline{\includegraphics[width=5cm]{Figures/07-pcc-dijkstra-exemple.pdf}}
+
+\end{frame}
+
+
+\begin{frame}{Analyse: complexité}
+
+\begin{itemize}
+\item Si la file à priorité est implémentée par un tas (min), l'extraction et l'ajustement de la clé sont $O(\log |V|)$
+\item Chaque sommet est extrait de la file à priorité une et une seule fois
+\begin{itemize}
+\item[$\Rightarrow$] $O(|V|\log |V|)$
+\end{itemize}
+\item Chaque arête est parcourue une et une seule fois et entraîne au plus un ajustement de clé
+\begin{itemize}
+\item[$\Rightarrow$] $O(|E|\log |V|)$
+\end{itemize}
+\item Total: $O(|V|\log |V| + |E|\log |V|)=O(|E| \log |V|)$
+\begin{itemize}
+\item $|E| \log |V|$ domine $|V|\log |V|$ si le graphe est connexe
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+% Calculer tous les chemins: algorithme de Floyd...
+
+\begin{frame}{Analyse: correction}
+\begin{itemize}
+\item \alert{Théorème}: l'algorithm de Dijkstra se termine avec $v.d=\delta(s,v)$ pour tout $v\in V$
+\item \alert{Preuve}:
+\begin{itemize}
+\item Lorsqu'un n\oe ud $v$ est extrait de la pile, son $v.d$ n'est plus modifié. Il suffit donc de montrer que $v.d=\delta(s,v)$ lorsque $v$ est extrait de $Q$
+\item Par l'invariant (propriété 1), on a $v.d\geq \delta(s,v)$ à tout moment
+\item Par l'absurde, supposons qu'il existe un n\oe ud $u$ tel que $u.d>d(s,u)$ lors de son extraction et soit $u$ le premier n\oe ud satisfaisant cette propriété.
+\item Soit $y$ le premier n\oe ud d'un plus court chemin de $s$ à $u$ qui se trouve dans $Q$ avant l'extraction de $u$ et soit $x$ son prédécesseur
+\end{itemize}
+\end{itemize}
+
+\centerline{\includegraphics[4.5cm]{Figures/07-dijkstra-proof.pdf}}
+
+\end{frame}
+
+\begin{frame}{Analyse: correction}
+
+\centerline{\includegraphics[4.5cm]{Figures/07-dijkstra-proof.pdf}}
+
+\begin{itemize}
+\item[]
+\begin{itemize}
+\item Puisque $u$ est le premier n\oe ud violant l'invariant, on a $x.d=\delta(s,x)$
+\item Par la propriété de sous-structure optimale, le sous-chemin de $s$ à $y$ est un plus court chemin et $y.d$ a été assigné à $x.d+w(x,y)=\delta(s,x)+w(x,y)=\delta(s,y)$ lors de l'extraction de $x$
+\item On a donc $y.d=\delta(s,y)\leq \delta(s,u)\leq u.d$
+\item Or, $y.d\geq u.d$ puisqu'on s'apprête à extraire $u$ de la file
+\item D'où $y.d=\delta(s,y)={\color{red}\delta(s,u)=u.d}$, ce qui contredit notre hypothèse\qed
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Plus court chemin pour toutes les paires de sommets}
+
+Déterminer les plus courts chemins pour toutes les paires de sommets:
+\begin{itemize}
+\item Entrées: un graphe dirigé $G=(V,E)$, une fonction de poids $w$. Les sommets sont numérotés de 1 à $n$
+\item Sortie: une matrice $D=(d_{ij})$ de taille $n\times n$ où $d_{ij}=\delta(i,j)$ pour tous sommets $i$ et $j$
+\end{itemize}
+
+\bigskip
+
+\centerline{\includegraphics[width=10cm]{Figures/07-allpairs-exemple.pdf}}
+
+\end{frame}
+
+\begin{frame}{Plus court chemin pour toutes les paires de sommets}
+
+\begin{itemize}
+\item Dans le cas général, on peut appliquer Bellman-Ford sur chaque sommet
+\begin{itemize}
+\item $O(|V|^2 |E|)$, ou $O(V^4)$ si le graphe est dense ($E=\Theta(V^2)$)
+\end{itemize}
+
+\bigskip
+
+\item S'il n'y a pas de poids négatifs, on peut appliquer Dijkstra sur chaque sommet
+\begin{itemize}
+\item $O(|V| |E| \log |V|)$, ou $O(V^3 \log |V|)$ si le graphe est dense
+\end{itemize}
+
+\bigskip
+
+\item Il est possible d'obtenir $O(V^3)$ par programmation dynamique
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Une solution par programmation dynamique}
+\begin{itemize}
+%\item Soit $V=\{1,\ldots,n\}$ les sommets du graphe
+\item Pour un chemin $p=\langle v_1,v_2,\ldots,v_l\rangle$, un sommet
+\alert{intermédiaire} est un sommet de $p$ autre que $v_1$ ou $v_l$
+\item Soit $d_{ij}^{(k)}$ le poids d'un plus court chemin entre $i$ et $j$ tel que tous les sommets intermédiaires sont dans le sous-ensemble de sommets $\{1,2,\ldots,k\}$
+\item Soit un plus court chemin $p$ entre $i$ et $j$ avec tous les sommets dans $\{1,2,\ldots,k\}$:
+\begin{itemize}
+\item Si $k$ n'est pas un sommet intermédiaire de $p$, alors tous les sommets intermédiaires de $p$ sont dans $\{1,2,\ldots,k-1\}$
+\item Si $k$ est un sommet intermédiaire, tous les sommets intermédiaires des sous-chemins entre $i$ et $k$ et entre $k$ et $j$ appartiennent à $\{1,2,\ldots,k-1\}$
+\end{itemize}
+\end{itemize}
+
+\centerline{\includegraphics[width=6cm]{Figures/07-floydwarshall-recursion.pdf}}
+
+\note{Pourquoi la deuxième: parce qu'un plus court-chemin ne contient pas de cycle. Au plus une fois $k$ dans le chemine entre $i$ et $j$}
+
+\end{frame}
+
+
+
+\begin{frame}{Algorithme de Floyd-Warshall}
+
+\begin{itemize}
+\item Formulation récursive:
+
+\[d_{ij}^{(k)}=\left\{ \begin{array}{ll}
+w(i,j)&\mbox{si }k=0,\\
+\min(d_{ij}^{(k-1)},d_{ik}^{(k-1)}+d_{kj}^{k-1}) & \mbox{si } k\geq 1.
+\end{array}\right.\]
+
+\item Implémentation ascendante:
+
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Floyd-Warshall}(W,n)$}
+         \li $D^{(0)}=W$
+         \li \For $k=1$ \To $n$
+         \li \Do let $D^{k}=(d_{ij}^{(k)})$ be a new $n\times n$ matrix
+         \li \For $i=1$ \To $n$
+         \li \Do \For $j=1$ \To $n$
+         \li \Do $d_{ij}^{(k)}=\proc{min}(d_{ij}^{(k-1)},d_{ik}^{(k-1)}+d_{kj}^{(k-1)})$ \End\End
+         \li \Return $D^{(n)}$
+      \end{codebox}}
+}
+\end{center}
+
+\end{itemize}
 
 \end{frame}
 

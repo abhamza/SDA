@@ -1960,11 +1960,11 @@ Problème: trouver le plus grand sous-ensemble de tâches compatibles
 \item définir un ordre ``naturel'' sur les activités
 \item sélectionner les activités dans cet ordre pour autant qu'elles soient compatibles avec celles déjà choisies
 \end{itemize}
-\item Exemples: trier les activités selon $s_i$ (début), selon $f_i$ (fin), selon $f_i-s_i$ (durée), nombre de conflit avec d'autres activités...
-\item Montrer par des contre-exemples que seul le tri selon $f_i$ fonctionne
+\item Exemples: trier les activités selon $s_i$ (début), selon $f_i$ (fin), selon $f_i-s_i$ (durée), nombre de conflits avec d'autres activités...
+\item<2> Montrer par des contre-exemples que seul le tri selon $f_i$ fonctionne
 \end{itemize}
 
-\centerline{\includegraphics[width=7cm]{Figures/04-activity-sorted.pdf}}
+\centerline{\includegraphics<2>[width=7cm]{Figures/04-activity-sorted.pdf}}
 
 \note{\centerline{\includegraphics[width=10cm]{Figures/06-activity-contre-exemples.pdf}}}
 
@@ -2093,6 +2093,8 @@ D'autres problèmes similaires pour lesquels il existe un algorithme glouton:
 \end{itemize}
 \end{itemize}
 
+\note{Revenir à ma figure pour la sélection d'activité}
+
 \end{frame}
 
 \subsection{Exemple 3: problème du sac à dos}
@@ -2137,7 +2139,7 @@ Peut-on le résoudre par une approche gloutonne ?
 \right.
 \]}
 \end{itemize}
-\item Approche greedy: consiste à remplacer le \alert{max} par le choix qui nous semble le meilleur localement
+\item Approche gloutonne: consisterait à remplacer le \alert{max} par le choix qui nous semble le meilleur localement
 \item Quels choix possibles ?
 \begin{itemize}
 \item Le moins lourd, le plus lourd ?
@@ -2266,8 +2268,8 @@ $$\frac{v_i}{p_i}>\frac{v_j}{p_j}$$
 \item Etant donné un choix $(x_1,x_2,\ldots,x_n)$, on le transforme en $(x'_1,x'_2,\ldots, x'_n)$ tel que:
 \begin{itemize}
 \item $\forall k\in [1,n]\setminus\{i,j\}: x'_k=x_k,$
-\item $x'_i=x_i+\frac{\Delta}{w_i}$, et
-\item $x'_j=x_j+\frac{\Delta}{w_j}$,
+\item $x'_i=x_i+\frac{\Delta}{p_i}$, et
+\item $x'_j=x_j+\frac{\Delta}{p_j}$,
 \end{itemize}
 où $\Delta=\min(p_i(1-x_i),p_jx_j)$.
 \item Cette transformation ne modifie pas le poids total, mais améliore le bénéfice.
@@ -2301,11 +2303,11 @@ Applications:
 \begin{frame}{Approche gloutonne versus programmation dynamique}
 
 \begin{itemize}
-\item Tous deux nécessite la propriété de sous-structure optimale
+\item Tous deux nécessitent la propriété de sous-structure optimale
 
 \bigskip
 
-\item Les algorithmes gloutons nécessite que la propriété de choix gloutons optimaux soit satisfaite
+\item Les algorithmes gloutons nécessitent que la propriété de choix gloutons optimaux soit satisfaite
 \begin{itemize}
 \item On n'a pas besoin de solutionner plus d'un sous-problème
 \item Le choix glouton est fait \alert{avant} de résoudre le sous-problème
@@ -2339,7 +2341,7 @@ Applications:
 
 \bigskip
 
-\item Première approche: encoder chaque symbole par mot binaire de
+\item Première approche: encoder chaque symbole par un mot binaire de
   longueur fixe:
 
 \begin{center}
@@ -2351,7 +2353,7 @@ Codage & 000 & 001 & 010 & 011 & 100 & 101\\
 \end{center}
 
 \begin{itemize}
-\item 6 symboles nécessite 3 bits par symboles
+\item 6 symboles nécessitent 3 bits par symboles
 \item $3\times 10^9/8=3.75\times 10^8$bytes (un peu moins de 400Mb)
 \end{itemize}
 \item Peut-on faire mieux ?
