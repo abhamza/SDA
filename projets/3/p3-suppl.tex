@@ -33,7 +33,8 @@
 
 Le texte ci-dessous apporte certaines précisions par rapport aux
 suggestions données dans l'énoncé du projet concernant l'algorithme de
-réduction du nombre de couleurs.
+réduction de couleurs. Notez que la solution suggérée ci-dessous n'est
+peut-être pas la seule solution possible.
 
 \bigskip
 
@@ -69,13 +70,14 @@ Une version force brute de cette fonction consisterait à tester toutes
 les valeurs entières de $v$ entre $i$ et $j$ et à prendre celle qui
 minimise l'erreur (\ref{errorone}). Vous pouvez vous contenter de
 cette version force brute mais il y a cependant moyen de faire ça plus
-efficacement. Pour trouver comment, il suffit de dériver
+efficacement. Pour trouver comment, il suffit d'annuler la dérivée de
 (\ref{errorone}) en fonction de $v$.\\ A partir de la fonction
 $\proc{VarErrMinOneSegment}$, vous pouvez définir une nouvelle
 fonction $\proc{ErrMinOneSegment}(h,i,j)$ qui va calculer l'erreur
 minimale correspondant à la valeur de $v$ calculée par
 $\proc{ValErrMinOneSegment}(h,i,j)$ (vous pouvez aussi faire les deux
-opérations en même temps). Cette fonction vous sera utile pour l'étape suivante.
+opérations en même temps). Cette fonction vous sera utile pour l'étape
+suivante.
 \end{quote}
 %}
 
@@ -83,16 +85,21 @@ opérations en même temps). Cette fonction vous sera utile pour l'étape suivan
 
 \item {\it Pour écrire la fonction \texttt{computeOptimalReduction}:}
 \begin{itemize}
-\item {\it Déterminez une formule de récurrence pour calculer l'erreur minimale résultant de la réduction de $h$ en fonction de $n$ et de $k$;}
+\item {\it Déterminez une formule de récurrence pour calculer l'erreur
+  minimale résultant de la réduction de $h$ en fonction de $n$ et de
+  $k$;}
 
 \bigskip
 
 \begin{quote}
 Soit $ErrMin[n,k]$ l'erreur minimale résultant de la réduction à $k$
 valeurs de l'histogramme entre les couleurs 0 et $n-1$. Vous devez
-déterminer une formule récursive pour calculer $ErrMin[n,k]$ à partir
-de valeurs $ErrMin[n',k']$ avec $n'<n$ et/ou $k'<k$ et aussi en vous
-servant de la fonction $\proc{ErrMinOneSegment}$ définie ci-dessus.
+déterminer une formule de récurrence pour calculer $ErrMin[n,k]$ à
+partir de valeurs $ErrMin[i,j]$ avec $i<n$ et/ou $j<k$ et aussi en
+vous servant de la fonction $\proc{ErrMinOneSegment}$ définie
+ci-dessus. N'oubliez pas de déterminer le ou les cas de base de la
+récurrence.
+
 % L'idée
 %de la récursion est assez proche de la récursion utilisée dans
 %l'exemple du découpage de tige d'acier vu au cours.
@@ -100,20 +107,23 @@ servant de la fonction $\proc{ErrMinOneSegment}$ définie ci-dessus.
 
 \bigskip
 
-\item {\it Implémentez cette récurrence de manière efficace en utilisant le principe de programmation dynamique;}
+\item {\it Implémentez cette récurrence de manière efficace en
+  utilisant le principe de programmation dynamique;}
 
 \bigskip
 
 \begin{quote}
-L'utilisation de l'approche ascendante devrait rendre plus facile la
-récupération des valeurs de $p_i$ et $v_i$. Vous devez donc déterminer un
-ordre de remplissage de la table $ErrMin$ qui soit compatible avec la
-récursion.
+Vous pouvez choisir soit l'approche descendante, soit l'approche
+ascendante. L'approche ascendante devrait cependant rendre plus la
+facile la récupération des valeurs de $p_i$ et $v_i$. Vous devez dans
+ce cas déterminer un ordre de remplissage de la table $ErrMin$ qui
+soit compatible avec la formule de récurrence.
 \end{quote}
 
 \bigskip
 
-\item {\it Modifiez votre implémentation pour calculer les valeurs des $p_i$ et $v_i$;}
+\item {\it Modifiez votre implémentation pour calculer les valeurs des
+  $p_i$ et $v_i$;}
 
 \bigskip
 
@@ -131,10 +141,10 @@ Pas de commentaire particulier.
 \begin{quote}
 Cette étape est facultative. L'idée est d'exploiter le fait que vous
 n'avez pas nécessairement besoin de stocker la totalité de la table
-$ErrMin$ pour réduire les besoins en espace. Il est également 
-possible d'accélérer les temps de calcul en intégrant intelligemment
-les calculs effectués par la fonction $\proc{ErrMinOneSegment}$ à
-l'intérieur de la boucle de remplissage de la table $ErrMin$.
+$ErrMin$ pour réduire les besoins en espace. Il est également possible
+d'améliorer la complexité en pré-calculant de manière intelligente les
+valeurs de $\proc{ErrMinOneSegment}(h,i,j)$ pour toutes les valeurs de
+$i$ et $j$ telles que $0\leq i\leq j< n$.
 \end{quote}
 
 \bigskip
@@ -143,8 +153,21 @@ l'intérieur de la boucle de remplissage de la table $ErrMin$.
 
 \end{itemize}
 
-\section*{Exemple de résultats}
+\section*{Exemples de résultats}
 
-
+De manière à ce que vous puissiez déterminer si votre implémentation
+est correcte, voici quelques résultats sur les images fournies:
+\begin{itemize}
+\item \texttt{stars.pgm}: Pour la réduction des couleurs avec $k=2$, vous devriez obtenir:
+$$v_1=28, v_2=168, p_1=98$$
+et une erreur minimale de 26487964. En prenant ensuite $i_{th}=p_1=98$, vous devriez compter 355 étoiles dans l'image.
+\item \texttt{lena.pgm}: Pour la réduction de cette image en 4 niveaux, notre implémentation trouve:
+$$v_1=55, v_2=106, v_3=147, v_4=194$$
+$$p_1=81, p_2=127, p_3=171$$ et une erreur minimale de 42403084.
+\end{itemize}
+Il pourrait y avoir des petites différences entre vos solutions et les
+nôtres en terme de $v_i$ et $p_i$ (la solution optimale n'étant pas
+nécessairement unique) mais vos erreurs minimales devraient être les
+même que les nôtres.
 
 \end{document}
