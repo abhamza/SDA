@@ -220,15 +220,16 @@ On travaillera ici sur des images de tailles quelconques $w\times h$
 en $n$ niveaux de gris et on représentera une image par une matrice
 comme dans la première partie du projet. On définira les pixels
 claires constitutifs des objets comme ceux dont l'intensité est
-supérieure à un seuil $i_{th}$ (fourni par l'utilisateur ou calculé
-automatiquement en appelant l'algorithme de réduction de couleur avec
-$k=2$). Chacun des pixels clairs peut être considéré comme un sommet
-d'un graphe non dirigé. Les sommets correspondant à deux pixels sont
-connectés par un arc dans le graphe si les deux pixels sont {\it voisins}
-dans l'image. On considèrera qu'un pixel de coordonnées $(x,y)$ est
-voisin des 8 pixels de coordonnées $(x-1,y-1), (x,y-1), (x+1,y-1),
-(x+1,y), (x+1, y+1), (x,y+1), (x-1,y+1), (x-1,y)$ (pour autant que
-ceux-ci existent dans les limites de l'image).
+supérieure {\color{red} ou égale} à un seuil $i_{th}$ (fourni par
+l'utilisateur ou calculé automatiquement en appelant l'algorithme de
+réduction de couleur avec $k=2$). Chacun des pixels clairs peut être
+considéré comme un sommet d'un graphe non dirigé. Les sommets
+correspondant à deux pixels sont connectés par un arc dans le graphe
+si les deux pixels sont {\it voisins} dans l'image. On considèrera
+qu'un pixel de coordonnées $(x,y)$ est voisin des 8 pixels de
+coordonnées $(x-1,y-1), (x,y-1), (x+1,y-1), (x+1,y), (x+1, y+1),
+(x,y+1), (x-1,y+1), (x-1,y)$ (pour autant que ceux-ci existent dans
+les limites de l'image).
 
 Le problème du comptage d'objets revient alors à calculer le nombre de
 composantes connexes dans le graphe défini par les pixels clairs.
