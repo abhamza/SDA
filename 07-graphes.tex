@@ -1665,7 +1665,7 @@ Illustration sur un exemple:
 \item \alert{Théorème}: l'algorithme de Dijkstra se termine avec $v.d=\delta(s,v)$ pour tout $v\in V$
 \item \alert{Preuve}:
 \begin{itemize}
-\item Lorsqu'un n\oe ud $v$ est extrait de la pile, son $v.d$ n'est plus modifié. Il suffit donc de montrer que $v.d=\delta(s,v)$ lorsque $v$ est extrait de $Q$
+\item Lorsqu'un n\oe ud $v$ est extrait de la file, son $v.d$ n'est plus modifié. Il suffit donc de montrer que $v.d=\delta(s,v)$ lorsque $v$ est extrait de $Q$
 \item Par l'invariant (propriété 1), on a $v.d\geq \delta(s,v)$ à tout moment
 \item Par l'absurde, supposons qu'il existe un n\oe ud $u$ tel que $u.d>\delta(s,u)$ lors de son extraction et soit $u$ le premier n\oe ud satisfaisant cette propriété.
 \item Soit $y$ le premier n\oe ud d'un plus court chemin de $s$ à $u$ qui se trouve dans $Q$ avant l'extraction de $u$ et soit $x$ son prédécesseur
