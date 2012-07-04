@@ -3,7 +3,7 @@
 /***********************************************************************
  * A sequence S=<x_0, ..., x_m-1> is an ordered list of integer
  * values.  A subsequence (x_{i_1}, ..., x_{i_k}) of S is an ordered
- * list of elements of S where 0 <= i_1 <= ... <= i_k <m. A
+ * list of elements of S where 0 <= i_1 < ... < i_k <m. A
  * subsequence is contiguous if i_{j + 1} == i_{j} + 1. A subsequence
  * is constant if all its elements are equal, x_{i_1}==x_{i_2}==
  * ...==x_{i_k}.

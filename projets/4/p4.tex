@@ -32,9 +32,11 @@
 
 L'objectif du projet est de vous exercer à l'utiliser des techniques de résolutions de problèmes.
 
-Le projet est à réaliser {\bf individuellement} pour le {\bf 31 août 2012} à
-{\bf 05h00} (du matin) au plus tard. Le projet est à remettre via une interface
-web disponible sur \href{http://www.montefiore.ulg.ac.be/~glouppe/2011-2012/students.info0902.php}{la page des TPs}.
+Le projet est à réaliser {\bf individuellement} pour le {\bf 31 août
+  2012} à {\bf 23h59} au plus tard. Le projet est à remettre via une
+interface web disponible sur
+\href{http://www.montefiore.ulg.ac.be/~glouppe/2011-2012/students.info0902.php}{la
+  page des TPs}.
 
 Un projet non rendu à temps recevra automatiquement une cote nulle. En cas de
 plagiat avéré, l'étudiant se verra affecter une cote nulle à l'ensemble du
@@ -44,12 +46,12 @@ seront utilisés pour évaluer l'implémentation des algorithmes.
 
 \subsection*{Fichier fourni}
 \begin{description}
-\item[\texttt{blablabla.h}] contient l'interface à implémenter.
+\item[\texttt{SubSequence.h}] contient l'interface à implémenter.
 \end{description}
 \subsection*{Fichiers à rendre}
 Deux fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'archive n'a pas d'importance.
 \begin{description}
-\item[\texttt{blablabla.c}] implémente les fonctions de l'interface \texttt{blablabla.h}
+\item[\texttt{SubSequence.c}] implémente les fonctions de l'interface \texttt{SubSequence.h}
 \item[\texttt{Rapport.pdf}] contient vos réponses aux questions
 \end{description}
 
@@ -58,39 +60,42 @@ correspondant pas à ceux demandés dans l'énoncé ne sera pas pris en compte.
 
 \subsection*{Implémentation}
 
-Soit une séquence $\langle x_1,\ldots,x_m\rangle$. Une sous-séquence
-de $\langle x_1,\ldots,x_m\rangle$ est une séquence $\langle
-x_{i_1},\ldots,x_{i_k}\rangle$ où $1\leq i_1<i_2<\ldots<i_k\leq m$. On
+Une séquence $S=\langle x_0,\ldots,x_{m-1}\rangle$ est une liste
+ordonnée de valeurs entières. Une sous-séquence d'une séquence
+$S=\langle x_0,\ldots,x_{m-1}\rangle$ est une séquence $\langle
+x_{i_1},\ldots,x_{i_k}\rangle$ où $0\leq i_1<i_2<\ldots<i_k<m$. On
 dira qu'une sous-séquence $\langle x_{i_1},\ldots,x_{i_k}\rangle$ est
-contiguë si $i_{j+1}=i_{j}+1, \forall j=1,\ldots,k-1$.
+{\bf contiguë} si $i_{j+1}=i_{j}+1, \forall j=1,\ldots,k-1$ et qu'une
+sous-séquence est constante si tous ses éléments sont {\bf identiques},
+$x_{i_1}=x_{i_2}=\ldots=x_{i_k}$.
 
 On vous demande d'implémenter au total quatre fonctions:
 \begin{itemize}
-\item Une fonction renvoyant les bornes de la plus longue
-  sous-séquence contiguë de valeur constantes dans une séquence. Par
-  exemple, si la séquence d'entrée est $\langle
-  1,6,3,3,3,4,4,3,4\rangle$, la plus longue sous-séquence contiguë est
-  $\langle 3,3,3\rangle$ et la fonction renverra $(2,4)$. Cette
-  fonction devra être implémentée de deux manières:
+\item Une fonction renvoyant les indices délimitant une plus longue
+  sous-séquence contiguë constante dans une séquence. Par exemple, si
+  la séquence d'entrée est $\langle 1,6,3,3,3,4,4,3,4\rangle$, la plus
+  longue sous-séquence contiguë est $\langle 3,3,3\rangle$ et la
+  fonction renverra $(2,4)$. Cette fonction devra être implémentée de
+  deux manières différentes:
 \begin{itemize}
-\item Par une recherche exhaustive
-\item Par une approche diviser-pour-régner
+\item en utilisant une recherche exhaustive
+\item en utilisant une approche diviser-pour-régner
 \end{itemize}
 \item Une fonction renvoyant la longueur (et la valeur correspondante)
-  de la plus longue sous-séquence non nécessairement contiguë de
-  valeurs constantes dans une séquence. Par exemple, si la séquence
-  d'entrée est $\langle 1,6,3,3,3,4,4,3,4\rangle$, la plus longue
-  sous-séquence constante non contiguë est $\langle 3,3,3,3\rangle$ et la
-  fonction renverra $(4,3)$. Cette fonction devra être implémentée par
-  programmation dynamique.
+  d'une plus longue sous-séquence constante non nécessairement
+  contiguë dans une séquence. Par exemple, si la séquence d'entrée est
+  $\langle 1,6,3,3,3,4,4,3,4\rangle$, la plus longue sous-séquence
+  constante non contiguë est $\langle 3,3,3,3\rangle$ et la fonction
+  renverra $(4,3)$. Cette fonction devra être implémentée par
+ programmation dynamique.
 \item Une fonction renvoyant la longueur (et la valeur correspondante)
-  de la plus longue sous-séquence commune (non nécessairement
-  contiguë) à deux séquences. Par exemple, si les deux séquences
-  d'entrée sont $\langle 1,6,3,3,3,4,4,3,4\rangle$ et $\langle
-  3,6,2,5,3,4,4,4,4\rangle$, la plus longue sous-séquence commune
-  constante est $\langle 4,4,4 \rangle$ et la fonction renverra
-  $(3,4)$. Cette fonction devra également être implémentée par
-  programmation dynamique.
+  d'une plus longue sous-séquence constante (non nécessairement
+  contiguë) commune à deux séquences. Par exemple, si les deux
+  séquences d'entrée sont $\langle 1,6,3,3,3,4,4,3,4\rangle$ et
+  $\langle 3,6,2,5,3,4,4,4,4\rangle$, la plus longue sous-séquence
+  commune constante est $\langle 4,4,4 \rangle$ et la fonction
+  renverra $(3,4)$. Cette fonction devra également être implémentée
+  par programmation dynamique.
 \end{itemize}
 
 \subsection*{Rapport}
@@ -105,7 +110,7 @@ base de votre solution.
 \item En supposant que les séquences contiennent toutes des entiers
   positifs inférieurs à 255, expliquez le principe et donnez la
   complexité d'une solution plus efficace au dernier problème
-  n'utilisant pas la programmation dynamique.
+  n'utilisant pas nécessairement la programmation dynamique.
 \end{itemize}
 
 Vos réponses à ces questions doivent être rédigées dans un bref rapport (au format
