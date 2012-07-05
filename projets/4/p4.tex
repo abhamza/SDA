@@ -100,30 +100,25 @@ On vous demande d'implémenter au total quatre fonctions:
   renverra $(3,4)$. Cette fonction devra également être implémentée
   par programmation dynamique.\\
 
-{\it Suggestion: Soit $X$ et $Y$ les séquences d'entrée. Calculez pour tout $i$ et $j$, la longueur
-  $c[i,j]$ de la plus longue sous-séquence constante commune à $X$
-  et $Y$ et qui se termine à l'élément $i$ de $X$ (ou à l'élement
-  $j$ de $Y$).}
+{\it Suggestion: Soit $X$ et $Y$ les séquences d'entrée. Calculez pour
+  tout $i$ et $j$, la longueur $c[i,j]$ de la plus longue
+  sous-séquence constante commune à $X$ et $Y$ qui se {\bf termine} à
+  l'élément $i$ de $X$ et à l'élément $j$ de $Y$. Dans l'exemple
+  précédent, on aura $c[3,0]=1$ et $c[5,2]=0$.}
 \end{itemize}
 
 \subsection*{Rapport}
 
-\begin{enumerate}
-\item Pour \textbf{chacune} des quatre fonctions à implémenter:
+
+Pour \textbf{chacune} des quatre fonctions à implémenter, on vous demande:
 \begin{itemize}
-\item Expliquer le principe de votre solution;
-\item Analyser sa complexité au pire cas.
+\item d'expliquer le principe de votre solution;
+\item d'analyser sa complexité au pire cas.
 \end{itemize}
 
 Pour les deux fonctions à implémenter par programmation
 dynamique, on vous demande d'expliciter la récurrence à la
 base de votre solution.
-
-\item En supposant que les séquences contiennent toutes des entiers
-  positifs inférieurs à 255, expliquez le principe et donnez la
-  complexité d'une solution plus efficace au dernier problème
-  n'utilisant pas nécessairement la programmation dynamique.
-\end{enumerate}
 
 Vos réponses à ces questions doivent être rédigées dans un bref rapport (au format
 PDF) à joindre avec votre fichier source.
