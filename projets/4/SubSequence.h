@@ -30,7 +30,7 @@
  * non-0          if error
  ***********************************************************************/
 int getCstContSubSeqES(const int* sequence, size_t sequenceLength,
-			    size_t* lowerIndex, size_t* upperIndex);
+			                 size_t* lowerIndex, size_t* upperIndex);
 
 /***********************************************************************
  * Returns the indices delimiting a largest constant contiguous
@@ -49,7 +49,7 @@ int getCstContSubSeqES(const int* sequence, size_t sequenceLength,
  * non-0          if error
  ***********************************************************************/
 int getCstContSubSeqDC(const int* sequence, size_t sequenceLength,
-		       size_t* lowerIndex, size_t* upperIndex);
+		                   size_t* lowerIndex, size_t* upperIndex);
 
 /***********************************************************************
  * Returns the length and the constant value of a largest constant
@@ -69,7 +69,7 @@ int getCstContSubSeqDC(const int* sequence, size_t sequenceLength,
  * non-0          if error
  ***********************************************************************/
 int getCstSubSeqDP(const int* sequence, size_t sequenceLength,
-		   size_t* length, int* value);
+		               size_t* length, int* value);
 
 /***********************************************************************
  * Returns the length and the constant value of a largest constant
@@ -90,7 +90,7 @@ int getCstSubSeqDP(const int* sequence, size_t sequenceLength,
  * non-0          if error
  ***********************************************************************/
 int getLongestCommonCstSubSeqDP(const int* firstSequence, size_t firstSequenceLength,
-				const int* secondSequence, size_t secondSequenceLength,
-				size_t* length, int* value);
+				                        const int* secondSequence, size_t secondSequenceLength,
+				                        size_t* length, int* value);
 
 #endif // !_SUBSEQUENCE_H_
