@@ -66,7 +66,7 @@ Approches par force brute pour le tri:
 \end{itemize}
 \item Généralement utilisable seulement pour des problèmes de petite taille
 \item Dans la plupart des cas, il existe une meilleure solution
-\item Dans certain cas, c'est la seule solution possible
+\item Dans certains cas, c'est la seule solution possible
 \end{itemize}
 \end{frame}
 
@@ -436,7 +436,7 @@ Il faut sonder au milieu pour accélerer les calculs}
 \begin{itemize}
 \item Supposons que $A[q+1]>A[q]$ et qu'il n'y ait pas de pic dans $A[q+1\twodots r]$
 \item On doit avoir $A[q+2]>A[q+1]$ (sinon $A[q+1]$ serait un pic)
-\item On doit avoir $A[q+3]>A[q+2]$ (sinon $A[q+1]$ serait un pic)
+\item On doit avoir $A[q+3]>A[q+2]$ (sinon $A[q+2]$ serait un pic)
 \item \ldots
 \item On doit avoir $A[r]>A[r-1]$ (sinon $A[r-1]$ serait un pic)
 \item Comme $A[r]>A[r+1]=-\infty$, $A[r]$ est un pic, ce qui contredit l'hypothèse
@@ -514,7 +514,9 @@ Il faut sonder au milieu pour accélerer les calculs}
 \item $A[i,k]$ doit avoir un voisin $A[p_1,q_1]$ avec une valeur plus élevée (sinon, ce serait un pic)
 \item $A[p_1,q_1]$ doit avoir un voisin $A[p_2,q_2]$ avec une valeur plus élevée (sinon, ce serait un pic)
 \item \ldots
-\item Le voisin doit toujours rester du même côté de la colonne centrale (puisque $A[i,k]>A[i,j]$ et $A[i,j]$ est la maximum de la colonne $j$)
+\item Le voisin doit toujours rester du même côté de la colonne
+  centrale (puisque $A[i,k]>A[i,j]$ et $A[i,j]$ est le maximum de la
+  colonne $j$)
 \item A un certain point, on va manquer de points
 \item Il doit donc y avoir un pic
 \end{itemize}
@@ -599,7 +601,7 @@ Troisième stratégie:
 \item Déterminer la sous-séquence  non vide contiguë de somme maximale dans $A$
 \item Soit $A[i\twodots j]$ cette sous-séquence. Il aurait fallu acheter juste avant le jour $i$ (juste après le jour $i-1$) et vendu juste après le jour $j$.
 \end{itemize}
-\item Exemple sur la tableau ci-dessus: $A[8\twodots 11]$ est la sous-séquence maximale de somme 43 $\Rightarrow$ acheter juste avant le jour 8 et vendre juste après le jour 11.
+\item Exemple dans le tableau ci-dessus: $A[8\twodots 11]$ est la sous-séquence maximale de somme 43 $\Rightarrow$ acheter juste avant le jour 8 et vendre juste après le jour 11.
 \item Si on peut trouver la sous-séquence maximale dans un tableau, on aura une solution à notre problème d'achat/vente d'actions
 %\item Est-ce que la transformation est utile ?
 \end{itemize}
@@ -662,7 +664,7 @@ Peut-on faire mieux ?
 \end{itemize}
 \item Diviser:
 \begin{itemize}
-\item diviser le sous-tableau en deux sous-tableau de tailles aussi proches que possible
+\item diviser le sous-tableau en deux sous-tableaux de tailles aussi proches que possible
 \item choisir $mid=\lfloor (low+high)/2 \rfloor$
 \end{itemize}
 \item Régner:
@@ -729,9 +731,9 @@ Complexité: $\Theta(n)$~\hfill\includegraphics[width=6cm]{Figures/06-maxsubarra
 {\footnotesize
 \fcolorbox{white}{Lightgray}{%
       \begin{codebox}
-        \Procname{$\proc{Max-subarray}(A)$}
+        \Procname{$\proc{Max-subarray}(A,low,high)$}
         \li \If $high\isequal low$
-        \li \Then \Return $(low,hig,A[low])$
+        \li \Then \Return $(low,high,A[low])$
         \li \Else $mid=\lfloor (low+high)/2 \rfloor$
         \li $(\id{left-low},\id{left-high},\id{left-sum})=\proc{Max-subarray}(A,low,mid)$
         \li $(\id{right-low},\id{right-high},\id{right-sum})=\proc{Max-subarray}(A,mid+1,high)$
@@ -822,7 +824,8 @@ Quelques approches génériques pour aborder la résolution d'un problème:
 \item Soit une tige d'acier qu'on découpe pour la vendre morceau par morceau
 \item La découpe ne peut se faire que par nombre entier de centimètres
 \item Le prix de vente d'une tige dépend (non linéairement) de sa longueur
-\item On veut déterminer le revenu maximum qu'on peut attendre de la vente d'une tige de $n$ centimètre
+\item On veut déterminer le revenu maximum qu'on peut attendre de la
+  vente d'une tige de $n$ centimètres
 \item Problème algorithmique:
 \begin{itemize}
 \item Entrée: une longueur $n>0$ et une table de prix $p_i$, pour $i=1,2,\ldots,n$
@@ -1113,7 +1116,8 @@ On ne doit plus suivre les flèches. Chaque flèche correspond à un lookup dans
 \end{center}
 
 \begin{itemize}
-\item $s[j]$ contient la coupure la plus à gauche d'une solution optimale au problème de taille $i$
+\item $s[j]$ contient la coupure la plus à gauche d'une solution
+  optimale au problème de taille $j$
 \end{itemize}
 
 \note{Si on met à jour le max dans q, c'est que c'est mieux de couper d'abord en i et puis couper le reste de manière optimale}
@@ -1304,7 +1308,7 @@ a^{(n-1)/2}\cdot a^{(n-1)/2} \cdot a & \mbox{si }n\mbox{ est impair}
 \begin{itemize}
 \item Définition: Une \alert{sous-séquence} (non contiguë) d'une séquence $\langle x_1,\ldots,x_m\rangle$ est une séquence $\langle x_{i_1}, x_{i_2}, \ldots, x_{i_k}\rangle$, où $1\leq i_1 < i_2 < \ldots <i_k\leq m$.
 \item Problème: Etant donné 2 séquences, $X=\langle
-  x_1,\ldots,x_m\rangle$ and $Y=\langle y_1,\ldots,y_n\rangle$, trouver une plus grande sous-séquence commune aux deux séquences
+  x_1,\ldots,x_m\rangle$ et $Y=\langle y_1,\ldots,y_n\rangle$, trouver une plus grande sous-séquence commune aux deux séquences
 \item Exemples:
 \centerline{\includegraphics[width=8cm]{Figures/06-exemples-lcs.pdf}}
 \end{itemize}
@@ -1349,7 +1353,7 @@ Propriété de sous-structure:
   plus longue sous-séquence commune à $X$ et $Y_{n-1}$
 \end{itemize}
 \end{itemize}
-\alert{$\Rightarrow$} Une plus longue sous-séquence commune de deux séquence a pour préfixe
+\alert{$\Rightarrow$} Une plus longue sous-séquence commune de deux séquences a pour préfixe
 une plus longue sous-séquence des préfixes des deux séquences.
 
 \end{frame}
@@ -1565,8 +1569,8 @@ Exemple:
 \end{itemize}
 
 \[M(k,w)=\left\{\begin{array}{ll}
-0 & \mbox{ si }i=0\\
-M(k-1,w) & \mbox{ si } p_i>w\\
+0 & \mbox{ si }k=0\\
+M(k-1,w) & \mbox{ si } p_k>w\\
 \max\{M(k-1,w),v_k+M(k-1,w-p_k)\} &  \mbox{ sinon}
 \end{array}
 \right.
@@ -1582,7 +1586,7 @@ M(k-1,w) & \mbox{ si } p_i>w\\
       \begin{codebox}
         \Procname{$\proc{KnapSack}(p,v,n,W)$}
         \li Let $M[0\twodots n, 0\twodots W]$ be a new table
-        \li \For $w=1$ \To $W$
+        \li \For $w=0$ \To $W$
         \li \Do M[0,w]=0 \End
         \li \For $k=1$ \To $n$
         \li \Do $M[k,0]=0$ \End
@@ -1837,7 +1841,7 @@ Quelques approches génériques pour aborder la résolution d'un problème:
         \li Let $s[1\twodots n]$ be a new table
         \li \Comment s[i] is the number of $i$th coin in solution
         \li $CoinCount=0$
-        \li \For $i=1$ \Downto $n$ \Do
+        \li \For $i=1$ \To $n$ \Do
         \li  $s[i]=\lfloor x/c[i]\rfloor$
         \li  $x=x - s[i]*c[i]$
         \li  $CoinCount=CoinCount+s[i]$\End
@@ -2057,7 +2061,7 @@ Appel initial: $\proc{Rec-activity-selector}(s,f,0,s.length)$
 
 \bigskip
 
-\item \alert{2. Propriété du sous-structure optimale:} Soit $a_x\in S$ le choix glouton et $S'=\{a_i|s_i\geq f_x\}$ les activités de $S$ compatibles avec $a_x$. Soit $OPT^*=\{a_x\}\cup OPT'$. Si $OPT'$ est une solution optimale pour $S'$ alors $OPT^*$ est une solution optimale pour $S$.
+\item \alert{2. Propriété de sous-structure optimale:} Soit $a_x\in S$ le choix glouton et $S'=\{a_i|s_i\geq f_x\}$ les activités de $S$ compatibles avec $a_x$. Soit $OPT^*=\{a_x\}\cup OPT'$. Si $OPT'$ est une solution optimale pour $S'$ alors $OPT^*$ est une solution optimale pour $S$.
 \item \alert{Preuve:}
 \begin{itemize}
 \item Soit $OPT$ une solution optimale pour $S$
@@ -2076,9 +2080,9 @@ Appel initial: $\proc{Rec-activity-selector}(s,f,0,s.length)$
 
 D'autres problèmes similaires pour lesquels il existe un algorithme glouton:
 \begin{itemize}
-\item Allocations de resources:
+\item Allocation de resources:
 \begin{itemize}
-\item Etant donnée un ensemble d'activité $S$ avec leurs temps de début et de fin, trouver le nombre minimum de salles permettant de les réaliser toutes
+\item Etant donnée un ensemble d'activités $S$ avec leurs temps de début et de fin, trouver le nombre minimum de salles permettant de les réaliser toutes
 %\item Solution gloutonne: trier les activités par ordre croissant du temps de départ
 \end{itemize}
 
@@ -2086,7 +2090,7 @@ D'autres problèmes similaires pour lesquels il existe un algorithme glouton:
 
 \item Planification de tâches:
 \begin{itemize}
-\item Soit un ensemble de tâches avec leur durée et l'instant à laquelle elles doivent chacun être terminée (leur deadline)
+\item Soit un ensemble de tâches avec leur durée et l'instant auquel elles doivent chacune être terminées (leur deadline)
 \item Sachant qu'on ne peut exécuter qu'une seule tâche simultanément,
   trouver l'ordonnancement de ces tâches qui minimise le dépassement maximal des deadlines associées aux tâches (latence).
 %\item Solution gloutonne: trier les tâches en fonction de leur deadline
@@ -2143,7 +2147,7 @@ Peut-on le résoudre par une approche gloutonne ?
 \item Quels choix possibles ?
 \begin{itemize}
 \item Le moins lourd, le plus lourd ?
-\item Le moins couteux, le plus couteux ?
+\item Le moins coûteux, le plus coûteux ?
 \item Le meilleur rapport valeur/poids ?
 \end{itemize}
 \end{itemize}
@@ -2269,7 +2273,7 @@ $$\frac{v_i}{p_i}>\frac{v_j}{p_j}$$
 \begin{itemize}
 \item $\forall k\in [1,n]\setminus\{i,j\}: x'_k=x_k,$
 \item $x'_i=x_i+\frac{\Delta}{p_i}$, et
-\item $x'_j=x_j+\frac{\Delta}{p_j}$,
+\item $x'_j=x_j-\frac{\Delta}{p_j}$,
 \end{itemize}
 où $\Delta=\min(p_i(1-x_i),p_jx_j)$.
 \item Cette transformation ne modifie pas le poids total, mais améliore le bénéfice.
@@ -2283,7 +2287,7 @@ où $\Delta=\min(p_i(1-x_i),p_jx_j)$.
 \begin{itemize}
 \item Très efficaces quand ils fonctionnent. Simples et faciles à
   implémenter
-\item Ne fonctionne pas toujours. Leur correction peut être assez
+\item Ne fonctionnent pas toujours. Leur correction peut être assez
   difficile à prouver
 \end{itemize}
 
@@ -2353,7 +2357,7 @@ Codage & 000 & 001 & 010 & 011 & 100 & 101\\
 \end{center}
 
 \begin{itemize}
-\item 6 symboles nécessitent 3 bits par symboles
+\item 6 symboles nécessitent 3 bits par symbole
 \item $3\times 10^9/8=3.75\times 10^8$bytes (un peu moins de 400Mb)
 \end{itemize}
 \item Peut-on faire mieux ?

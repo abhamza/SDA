@@ -42,7 +42,7 @@
 \item Il existe également des algorithmes {\em approximatifs} qui fournissent une sortie inexacte mais néanmoins proche de l'optimum.
 \end{itemize}
 \bigskip
-\item Les algorithmes seront évalués en termes d'{\em utilisation de resources}, essentiellement par rapport aux {\bf temps de calcul} mais aussi à l'utilisation de la {\bf mémoire}.
+\item Les algorithmes seront évalués en termes d'{\em utilisation de ressources}, essentiellement par rapport aux {\bf temps de calcul} mais aussi à l'utilisation de la {\bf mémoire}.
 \end{itemize}
 \end{frame}
 
@@ -528,11 +528,11 @@ Règles pour développer une solution récursive:
 
 \begin{frame}{Exemple de récursion multiple}
 
-Calcul du $k$ième nombre de Fibonacci:
+Calcul du $n$ième nombre de Fibonacci:
 \begin{eqnarray*}
 F_0&=&0\\
 F_1&=&1\\
-\forall i\geq 2: F_i& = &F_{i-2}+F_{i-1}
+\forall n\geq 2: F_n& = &F_{n-2}+F_{n-1}
 \end{eqnarray*}
 
 Algorithme:
@@ -767,14 +767,14 @@ $\proc{Merge}(A,p,q,r)$:
 \item $p\leq q<r$ (pas de tableaux vides)
 \item Les sous-tableaux $A[p\twodots q]$ et $A[q+1\twodots r]$ sont ordonnés
 \end{itemize}
-\item {\bf Sortie:} Les deux sous-tableaux sont fusionnés en seul sous-tableau ordonné dans $A[p\twodots r]$
+\item {\bf Sortie:} Les deux sous-tableaux sont fusionnés en un seul sous-tableau ordonné dans $A[p\twodots r]$
 \end{itemize}
 
 \bigskip
 
 Idée:
 \begin{itemize}
-\item Utiliser un pointeur vers le début de chacune des listes;
+\item Utiliser un pointeur vers le début de chacun des sous-tableaux;
 \item Déterminer le plus petit des deux éléments pointés;
 \item Déplacer cet élément vers le tableau fusionné;
 \item Avancer le pointeur correspondant
@@ -795,7 +795,7 @@ Idée:
     \begin{codebox}
       \Procname{$\proc{Merge}(A,p,q,r)$}
       \li $n_1 = q-p+1$; $n2 = r-q$
-      \li Soit $L[1..n_1+1]$ and $R[1..n_2+1]$ deux nouveaux tableaux
+      \li Soit $L[1..n_1+1]$ et $R[1..n_2+1]$ deux nouveaux tableaux
       \li \For $i=1$ \To $n_1$
       \li \Do $L[i]=A[p+i-1]$ \End
       \li \For $j=1$ \To $n_2$
@@ -881,7 +881,7 @@ Dire que l'insertion sort est une version particulière du merge sort où au lie
 \begin{frame}{Récursivité terminale}
 
 \begin{itemize}
-\item Définition: Une procédure est \alert{récursive terminale} (tail récursive) si elle n'effectue plus aucune opération après s'être invoquée récursivement.
+\item Définition: Une procédure est \alert{récursive terminale} (``tail recursive'') si elle n'effectue plus aucune opération après s'être invoquée récursivement.
 
 \bigskip
 

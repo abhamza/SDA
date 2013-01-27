@@ -37,12 +37,12 @@
 \begin{frame}{Terminologie: graphe non dirigé}
 
 \centerline{\includegraphics[width=3cm]{Figures/07-exemple-graphenondirige.pdf}}
-{\small $$V=\{1,2,3,4,5\}, E=\{(1,2),(1,5),(2,5),(2,3),(3,4),(4,5)\}$$}
+{\small $$V=\{1,2,3,4,5\}, E=\{(1,2),(1,5),(2,4),(2,5),(2,3),(3,4),(4,5)\}$$}
 \begin{itemize}
 \item Deux n\oe uds sont \alert{adjacents} s'ils sont liés par une même arête
 \item Une arête $(v_1,v_2)$ est dite \alert{incidente} aux n\oe uds $v_1$ et $v_2$
 \item Le \alert{degré} d'un n\oe ud est égal au nombre de ses arêtes incidentes
-\item Le \alert{degrée d'un graphe} est le nombre maximal d'arêtes incidentes à tout sommet.
+\item Le \alert{degré d'un graphe} est le nombre maximal d'arêtes incidentes à tout sommet.
 \item Un graphe est \alert{connexe} s'il existe un chemin de tout sommet à tout autre.
 \item Une \alert{composante connexe} d'un graphe non orienté est un sous-graphe connexe
   maximal de ce graphe
@@ -93,7 +93,7 @@ Un objet $G$ de type graphe est composé:
 \item d'une liste de n\oe uds $G.V=\{1,2,\ldots,|V|\}$
 \item d'un tableau $G.Adj$ de $|V|$ listes tel que:
 \begin{itemize}
-\item Chaque sommet $u\in G.V$ est représenté par une élément du tableau $G.Adj$
+\item Chaque sommet $u\in G.V$ est représenté par un élément du tableau $G.Adj$
 \item $G.Adj[u]$ est la liste d'adjacence de $u$, c'est-à-dire la
   liste des sommets $v$ tels que $(u,v)\in E$
 \end{itemize}
@@ -733,7 +733,7 @@ Que se passe-t'il si on applique ça à un graphe non orienté ? Combien y aura-
 \begin{itemize}
 \item Etant donné un \alert{graphe acyclique dirigé} (DAG), trouver un
   ordre des sommets tel qu'il n'y ait pas d'arête d'un n\oe ud vers un
-  des n\oe uds qui le précède dans l'ordre
+  des n\oe uds qui le précèdent dans l'ordre
 \item On peut montrer que c'est possible si (et seulement si) le
   graphe est acyclique
 \end{itemize}
@@ -762,7 +762,7 @@ Graphe
 
 \bigskip
 
-Une tri topologique
+Un tri topologique
 
 \centerline{\includegraphics[width=10cm]{Figures/07-tritopo-exemple-solution.pdf}}
 
@@ -916,7 +916,7 @@ Graphe
 
 \bigskip
 
-Une tri topologique
+Un tri topologique
 
 \centerline{\includegraphics[width=10cm]{Figures/07-tritopo-exemple-solution.pdf}}
 
@@ -1064,7 +1064,7 @@ Différentes variantes du problème:
 \begin{itemize}
 \item Pas de meilleure solution que de résoudre le problème ``origine unique''.
 \end{itemize}
-\item \alert{Toutes les paires}: trouver tous les plus courts chemin de $u$ à
+\item \alert{Toutes les paires}: trouver tous les plus courts chemins de $u$ à
   $v$ pour toutes les paires de sommets $(u,v)\in V\times V$.
 \begin{itemize}
 \item Algorithme de Floyd-Warshall
@@ -1127,7 +1127,7 @@ Différentes variantes du problème:
 
 \item Idée d'algorithme:
 \begin{itemize}
-\item $v.d$ à un itération donnée contient une \alert{estimation} du poids d'un plus court chemin de $s$ à $v$
+\item $v.d$ à une itération donnée contient une \alert{estimation} du poids d'un plus court chemin de $s$ à $v$
 \item Invariant: $v.d\geq \delta(s,v)$
 \item Initialisation: $v.d=+\infty$ ($\forall v \in V$)
 \item A chaque itération, on tente d'améliorer (c'est-à-dire diminuer) $v.d$ en maintenant l'invariant
@@ -1146,7 +1146,7 @@ $$\delta(u,v)\leq \delta(u,x)+\delta(x,v)$$
 
 \bigskip
 
-\item \alert{Corrolaire:} Pour tout $(u,v)\in E$, on a $$\delta(s,v)\leq \delta(s,u)+w(u,v)$$
+\item \alert{Corollaire:} Pour tout $(u,v)\in E$, on a $$\delta(s,v)\leq \delta(s,u)+w(u,v)$$
 
 \bigskip
 
@@ -1342,7 +1342,7 @@ $$\delta(u,v)\leq \delta(u,x)+\delta(x,v)$$
 \bigskip
 
 \begin{itemize}
-\item Algorithme basé sur la relâchement
+\item Algorithme basé sur le relâchement
 \item Soit les arêtes $e_1,\ldots,e_m$, dans un ordre quelconque.
 \item Le relâchement se fait dans cet ordre:
 $$\underbrace{\underbrace{e_1,e_2,\ldots,e_m};\underbrace{e_1,e_2,\ldots,e_m};\ldots;\underbrace{e_1,e_2,\ldots,e_m}}_{|V|-1 fois}$$
@@ -1415,7 +1415,7 @@ $$v.d\leq \min\{w(p): |p|\leq i\}$$
 \item Cette propriété reste vraie à tout moment de l'itération puisque
   $\proc{Relax}$ ne peut que diminuer les $v.d$
 \item L'itération $i$ considère tous les chemins avec $i$ arêtes ou
-  moins en relâchant tous les arêtes entrantes en $v$
+  moins en relâchant toutes les arêtes entrantes en $v$
 \end{itemize}
 \end{itemize}
 \end{itemize}
@@ -1497,7 +1497,7 @@ $|V|-1$ itérations
 \bigskip
 
 {\it (Exercice: implémenter l'algorithme de Bellman-Ford à partir de
-  la récurrence et comparer le avec la version précédente)}
+  la récurrence et le comparer avec la version précédente)}
 
 \note{Différences:
 \begin{itemize}
@@ -1935,7 +1935,7 @@ t_{ij}^{(k-1)}\vee (t_{ik}^{(k-1)}\wedge t_{kj}^{(k-1)}) & \mbox{si } k\geq 1.
 \begin{itemize}
 \item $(V,E')$ est un arbre couvrant de $(V,E)$, et
 \item la valeur de $\sum_{e\in E'} w(e)$ est minimale parmi tous les
-  arbres couvrant de $(V,E)$, où $w(e)$ dénote le poids de l'arc $e$
+  arbres couvrants de $(V,E)$, où $w(e)$ dénote le poids de l'arc $e$
 \end{itemize}
 
 \bigskip
@@ -2239,7 +2239,7 @@ $(g,h)$ & rejet & \\
 \item Chaque élément de la file est un sommet de $V\setminus V_A$ (pas
   encore couvert par l'arbre courant)
 \item La clé de $v$ est le poids minimum de tout arête $(u,v)$ où $u\in V_A$
-\item Cette clé est mis à jour à chaque ajout d'un sommet dans $V_A$
+\item Cette clé est mise à jour à chaque ajout d'un sommet dans $V_A$
 \end{itemize}
 
 \bigskip

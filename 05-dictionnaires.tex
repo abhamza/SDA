@@ -180,7 +180,7 @@ Complexité: $O(\log n)$
 
 \bigskip
 
-Peut-on obtenir à la fois une insertion et une recherche ``efficace''?
+Peut-on obtenir à la fois une insertion et une recherche ``efficaces''?
 
 \end{frame}
 
@@ -202,9 +202,9 @@ Peut-on obtenir à la fois une insertion et une recherche ``efficace''?
 \item Des données sont associées aux n\oe uds d'un arbre
 \item Les n\oe uds sont accessibles les uns par rapport aux autres selon leur position dans l'arbre
 \end{itemize}
-\item Interface: Pour un arbre $T$ et un noeud $n$
+\item Interface: Pour un arbre $T$ et un n\oe ud $n$
 \begin{itemize}
-\item $\proc{Parent}(T,n)$: renvoie le parent d'un noeud $n$ (signale une erreur si $n$ est la racine)
+\item $\proc{Parent}(T,n)$: renvoie le parent d'un n\oe ud $n$ (signale une erreur si $n$ est la racine)
 \item $\proc{Children}(T,n)$: renvoie une structure de données (ordonnée
   ou non) contenant les fils du n\oe ud $n$ (exemple: une liste)
 \item $\proc{isRoot}(T,n)$: renvoie vrai si $n$ est la racine de l'arbre
@@ -279,7 +279,7 @@ Peut-on obtenir à la fois une insertion et une recherche ``efficace''?
 Première solution: \alert{numérotation de niveaux}
 \begin{itemize}
 \item L'arbre est représenté par un vecteur (ou un tableau)
-\item Chaque position dans l'arbre est associé à un rang particulier:
+\item Chaque position dans l'arbre est associée à un rang particulier:
 \begin{itemize}
 \item La racine est en position 1
 \item Si un n\oe ud est au rang $r$, son successeur gauche est au rang $2r$, son successeur droit au rang $2r+1$
@@ -1048,9 +1048,9 @@ randomization: n'assure pas qu'on ne sera jamais dans le pire cas. Suppose qu'on
 \item Solution générale pour obtenir une complexité au pire cas en $O(\log n)$:% maintenir en permanence un arbre plus ou moins complet
 \begin{itemize}
 \item Définir un \alert{invariant} sur la structure d'arbre
-\item Prouver que cette invariant garantit une hauteur $\Theta(\log n)$
+\item Prouver que cet invariant garantit une hauteur $\Theta(\log n)$
 \item Implémenter les opérations d'insertion et suppression de manière à maintenir l'invariant
-\item Si ces opérations ne sont pas trop coûteuse (p.ex., $O(\log
+\item Si ces opérations ne sont pas trop coûteuses (p.ex., $O(\log
   n)$), on aura gagné
 \end{itemize}
 
@@ -1099,7 +1099,7 @@ Plus précisément, on peut prouver:
 Etant donné un arbre $H$-équilibré de taille $n$ et de hauteur $h\geq 1$, pour $h$ fixé, $n$ est
 \begin{itemize}
 \item Maximum: quand l'arbre est complet, soit quand
-$n=2^{h+1}-1\Rightarrow n+1\leq 2^{h+1} \Rightarrow \log (n+1)\leq h+1 \Rightarrow h\in\Omega(log n) $
+$n=2^{h+1}-1\Rightarrow n+1\leq 2^{h+1} \Rightarrow \log (n+1)\leq h+1 \Rightarrow h\in\Omega(\log n) $
 \item Minimum: quand $n=N(h)$ où $N(h)$ est la taille d'un arbre $H$-équilibré de hauteur $h$ qui a le moins d'éléments.
 \begin{itemize}
 \item $N(h)$ peut être défini par récurrence par $N(h)=1+N(h-1)+N(h-2)$ avec $N(0)=1$ et $N(1)=2$.
@@ -1364,7 +1364,7 @@ Déséquilibre à l'extérieur\hspace{1.3cm}Déséquilibre à l'intérieur\\
 \end{center}
 
 \begin{itemize}
-\item Résolus respectivement pas une rotation (à droite) et une double rotation.
+\item Résolus respectivement par une rotation (à droite) et une double rotation.
 \end{itemize}
 
 \end{frame}
@@ -1486,7 +1486,8 @@ Pour AVL, demander ce qui va se passer lorsqu'on insère un élément dans l'arb
 \begin{itemize}
 \item On suppose:
 \begin{itemize}
-\item que chaque élément a une clé tirée d'un univers $U=\{0,1,\ldots,m-1\}$ où $m$ n'est pas trop large
+\item que chaque élément a une clé tirée d'un univers
+  $U=\{0,1,\ldots,m-1\}$ où $m$ n'est pas trop grand
 \item qu'il ne peut pas y avoir deux éléments avec la même clé.
 \end{itemize}
 \item Le dictionnaire est implémenté par un tableau $T[0\ldots m-1]$:
@@ -1535,7 +1536,7 @@ Pour AVL, demander ce qui va se passer lorsqu'on insère un élément dans l'arb
 \item Problème:
 \begin{itemize}
 \item Complexité en espace: $\Theta(|U|)$
-\item si l'univers de clés $U$ est large, stocker une table de taille $|U|$ peut être peu pratique, voire impossible
+\item si l'univers de clés $U$ est grand, stocker une table de taille $|U|$ peut être peu pratique, voire impossible
 \end{itemize}
 \item Souvent l'ensemble des clés réellement stockées, noté $K$, est petit comparé à $U$ et donc l'espace alloué est gaspillé.
 
@@ -1560,7 +1561,7 @@ $\Rightarrow$ \alert{Table de hachage:}
 \item Inventée en 1953 par Luhn
 \item Idée:
 \begin{itemize}
-\item Utiliser une table $T$ de taille $m<<|U|$
+\item Utiliser une table $T$ de taille $m\ll|U|$
 \item stocker $x$ à la position $h(\attrib{x}{key})$, où $h$ est une fonction de \alert{hachage}: $$h:U\rightarrow \{0,\ldots,m-1\}$$
 \end{itemize}
 \end{itemize}
@@ -1612,9 +1613,9 @@ Est-ce que ces algorithmes sont corrects ?
 \item Hypothèse:
 \begin{itemize}
 \item On néglige les années bissextiles
-\item Les 365 jours présentent la même probabilités d'être un jour d'anniversaire
+\item Les 365 jours présentent la même probabilité d'être un jour d'anniversaire
 \end{itemize}
-\item Si $p$ est la probabilité d'une collision d'anniversaire:
+\item Si $p$ est la probabilité d'une collision d'anniversaires:
 $$1-p = \frac{364}{365} \cdot \frac{363}{365} \cdot \frac{362}{365} \ldots \frac{365-n+1}{365} = \frac{365!}{(365-n)! 365^n}$$
 Exemples:
 \begin{itemize}
@@ -1846,12 +1847,12 @@ $$\sum_{i=1}^n \frac{1}{n} (1+\frac{n-i}{m})=1+\frac{1}{n m}(\sum_{i=1}^n n-\sum
 \begin{frame}{Fonctions de hachage: codage préalable}
 
 \begin{itemize}
-\item Les fonctions de hachages supposent que les clés sont des nombres naturels
+\item Les fonctions de hachage supposent que les clés sont des nombres naturels
 \item Si ce n'est pas le cas, il faut préalablement utiliser une \alert{fonction de codage}
 \item Exemple: codage des chaînes de caractères:
 \begin{itemize}
 \item On interprète la chaîne comme un entier dans une certaine base
-\item Example pour ``SDA'': valeurs ASCII (128 possibles): $$S=83, D=68, A=65$$
+\item Exemple pour ``SDA'': valeurs ASCII (128 possibles): $$S=83, D=68, A=65$$
 \item Interprété comme l'entier:\hfill {\it (Pourquoi pas 83+68+65 ?)}
  $$(83\cdot 128^2)+(68\cdot 128^1)+(65\cdot 128^0)=1368641$$
 \item Calculé efficacement par la méthode de Horner:
@@ -1891,7 +1892,7 @@ Exemples:
 \begin{itemize}
 \item Exemple: ``SDA'' $\bmod\ 128$= ``GAGA''$\bmod\ 128$=65
 \end{itemize}
-\item Si $k$ est une chaîne de caractère codée en base $2^p$ et $m=2^p-1$, permuter la chaîne ne modifie pas le valeur de hachage\\
+\item Si $k$ est une chaîne de caractères codée en base $2^p$ et $m=2^p-1$, permuter la chaîne ne modifie pas le valeur de hachage\\
 \begin{itemize}
 \item Exemple: ``SDA''=1368641, ``DSA''=1124801\\
 $\Rightarrow 1368641\bmod 127=1124801\bmod 127=89$
@@ -1954,7 +1955,7 @@ Calcul aisé si:
 \item $m=2^p$ pour un entier $p$
 \item Les mots sont codés en $w$ bits et les clés $k$ peuvent être
   codées par un seul mot
-\item $A$ de la forme $S/2^w$ pour $0<s<2^w$
+\item $A$ de la forme $s/2^w$ pour $0<s<2^w$
 \end{itemize}
 
 \centerline{\includegraphics[width=8cm]{Figures/05-hashtablemultiplication.pdf}}
@@ -2099,7 +2100,7 @@ Propriétés:
 \item très facile à implémenter
 \item effet de grappe fort: création de longues suites de cellules occupées
 \begin{itemize}
-\item La probabilité de remplir un cellule vide est $\frac{i+1}{m}$ où $i$ est le nombre de cellules pleines précédant la cellule vide
+\item La probabilité de remplir une cellule vide est $\frac{i+1}{m}$ où $i$ est le nombre de cellules pleines précédant la cellule vide
 \end{itemize}
 \item pas très uniforme
 \end{itemize}
@@ -2196,7 +2197,7 @@ $\Rightarrow$ Si $\alpha$ est constant ($n=O(m)$), la recherche est $O(1)$.
 \end{itemize}
 \item Adressage ouvert:
 \begin{itemize}
-\item Rapide and peu gourmand en mémoire
+\item Rapide et peu gourmand en mémoire
 \item Choix de la fonction de hachage plus difficile (pour éviter les grappes)
 \item On ne peut pas avoir $n>m$
 \item Suppression problématique
@@ -2212,7 +2213,11 @@ $\Rightarrow$ Si $\alpha$ est constant ($n=O(m)$), la recherche est $O(1)$.
 \end{itemize}
 \end{itemize}
 
-\note{Cuckoo hashing: on utilise plusieurs fonctions de hachage: si collision, on déplace l'élément à une nouvelle position en utilisant la fonction de hachage. Si re-collision, on prend la suivante, et ainsi de suite. Recherche: on utilise les fonctions de hachages en séquence.
+\note{Cuckoo hashing: on utilise plusieurs fonctions de hachage: si
+  collision, on déplace l'élément à une nouvelle position en utilisant
+  la fonction de hachage. Si re-collision, on prend la suivante, et
+  ainsi de suite. Recherche: on utilise les fonctions de hachage en
+  séquence.
 
 \bigskip
 
@@ -2319,7 +2324,7 @@ Tables de hachage:
 \item Seule solution pour des clés non ordonnées
 \item Accès et insertion très rapides en moyenne (pour des clés simples)
 \item Espace gaspillé lorsque $\alpha$ est petit
-\item Pas de garantie au pire cas (performance ``instables'')
+\item Pas de garantie au pire cas (performances ``instables'')
 \end{itemize}
 
 \bigskip

@@ -50,7 +50,7 @@ Applications innombrables:
 \item Tri des mails selon leur ancienneté
 \item Tri des résultats de requête dans un moteur de recherche
 \item Tri des facettes des objets pour l'affichage dans les jeux 3D
-\item Gestion des opérations banquaires
+\item Gestion des opérations bancaires
 \item ...
 \end{itemize}
 
@@ -73,8 +73,8 @@ Des études montrent qu'environ 25\% du temps CPU des ordinateurs est utilisé p
 
 \begin{itemize}
 \item {\bf Tri interne:} tri en mémoire centrale. {\bf Tris externes:} données sur un disque externe.
-\item {\bf Tri de tableau:} tri qui trie un tableau. Extensible à toutes structure de données offrant un accès en temps (quasi) constant à ses éléments.
-\item {\bf Tri générique:} peut trier n'imporque quel type d'objets pour autant qu'on puisse comparer ces objets.
+\item {\bf Tri de tableau:} tri qui trie un tableau. Extensible à toutes structures de données offrant un accès en temps (quasi) constant à ses éléments.
+\item {\bf Tri générique:} peut trier n'importe quel type d'objets pour autant qu'on puisse comparer ces objets.
 \item {\bf Tri comparatif:} basé sur la comparaison entre les éléments (clés)
 
 \end{itemize}
@@ -83,7 +83,7 @@ Des études montrent qu'environ 25\% du temps CPU des ordinateurs est utilisé p
 
 \begin{frame}{Différents types de tri}
 \begin{itemize}
-\item {\bf Tri itératif:} basé sur un ou plusieurs parcours itératif du tableau
+\item {\bf Tri itératif:} basé sur un ou plusieurs parcours itératifs du tableau
 \item {\bf Tri récursif:} basé sur une procédure récursive
 \item {\bf Tri en place:} modifie directement la structure qu'il est en train de trier. Ne nécessite qu'une quantité très limitée de mémoire supplémentaire.
 \item {\bf Tri  stable:} conserve l'ordre relatif des éléments égaux (au sens de la méthode de comparaison).
@@ -145,7 +145,7 @@ Demander lesquels sont stables: selection: non, insertion: oui, merge: oui, bubb
 \begin{frame}{\proc{QuickSort}: principe}
 Pour trier un sous-tableau $A[p\twodots r]$:
 \begin{itemize}
-\item Partitionner $A[p\twodots r]$ en deux sous-tableaux: $A[p..q-1]$ et $A[q+1\twodots r]$ tels que tout élément de $A[p\twodots q-1]$ est $\leq A[q]$ et $A[q]\leq$ à tout élément de $A[q+1\twodots r]$.\\~\hfill\alert{\emph{(diviser)}}
+\item Partitionner $A[p\twodots r]$ en deux sous-tableaux: $A[p..q-1]$ et $A[q+1\twodots r]$ tels que tout élément de $A[p\twodots q-1]$ est $\leq A[q]$ et $A[q]<$ à tout élément de $A[q+1\twodots r]$.\\~\hfill\alert{\emph{(diviser)}}
 
 \item Appeler récursivement l'algorithme pour trier $A[p\twodots q-1]$ et $A[q+1\twodots r]$\\~\hfill\alert{\emph{(régner)}}
 \end{itemize}
@@ -229,9 +229,9 @@ Appel initial: $\proc{Quicksort}(A,1,\attrib{A}{length})$
 \end{column}
 \begin{column}{6cm}\small
 $A[r]$ est le pivot\\
-$A[p\twodots i]$: contient des éléments $\leq$ au le pivot\\
+$A[p\twodots i]$ contient des éléments $\leq$ au pivot\\
 $A[i+1\twodots j-1]$ contient des éléments $>$ que le pivot\\
-$A[p\twodots i]$: est la partie du tableau non encore examinée
+$A[j\twodots r-1]$ est la partie du tableau non encore examinée
 \end{column}
 \end{columns}
 
@@ -569,7 +569,7 @@ $$T(n)=\Theta(n\log n)$$
 \begin{itemize}
 \item \emph{Heapsort} en anglais
 \item inventé par Williams en 1964
-\item basé sur une structure de donnée très utile, le \emph{tas}
+\item basé sur une structure de données très utile, le \emph{tas}
 \item complexité bornée par $\Theta(n\log n)$ (dans tous les cas)
 \item tri en place
 \item mise en oeuvre très simple
@@ -669,7 +669,7 @@ Remarque: Il n'existe jamais de chemin reliant deux feuilles distinctes.
 % text: Dupont
 \begin{itemize}
 \item Le nombre de n\oe uds externes est égal au nombre de n\oe uds internes plus 1.
-\item Le nombre de n\oe uds interne est égal à $\frac{n-1}{2}$, où
+\item Le nombre de n\oe uds internes est égal à $\frac{n-1}{2}$, où
   $n$ désigne le nombre de n\oe uds.
 \item Le nombre de n\oe uds à la profondeur (ou niveau) $i$ est $\leq 2^i$.
 \item La hauteur $h$ de l'arbre est $\leq$ au nombre de n\oe uds internes.
@@ -723,8 +723,8 @@ Un \alert{tas binaire} (binary heap) est un arbre binaire complet tel que:
 \begin{itemize}
 \item Soit $T$ un arbre binaire complet contenant $n$ entrées et de hauteur $h$:
 \begin{itemize}
-\item $n$ est supérieur ou égal à la taille de l'arbre complet de hauteur $h-1$ plus un, soit $2^{h-1+1}-1+1=2^h$
-\item $n$ est inférieur ou égal à la taille de l'arbre complet de hauteur $h$, soit $2^{h+1}-1$
+\item $n$ est supérieur ou égal à la taille de l'arbre parfait de hauteur $h-1$ plus un, soit $2^{h-1+1}-1+1=2^h$
+\item $n$ est inférieur ou égal à la taille de l'arbre parfait de hauteur $h$, soit $2^{h+1}-1$
 \begin{eqnarray*}
 2^h\leq n\leq 2^{h+1}-1 & \Leftrightarrow & 2^h\leq n < 2^{h+1}\\
 & \Leftrightarrow & h \leq \log_2 n < h+1 \\
@@ -773,7 +773,7 @@ $+1$ parce que sinon l'arbre binaire complet serait de profondeur $h-1$.
 Un tas peut être représenté de manière compacte à l'aide d'un tableau $A$.
 
 \begin{itemize}
-\item La racine de l'abre est le premier élément du tableau.
+\item La racine de l'arbre est le premier élément du tableau.
 \item $\proc{Parent}(i)=\lfloor i/2\rfloor$
 \item $\proc{Left}(i)=2i$
 \item $\proc{Right}(i)=2i+1$
@@ -952,9 +952,9 @@ $$T(h)=\sum_{i=0}^{h-1} 2^i O(h-i)=O(\sum_{i=0}^{h-1} 2^i (h-i))$$
 
 \begin{small}
 \begin{tabular}{ccccccccccl}
-$2^{h-1}$ & + & $2^{h-2}$ & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h}-1$\\
- & + & $2^{h-2}$ & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h-1}-1$\\
- & & & + & $2^h-3$ & + & \ldots & +& $2^0$ & = & $2^{h-2}-1$\\
+$2^{h-1}$ & + & $2^{h-2}$ & + & $2^{h-3}$ & + & \ldots & +& $2^0$ & = & $2^{h}-1$\\
+ & + & $2^{h-2}$ & + & $2^{h-3}$ & + & \ldots & +& $2^0$ & = & $2^{h-1}-1$\\
+ & & & + & $2^{h-3}$ & + & \ldots & +& $2^0$ & = & $2^{h-2}-1$\\
  &   &        &   &      &   & \ldots &  &    & \ldots & \\
  &   &        &   &     &    &        & & $2^0$ & = & $2^1-1$\\
 \hline

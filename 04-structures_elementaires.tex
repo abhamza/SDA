@@ -86,11 +86,11 @@ Dans ce cours:
 \begin{frame}{Quelques structures de données standards}
 
 \begin{itemize}
-\item Pile: collection d'objets accessible selon une politique LIFO
-\item File: collection d'objets accessible selon une politique FIFO
+\item Pile: collection d'objets accessibles selon une politique LIFO
+\item File: collection d'objets accessibles selon une politique FIFO
 \item File double: combine accès LIFO et FIFO
-\item Liste: collection d'objets ordonnés accessible à partir de leur position
-\item Vecteur: collection d'objets ordonnés accessible à partir de leur rang
+\item Liste: collection d'objets ordonnés accessibles à partir de leur position
+\item Vecteur: collection d'objets ordonnés accessibles à partir de leur rang
 \item File à priorité: accès uniquement à l'élément de clé (priorité) maximale
 
 \bigskip
@@ -175,7 +175,7 @@ Dans ce cours:
           \li \If $\proc{Stack-Empty}(S)$
           \li \Then \Error ``underflow''
           \li \Else $\attrib{S}{top}\gets \attrib{S}{top}-1$
-          \li       \Return $S[top(S)+1]$
+          \li       \Return $S[\attrib{S}{top}+1]$
           \End
         \end{codebox}}
 
@@ -202,7 +202,7 @@ Dans ce cours:
 \begin{itemize}
 \item d'un contenu utile $\attrib{x}{data}$ de type arbitraire (par exemple une clé),
 \item d'un pointeur $\attrib{x}{next}$ vers l'élément suivant dans la séquence
-\item \emph{Doublement liée: }d'une pointeur $\attrib{x}{prev}$ vers l'élément précédent dans la séquence
+\item \emph{Doublement liée: }d'un pointeur $\attrib{x}{prev}$ vers l'élément précédent dans la séquence
 \end{itemize}
 \item Soit $L$ une liste liée
 \begin{itemize}
@@ -564,7 +564,7 @@ Double ended-queue (deque)
 
 \begin{frame}{Implémentation à l'aide d'une liste doublement liée}
 \begin{itemize}
-\item A l'aide d'une liste double liée
+\item A l'aide d'une liste doublement liée
 \item Soit la file double $Q$:
 \begin{itemize}
 \item $Q.head$ pointe vers un élément \alert{sentinelle} en début de liste
