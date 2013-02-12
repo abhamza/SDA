@@ -23,7 +23,7 @@
 }
 
 \author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
-\date{24 février 2012}
+\date{15 février 2013}
 
 % Corps
 \begin{document}
@@ -34,18 +34,22 @@
 \begin{enumerate}
 
 \item L'algorithme $A$ nécessite $10n^3$ opérations pour résoudre un problème.
-L'algorithme $B$ résoud le même problème en $1000n^2$ opérations. A partir de
-quelle valeur de $n$ l'algorithme $B$ sera t-il plus rapide que l'algorithme
-$A$?
+L'algorithme $B$ résoud le même problème en $1000n^2$ opérations. Quel est
+l'algorithme le plus rapide?
 
 \item L'algorithme $A$ nécessite $32n \log_2 n$ opérations pour résoudre un
-problème.  L'algorithme $B$ résoud le même problème en $3n^2$ opérations. A
-partir de quelle valeur de $n$  l'algorithme $A$ sera t-il plus rapide que
-l'algorithme $B$?
+problème.  L'algorithme $B$ résoud le même problème en $3n^2$ opérations. Quel
+est l'algorithme le plus rapide?
 
 \end{enumerate}
 
 \section*{Exercice 2}
+
+Soit un algorithme dont le temps d'exécution pour $N=1000$, $2000$, $3000$ et
+$4000$ est respectivement de $5s$, $20s$, $45s$ et $80s$. Estimez le temps
+d'exécution pour $N=5000$.
+
+\section*{Exercice 3}
 
 Classer ces fonctions par ordre croissant de complexité (selon l'opérateur
 $O(.)$).
@@ -58,7 +62,7 @@ $O(.)$).
 \end{tabular}
 \end{center}
 
-\section*{Exercice 3}
+\section*{Exercice 4}
 
 \begin{enumerate}
 
@@ -70,7 +74,7 @@ $O(.)$).
 
 \end{enumerate}
 
-\section*{Exercice 4}
+\section*{Exercice 5}
 
 Pour chacun des pseudo-codes suivants, déterminer ce que fait l'algorithme, puis
 la complexité asymptotique (en termes de $O(.)$ et de $n$).
@@ -141,7 +145,34 @@ la complexité asymptotique (en termes de $O(.)$ et de $n$).
 \end{codebox}
 \vspace{10pt}
 
-\section*{Exercice 5}
+\begin{codebox}
+    \Procname{$\proc{Code6}(n)$}
+    \li \If $n == 0$
+        \Then
+    \li     \Return \texttt{""}
+    \li \Else
+    \li     $tmp\gets \proc{Code6}(n/2)$
+    \li     \If $n \% 2 == 0$
+            \Then
+    \li         \Return tmp + tmp
+    \li     \Else
+    \li         \Return tmp + tmp + \texttt{"x"}
+            \End
+       \End
+\end{codebox}
+\vspace{10pt}
+
+\begin{codebox}
+    \Procname{$\proc{Code7}(n)$}
+    \li $s\gets$ \texttt{""}
+    \li \For $i\gets 1$ \To $n$
+    \li \Do $s\gets s+$\texttt{"x"}
+        \End
+    \li \Return $s$
+\end{codebox}
+\vspace{10pt}
+
+\section*{Exercice 6}
 
 Supposons que nous avons un tableau $A$ de $n$ valeurs classées dans l'ordre
 croissant. On se propose de rechercher si une valeur $b$ est présente dans ce
@@ -159,7 +190,7 @@ sa complexité dans le meilleur cas et dans le pire cas.
 
 \textit{Bonus:} Analyser la complexité moyenne de ces algorithmes.
 
-\section*{Exercice 6}
+\section*{Exercice 7}
 
 On se propose de coder une fonction polynomiale, de la forme:
 $$
@@ -174,7 +205,7 @@ $$
 
 \end{enumerate}
 
-\section*{Exercice 7}
+\section*{Exercice 8}
 
 Une attaque par \textit{déni de service} (DoS) est une attaque visant à saturer
 une application de sorte qu'elle ne puisse plus répondre à de nouvelles
@@ -219,6 +250,28 @@ void no2slash(char *name) {
     }
     *d = '\0';
 }
+\end{verbatim}
+
+\section*{Exercice 9}
+
+Soit un tableau de $N$ entiers où chaque entier de l'intervalle $1..N$ apparaît exactement une fois, à l'exception d'un entier apparaîssant 2 fois et d'un entier manquant.
+Proposer un algorithme linéaire pour trouver l'entier manquant, en utilisant au plus $O(1)$ d'espace mémoire supplémentaire.
+
+\section*{Exercice 10}
+
+Soit un tableau $N \times N$ de booléens (\texttt{0} ou \texttt{1}). Proposer un algorithme pour trouver le plus grand sous-tableau contigu contenant uniquement des valeurs \texttt{1}.
+
+\textit{Exemple:} Le tableau suivant contient un sous-tableau $6 \times 2$ contigu ne contenant que des \texttt{1}.
+
+\begin{verbatim}
+1 0 1 1 1 0 0 0
+0 0 0 1 0 1 0 0
+0 0 1 1 1 0 0 0
+0 0 1 1 1 0 1 0
+0 0 1 1 1 1 1 1
+0 1 0 1 1 1 1 0
+0 1 0 1 1 1 1 0
+0 0 0 1 1 1 1 0
 \end{verbatim}
 
 \end{document}
