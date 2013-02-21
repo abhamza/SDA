@@ -23,13 +23,25 @@
 }
 
 \author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
-\date{9 mars 2012}
+\date{22 février 2013}
 
 % Corps
 \begin{document}
 \maketitle
 
 \section*{Exercice 1}
+
+L'algorithme suivant échange les valeurs $x$ et $y$. Montrer que cet algorithme est correct.
+
+\begin{codebox}
+    \Procname{$\proc{Swap}(x, y)$}
+    \li $x\gets x + y$
+    \li $y\gets x - y$
+    \li $x\gets x - y$
+\end{codebox}
+\vspace{10pt}
+
+\section*{Exercice 2}
 
 L'algorithme suivant est-il correct? Partiellement? Totalement?
 
@@ -47,7 +59,7 @@ L'algorithme suivant est-il correct? Partiellement? Totalement?
 \end{codebox}
 \vspace{10pt}
 
-\section*{Exercice 2}
+\section*{Exercice 3}
 
 Déterminer la post-condition de l'algorithme suivant. Montrer ensuite que l'algorithme est totalement correct.
 
@@ -62,7 +74,7 @@ Déterminer la post-condition de l'algorithme suivant. Montrer ensuite que l'alg
 \end{codebox}
 \vspace{10pt}
 
-\section*{Exercice 3}
+\section*{Exercice 4}
 
 Montrer que l'algorithme suivant est totalement correct.
 
@@ -80,9 +92,38 @@ Montrer que l'algorithme suivant est totalement correct.
 \end{codebox}
 \vspace{10pt}
 
+\section*{Exercice 5}
 
-\pagebreak
-\section*{Exercice 4}
+Montrer que l'algorithme du Bubblesort trie effectivement le tableau $A$.
+
+\begin{codebox}
+    \Procname{$\proc{Bubblesort}(A)$}
+    \li \For $i\gets 1$ \To $A.length-1$
+    \li \Do \For $j\gets 1$ \To $A.length-i$
+    \li     \Do \If $A[j] > A[j+1]$
+    \li         \Then Swap(A[j], A[j+1])
+            \End
+        \End
+        \End
+\end{codebox}
+\vspace{10pt}
+
+
+\section*{Exercice 6}
+
+Montrer que la fonction récursive $g(n)$ retourne $3^n - 2^n$ pour tout $n \geq 0$.
+
+\begin{codebox}
+    \Procname{$g(n)$}
+    \li \If $n \leq 1$
+    \li \Then \Return $n$
+    \li \Else
+    \li \Return $5 g(n-1) - 6 g(n-2)$
+        \End
+\end{codebox}
+\vspace{10pt}
+
+\section*{Exercice 7}
 
 \begin{enumerate}
 \item Que fait l'algorithme suivant?

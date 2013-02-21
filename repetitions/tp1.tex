@@ -21,7 +21,7 @@
 }
 
 \author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
-\date{10 février 2012}
+\date{8 février 2013}
 
 % Corps
 \begin{document}
@@ -37,13 +37,14 @@ Que fait cette fonction?
     \li \Then   \Return True
     \li \Else
     \li       \If $A[1] == A[A.length]$
-    \li       \Then \Return \textsc{Mystère}($A[2..A.length-1]$)
+    \li       \Then \Return $\proc{Mystère}(A[2..A.length-1])$
     \li       \Else
     \li             \Return False
               \End
         \End
     \End
 \end{codebox}
+\vspace{0.5cm}
 
 \section*{Exercice 2}
 
@@ -65,19 +66,50 @@ Réécrire ensuite cette fonction de façon itérative.
 
 \item Ecrire le pseudo-code d'une fonction itérative permettant de déterminer la valeur moyenne des éléments d'un tableau. Réécrire ensuite cette fonction de façon récursive.
 
+\item Ecrire le pseudo-code d'une fonction récursive permettant d'approximer le nombre d'Or défini par la fraction suivante:
+\begin{align*}
+\phi = 1 + \frac{1}{1 + \frac{1}{1 + \frac{1}{1 + ...}}}
+\end{align*}
+Réécrire ensuite cette fonction de façon itérative.
+
 \end{enumerate}
 
 \section*{Exercice 3}
 
+Quelle est la sortie de l'appel de fonction $\proc{Ex3(6)}$?
+
+\begin{codebox}
+    \Procname{$\proc{Ex3}(n)$}
+    \li \If $n <= 0$
+    \li \Then   \Return
+    \li \Else
+    \li       \textbf{print} $n$
+    \li       $\proc{Ex3}(n-2)$
+    \li       $\proc{Ex3}(n-2)$
+    \li       \textbf{print} $n$
+        \End
+    \End
+\end{codebox}
+\vspace{0.5cm}
+
+\section*{Exercice 4}
+
+\begin{itemize}
+\item Ecrire le pseudo-code d'une fonction permettant d'imprimer à l'écran toutes les permutations d'un tableau $A$.
+\item Ecrire le pseudo-code d'une fonction permettant d'imprimer à l'écran toutes les combinaisons d'éléments pris dans tableau $A$.
+\end{itemize}
+
+\section*{Exercice 5}
+
 Ecrire le pseudo-code d'une fonction permettant de dessiner un triangle de Sierpinski de profondeur $n$.
 
-\begin{figure}
+\begin{figure}[h]
     \center
     \includegraphics[scale=0.25]{triangle.png}
     \caption{Triangle de Sierpinski}
 \end{figure}
 
-\section*{Exercice 4}
+\section*{Exercice 6}
 
 \begin{enumerate}
 
@@ -95,6 +127,18 @@ M(n) &= \left\{
 \item Réécrire cette fonction de façon itérative.
 
 \end{enumerate}
+
+\section*{Exercice 7}
+
+On dispose d'une pile de crêpes bien chaudes qu'on souhaite trier de la plus
+grande à la plus petite. Pour ce faire, la seule opération permise est
+de retourner un paquet de crêpes pris à partir du sommet de la pile.
+Décrivez une procédure pour trier la pile de crêpes.
+
+\textit{Variante:} Chaque crêpe est brûlée d'un côté. Comment trier la pile de sorte
+que le côté brûlé de chaque crêpe soit en dessous?
+
+\textit{Note:} Les crêpes ne peuvent pas être mangées.
 
 
 \end{document}
