@@ -92,7 +92,7 @@ Autres questions importantes seulement marginalement abordées dans ce cours:
 \begin{itemize}
 \item Suppose d'implémenter l'algorithme dans un langage (programme)
   et de le faire tourner
-\item Supppose qu'on peut déterminer les instances du problème à vérifier
+\item Suppose qu'on peut déterminer les instances du problème à vérifier
 \item Il est très difficile de prouver empiriquement qu'on n'a pas de bug %On peut prouver qu'il y a un bug, pas qu'il n'y en a pas.
 \end{itemize}
 \item Deuxième solution: en dérivant une \alert{preuve mathématique} formelle:
@@ -168,6 +168,19 @@ Trois types d'instructions: affectation, condition, boucle
 
 \begin{frame}{Correction: affectations}
 
+Le triplet suivant est correct:
+\begin{center}\footnotesize
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi $\{Q[x\rightarrow e]\}$
+\zi $x\gets e$
+\zi $\{Q\}$
+\end{codebox}}
+\end{center}
+$Q[x\rightarrow e]$ est obtenu en remplaçant les occurrences de $x$ par $e$ dans $Q$.
+\bigskip
+
+Pour prouver un triplet:
 \begin{center}\footnotesize
 \fcolorbox{white}{Lightgray}{
 \begin{codebox}
@@ -176,15 +189,13 @@ Trois types d'instructions: affectation, condition, boucle
 \zi $\{Q\}$
 \end{codebox}}
 \end{center}
+il faut montrer que $P$ implique $Q[x\rightarrow e]$.
 
 \bigskip
 
-Pour prouver que le triplet est correct, il faut montrer qu'on peut
-dériver $Q$ à partir de $P$ en remplaçant $x$ par $e$.
-
-\bigskip
-
-Exemple:
+Exemples: les triplets suivants sont corrects
+\begin{columns}
+\begin{column}{5cm}
 \begin{center}\footnotesize
 \fcolorbox{white}{Lightgray}{
 \begin{codebox}
@@ -193,9 +204,23 @@ Exemple:
 \zi $\{y\isequal 3\}$
 \end{codebox}}
 \end{center}
+\end{column}
+\begin{column}{5cm}
+\begin{center}\footnotesize
+\fcolorbox{white}{Lightgray}{
+\begin{codebox}
+\zi $\{x\isequal 42\}$
+\zi $y\gets x+1$
+\zi $z\gets y$ 
+\zi $\{z\isequal 43\}$
+\end{codebox}}
+\end{center}
+\end{column}
+\end{columns}
 %$\{x\isequal 2\} y\gets x+1\{y\isequal 3\}$
 
 \note{On remplace $y$ par $x+1$ dans $y==3$, on obtient $x+1==3$, ce qui est correct étant donné la premier assertion}
+
 \end{frame}
 
 \begin{frame}{Correction: conditions}
@@ -759,6 +784,8 @@ $$r-q=r-\frac{p+r}{2}=\frac{r-p}{2}<(r-p)$$
 \item Dans la suite, on ne présentera des invariants ou des preuves par induction que très sporadiquement lorsque ce sera nécessaire (cas non triviaux)
 \end{itemize}
 
+\note{Et pire que ça, on peut montrer qu'il n'est pas possible de concevoir un outil automatique pour faire ça}
+
 \end{frame}
 
 \section{Complexité algorithmique}
@@ -812,6 +839,7 @@ Expérimentalement:
 ~\hfill\scriptsize(Carzaniga)
 \end{center}
 
+\note{Exemple de la recherche dans un tableau: si élément au début ou à la fin}
 \end{frame}
 
 \begin{frame}{Comment mesurer les temps d'exécution ?}
@@ -856,6 +884,7 @@ En se basant sur un modèle de calcul abstrait:
 \item Mais ça peut être autre chose (Ex: $n$ pour $\proc{Fibonacci}$)
 \end{itemize}
 \end{itemize}
+
 \end{frame}
 
 \begin{frame}{Analyse du tri par insertion}
@@ -1114,6 +1143,9 @@ $$\Omega(g(n))=\{f(n)| \exists c>0, \exists n_0\geq 1\mbox{ tels que } 0\leq c g
 $$O(1)\subset O(\log n)\subset O(n) \subset O(n\log n) \subset O(n^{a>1})\subset (2^n)$$
 \centerline{\includegraphics[width=6cm]{Figures/02-complexclass.pdf}}
 \end{itemize}
+
+\note{$3^n$ est exponentiellement plus lent que $2^n$: $3^n/2^n=\exp(n (\log 2-\log 3))$.}
+
 \end{frame}
 
 \begin{frame}{Quelques propriétés}
@@ -1221,7 +1253,7 @@ Quelques règles pour les algorithmes itératifs:
 %\begin{itemize}
 %Quelques règles pour les algorithmes itératifs:
 \begin{itemize}
-\item Double boucle: $O(n^2 f(n))$ où $f(n)$ est la complexité du corps de la boucle
+\item Double boucle complète: $O(n^2 f(n))$ où $f(n)$ est la complexité du corps de la boucle
 \item Boucles incrémentales: $O(n^2)$ (si corps $O(1)$)
 \begin{center}\footnotesize
    \fcolorbox{white}{Lightgray}{
