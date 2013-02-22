@@ -14,7 +14,7 @@
  * The array must later be deleted by calling free().
  *
  * PARAMETERS
- * length       Number of elements in the array
+ * length       Number of elements in the array (pre-condition: 0 < length)
  *
  * RETURN
  * array        A new array of integers
@@ -27,7 +27,7 @@ int* createSortedArray(size_t length);
  * The array must later be deleted by calling free().
  *
  * PARAMETERS
- * length       Number of elements in the array
+ * length       Number of elements in the array (pre-condition: 0 < length)
  *
  * RETURN
  * array        A new array of integers
@@ -41,8 +41,8 @@ int* createRandomArray(size_t length);
  * The array must later be deleted by calling free().
  *
  * PARAMETERS
- * length       Number of elements in the array
- * k            Number of pre-sorted blocks
+ * length       Number of elements in the array (pre-condition: 0 < length)
+ * k            Number of pre-sorted blocks (pre-condition: 0 < k <= length)
  *
  * RETURN
  * array        A new array of integers
