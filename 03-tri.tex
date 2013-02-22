@@ -535,6 +535,11 @@ $$T(n)=\Theta(n\log n)$$
 \item Complexité en espace $O(\log n)$ si bien implémenté (récursif terminal, en développant d'abord la partition la plus petite)
 \end{itemize}
 
+\note{
+Récursif terminal sur le deuxième appel: car rien à faire une fois que c'est terminé. Itératif: on itere tant que end-start>1, on splitte entre start et end, on appelle récursivement sur la partie la plus petite (pour limiter la profondeur d'appel) et puis on modifie start et end pour qu'ils pointent sur la partie la plus grande.
+
+Log(n) parce qu'au pire point de vue mémoire, on coupe en 2 à chaque fois et la profondeur vaut log2n
+}
 \end{frame}
 
 \begin{frame}{Jusqu'ici}
