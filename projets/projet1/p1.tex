@@ -30,29 +30,43 @@
 \maketitle
 
 L'objectif du projet est d'implémenter, de comparer et d'analyser empiriquement
-trois algorithmes de tri
+trois algorithmes de tri.
 
-Le projet est à réaliser {\bf individuellement} pour le {\bf XX mars 2013} à
+Le projet est à réaliser {\bf individuellement} pour le {\bf 16 mars 2013} à
 {\bf 05h00} (du matin) au plus tard. Le projet est à remettre via une interface
 web disponible sur \href{http://www.montefiore.ulg.ac.be/~glouppe/2012-2013/students.info0902.php}{la page des TPs}.
 
-Un projet non rendu à temps recevra automatiquement une cote nulle. En cas de
-plagiat avéré, l'étudiant se verra affecter une cote nulle à l'ensemble du
-projet.
+Un projet non rendu à temps recevra automatiquement une cote nulle. En
+cas de plagiat avéré, l'étudiant se verra affecter une cote nulle à
+l'ensemble du projet. Soyez bref mais précis dans votre rapport et
+respectez bien la numérotation des sous-questions de l'énoncé.
+
+Les critères de correction seront précisés sur la page web des
+projets.
 
 \section{Enoncé}
 
-On propose un nouvel algorithme de tri itératif basé sur le principe suivant (en supposant le tableau trié jusqu'à l'indice $i$):
+Dans beaucoup d'applications réelles, les tableaux qu'on a à trier
+sont constitués de sous-tableaux déjà triés. Il serait donc
+intéressant de mettre au point un algorithme de tri tirant parti de
+cette propriété. Sur base de cette idée, on se propose d'étudier un
+nouvel algorithme de tri itératif basé sur le principe suivant (en
+supposant le tableau déjà trié par l'algorithme jusqu'à l'indice $i$):
 \begin{enumerate}
 %\item On suppose que le tableau est trié jusqu'à l'indice $i$
 \item On recherche l'indice $j$ maximal tel que le sous-tableau $A[i+1\twodots j]$ soit trié.
-\item On fusionne $A[1\twodots i]$ et $A[i+1 \twodots j]$ (comme le fait la fonction $\proc{merge}$ vue au cours théorique, transparent 45).
-\item Tant que le tableau n'est pas complètement trié, on recommence en 2 en prenant $i=j+1$.
+\item On fusionne $A[1\twodots i]$ et $A[i+1 \twodots j]$ (comme le
+  fait la fonction $\proc{merge}$ vue au cours théorique, transparent
+  45).
+\item Tant que le tableau n'est pas complètement trié, on recommence
+  en 2 en prenant $i=j+1$.
 \end{enumerate}
 
 \bigskip
 
-Exemple: Soit le tableau suivant: $[1,5,2,6,4,3,9]$. Les étapes de fusion seront les suivantes (la partie verte est fusionnée avec la partie rouge pour donner la partie bleue):
+Exemple: Soit le tableau suivant: $[1,5,2,6,4,3,9]$. Les étapes de
+fusion seront les suivantes (la partie verte est fusionnée avec la
+partie rouge pour donner la partie bleue):
 \begin{itemize}
 \item $[{\color{green} 1,5},{\color{red} 2,6},4,3,9]$ $\Rightarrow$ $[{\color{blue} 1,2,5,6},4,3,9]$
 \item $[{\color{green} 1,2,5,6},{\color{red}4},3,9]$ $\Rightarrow$ $[{\color{blue} 1,2,4,5,6},3,9]$
@@ -63,6 +77,9 @@ Exemple: Soit le tableau suivant: $[1,5,2,6,4,3,9]$. Les étapes de fusion seron
 
 \section{Analyse théorique}
 \begin{enumerate}
+\item Enoncez l'invariant associé à la boucle principale de cet
+  algorithme (dont le corps est constitué des étapes 1 et 2 décrites
+  ci-dessus).
 \item Ecrivez en pseudo-code une fonction $\proc{NewSort}$
   implémentant l'algorithme décrit ci-dessus. Vous pouvez supposer que la fonction
   $\proc{merge}$ telle que définie au cours théorique est connue.
@@ -70,12 +87,17 @@ Exemple: Soit le tableau suivant: $[1,5,2,6,4,3,9]$. Les étapes de fusion seron
   pire cas en fonction de la taille $n$ du tableau à trier. Expliquez
   à quoi correspondent les meilleur et pire cas et justifiez la
   complexité que vous obtenez dans ces deux cas.
-\item Discutez les avantages et inconvénients de cet algorithme:
-\begin{itemize}
-\item Par rapport au tri par insertion ($\proc{InsertionSort}$)
-\item Par rapport au tri rapide ($\proc{QuickSort}$)
-\end{itemize}
+%\item Discutez les avantages et inconvénients de cet algorithme:
+%\begin{itemize}
+%\item Par rapport au tri par insertion ($\proc{InsertionSort}$)
+%\item Par rapport au tri rapide ($\proc{QuickSort}$)
+%\end{itemize}
 \item Est-ce que cet algorithme de tri est stable ? Justifiez brièvement votre réponse.
+\item {\bf Question bonus facultative:} quelle est
+  la complexité au pire cas de l'algorithme si le tableau de taille $n$ est
+  constitué de $k\leq n$ blocs prétriés ? Par exemple, le tableau
+  suivant est constitué de 4 blocs prétriés:
+$$[{\color{green} 5,6,7},{\color{blue}1},{\color{green}10,11,12},{\color{blue}2,3,8,9}]$$
 \end{enumerate}
 
 \section{Analyse expérimentale}
@@ -104,30 +126,27 @@ Pour compiler le programme, vous pouvez utiliser la commande suivante:
 
 Ce programme ne prend aucun argument.
 
-\subsubsection*{Robustesse}
+%% \subsubsection*{Robustesse}
 
-à définir.
+%% à définir.
 
-\subsection{Temps d'exécution}
+\subsection{Temps d'exécution sur des tableaux aléatoires}
 
-Soit $n$ le nombre de données à trier dans un tableau. Calculez empiriquement le
-temps d'exécution moyen et son écart-type des trois algorithmes
-($\proc{QuickSort}$, $\proc{InsertionSort}$ et $\proc{NewSort}$)  pour
-différentes valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et 1.000.000). La
-moyenne et l'écart-type doivent être obtenus sur un ensemble de 10 expériences.
-
-Commentez ces résultats. Comparez les algorithmes
-\begin{itemize}
-\item les uns par rapport aux autres;
-\item par rapport à leur complexité théorique.
-\end{itemize}
+\begin{enumerate}
+\item Soit $n$ le nombre de données à trier dans un tableau. Calculez
+empiriquement le temps d'exécution moyen des trois algorithmes
+($\proc{QuickSort}$, $\proc{InsertionSort}$ et $\proc{NewSort}$) pour
+différentes valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et
+1.000.000) lorsque les tableaux sont générés de manière complètement
+aléatoires. La moyenne doit être obtenues sur un ensemble de 20
+expériences. Reportez ces résultats dans un table au format donné ci-dessous.
 
 \begin{center}
 \begin{tabular}{cccc}
 	\hline
 	n & $\proc{QuickSort}$ & $\proc{InsertionSort}$ & $\proc{NewSort}$ \\
 	\hline
-	10 & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type\\
+	10 & & & \\
 	100 & & &\\
 	1.000 & & &\\
 	10.000 & & &\\
@@ -136,196 +155,53 @@ Commentez ces résultats. Comparez les algorithmes
 \end{tabular}
 \end{center}
 
-{\em Note}: le temps d'exécution est une valeur peu précise qui dépend fortement
+\item Commentez ces résultats en comparant les algorithmes:
+\begin{itemize}
+\item les uns par rapport aux autres;
+\item par rapport à leur complexité théorique.
+\end{itemize}
+\end{enumerate}
+
+{\em Note:} 
+\begin{itemize}
+\item Une fonction $\proc{XXX}$ vous est fournie pour générer un tableau aléatoire de taille $n$.
+\item le temps d'exécution est une valeur peu précise qui dépend fortement
 des capacités de l'ordinateur mais également de l'état d'utilisation de celui-
 ci au moment des expériences. Pour limiter cet effet, il vous est conseillé
 de réaliser toutes vos mesures de manière séquentielle sur la même machine.
-
-\subsection{Nombre de comparaisons}
-
-Calculez empiriquement le nombre de comparaisons moyenne et son écart-type des
-trois algorithmes pour différentes valeurs de $n$ (10, 100, 1.000, 10.000,
-100.000 et 1.000.000). La moyenne et l'écart-type doivent être obtenus sur un
-ensemble de 10 expériences.
-
-Commentez ces résultats. Comparez les algorithmes
-\begin{itemize}
-\item les uns par rapport aux autres;
-\item par rapport à leur complexité théorique.
 \end{itemize}
+
+\subsection{Temps d'exécution sur des tableaux de blocs prétriés}
+
+\begin{enumerate}
+\item Pour une taille de tableau $n=5000$, calculez empiriquement le temps
+d'exécution moyen des trois algorithmes ($\proc{QuickSort}$,
+$\proc{InsertionSort}$ et $\proc{NewSort}$) lorsque le tableau à trier
+contient $k$ blocs pré-triés, pour des valeurs de $k$
+croissantes. Comme pour le tableau précédent, on reportera dans le
+tableau ci-dessus les temps moyens sur 20 expériences.
 
 \begin{center}
 \begin{tabular}{cccc}
 	\hline
-	n & $\proc{QuickSort}$ & $\proc{InsertionSort}$ & $\proc{NewSort}$ \\
+	k & $\proc{QuickSort}$ & $\proc{InsertionSort}$ & $\proc{NewSort}$ \\
 	\hline
-	10 & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type\\
+	1 & & &  \\
+	20 & & &\\
 	100 & & &\\
-	1.000 & & &\\
-	10.000 & & &\\
-	100.000 & & &\\
-	1.000.000 & & &\\
+	500 & & &\\
+	1000 & & &\\
+	5000 & & &\\
 \end{tabular}
 \end{center}
 
-{\em Astuce}: Il n'est pas utile de modifier tous vos algorithmes au risque d'y
-introduire des erreurs. Vous devriez pouvoir facilement compter le nombre de
-comparaisons à partir du comparateur.
+{\em Note:} Une fonction $\proc{XXX}$ vous est fournie pour générer un tableau aléatoire.
 
-% \section*{\'Enoncé}
+\item Commentez ces résultats en comparant les algorithmes les uns par rapport aux autres.
+\item Concluez sur l'intérêt ou non de $\proc{newSort}$ par rapport aux deux autres algorithmes de tri.
 
-% L'objectif du projet est d'implémenter, de comparer et d'analyser empiriquement
-% trois algorithmes de tri : le QuickSort, le HeapSort et le InsertionSort.
+\end{enumerate}
 
-% Le projet est à réaliser {\bf individuellement} pour le {\bf 17 mars 2012} à
-% {\bf 05h00} (du matin) au plus tard. Le projet est à remettre via une interface
-% web disponible sur \href{http://www.montefiore.ulg.ac.be/~glouppe/2011-2012/students.info0902.php}{la page des TPs}.
 
-% Un projet non rendu à temps recevra automatiquement une cote nulle. En cas de
-% plagiat avéré, l'étudiant se verra affecter une cote nulle à l'ensemble du
-% projet. Les mêmes critères de correction que ceux utilisés dans le cadre du
-% cours \href{http://www.montefiore.ulg.ac.be/~info0030/}{INFO0030 - Projet de programmation}
-% seront utilisés pour évaluer l'implémentation des algorithmes.
-
-% \subsection*{Fichiers fournis}
-% \begin{description}
-% \item[\texttt{Sort.h}] interface à implémenter
-% \item[\texttt{Event.h}] interface du générateur de données
-% \item[\texttt{Event.c}] implémentation du générateur de données
-% \item[\texttt{BubbleSort.c}] implémentation du BubbleSort. Il respecte d'interface décrite dans \texttt{Sort.h}
-% \item[\texttt{LinkedList.h}] représentation d'une liste liée minimaliste
-% \item[\texttt{main.c}] contient la fonction principale du programme
-% \end{description}
-% \subsection*{Fichiers à rendre}
-% Cinq fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'archive n'a pas d'importance.
-% \begin{description}
-% \item[\texttt{QuickSort.c}] implémente la fonction \texttt{Sort} avec le QuickSort
-% \item[\texttt{HeapSort.c}] implémente la fonction \texttt{Sort} avec le HeapSort
-% \item[\texttt{InsertionSort.c}] implémente la fonction \texttt{Sort} avec le InsertionSort
-% \item[\texttt{LinkedListSort.c}] implémente la fonction \texttt{sortLinkedList}
-% \item[\texttt{Rapport.pdf}] contient vos réponses aux questions
-% \end{description}
-
-% {\em Note}: Les noms de fichiers font partie de l'énoncé. Tout fichier ne
-% correspondant pas à ceux demandés dans l'énoncé ne sera pas pris en compte.
-
-% \section{Implémentation}
-
-% Les trois implémentations doivent respecter l'interface de tri décrite dans le
-% fichier \texttt{Sort.h}. Chaque tri doit être implémenté dans un fichier qui lui
-% est propre: \texttt{QuickSort.c}, \texttt{HeapSort.c} et
-% \texttt{InsertionSort.c}.
-
-% Vous disposerez d'un générateur de données dans le fichier \texttt{Event.h}. Ces
-% données sont de type \texttt{Event} et comprennent trois champs: une date de
-% début, une date de fin et une valeur entière. Les expériences que vous devrez
-% réaliser sont à faire sur ce type de données mais vos implémentations de tri
-% doivent être complètement génériques, c'est-à-dire sans aucune référence vers
-% les applications qui les exploitent ou les données qui y sont exploitées, en
-% particulier, vers le type \texttt{Event}.
-
-% \subsection*{Exemple avec le BubbleSort}
-
-% Afin de vous aider à prendre rapidement en main le code mis en place, nous avons
-% implémenté à titre d'exemple l'algorithme BubbleSort dans le fichier
-% \texttt{BubbleSort.c} ainsi qu'un petit programme d'essai \texttt{main.c}.
-
-% Pour compiler le programme, vous pouvez utiliser la commande suivante:
-
-% {\small \texttt{gcc main.c BubbleSort.c Event.c --std=c99 --pedantic -Wall -W -Wmissing-prototypes -o test}}
-
-% Ce programme ne prend aucun argument.
-
-% \subsection*{Robustesse}
-
-% Nous compilerons votre code avec le compilateur GCC en spécifiant au
-% minimum les options de compilation \texttt{--std=c99 --pedantic -Wall -W -Wmissing-
-% prototypes}. Si la compilation échoue, le projet reçoit une note de zéro.
-
-% \begin{itemize}
-% \item Le projet doit être réalisé dans le standard C99 (flag \texttt{--std=c99});
-% \item Vos implémentations doivent fonctionner correctement, pas de {\em segmentation fault}, ou tout autre crash;
-% \item Pour vous aider à déboguer vos programmes, pensez à utiliser une débogueur tel que {\em gdb};
-% \item En cas d'erreur (lors d'une allocation, par exemple), le programme peut afficher un message informatif sur {\em stderr} (le flux d'erreur standard). Cet erreur altérera certainement votre algorithme mais elle ne doit en aucun cas provoquer un crash de l'application;
-% \item De même, vos implémentations ne doivent présenter aucun problème de mémoire (même non manifeste). En particulier, tout ce qui est alloué doit être libéré;
-% \item Avec des pointeurs et l’allocation de mémoire dynamique, il est très facile d’introduire des erreurs de mémoire. Pour détecter ce genre de problèmes, il y a des outils extrêmement utiles tels que {\em valgrind};
-% \end{itemize}
-
-% \section{Analyse}
-
-% Dans le cadre de ce travail, nous vous demandons également d'analyser
-% expérimentalement les algorithmes que vous aurez implémentés en répondant aux
-% questions suivantes. Vos réponses doivent être rédigées dans un bref rapport (au
-% format PDF) à joindre avec vos fichiers sources.
-
-% \subsection{Temps d'exécution}
-
-% Soit $n$ le nombre de données à trier dans un tableau. Calculez empiriquement le
-% temps d'exécution moyen et son écart-type des trois algorithmes pour différentes
-% valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et 1.000.000). La moyenne et l
-% 'écart-type doivent être obtenus sur un ensemble de 10 expériences. Commentez.
-
-% \begin{center}
-% \begin{tabular}{cccc}
-% 	\hline
-% 	n & QuickSort & HeapSort & InsertionSort \\
-% 	\hline
-% 	10 & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type\\
-% 	100 & & &\\
-% 	1.000 & & &\\
-% 	10.000 & & &\\
-% 	100.000 & & &\\
-% 	1.000.000 & & &\\
-% \end{tabular}
-% \end{center}
-
-% {\em Note}: le temps d'exécution est une valeur peu précise qui dépend fortement
-% des capacités de l'ordinateur mais également de l'état d'utilisation de celui-
-% ci au moment des expériences. Pour limiter cet effet, il vous est conseillé
-% de réaliser toutes vos mesures de manière séquentielle sur la même machine.
-
-% \subsection{Nombre de comparaisons}
-
-% Les algorithmes peuvent également être évalués en fonction du nombre de
-% comparaisons qu'ils effectuent entre les éléments du tableau. Dès lors, calculez
-% empiriquement le nombre de comparaisons moyenne et son écart-type des trois
-% algorithmes pour différentes valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et
-% 1.000.000). La moyenne et l'écart-type doivent être obtenus sur un ensemble de
-% 10 expériences. Commentez.
-
-% \begin{center}
-% \begin{tabular}{cccc}
-% 	\hline
-% 	n & QuickSort & HeapSort & InsertionSort \\
-% 	\hline
-% 	10 & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type\\
-% 	100 & & &\\
-% 	1.000 & & &\\
-% 	10.000 & & &\\
-% 	100.000 & & &\\
-% 	1.000.000 & & &\\
-% \end{tabular}
-% \end{center}
-
-% {\em Astuce}: Il n'est pas utile de modifier tous vos algorithmes au risque d'y
-% introduire des erreurs. Vous devriez pouvoir facilement compter le nombre de
-% comparaisons à partir du comparateur.
-
-% \section{Liste liée}
-
-% Supposons à présent que la structure de données que nous désirons
-% trier soit une liste liée, telle que décrite dans le fichier
-% \texttt{LinkedList.h}, et non plus un tableau. Il vous est demandé
-% d'implémenter un algorithme (de votre choix) permettant de trier une
-% liste liée {\bf en place}, c'est-à-dire modifiant directement la
-% structure de liste sans créer de structure supplémentaire en
-% $O(n)$. La fonction est à implémenter dans le fichier
-% \texttt{LinkedListSort.c} dont le prototype \texttt{sortLinkedList}
-% est déclaré dans le fichier \texttt{Sort.h}.
-
-% \textit{Bonus}: Toutes vos implémentations seront testées par nos soins
-% sur les mêmes jeux de données et des points supplémentaires seront
-% attribués aux algorithmes les plus performants en terme de temps
-% d'exécution.
 
 \end{document}
