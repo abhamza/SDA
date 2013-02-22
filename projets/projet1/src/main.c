@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/time.h>
 #include <time.h>
 
 #include "Array.h"
@@ -8,26 +9,24 @@
 
 /* ------------------------------------------------------------------------- *
  * The main function.
- *
- * Generate events
- * Sort events
- * Print CPU time used to sort events
  * ------------------------------------------------------------------------- */
 int main(void) {
     // Reset the random number generator
     srand(time(NULL));
 
     // Create a random array
-    size_t length = 10000;
+    size_t length = 1000;
     int* array = createRandomArray(length);
 
     // Sort
-    clock_t start = clock();
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
     sort(array, length);
-    clock_t end = clock();
+    gettimeofday(&end, NULL);
 
-    // print CPU time
-    printf("CPU time = %f\n", (double)(end - start) / CLOCKS_PER_SEC);
+    // Print time
+    printf("Time = %lu µs\n", 10000 * (end.tv_sec - start.tv_sec)
+                              + (end.tv_usec - start.tv_usec));
 
     // Delete array
     free(array);
