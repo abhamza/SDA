@@ -5,7 +5,9 @@
 
 #include <stdlib.h>
 #include <stddef.h>
+
 #include "Array.h"
+#include "Sort.h"
 
 
 int* createSortedArray(size_t length) {
@@ -29,4 +31,36 @@ int* createRandomArray(size_t length) {
     }
 
     return array;
+}
+
+int __compare(const void* a, const void* b);
+
+int __compare(const void* a, const void* b){
+  return *(int*)a - *(int*)b;
+}
+
+int* createRandomBlockArray(size_t length, size_t k) {
+    int* randomBlockArray = (int*) malloc(length * sizeof(int));
+    int* randomArray = createRandomArray(length);
+    int* blocks = createRandomArray(k);
+
+    size_t j = 0;
+
+    for (size_t b = 0; b < k; b++) {
+        size_t start = length * blocks[b] / k;
+        size_t end = length * (blocks[b] + 1) / k;
+        size_t blockSize = end - start;
+
+        for (size_t i = start; i < end; i++) {
+            randomBlockArray[j++] = randomArray[i];
+        }
+
+        qsort(randomBlockArray + j - blockSize, blockSize,
+              sizeof(int), __compare);
+    }
+
+    free(randomArray);
+    free(blocks);
+
+    return randomBlockArray;
 }

@@ -15,7 +15,7 @@ int main(void) {
     srand(time(NULL));
 
     // Create a random array
-    size_t length = 1000;
+    size_t length = 100;
     int* array = createRandomArray(length);
 
     // Sort
