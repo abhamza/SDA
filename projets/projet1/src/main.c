@@ -25,7 +25,7 @@ int main(void) {
     gettimeofday(&end, NULL);
 
     // Print time
-    printf("Time = %lu µs\n", 10000 * (end.tv_sec - start.tv_sec)
+    printf("Time = %lu µs\n", 1000000l * (end.tv_sec - start.tv_sec)
                               + (end.tv_usec - start.tv_usec));
 
     // Delete array
