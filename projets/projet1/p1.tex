@@ -23,7 +23,7 @@
 }
 
 \author{Gilles \textsc{Louppe} -- Julien \textsc{Becker}}
-\date{XX mars 2013}
+\date{16 mars 2013}
 
 % Corps
 \begin{document}
@@ -122,7 +122,7 @@ implémenté à titre d'exemple l'algorithme BubbleSort dans le fichier
 
 Pour compiler le programme, vous pouvez utiliser la commande suivante:
 
-{\small \texttt{gcc main.c BubbleSort.c Event.c --std=c99 --pedantic -Wall -W -Wmissing-prototypes -o test}}
+{\small \texttt{gcc main.c Array.c BubbleSort.c --std=c99 --pedantic -Wall -W -Wmissing-prototypes -o test}}
 
 Ce programme ne prend aucun argument.
 
@@ -162,9 +162,9 @@ expériences. Reportez ces résultats dans un table au format donné ci-dessous.
 \end{itemize}
 \end{enumerate}
 
-{\em Note:} 
+{\em Note:}
 \begin{itemize}
-\item Une fonction $\proc{XXX}$ vous est fournie pour générer un tableau aléatoire de taille $n$.
+\item Une fonction \texttt{createRandomArray} vous est fournie pour générer un tableau aléatoire de taille $n$.
 \item le temps d'exécution est une valeur peu précise qui dépend fortement
 des capacités de l'ordinateur mais également de l'état d'utilisation de celui-
 ci au moment des expériences. Pour limiter cet effet, il vous est conseillé
@@ -195,7 +195,7 @@ tableau ci-dessus les temps moyens sur 20 expériences.
 \end{tabular}
 \end{center}
 
-{\em Note:} Une fonction $\proc{XXX}$ vous est fournie pour générer un tableau aléatoire.
+{\em Note:} Une fonction \texttt{createRandomBlockArray} vous est fournie pour générer un tableau aléatoire de blocs prétriés.
 
 \item Commentez ces résultats en comparant les algorithmes les uns par rapport aux autres.
 \item Concluez sur l'intérêt ou non de $\proc{newSort}$ par rapport aux deux autres algorithmes de tri.
