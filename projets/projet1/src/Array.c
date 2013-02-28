@@ -41,9 +41,9 @@ int* createRandomArray(size_t length) {
     return array;
 }
 
-int __compare(const void* a, const void* b);
+static int __compare(const void* a, const void* b);
 
-int __compare(const void* a, const void* b){
+static int __compare(const void* a, const void* b){
   return *(int*)a - *(int*)b;
 }
 
