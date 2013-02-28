@@ -7,7 +7,6 @@
 #include <stddef.h>
 
 #include "Array.h"
-#include "Sort.h"
 
 
 int* createSortedArray(size_t length) {
