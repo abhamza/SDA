@@ -17,7 +17,7 @@
  * length       Number of elements in the array (pre-condition: 0 < length)
  *
  * RETURN
- * array        A new array of integers
+ * array        A new array of integers, or NULL in case of error
  * ------------------------------------------------------------------------- */
 int* createSortedArray(size_t length);
 
@@ -30,7 +30,7 @@ int* createSortedArray(size_t length);
  * length       Number of elements in the array (pre-condition: 0 < length)
  *
  * RETURN
- * array        A new array of integers
+ * array        A new array of integers, or NULL in case of error
  * ------------------------------------------------------------------------- */
 int* createRandomArray(size_t length);
 
@@ -45,7 +45,7 @@ int* createRandomArray(size_t length);
  * k            Number of pre-sorted blocks (pre-condition: 0 < k <= length)
  *
  * RETURN
- * array        A new array of integers
+ * array        A new array of integers, or NULL in case of error
  * ------------------------------------------------------------------------- */
 int* createRandomBlockArray(size_t length, size_t k);
 

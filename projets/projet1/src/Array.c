@@ -13,6 +13,10 @@
 int* createSortedArray(size_t length) {
     int* array = (int*) malloc(length * sizeof(int));
 
+    if (array == NULL) {
+        return NULL;
+    }
+
     for (size_t i = 0; i < length; i++) {
         array[i] = i;
     }
@@ -22,6 +26,10 @@ int* createSortedArray(size_t length) {
 
 int* createRandomArray(size_t length) {
     int* array = createSortedArray(length);
+
+    if (array == NULL) {
+        return NULL;
+    }
 
     for (size_t i = length - 1; i > 0; i--) {
         size_t j = rand() % (i + 1);
@@ -43,6 +51,16 @@ int* createRandomBlockArray(size_t length, size_t k) {
     int* randomBlockArray = (int*) malloc(length * sizeof(int));
     int* randomArray = createRandomArray(length);
     int* blocks = createRandomArray(k);
+
+    if (randomBlockArray == NULL ||
+        randomArray == NULL ||
+        blocks == NULL) {
+        if (randomBlockArray != NULL) free(randomBlockArray);
+        if (randomArray != NULL) free(randomArray);
+        if (blocks != NULL) free(blocks);
+
+        return NULL;
+    }
 
     size_t j = 0;
 

@@ -18,6 +18,11 @@ int main(void) {
     size_t length = 100;
     int* array = createRandomArray(length);
 
+    if (array == NULL) {
+        printf("Erreur d'allocation.\n");
+        return 1;
+    }
+
     // Sort
     struct timeval start, end;
     gettimeofday(&start, NULL);
