@@ -1,0 +1,208 @@
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{../../clrscode3epg}
+\usepackage{color}
+%\usepackage{fullpage}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+% Style
+\parskip=\smallskipamount
+
+% En-têtes
+\title{
+    \textbf{Structures de données et algorithmes}\\
+    Projet 1: Algorithmes de tri
+}
+
+\author{Gilles \textsc{Louppe} -- Julien \textsc{Becker}}
+\date{16 mars 2013}
+
+% Corps
+\begin{document}
+\maketitle
+
+L'objectif du projet est d'implémenter, de comparer et d'analyser empiriquement
+trois algorithmes de tri.
+
+Le projet est à réaliser {\bf individuellement} pour le {\bf 16 mars 2013} à
+{\bf 05h00} (du matin) au plus tard. Le projet est à remettre via une interface
+web disponible sur \href{http://www.montefiore.ulg.ac.be/~glouppe/2012-2013/students.info0902.php}{la page des TPs}.
+
+Un projet non rendu à temps recevra automatiquement une cote nulle. En
+cas de plagiat avéré, l'étudiant se verra affecter une cote nulle à
+l'ensemble du projet. Soyez bref mais précis dans votre rapport, qui
+fera au maximum 5 pages, et respectez bien la numérotation des
+sous-questions de l'énoncé.
+
+Les critères de correction seront précisés sur la page web des
+projets.
+
+\section{Enoncé}
+
+Dans beaucoup d'applications réelles, les tableaux qu'on a à trier
+sont constitués de sous-tableaux déjà triés. Il serait donc
+intéressant de mettre au point un algorithme de tri tirant parti de
+cette propriété. Sur base de cette idée, on se propose d'étudier un
+nouvel algorithme de tri itératif basé sur le principe suivant (en
+supposant le tableau déjà trié par l'algorithme jusqu'à l'indice $i$):
+\begin{enumerate}
+%\item On suppose que le tableau est trié jusqu'à l'indice $i$
+\item On recherche l'indice $j$ maximal tel que le sous-tableau $A[i+1\twodots j]$ soit trié.
+\item On fusionne $A[1\twodots i]$ et $A[i+1 \twodots j]$ (comme le
+  fait la fonction $\proc{merge}$ vue au cours théorique, transparent
+  45).
+\item Tant que le tableau n'est pas complètement trié, on recommence
+  en 2 en prenant $i=j+1$.
+\end{enumerate}
+
+\bigskip
+
+Exemple: Soit le tableau suivant: $[1,5,2,6,4,3,9]$. Les étapes de
+fusion seront les suivantes (la partie verte est fusionnée avec la
+partie rouge pour donner la partie bleue):
+\begin{itemize}
+\item $[{\color{green} 1,5},{\color{red} 2,6},4,3,9]$ $\Rightarrow$ $[{\color{blue} 1,2,5,6},4,3,9]$
+\item $[{\color{green} 1,2,5,6},{\color{red}4},3,9]$ $\Rightarrow$ $[{\color{blue} 1,2,4,5,6},3,9]$
+\item $[{\color{green} 1,2,4,5,6},{\color{red} 3,9}]$ $\Rightarrow$ $[{\color{blue} 1,2,3,4,5,6,9}]$
+\end{itemize}
+
+\bigskip
+
+\section{Analyse théorique}
+\begin{enumerate}
+\item Enoncez l'invariant associé à la boucle principale de cet
+  algorithme (dont le corps est constitué des étapes 1 et 2 décrites
+  ci-dessus).
+\item Ecrivez en pseudo-code une fonction $\proc{NewSort}$
+  implémentant l'algorithme décrit ci-dessus. Vous pouvez supposer que la fonction
+  $\proc{merge}$ telle que définie au cours théorique est connue.
+\item Etudier sa complexité en temps dans le meilleur cas et dans le
+  pire cas en fonction de la taille $n$ du tableau à trier. Expliquez
+  à quoi correspondent les meilleur et pire cas et justifiez la
+  complexité que vous obtenez dans ces deux cas.
+%\item Discutez les avantages et inconvénients de cet algorithme:
+%\begin{itemize}
+%\item Par rapport au tri par insertion ($\proc{InsertionSort}$)
+%\item Par rapport au tri rapide ($\proc{QuickSort}$)
+%\end{itemize}
+\item Est-ce que cet algorithme de tri est stable ? Justifiez brièvement votre réponse.
+\item Quelle est
+  la complexité au pire cas de l'algorithme si le tableau de taille $n$ est
+  constitué de $k (\leq n)$ blocs prétriés de {\it taille identique} ? Par exemple, le tableau
+  suivant est constitué de 4 blocs prétriés de taille 3:
+$$[{\color{green} 5,6,7},{\color{blue}1,8,9},{\color{green}2,3,11},{\color{blue}12,15,16}]$$
+\end{enumerate}
+
+\section{Analyse expérimentale}
+
+\subsection{Implémentation}
+
+\begin{enumerate}
+\item Implémenter l'algorithme $\proc{NewSort}$ dans un fichier \texttt{NewSort.c}.
+\item Implémenter l'algorithme $\proc{QuickSort}$ dans un fichier \texttt{QuickSort.c}.
+\item Implémenter l'algorithme $\proc{InsertionSort}$ dans un fichier \texttt{InsertionSort.c}.
+\end{enumerate}
+
+Les trois implémentations doivent respecter l'interface de tri décrite dans le
+fichier \texttt{Sort.h}. Chaque tri doit être implémenté dans un fichier qui lui
+est propre.
+
+\subsubsection*{Exemple avec le BubbleSort}
+
+Afin de vous aider à prendre rapidement en main le code mis en place, nous avons
+implémenté à titre d'exemple l'algorithme BubbleSort dans le fichier
+\texttt{BubbleSort.c} ainsi qu'un petit programme d'essai \texttt{main.c}.
+
+Pour compiler le programme, vous pouvez utiliser la commande suivante:
+
+{\small \texttt{gcc main.c Array.c BubbleSort.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o test}}
+
+Ce programme ne prend aucun argument.
+
+%% \subsubsection*{Robustesse}
+
+%% à définir.
+
+\subsection{Temps d'exécution sur des tableaux aléatoires}
+
+\begin{enumerate}
+\item Soit $n$ le nombre de données à trier dans un tableau. Calculez
+empiriquement le temps d'exécution moyen des trois algorithmes
+($\proc{QuickSort}$, $\proc{InsertionSort}$ et $\proc{NewSort}$) pour
+différentes valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et
+1.000.000) lorsque les tableaux sont générés de manière complètement
+aléatoires. La moyenne doit être obtenue sur un ensemble de 20
+expériences. Reportez ces résultats dans une table au format donné ci-dessous.
+
+\begin{center}
+\begin{tabular}{cccc}
+	\hline
+	n & $\proc{QuickSort}$ & $\proc{InsertionSort}$ & $\proc{NewSort}$ \\
+	\hline
+	10 & & & \\
+	100 & & &\\
+	1.000 & & &\\
+	10.000 & & &\\
+	100.000 & & &\\
+	1.000.000 & & &\\
+\end{tabular}
+\end{center}
+
+\item Commentez ces résultats en comparant les algorithmes:
+\begin{itemize}
+\item les uns par rapport aux autres;
+\item par rapport à leur complexité théorique.
+\end{itemize}
+\end{enumerate}
+
+{\em Notes:}
+\begin{itemize}
+\item Une fonction \texttt{createRandomArray} vous est fournie pour générer un tableau aléatoire de taille $n$.
+\item Le temps d'exécution est une valeur peu précise qui dépend fortement
+des capacités de l'ordinateur mais également de l'état d'utilisation de celui-ci
+au moment des expériences. Pour limiter cet effet, il vous est conseillé
+de réaliser toutes vos mesures de manière séquentielle sur la même machine.
+\end{itemize}
+
+\subsection{Temps d'exécution sur des tableaux de blocs pré-triés}
+
+\begin{enumerate}
+\item Pour une taille de tableau $n=5000$, calculez empiriquement le temps
+d'exécution moyen des trois algorithmes ($\proc{QuickSort}$,
+$\proc{InsertionSort}$ et $\proc{NewSort}$) lorsque le tableau à trier
+contient $k$ blocs pré-triés, pour des valeurs de $k$
+croissantes. Comme pour le tableau précédent, on reportera dans le
+tableau ci-dessus les temps moyens sur 20 expériences.
+
+\begin{center}
+\begin{tabular}{cccc}
+	\hline
+	k & $\proc{QuickSort}$ & $\proc{InsertionSort}$ & $\proc{NewSort}$ \\
+	\hline
+	1 & & &  \\
+	20 & & &\\
+	100 & & &\\
+	500 & & &\\
+	1000 & & &\\
+	5000 & & &\\
+\end{tabular}
+\end{center}
+
+{\em Note:} Une fonction \texttt{createRandomBlockArray} vous est fournie pour générer un tableau aléatoire de blocs pré-triés.
+
+\item Commentez ces résultats en comparant les algorithmes les uns par rapport aux autres.
+\item Concluez sur l'intérêt ou non de $\proc{newSort}$ par rapport aux deux autres algorithmes de tri.
+
+\end{enumerate}
+
+
+
+\end{document}
