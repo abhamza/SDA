@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <time.h>
+#include <limits.h>
 
 #include "Array.h"
 #include "Sort.h"
@@ -11,6 +12,9 @@
  * The main function.
  * ------------------------------------------------------------------------- */
 int main(void) {
+    size_t i = INT_MAX;
+    printf("%d\n", i);
+
     // Reset the random number generator
     srand(time(NULL));
 

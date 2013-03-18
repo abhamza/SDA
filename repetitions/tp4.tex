@@ -23,7 +23,7 @@
 }
 
 \author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
-\date{23 mars 2012}
+\date{15 mars 2013}
 
 % Corps
 \begin{document}
@@ -37,21 +37,19 @@
 
 \begin{itemize}
 
-\item
+\item[1.]
 \begin{verbatim}
 n.next = n.next.next
 \end{verbatim}
 
-\item
+\item[2.]
 \begin{verbatim}
-m.next = n.next
-n.next = m
+m.next = n.next; n.next = m
 \end{verbatim}
 
-\item
+\item[3.]
 \begin{verbatim}
-n.next = m
-m.next = n.next
+n.next = m; m.next = n.next
 \end{verbatim}
 
 \end{itemize}
@@ -59,6 +57,8 @@ m.next = n.next
 \item Soit \texttt{S} une liste simplement liée. Ecrire une fonction \texttt{AvantAvantDernier(S)} permettant de récupérer l'avant-avant dernier noeud de \texttt{S}.
 
 \item Soit \texttt{S} une liste simplement liée. Ecrire une fonction \texttt{Reverse(S)} permettant d'inverser la liste \texttt{S}.
+
+\item Soit \texttt{S} une liste simplement liée. Ecrire une fonction \texttt{Delete(S, n)} supprimant le noeud \texttt{n} de la liste \texttt{S}.
 
 \end{enumerate}
 
@@ -87,7 +87,7 @@ pop(S)
 pop(S)
 \end{verbatim}
 
-\item Soit une file texttt{Q}. Décrire la sortie des opérations suivantes. Quel
+\item Soit une file \texttt{Q}. Décrire la sortie des opérations suivantes. Quel
 est l'état de texttt{Q} en fin d'exécution?
 
 \begin{verbatim}
@@ -114,11 +114,15 @@ dequeue(Q)
 
 \section*{Exercice 3}
 
+Concevez une structure de données contenant 2 piles et implémentée avec un seul tableau. Implémentez les opérations \texttt{push} et \texttt{pop}.
+
+\section*{Exercice 4}
+
 Réécrire les fonctions \texttt{Enqueue(Q, x)} et \texttt{Dequeue(Q)} du cours de
 sorte à gérer les erreurs. Considérer l'implémentation par tableau et
 l'implémentation par liste liée.
 
-\section*{Exercice 4}
+\section*{Exercice 5}
 
 Implémenter un buffer \texttt{B} d'éditeur de texte qui correspond à l'ADT suivant.
 
@@ -133,19 +137,24 @@ Implémenter un buffer \texttt{B} d'éditeur de texte qui correspond à l'ADT su
 \item \texttt{get(B, i)}: retourne le \texttt{i}-ème caractère du buffer.
 \end{itemize}
 
-\section*{Exercice 5}
+\section*{Exercice 6}
 
 Implémenter un algorithme non-récursif permettant de calculer la valeur d'une
 expression arithmétique en notation postfixe.
 
-\section*{Exercice 6}
+\section*{Exercice 7}
+
+Implémenter un algorithme non-récursif permettant de calculer l'écriture en base 2 d'un nombre naturel (écrit en base 10).
+
+
+\section*{Exercice 8}
 
 Modifier l'implémentation de \texttt{RemoveAtRank(V, r)} de sorte à réduire par
 2 l'espace mémoire utilisé par le vecteur \texttt{V} si le nombre d'éléments
 qu'il contient devient inférieur à \texttt{V.c / 4} (où \texttt{V.c} est la capacité
 courante de \texttt{V}).
 
-\section*{Exercice 7}
+\section*{Exercice 9}
 
 Implémenter un algorithme \texttt{Shuffle(V)} permettant de permuter
 aléatoirement un vecteur \texttt{V}. Cet algorithme doit garantir
