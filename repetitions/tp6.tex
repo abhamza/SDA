@@ -19,11 +19,11 @@
 % En-têtes
 \title{
     \textbf{Structures de données et algorithmes}\\
-    Répétition 6: Tables de hachage et résolution de problèmes
+    Répétition 6: Arbres de recherche
 }
 
-\author{Gilles \textsc{Louppe}, Pierre \textsc{Geurts} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
-\date{27 avril 2012}
+\author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
+\date{29 mars 2013}
 
 % Corps
 \begin{document}
@@ -31,63 +31,87 @@
 
 \section*{Exercice 1}
 
-Soit une table de hachage \texttt{T} initialement vide, d'une capacité de 11 éléments et dont les collisions sont gérées au moyen de listes simplement liées. Illustrer graphiquement l'insertion des clés $$\{23, 56, 44, 13, 88, 94, 16, 27, 9\}.$$ La fonction de hachage utilisée est la fonction $$h(k) = (2k + 5) \mod 11.$$
+Soit un arbre binaire de recherche \texttt{T} initialement vide.
+
+\begin{enumerate}
+
+\item Déterminez graphiquement l'arbre qui résulte de l'insertion des clés 30, 40, 24, 58, 48, 26, 11, 13, 35 et 36 (dans cet ordre).
+
+\item Déterminez ensuite graphiquement l'arbre qui résulte de la suppression des clés 13, 58, et 30 (dans cet ordre).
+
+\end{enumerate}
 
 \section*{Exercice 2}
 
-Dans le JDK1.1, la fonction de hachage d'une chaîne de caractères était implémentée de la façon suivante. Quel est le défaut de cette fonction?
-
+Le parcours préfixe d'un arbre binaire de recherche donne :
 \begin{verbatim}
-public int hashCode() {
-    int hash = 0;
-    if (length() < 16) {
-        for (int i = 0; i < length(); i++)
-            hash = (hash * 37) + charAt(i);
-    }
-    else {
-        int skip = length() / 8;
-        for (int i = 0; i < length(); i = i + skip)
-            hash = (hash * 37) + charAt(i);
-    }
-    return hash;
-}
+A B C - - D - - E - F - -
 \end{verbatim}
+
+En donner les parcours infixe et postfixe. Les lettres correspondent aux
+noeuds internes et les tirets à des feuilles de l'arbre.
 
 \section*{Exercice 3}
 
-Soient deux ensembles $S$ et $T$ de valeurs quelconques.
+Soit un arbre binaire de recherche \texttt{T}.
 
 \begin{enumerate}
-\item Proposer une structure pour représenter un ensemble.
-\item Proposer un algorithme qui teste si $S$ est un sous-ensemble de $T$. Analyser sa complexité.
+
+\item Ecrire une méthode \texttt{getHeight(T)} qui détermine la hauteur de l'arbre \texttt{T}.
+\item Ecrire une méthode \texttt{isComplete(T)} qui détermine si l'arbre \texttt{T} est complet ou non.
+\item Ecrire une méthode \texttt{isBalanced(T)} qui détermine si l'arbre \texttt{T} est équilibré.
+\item Ecrire une méthode \texttt{mirror(T)} qui retourne l'arbre miroir de l'arbre \texttt{T}.
+\item Ecrire une méthode \texttt{printLowerThan(T, x)} qui imprime les valeurs contenues dans \texttt{T} inférieures ou égales à $x$.
+
 \end{enumerate}
+
+\textit{Bonus:} Pour chaque fonction, décrivez un algorithme a) récursif et b) non-récursif.
 
 \section*{Exercice 4}
 
-On souhaite déterminer le zéro $r$ d'une fonction $f(x)$ monotone sur un intervalle $[u, v]$.
-
-\begin{enumerate}
-\item Un algorithme par force brute est-il envisageable pour résoudre ce problème?
-\item Proposer un algorithme par \textit{divide-and-conquer}.
-\end{enumerate}
+Prouver que le nombre de feuilles d'un arbre binaire est égal au nombre de noeuds de degré 2, plus 1.
 
 \section*{Exercice 5}
 
-% http://www.csc.liv.ac.uk/~ped/teachadmin/algor/d_and_c.html
-
-Soit un ensemble $P = \{p_1, p_2, ..., p_n\}$ de points répartis dans un plan et tels que $p_i = (x_i, y_i)$. Proposer un algorithme qui détermine la distance entre les deux points les plus proches. La mesure de distance utilisée est la distance euclidienne.
+Soit un ensemble de $N$ valeurs entières distinctes. Ecrivez une fonction calculant le nombre d'arbres binaires de recherche distincts qu'il est possible de construire à partir de ces $N$ valeurs.
 
 \section*{Exercice 6}
 
-On souhaite multiplier une série $n$ matrices sous la forme: $$A = A_0 A_1 ... A_{n-1}$$
+Si insère un élement $z$ dans un arbre \texttt{T} (via \texttt{TreeInsert(T, z)}) et puis qu'on supprime cet élément (via \texttt{TreeDelete(T, z)}), l'arbre \texttt{T} qui en résulte est-il nécessairement identique à l'arbre de départ?
 
-On note $d_k \times d_{k+1}$ les dimensions de la matrice $A_k$.
+\section*{Exercice 7}
 
-\begin{enumerate}
-\item L'ordre des multiplications importe t-il?
-\item Quelle serait la complexité d'une méthode par force brute pour déterminer le parenthésage optimal à effectuer?
-\item Proposer un algorithme par programmation dynamique pour déterminer le parenthésage optimal.
-\end{enumerate}
+La suppression d'une valeur dans un arbre binaire de recherche peut-elle augmenter la hauteur de cet arbre?
+
+
+
+
+% \section*{Exercice 4}
+
+% On souhaite déterminer le zéro $r$ d'une fonction $f(x)$ monotone sur un intervalle $[u, v]$.
+
+% \begin{enumerate}
+% \item Un algorithme par force brute est-il envisageable pour résoudre ce problème?
+% \item Proposer un algorithme par \textit{divide-and-conquer}.
+% \end{enumerate}
+
+% \section*{Exercice 5}
+
+% % http://www.csc.liv.ac.uk/~ped/teachadmin/algor/d_and_c.html
+
+% Soit un ensemble $P = \{p_1, p_2, ..., p_n\}$ de points répartis dans un plan et tels que $p_i = (x_i, y_i)$. Proposer un algorithme qui détermine la distance entre les deux points les plus proches. La mesure de distance utilisée est la distance euclidienne.
+
+% \section*{Exercice 6}
+
+% On souhaite multiplier une série $n$ matrices sous la forme: $$A = A_0 A_1 ... A_{n-1}$$
+
+% On note $d_k \times d_{k+1}$ les dimensions de la matrice $A_k$.
+
+% \begin{enumerate}
+% \item L'ordre des multiplications importe t-il?
+% \item Quelle serait la complexité d'une méthode par force brute pour déterminer le parenthésage optimal à effectuer?
+% \item Proposer un algorithme par programmation dynamique pour déterminer le parenthésage optimal.
+% \end{enumerate}
 
 
 \end{document}

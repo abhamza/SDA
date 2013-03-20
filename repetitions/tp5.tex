@@ -19,11 +19,11 @@
 % En-têtes
 \title{
     \textbf{Structures de données et algorithmes}\\
-    Répétition 5: Tas et arbres
+    Répétition 5: Tables de hachage et tas
 }
 
 \author{Gilles \textsc{Louppe} -- \url{http://www.montefiore.ulg.ac.be/~glouppe}}
-\date{20 avril 2012}
+\date{22 mars 2013}
 
 % Corps
 \begin{document}
@@ -31,9 +31,54 @@
 
 \section*{Exercice 1}
 
-Dessiner tous les tas-\textsc{min} possibles avec l'ensemble des clés $\{A, B, C, D, E\}$, où chaque clé n'apparaît qu'une seule fois.
+Soit une table de hachage \texttt{T} initialement vide, d'une capacité de 11 éléments et dont les collisions sont gérées au moyen de listes simplement liées. Illustrer graphiquement l'insertion des clés $$\{23, 56, 44, 13, 88, 94, 16, 27, 9\}.$$ La fonction de hachage utilisée est la fonction $$h(k) = (2k + 5) \mod 11.$$
 
 \section*{Exercice 2}
+
+Dans le JDK1.1, la fonction de hachage d'une chaîne de caractères était implémentée de la façon suivante. Quel est le défaut de cette fonction?
+
+\begin{verbatim}
+public int hashCode() {
+    int hash = 0;
+    int skip = length() / 8;
+    for (int i = 0; i < length(); i = i + skip) {
+        hash = (hash * 37) + charAt(i);
+    }
+    return hash;
+}
+\end{verbatim}
+
+\section*{Exercice 3}
+
+Désormais, la fonction de hachage d'une chaîne de caractère est implémentée en Java de la façon suivante:
+
+\begin{verbatim}
+public int hashCode() {
+    int hash = 0;
+    for (int i = 0; i < length(); i++) {
+        hash = (hash * 31) + charAt(i);
+    }
+    return hash;
+}
+\end{verbatim}
+
+Trouvez des chaînes de caractères de longueur $N$ produisant le même hash.
+
+\section*{Exercice 4}
+
+Soient deux ensembles $S$ et $T$ de valeurs quelconques.
+
+\begin{enumerate}
+\item Proposer une structure pour représenter un ensemble.
+\item Proposer un algorithme qui teste si $S$ est un sous-ensemble de $T$. Analyser sa complexité.
+\end{enumerate}
+
+
+\section*{Exercice 5}
+
+Dessiner tous les tas-\textsc{min} possibles avec l'ensemble des clés $\{A, B, C, D, E\}$, où chaque clé n'apparaît qu'une seule fois.
+
+\section*{Exercice 6}
 
 Soit un tas-\textsc{min} \texttt{H}. Illustrer l'exécution des opérations suivantes:
 
@@ -54,64 +99,16 @@ heapExtractMin(H)
 heapExtractMin(H)
 \end{verbatim}
 
-\section*{Exercice 3}
-
-\begin{enumerate}
-
-\item Comment implémenter une pile au moyen d'une file à priorité?
-
-\item Comment implémenter une file au moyen d'une file à priorité?
-
-\item Comment implémenter une file aléatoire au moyen d'une file à priorité?
-
-\end{enumerate}
-
-\section*{Exercice 4}
-
-Ecrire un algorithme \texttt{printHeapInOrder(H)} permettant d'imprimer les clés
-contenues dans le tas-\textsc{min} \texttt{H} selon l'ordre croissant. La
-structure du tas \texttt{H} ne peut pas être modifiée. L'espace mémoire supplémentaire autorisé est $O(1)$.
-
-\section*{Exercice 5}
-
-Soit un arbre binaire de recherche \texttt{T} initialement vide.
-
-\begin{enumerate}
-
-\item Déterminez graphiquement l'arbre qui résulte de l'insertion des clés 30, 40, 24, 58, 48, 26, 11, 13, 35 et 36 (dans cet ordre).
-
-\item Déterminez ensuite graphiquement l'arbre qui résulte de la suppression des clés 13, 58, et 30 (dans cet ordre).
-
-\end{enumerate}
-
-\section*{Exercice 6}
-
-Le parcours préfixe d'un arbre binaire de recherche donne :
-\begin{verbatim}
-A B C - - D - - E - F - -
-\end{verbatim}
-
-En donner les parcours infixe et postfixe. Les lettres correspondent aux
-noeuds internes et les tirets à des feuilles de l'arbre.
-
 \section*{Exercice 7}
 
-Soit un arbre binaire de recherche \texttt{T}.
-
 \begin{enumerate}
-
-\item Ecrire une méthode \texttt{getHeight(T)} qui détermine la hauteur de l'arbre \texttt{T}.
-
-\item Ecrire une méthode \texttt{isComplete(T)} qui détermine si l'arbre \texttt{T} est complet ou non.
-
-\item Ecrire une méthode \texttt{isBalanced(T)} qui détermine si l'arbre \texttt{T} est équilibré.
-
-\item Ecrire une méthode \texttt{mirror(T)} qui retourne l'arbre miroir de l'arbre \texttt{T}.
-
+\item Comment implémenter une pile au moyen d'une file à priorité?
+\item Comment implémenter une file au moyen d'une file à priorité?
+\item Comment implémenter une file aléatoire au moyen d'une file à priorité?
 \end{enumerate}
 
-\section*{Exercice 8}
 
-Prouver que le nombre de feuilles d'un arbre binaire est égal au nombre de noeuds de degré 2, plus 1.
+
+
 
 \end{document}

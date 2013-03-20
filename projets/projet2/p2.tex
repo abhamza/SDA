@@ -51,9 +51,27 @@ Les critères de correction sont précisés sur la page web des projets.
 On aimerait implémenter un programme permettant d'afficher les lignes
 communes à deux fichiers passés en argument. Par exemple, si les
 fichiers \texttt{A.txt} et \texttt{B.txt} ont les contenus suivants:
-...
 
-Le résultat de l'application du programme affichera les lignes suivantes: ...
+\begin{verbatim}
+A.txt:
+aaa
+bbb
+ccc
+ddd
+eee
+
+B.txt:
+bbb
+eee
+fff
+\end{verbatim}
+
+Le résultat de l'application du programme affichera les lignes suivantes:
+
+\begin{verbatim}
+bbb
+eee
+\end{verbatim}
 
 L'ordre d'affichage des lignes communes n'a pas d'importance.
 
