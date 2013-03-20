@@ -19,11 +19,11 @@
 % En-têtes
 \title{
     \textbf{Structures de données et algorithmes}\\
-    Projet 2: tables de hachage
+    Projet 2: Tables de hachage
 }
 
 \author{Gilles \textsc{Louppe} -- Julien \textsc{Becker}}
-\date{16 mars 2013}
+\date{15 avril 2013}
 
 % Corps
 \begin{document}
@@ -53,39 +53,33 @@ communes à deux fichiers passés en argument. Par exemple, si les
 fichiers \texttt{A.txt} et \texttt{B.txt} ont les contenus suivants:
 
 \begin{verbatim}
-A.txt:
-aaa
-bbb
-ccc
-ddd
-eee
-
-B.txt:
-bbb
-eee
-fff
+      A.txt:            B.txt:
+      aaa               bbb
+      bbb               eee
+      ccc               fff
+      ddd
+      eee
 \end{verbatim}
 
-Le résultat de l'application du programme affichera les lignes suivantes:
-
-\begin{verbatim}
-bbb
-eee
-\end{verbatim}
-
-L'ordre d'affichage des lignes communes n'a pas d'importance.
+Le résultat de l'application du programme affichera les lignes
+\texttt{bbb} et \texttt{eee}. (L'ordre d'affichage des lignes communes n'a pas
+d'importance.)
 
 \section{Analyse théorique}
 
-Dans cette section, on supposera que les nombres de lignes dans les fichiers sont
-respectivement $N_A$ et $N_B$ et que $N_A\leq N_B$.
+Sans perte de généralité, supposons que les fichiers aient été chargés
+dans deux tableaux $A$ et $B$, respectivement de longueurs $N_A$ et $N_B$ et que
+$N_A\leq N_B$.
 \begin{enumerate}
+\item Donnez le pseudo-code d'une fonction calculant l'intersection de $A$ et $B$.
+  Les éléments communs doivent être placés dans un tableau auxiliaire $C$ et
+  ce tableau doit être retourné par cette fonction. Notez que la longueur du tableau $C$ n'est a priori pas connue.
 \item Quelle est la complexité théorique minimale, en fonction de $N_A$ et $N_B$, quelle que soit la
   solution adoptée ? (sans faire d'autres hypothèses sur le contenu
   des fichiers). Justifiez votre réponse.
 \item Une solution générale à ce problème consiste à lire et à stocker
-  dans une structure de données les lignes du premier fichier et à
-  ensuite parcourir les lignes du second fichier en affichant celles qui
+  dans une structure de données les éléments de $A$ et à
+  ensuite parcourir les éléments de $B$ en affichant ceux qui
   se trouvent dans la structure. Donnez et justifiez la complexité au pire cas de cette solution
   lorsqu'on utilise les structures de données suivantes:
 \begin{itemize}
@@ -94,8 +88,8 @@ respectivement $N_A$ et $N_B$ et que $N_A\leq N_B$.
 \item arbre binaire de recherche
 \item table de hachage
 \end{itemize}
-\item Si on pouvait supposer que les lignes des deux fichiers étaient
-  triées par ordre alphabétique, comme procéderiez-vous et quelle
+\item Si on pouvait supposer que $A$ et $B$ étaient
+  triés par ordre alphabétique, comme procéderiez-vous et quelle
   serait la complexité de votre solution aux meilleur et pire cas ?
 \end{enumerate}
 
@@ -104,28 +98,21 @@ respectivement $N_A$ et $N_B$ et que $N_A\leq N_B$.
 On vous demande d'implémenter la solution basée sur une table de
 hachage.
 
-On leur fournirait:
 \begin{itemize}
-\item Deux fichiers \texttt{hashtable.h} et \texttt{hashtable.c}: qui définissent l'interface pour la table de hachage. On peut leur fournir une fonction de hachage de string.
-\item Deux fichiers \texttt{intersection.h} et \texttt{intersection.c}: où on mettrait
-  dans le main une fonction qui recopierait les fichiers en entrée sur
-  la sortie standard et qu'il devrait modifier pour obtenir la
-  fonction demandée.
-\item Deux fichiers de test \texttt{A.txt} et \texttt{B.txt} assez gros.
+\item Implémentez dans un fichier \texttt{HashTable.c} l'interface de table de hachage définie dans le fichier \texttt{HashTable.h}.\\
+  \textbf{Remarque}: Vous pouvez choisir le système de gestion de collision
+  que vous voulez mais votre programme doit rester {\it efficace} quelle
+  que soit $N_A$ et $N_B$.
+\item Implémentez dans un fichier \texttt{Intersection.c} la fonction d'intersection définie dans le fichier \texttt{Intersection.h}.
 \end{itemize}
 
+Nous vous fournissons un programme de test (\texttt{main.c}) calculant l'intersection de deux fichiers texte.
 Pour compiler le programme, vous pouvez utiliser la commande suivante:
 
-{\small \texttt{gcc ... --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o intersection}}
+{\small \texttt{gcc main.c Array.c Intersection.c HashTable.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o intersection}}
 
-Ce programme prend comme argument...
+Ce programme prend comme argument deux fichiers texte et imprime à l'écran les lignes communes aux deux fichiers.
 
-Contraintes: Vous pouvez choisir le système de gestion de collision
-que vous voulez mais votre programme doit rester {\it efficace} quelle
-que soit la longueur des fichiers d'entrée.
-
-Appliquez la fonction pour trouver les lignes communes aux deux
-fichiers \texttt{A.txt} et \texttt{B.txt} fournis.
-
+{\small \texttt{./intersection A.txt B.txt}}
 
 \end{document}
