@@ -1616,7 +1616,7 @@ Est-ce que ces algorithmes sont corrects ?
 \item Les 365 jours présentent la même probabilité d'être un jour d'anniversaire
 \end{itemize}
 \item Si $p$ est la probabilité d'une collision d'anniversaires:
-$$1-p = \frac{364}{365} \cdot \frac{363}{365} \cdot \frac{362}{365} \ldots \frac{365-n+1}{365} = \frac{365!}{(365-n)! 365^n}$$
+$$1-p = \frac{364}{365} \cdot \frac{363}{365} \cdot \frac{362}{365} \ldots \frac{365-(n-1)}{365} = \frac{365!}{(365-n)! 365^n}$$
 Exemples:
 \begin{itemize}
 \item $n=23 \Rightarrow p>0,5$
@@ -1906,8 +1906,12 @@ Pourquoi pas: $k m/k_{max}$ ? Parce qu'on ne connaît pas $k_{max}$
 
 \bigskip
 
-Dire que si $m$ est premier, alors la valeur hachée est une
-permutation de $\{0,1,\ldots,m-1\}$
+%Dire que si $m$ est premier, alors la valeur hachée est une
+%permutation de $\{0,1,\ldots,m-1\}$
+
+On cherche souvent des nombres premiers sous la forme $2^p-1$ car il
+existe un test de primalité efficace pour ces nombres. Dans le cas
+général, tester la primalité d'une nombre est très complexe.
 
 }
 \end{frame}
@@ -2164,6 +2168,7 @@ Propriétés:
 \end{center}
 \end{column}
 \end{columns}
+\note{Pour la remarque $h_2(k)$ doit être premier avec $m$, voir le slide sur la périodicité}
 \end{frame}
 
 \begin{frame}{Adressage ouvert: élément d'analyse}
