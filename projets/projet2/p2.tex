@@ -76,7 +76,7 @@ $N_A\leq N_B$.
   ce tableau doit être retourné par cette fonction. Notez que la longueur du tableau $C$ n'est a priori pas connue.
 \item Quelle est la complexité théorique minimale, en fonction de $N_A$ et $N_B$, quelle que soit la
   solution adoptée ? (sans faire d'autres hypothèses sur le contenu
-  des fichiers). Justifiez votre réponse.
+  de $A$ et $B$). Justifiez votre réponse.
 \item Une solution générale à ce problème consiste à lire et à stocker
   dans une structure de données les éléments de $A$ et à
   ensuite parcourir les éléments de $B$ en affichant ceux qui
@@ -98,13 +98,13 @@ $N_A\leq N_B$.
 On vous demande d'implémenter la solution basée sur une table de
 hachage.
 
-\begin{itemize}
+\begin{enumerate}
 \item Implémentez dans un fichier \texttt{HashTable.c} l'interface de table de hachage définie dans le fichier \texttt{HashTable.h}.\\
   \textbf{Remarque}: Vous pouvez choisir le système de gestion de collision
   que vous voulez mais votre programme doit rester {\it efficace} quelle
   que soit $N_A$ et $N_B$.
 \item Implémentez dans un fichier \texttt{Intersection.c} la fonction d'intersection définie dans le fichier \texttt{Intersection.h}.
-\end{itemize}
+\end{enumerate}
 
 Nous vous fournissons un programme de test (\texttt{main.c}) calculant l'intersection de deux fichiers texte.
 Pour compiler le programme, vous pouvez utiliser la commande suivante:
