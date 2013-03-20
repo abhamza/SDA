@@ -71,23 +71,26 @@ Sans perte de généralité, supposons que les fichiers aient été chargés
 dans deux tableaux $A$ et $B$, respectivement de longueurs $N_A$ et $N_B$ et que
 $N_A\leq N_B$.
 \begin{enumerate}
-\item Donnez le pseudo-code d'une fonction calculant l'intersection de $A$ et $B$.
-  Les éléments communs doivent être placés dans un tableau auxiliaire $C$ et
-  ce tableau doit être retourné par cette fonction. Notez que la longueur du tableau $C$ n'est a priori pas connue.
-\item Quelle est la complexité théorique minimale, en fonction de $N_A$ et $N_B$, quelle que soit la
+\item Quelle est la complexité théorique minimale pour calculer l'intersection de $A$ et $B$, en fonction de $N_A$ et $N_B$, quelle que soit la
   solution adoptée ? (sans faire d'autres hypothèses sur le contenu
   de $A$ et $B$). Justifiez votre réponse.
 \item Une solution générale à ce problème consiste à lire et à stocker
   dans une structure de données les éléments de $A$ et à
-  ensuite parcourir les éléments de $B$ en affichant ceux qui
-  se trouvent dans la structure. Donnez et justifiez la complexité au pire cas de cette solution
-  lorsqu'on utilise les structures de données suivantes:
-\begin{itemize}
-\item liste
-\item vecteur
-\item arbre binaire de recherche
-\item table de hachage
-\end{itemize}
+  ensuite parcourir les éléments de $B$ en ne retenant que ceux qui se trouvent dans la structure.
+
+  \begin{enumerate}
+    \item[1.] Donnez le pseudo-code d'une fonction calculant l'intersection de $A$ et $B$ selon l'algorithme décrit précédemment.
+  Les éléments communs doivent être placés dans un tableau auxiliaire $C$ et
+  ce tableau doit être retourné par cette fonction. Notez que la longueur du tableau $C$ n'est a priori pas connue.
+
+    \item[2.] Donnez et justifiez la complexité au pire cas de cette solution lorsqu'on utilise les structures de données suivantes:
+    \begin{itemize}
+    \item liste
+    \item vecteur
+    \item arbre binaire de recherche
+    \item table de hachage
+    \end{itemize}
+  \end{enumerate}
 \item Si on pouvait supposer que $A$ et $B$ étaient
   triés par ordre alphabétique, comme procéderiez-vous et quelle
   serait la complexité de votre solution aux meilleur et pire cas ?
