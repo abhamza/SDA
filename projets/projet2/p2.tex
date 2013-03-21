@@ -134,4 +134,24 @@ Ce programme prend comme argument deux fichiers texte et imprime à l'écran les
 ./intersection A.txt B.txt
 \end{verbatim}
 
+\section{Analyse}
+
+On vous demande de vérifier expérimentalement l'efficacité de votre
+implémentation de la table de hachage, en particulier l'insertion.
+\begin{enumerate}
+\item Calculez les temps de calcul nécessaires à l'insertion de $n$
+  valeurs dans votre table pour des valeurs de $n$
+  croissantes. Reportez les résultats de cette expérience dans une
+  table ou une figure. Comme pour le premier projet, il peut être
+  utile de calculer des moyennes sur plusieurs expériences.
+\item Discutez ces résultats par rapport aux résultats théoriques attendus.
+\end{enumerate}
+
+Pour répondre à cette question, vous devrez écrire un fichier
+$\texttt{main.c}$ séparé que vous ne devez pas nous rendre. Pour
+générer des clés aléatoires à placer dans la table de hachage, vous
+pouvez utiliser la fonction $\proc{XXX}$. Choisissez la taille
+initiale de votre table ainsi que les valeurs de $n$ de manière à ce
+que votre analyse prenne en compte le rehachage.
+
 \end{document}
