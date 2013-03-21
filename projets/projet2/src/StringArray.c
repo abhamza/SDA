@@ -32,15 +32,6 @@ static const size_t MAX_LINE_SIZE = 128;
  * ------------------------------------------------------------------------- */
 static char* readLine(FILE* file);
 
-/* ------------------------------------------------------------------------- *
- * The function compare two arrays of characters.
- * See the remark about $compareFunction$ in Array.h
- * ------------------------------------------------------------------------- */
-static int compareString(const void* a, const void* b)
-{
-  return strcmp((char*)a, (char*)b);
-}
-
 Array* createArrayFromFile(const char* fileName)
 {
   // Open file
@@ -61,7 +52,6 @@ Array* createArrayFromFile(const char* fileName)
   }
   result->values = NULL;
   result->length = 0;
-  result->compareFunction = compareString;
 
   // Read file line by line
   char* line = readLine(file);

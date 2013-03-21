@@ -2,7 +2,7 @@
 
 // TODO: You have to implement $compareElements$, $getHashValue$ and
 //       $getIntersection$ defined in Array.h.
-//       - Your implementation of $compareElements$ and $getHashValue$ have to
-//         to be specialized to char*.
-//       - HOWEVER, your implementation of $getIntersection$ must be generic
-//       (and relies on $compareElements$ and $getHashValue$).
+//       - $compareElements$ and $getHashValue$ have to to be specialized to
+//         elements of type char*.
+//       - HOWEVER, $getIntersection$ must be generic (and relies on
+//         $compareElements$ and $getHashValue$).
