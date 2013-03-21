@@ -112,20 +112,26 @@ On vous demande d'implémenter la solution basée sur une table de
 hachage.
 
 \begin{enumerate}
-\item Implémentez dans un fichier \texttt{HashTable.c} l'interface de table de hachage définie dans le fichier \texttt{HashTable.h}.\\
-  \textbf{Remarque}: Vous pouvez choisir le système de gestion de collision
-  que vous voulez mais votre programme doit rester {\it efficace} quels
-  que soient $N_A$ et $N_B$.
-\item Implémentez dans un fichier \texttt{Intersection.c} la fonction d'intersection définie dans le fichier \texttt{Intersection.h}.
+\item Implémentez dans un fichier \texttt{HashTable.c} l'interface générique de table de hachage définie dans le fichier \texttt{HashTable.h}.
+  Vous pouvez choisir le système de gestion de collision
+  que vous voulez mais votre programme doit rester {\it efficace} quelle
+  que soit $N_A$ et $N_B$.
+\item Implémentez dans un fichier \texttt{Intersection.c} la fonction d'intersection définie dans le fichier \texttt{Intersection.h}. Cette fonction doit implémenter l'algorithme décrit au point 2 (b) en utilisant comme structure de données une \texttt{HashTable} telle que définie dans \texttt{HashTable.h}.
 \end{enumerate}
 
 Nous vous fournissons un programme de test (\texttt{main.c}) calculant l'intersection de deux fichiers texte.
 Pour compiler le programme, vous pouvez utiliser la commande suivante:
 
-{\small \texttt{gcc main.c Array.c Intersection.c HashTable.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o intersection}}
+\begin{verbatim}
+gcc main.c StringArray.c \
+           Intersection.c \
+           HashTable.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o intersection
+\end{verbatim}
 
 Ce programme prend comme argument deux fichiers texte et imprime à l'écran les lignes communes aux deux fichiers.
 
-{\small \texttt{./intersection A.txt B.txt}}
+\begin{verbatim}
+./intersection A.txt B.txt
+\end{verbatim}
 
 \end{document}
