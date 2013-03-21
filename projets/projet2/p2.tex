@@ -123,9 +123,10 @@ Nous vous fournissons un programme de test (\texttt{main.c}) calculant l'interse
 Pour compiler le programme, vous pouvez utiliser la commande suivante:
 
 \begin{verbatim}
-gcc main.c StringArray.c \
-           Intersection.c \
-           HashTable.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o intersection
+gcc main.c \
+    StringArray.c \
+    Intersection.c \
+    HashTable.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o intersection
 \end{verbatim}
 
 Ce programme prend comme argument deux fichiers texte et imprime à l'écran les lignes communes aux deux fichiers.
@@ -148,9 +149,9 @@ implémentation de la table de hachage, en particulier l'insertion.
 \end{enumerate}
 
 Pour répondre à cette question, vous devrez écrire un fichier
-$\texttt{main.c}$ séparé que vous ne devez pas nous rendre. Pour
+$\texttt{main.c}$ séparé, que vous ne devez pas nous rendre. Pour
 générer des clés aléatoires à placer dans la table de hachage, vous
-pouvez utiliser la fonction $\proc{XXX}$. Choisissez la taille
+pouvez utiliser la fonction \texttt{rand()} définie dans la librairie \texttt{stdlib.h}. Choisissez la taille
 initiale de votre table ainsi que les valeurs de $n$ de manière à ce
 que votre analyse prenne en compte le rehachage.
 
