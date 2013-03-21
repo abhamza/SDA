@@ -2,12 +2,7 @@
  * Array
  * An Array is a generic object to store data into a vector.
  *
- * An Array is composed of a vector $values$, the length of the vector and
- * a function pointer $compareFunction$.
- *
- * The function pointed by $compareFunction$ compares two elements, let's say
- * A and B. It returns an integer less than, equal to, or greater than zero
- * if A is found, respectively, to be less than, to match, or be greater than B.
+ * An Array is composed of a vector $values$ and the length of the vector.
  * ========================================================================= */
 
 #ifndef _ARRAY_H_
@@ -22,7 +17,6 @@ typedef struct Array_t
 {
     void** values;
     size_t length;
-    int (*compareFunction)(const void*, const void*);
 } Array;
 
 /* ------------------------------------------------------------------------- *
@@ -59,5 +53,51 @@ void freeArray(Array* array, bool deleteElements);
  * array            An Array object
  * ------------------------------------------------------------------------- */
 void printArray(const Array* array);
+
+/* ------------------------------------------------------------------------- *
+ * Return a new Array object that contains the common elements of two Array
+ * objects. To compare elements, the function use the compareFunction()
+ * provided by the arrays. Therefore, the elements of the two Array must be
+ * compatible in the sense of compareFunction().
+ *
+ * The new Array object must later be deleted by calling
+ * freeArray(array, false). Note that the function copies adresses of common
+ * elements. It doesn't clone the content of common elements.
+ *
+ * PARAMETERS
+ * array1       The first container of elements
+ * array2       The second container of elements
+ *
+ * RETURN
+ * Array        A new Array object that contains the common elements
+ * ------------------------------------------------------------------------- */
+Array* getIntersection(const Array* array1, const Array* array2);
+
+/* ------------------------------------------------------------------------- *
+ * Compare elements $a$ and $b$. It returns an integer less than,
+ * equal to, or greater than zero if $a$ is found, respectively, to be less
+ * than, to match, or be greater than $b$.
+ *
+ * PARAMETERS
+ * a            Pointer to the first element
+ * b            Pointer to the second element
+ *
+ * RETURN
+ * < 0          If $a$ < $b$
+ * = 0          If $a$ == $b$
+ * > 0          If $a$ > $b$
+ * ------------------------------------------------------------------------- */
+int compareElements(const void* a, const void* b);
+
+/* ------------------------------------------------------------------------- *
+ * Map an input $element$ to a positive integer value.
+ *
+ * PARAMETER
+ * element      Pointer to the element
+ *
+ * RETURN
+ * hash         The hash value corresponding to $element$
+ * ------------------------------------------------------------------------- */
+size_t getHashValue(const void* element);
 
 #endif // !_ARRAY_H_
