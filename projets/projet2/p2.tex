@@ -116,7 +116,7 @@ hachage.
   Vous pouvez choisir le système de gestion de collision
   que vous voulez mais votre programme doit rester {\it efficace} quelle
   que soit $N_A$ et $N_B$.
-\item Implémentez dans un fichier \texttt{Intersection.c} la fonction d'intersection définie dans le fichier \texttt{Intersection.h}. Cette fonction doit implémenter l'algorithme décrit au point 2 (b) en utilisant comme structure de données une \texttt{HashTable} telle que définie dans \texttt{HashTable.h}.
+\item Implémentez dans un fichier \texttt{IntersectionStringArray.c} les fonctions \texttt{compareElements}, \texttt{getHashValue} et \texttt{getIntersection} telles que définies dans le fichier \texttt{Array.h}. La fonction \texttt{getIntersection} doit implémenter l'algorithme décrit au point 2 (b) en utilisant comme structure de données une \texttt{HashTable} telle que définie dans \texttt{HashTable.h}.
 \end{enumerate}
 
 Nous vous fournissons un programme de test (\texttt{main.c}) calculant l'intersection de deux fichiers texte.
@@ -125,7 +125,7 @@ Pour compiler le programme, vous pouvez utiliser la commande suivante:
 \begin{verbatim}
 gcc main.c \
     StringArray.c \
-    Intersection.c \
+    IntersectionStringArray.c \
     HashTable.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o intersection
 \end{verbatim}
 
