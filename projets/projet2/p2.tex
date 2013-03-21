@@ -22,7 +22,7 @@
     Projet 2: Tables de hachage
 }
 
-\author{Gilles \textsc{Louppe} -- Julien \textsc{Becker}}
+\author{Gilles \textsc{Louppe} -- Julien \textsc{Becker} -- Pierre \textsc{Geurts}}
 \date{15 avril 2013}
 
 % Corps
@@ -34,9 +34,11 @@ calculer l'intersection de deux fichiers (en terme de lignes). On
 étudiera d'abord théoriquement différentes solutions et la plus
 efficace sera ensuite implémentée.
 
-Le projet est à réaliser {\bf individuellement ou par deux ?} pour le {\bf 15 avril 2013} à
-{\bf 05h00} (du matin) au plus tard. Le projet est à remettre via une interface
-web disponible sur \href{http://www.montefiore.ulg.ac.be/~glouppe/2012-2013/students.info0902.php}{la page des TPs}.
+Le projet est à réaliser individuellement pour le {\bf 15 avril 2013}
+à {\bf 05h00} (du matin) au plus tard. Le projet est à remettre via
+une interface web disponible sur
+\href{http://www.montefiore.ulg.ac.be/~glouppe/2012-2013/students.info0902.php}{la
+  page des TPs}.
 
 Un projet non rendu à temps recevra automatiquement une cote nulle. En
 cas de plagiat avéré, l'étudiant se verra affecter une cote nulle à
@@ -71,22 +73,30 @@ Sans perte de généralité, supposons que les fichiers aient été chargés
 dans deux tableaux $A$ et $B$, respectivement de longueurs $N_A$ et $N_B$ et que
 $N_A\leq N_B$.
 \begin{enumerate}
-\item Quelle est la complexité théorique minimale pour calculer l'intersection de $A$ et $B$, en fonction de $N_A$ et $N_B$, quelle que soit la
-  solution adoptée ? (sans faire d'autres hypothèses sur le contenu
-  de $A$ et $B$). Justifiez votre réponse.
+\item Quelle est la complexité théorique minimale pour calculer
+  l'intersection de $A$ et $B$, en fonction de $N_A$ et $N_B$, quelle
+  que soit la solution adoptée ? (sans faire d'autres hypothèses sur
+  le contenu de $A$ et $B$). Justifiez votre réponse.
 \item Une solution générale à ce problème consiste à lire et à stocker
-  dans une structure de données les éléments de $A$ et à
-  ensuite parcourir les éléments de $B$ en ne retenant que ceux qui se trouvent dans la structure.
+  dans une structure de données de type dictionnaire les éléments de $A$ et à ensuite
+  parcourir les éléments de $B$ en ne retenant que ceux qui se
+  trouvent dans la structure.
 
   \begin{enumerate}
-    \item[1.] Donnez le pseudo-code d'une fonction calculant l'intersection de $A$ et $B$ selon l'algorithme décrit précédemment.
-  Les éléments communs doivent être placés dans un tableau auxiliaire $C$ et
-  ce tableau doit être retourné par cette fonction. Notez que la longueur du tableau $C$ n'est a priori pas connue.
+    \item[1.] Donnez le pseudo-code d'une fonction calculant
+      l'intersection de $A$ et $B$ selon l'algorithme décrit
+      précédemment, en supposant que vous disposez des fonctions
+      $\proc{search}$, $\proc{insert}$ et $\proc{delete}$ d'accès au
+      dictionnaire (voir le transparent 198 du cours théorique).  Les
+      éléments communs doivent être placés dans un tableau auxiliaire
+      $C$ et ce tableau doit être retourné par cette fonction. Notez
+      que la longueur du tableau $C$ n'est a priori pas connue.
 
-    \item[2.] Donnez et justifiez la complexité au pire cas de cette solution lorsqu'on utilise les structures de données suivantes:
+    \item[2.] Donnez et justifiez la complexité au pire cas de cette
+      solution lorsqu'on utilise les structures de données suivantes:
     \begin{itemize}
     \item liste
-    \item vecteur
+    \item vecteur trié
     \item arbre binaire de recherche
     \item table de hachage
     \end{itemize}
@@ -104,8 +114,8 @@ hachage.
 \begin{enumerate}
 \item Implémentez dans un fichier \texttt{HashTable.c} l'interface de table de hachage définie dans le fichier \texttt{HashTable.h}.\\
   \textbf{Remarque}: Vous pouvez choisir le système de gestion de collision
-  que vous voulez mais votre programme doit rester {\it efficace} quelle
-  que soit $N_A$ et $N_B$.
+  que vous voulez mais votre programme doit rester {\it efficace} quels
+  que soient $N_A$ et $N_B$.
 \item Implémentez dans un fichier \texttt{Intersection.c} la fonction d'intersection définie dans le fichier \texttt{Intersection.h}.
 \end{enumerate}
 
