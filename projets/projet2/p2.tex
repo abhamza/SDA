@@ -116,7 +116,7 @@ hachage.
   Vous pouvez choisir le système de gestion de collision
   que vous voulez mais votre programme doit rester {\it efficace} quelle
   que soit $N_A$ et $N_B$.
-\item Implémentez dans un fichier \texttt{IntersectionStringArray.c} les fonctions \texttt{compareElements}, \texttt{getHashValue} et \texttt{getIntersection} telles que définies dans le fichier \texttt{Array.h}. La fonction \texttt{getIntersection} doit implémenter l'algorithme décrit au point 2 (b) en utilisant comme structure de données une \texttt{HashTable} telle que définie dans \texttt{HashTable.h}.
+\item Implémentez dans un fichier \texttt{IntersectionStringArray.c} les fonctions \texttt{compareElements}, \texttt{getHashValue} et \texttt{getIntersection} telles que définies dans le fichier \texttt{Array.h}. La fonction \texttt{getIntersection} doit implémenter l'algorithme décrit au point 2 (b) en utilisant comme structure de données une \texttt{HashTable} telle que définie dans \texttt{HashTable.h}. Votre implémentation doit être générique et utiliser les fonctions \texttt{compareElements} et \texttt{getHashValue} pour initialiser la table de hachage.
 \end{enumerate}
 
 Nous vous fournissons un programme de test (\texttt{main.c}) calculant l'intersection de deux fichiers texte.
@@ -129,11 +129,7 @@ gcc main.c \
     HashTable.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o intersection
 \end{verbatim}
 
-Ce programme prend comme argument deux fichiers texte et imprime à l'écran les lignes communes aux deux fichiers.
-
-\begin{verbatim}
-./intersection A.txt B.txt
-\end{verbatim}
+Ce programme prend comme argument deux fichiers texte et imprime à l'écran les lignes communes aux deux fichiers (e.g., \texttt{./intersection A.txt B.txt}).
 
 \section{Analyse}
 
