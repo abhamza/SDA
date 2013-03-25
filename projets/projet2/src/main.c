@@ -3,7 +3,6 @@
  * ========================================================================= */
 
 #include "Array.h"
-#include "Intersection.h"
 
 #include <stdio.h>
 

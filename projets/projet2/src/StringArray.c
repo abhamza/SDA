@@ -119,5 +119,5 @@ void freeArray(Array* array, bool deleteElements)
 void printArray(const Array* array)
 {
   for (size_t i = 0; i < array->length; ++i)
-    printf("'%s'\n", (char*)array->values[i]);
+    printf("%s\n", (char*)array->values[i]);
 }
