@@ -23,7 +23,7 @@
 }
 
 \author{Gilles \textsc{Louppe} -- Julien \textsc{Becker} -- Pierre \textsc{Geurts}}
-\date{15 avril 2013}
+\date{22 avril 2013}
 
 % Corps
 \begin{document}
@@ -34,7 +34,7 @@ calculer l'intersection de deux fichiers (en terme de lignes). On
 étudiera d'abord théoriquement différentes solutions et la plus
 efficace sera ensuite implémentée.
 
-Le projet est à réaliser individuellement pour le {\bf 15 avril 2013}
+Le projet est à réaliser individuellement pour le {\bf 22 avril 2013}
 à {\bf 05h00} (du matin) au plus tard. Le projet est à remettre via
 une interface web disponible sur
 \href{http://www.montefiore.ulg.ac.be/~glouppe/2012-2013/students.info0902.php}{la
@@ -71,7 +71,9 @@ d'importance.)
 
 Sans perte de généralité, supposons que les fichiers aient été chargés
 dans deux tableaux $A$ et $B$, respectivement de longueurs $N_A$ et $N_B$ et que
-$N_A\leq N_B$.
+$N_A\leq N_B$. Supposons également que chacun des tableaux $A$ et $B$ ne contienne
+aucun doublon.
+
 \begin{enumerate}
 \item Quelle est la complexité théorique minimale pour calculer
   l'intersection de $A$ et $B$, en fonction de $N_A$ et $N_B$, quelle
@@ -116,7 +118,7 @@ hachage.
   Vous pouvez choisir le système de gestion de collision
   que vous voulez mais votre programme doit rester {\it efficace} quelle
   que soit $N_A$ et $N_B$.
-\item Implémentez dans un fichier \texttt{IntersectionStringArray.c} les fonctions \texttt{compareElements}, \texttt{getHashValue} et \texttt{getIntersection} telles que définies dans le fichier \texttt{Array.h}. La fonction \texttt{getIntersection} doit implémenter l'algorithme décrit au point 2 (b) en utilisant comme structure de données une \texttt{HashTable} telle que définie dans \texttt{HashTable.h}. Votre implémentation doit être générique et utiliser les fonctions \texttt{compareElements} et \texttt{getHashValue} pour initialiser la table de hachage.
+\item Implémentez dans un fichier \texttt{IntersectionStringArray.c} les fonctions \texttt{compareElements}, \texttt{getHashValue} et \texttt{getIntersection} telles que définies dans le fichier \texttt{Array.h}. La fonction \texttt{getIntersection} doit implémenter l'algorithme décrit au point 2 (b) en utilisant comme structure de données une \texttt{HashTable} telle que définie dans \texttt{HashTable.h}. Votre implémentation doit être générique et utiliser les fonctions \texttt{compareElements} et \texttt{getHashValue} pour initialiser la table de hachage. On peut également supposer que chacun des tableaux ne contienne aucun doublon.
 \end{enumerate}
 
 Nous vous fournissons un programme de test (\texttt{main.c}) calculant l'intersection de deux fichiers texte.
