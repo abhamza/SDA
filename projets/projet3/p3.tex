@@ -54,7 +54,7 @@ Les critères de correction sont précisés sur la page web des projets.
 
 \section{Description du jeu Boggle}
 
-Le principe du jeu Boggle est simple. Le plateau de jeu est constitué
+Le principe du jeu Boggle est le suivant. Le plateau de jeu est constitué
 de 16 dés arrangés selon une grille de taille $4\times 4$ (voir figure
 \ref{fig:grille}). Chaque face des dés, qui en comptent chacun 6, est
 une lettre, la répartition des lettres sur les dés dépendant de
@@ -103,9 +103,7 @@ L'implémentation comprendra 4 parties:
 \begin{itemize}
 \item \textbf{Chargement du dictionnaire.} Un dictionnaire est utilisé pour
   vérifier que le joueur entre des mots corrects et aussi pour
-  guider l'ordinateur lors de sa recherche. Le dictionnaire doit être
-  stocké dans une structure permettant la vérification rapide de
-  l'existence d'un mot.
+  guider l'ordinateur lors de sa recherche.
 \item \textbf{Tirage et affichage d'une grille.} Vous devez choisir une
   représentation adéquate pour la grille et ajoutez les routines nécessaires
   pour son affichage et sa mise à jour.
@@ -133,14 +131,24 @@ fichiers si vous jugez cela utile.
 
 Remarques:
 \begin{itemize}
-\item Le nombre de mots entrés par le joueur, ainsi que le nombre
-  de mots trouvés par l'ordinateur sur la grille n'est a priori pas
+\item Dans le fichier \texttt{main.c} que nous vous proposons, le
+  dictionnaire est préalablement chargé dans une structure de type
+  \texttt{Array}. Pour implémenter la fonction
+  \texttt{getAllWordsByBoard} (voir \ref{sec:rechmot}) et vérifier les mots
+  rentrés par l'utilisateur, il est cependant nécessaire d'utiliser
+  une structure de données permettant de vérifier rapidement
+  l'existence d'un mot dans le dictionnaire, par exemple une table de
+  hachage. Vous pouvez créer cette structure directement à partir de
+  la structure de type \texttt{Array} et préserver ces deux structures en
+  mémoire, la structure de type \texttt{Array} étant plus appropriée pour les
+  fonctions \texttt{getAllWordsByDictionary} et
+  \texttt{getAllWordsByDynamicProgramming} (voir \ref{sec:rechmot}).
+\item Le nombre de mots entrés par le joueur, ainsi que le nombre de
+  mots trouvés par l'ordinateur sur la grille n'est a priori pas
   connu. Vous devrez donc utiliser une structure de données dynamique
   pour les stocker. Etant donné que ces listes seront relativement
   courtes, vous pouvez utiliser des structures d'accès non efficace
-  (type liste liée ou vecteur). Une table de hachage s'impose par
-  contre pour stocker le dictionnaire, auquel on fera beaucoup
-  d'accès.
+  (type liste liée ou vecteur).
 \item Il ne vous est pas demandé de développer un code générique par
   rapport à la taille de la grille. Vous pouvez donc fixer en dur les
   tailles de vos structures par rapport à la taille de cette dernière.
@@ -150,7 +158,6 @@ Remarques:
 
 En dehors de la boucle principale du jeu et des interactions avec
 le joueur, deux algorithmes non triviaux sont à implémenter:
-
 \begin{itemize}
 \item La recherche sur la grille d'un mot entré par l'utilisateur.
 \item La recherche de tous les mots du dictionnaire présents sur la
@@ -179,29 +186,32 @@ la fonction récursive.
 Cet algorithme est à implémenter par la fonction \texttt{containsWord}
 dans le fichier \texttt{Board.c} et telle que définie dans \texttt{Board.h}.
 
-\subsection{Recherche de tous les mots}
+\subsection{Recherche de tous les mots}\label{sec:rechmot}
 
 On vous demande de comparer trois approches:
 \begin{enumerate}
-\item Recherche dirigée par la grille (\texttt{getAllWordsByBoard}): On parcourt tous les chemins
-  sur la grille et pour chacun d'eux, on vérifie si le mot
-  correspondant se trouve dans le dictionnaire. Cette approche consiste
-  à modifier l'algorithme de recherche d'un mot pour parcourir tous
-  les chemins, et non plus ceux qui pourraient correspondre à un mot
-  donné et à stocker au fur et à mesure les mots trouvés dans une
-  structure (qui sera par exemple ajoutée dans les arguments de la
-  fonction récursive). L'implémentation de cette variante ne devrait
-  pas poser de problème une fois que vous aurez implémenté la
-  recherche d'un mot.
-\item Recherche dirigée par le dictionnaire (\texttt{getAllWordsByDictionary}): On parcourt les mots du
+\item Recherche dirigée par la grille (\texttt{getAllWordsByBoard}):
+  On parcourt tous les chemins sur la grille et pour chacun d'eux, on
+  vérifie si le mot correspondant se trouve dans le
+  dictionnaire. Cette approche consiste à modifier l'algorithme de
+  recherche d'un mot pour parcourir tous les chemins, et non plus ceux
+  qui pourraient correspondre à un mot donné et à stocker au fur et à
+  mesure les mots trouvés dans une structure (qui sera par exemple
+  ajoutée dans les arguments de la fonction
+  récursive). L'implémentation de cette variante ne devrait pas poser
+  de problème une fois que vous aurez implémenté la recherche d'un
+  mot.
+\item Recherche dirigée par le dictionnaire
+  (\texttt{getAllWordsByDictionary}): On parcourt les mots du
   dictionnaire et on recherche chacun d'eux séparément sur la grille à
   l'aide de la fonction de recherche d'un mot sur une
   grille. L'implémentation de cette variante est triviale sur base de
   la fonction de recherche d'un mot.
-\item Recherche dirigée par le dictionnaire + pré-filtrage (\texttt{getAllWordsByDynamicProgramming}): Même
-  approche que précédemment mais où avant d'appliquer la recherche par
-  parcours du graphe on utilisera une méthode par programmation
-  dynamique efficace pour rejeter rapidement certains mots (voir les détails plus bas).
+\item Recherche dirigée par le dictionnaire + pré-filtrage
+  (\texttt{getAllWordsByDynamicProgramming}): Même approche que
+  précédemment mais où avant d'appliquer la recherche par parcours du
+  graphe on utilisera une méthode par programmation dynamique efficace
+  pour rejeter rapidement certains mots (voir les détails plus bas).
 \end{enumerate}
 
 Ces variantes sont à implémenter dans le fichier \texttt{Board.c} et telles que
@@ -227,7 +237,7 @@ alors présent sur la grille, au sens relaxé, dès qu'il existe un $i$
 tel que $M[i][N]=true$. Du point de vue de votre implémentation de
 cette fonction, il est intéressant de noter que $M[i][n]=false$
 pour tout $i$ implique que $M[i][n']$ pour tout $i$ et pour tout
-$n'>n$ (dès qu'un préfixe du mot n'est pas accepté, on sait qu'il en
+$N\geq n'>n$ (dès qu'un préfixe du mot n'est pas accepté, on sait qu'il en
 sera de même pour le mot complet).
 
 Si un mot n'est pas trouvé sur la grille par cet algorithme, il ne
