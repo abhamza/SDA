@@ -217,16 +217,16 @@ d'implémenter l'algorithme de recherche d'un mot sur la grille de
 manière efficace par programmation dynamique.
 
 Supposons que les positions dans la grille soient numérotées de 1 à
-16, de gauche à droite et de base en haut. La solution par
-programmation dynamique consiste à remplir une table $dptable$ de
-taille $16\times N$ telle que $dptable[i][n]=true$ ($\forall
-i\in\{1,\ldots,16\}$ et $n\in\{1,\ldots,N\}$) s'il y a un chemin dans
-la grille qui s'arrête à la position $i$ et qui contient le préfixe du
-mot recherché de taille $n$, $false$ sinon. Un mot sera alors présent
-sur la grille, au sens relaxé, dès qu'il existe un $i$ tel que
-$dptable[i][N]=true$. Du point de vue de votre implémentation de cette
-fonction, il est intéressant de noter que $dptable[i][n]=false$ pour
-tout $i$ implique que $dptable[i][n']$ pour tout $i$ et pour tout
+16, de gauche à droite et de base en haut, et notons $N$ la taille du
+mot recherché. La solution par programmation dynamique consiste à
+remplir une table $M$ de taille $16\times N$ telle que $M[i][n]=true$
+($\forall i\in\{1,\ldots,16\}$ et $n\in\{1,\ldots,N\}$) s'il y a un
+chemin dans la grille qui s'arrête à la position $i$ et qui contient
+le préfixe du mot recherché de taille $n$, $false$ sinon. Un mot sera
+alors présent sur la grille, au sens relaxé, dès qu'il existe un $i$
+tel que $M[i][N]=true$. Du point de vue de votre implémentation de
+cette fonction, il est intéressant de noter que $M[i][n]=false$
+pour tout $i$ implique que $M[i][n']$ pour tout $i$ et pour tout
 $n'>n$ (dès qu'un préfixe du mot n'est pas accepté, on sait qu'il en
 sera de même pour le mot complet).
 
@@ -237,8 +237,8 @@ originales. L'idée de la variante que nous demandons d'implémenter
 \begin{itemize}
 \item Pour tous les mots de plus de 3 lettres dans le dictionnaire:
 \begin{itemize}
-\item Calculer la table $dptable$
-\item S'il n'existe pas de $i$ tel que $dptable[i][N]$ est vrai, rejeter le mot.
+\item Calculer la table $M$
+\item S'il n'existe pas de $i$ tel que $M[i][N]$ est vrai, rejeter le mot.
 \item Sinon, rechercher ce mot dans la grille à l'aide de la fonction
   \texttt{containsWord}.
 \item Si le mot est trouvé sur la grille, l'ajouter à la liste des mots de l'ordinateur.
@@ -256,7 +256,7 @@ Votre rapport devra contenir les réponses aux questions suivantes:
 \item Décrivez en pseudo-code l'algorithme de recherche d'un mot sur
   une grille.
 \item Donnez la formulation récursive permettant de calculer les
-  éléments de la table $dptable$, en précisant bien le ou les cas de
+  éléments de la table $M$, en précisant bien le ou les cas de
   base. Vous pouvez supposer que vous disposer d'une fonction
   $getNeighbors(i)$ renvoyant la liste des positions adjacentes à la
   position $i$ sur la grille.
