@@ -6,7 +6,7 @@
  * TODO: This file contains prototypes of functions that manipulate Board
          objects. You are allowed to add your own prototypes (e.g.: createBoard,
          deleteBoard, etc.) but it is striclty FORBIDDEN to change any part of
-         the six provided prototypes. $createBoardFromString$ will be used for
+         the provided prototypes. $createBoardFromString$ will be used for
          assessment purposes.
  * ========================================================================= */
 
@@ -41,6 +41,17 @@ typedef struct Board_t Board;
  *              error message.
  * ------------------------------------------------------------------------- */
 Board* createBoardFromString(const char* letters);
+
+/* ------------------------------------------------------------------------- *
+ * Create a new Board object. The letters of the new board are randomly
+ * initialized as described on https://fr.wikipedia.org/wiki/Boggle
+ *
+ * RETURN
+ * Board        Pointer to the new Board
+ * NULL         If an error has occured. The function does not produces any
+ *              error message.
+ * ------------------------------------------------------------------------- */
+Board* createRandomBoard(void);
 
 /* ------------------------------------------------------------------------- *
  * Free the allocated memory of the Board object $board$.

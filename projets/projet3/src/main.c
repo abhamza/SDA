@@ -10,6 +10,9 @@
 #include "Array.h"
 #include "Board.h"
 
+#include <stdlib.h>
+#include <time.h>
+
 int main(int argc, char** argv)
 {
   // Check arguments
@@ -23,6 +26,10 @@ int main(int argc, char** argv)
   Array* words = createArrayFromFile(argv[1]);
   if (!words)
     return -1;
+
+  // Create a random board
+  srand(time(NULL));
+  Board* board = createRandomBoard();
 
   // Human's turn
 
