@@ -105,6 +105,27 @@ static char* readLine(FILE* file)
   return line;
 }
 
+Array* createArray(size_t length)
+{
+  Array* result = (Array*)malloc(sizeof(Array));
+  if (!result)
+  {
+    fprintf(stderr, "Memory allocation error");
+    return NULL;
+  }
+
+  result->values = (void**)malloc(length * sizeof(char*));
+  if (!result->values)
+  {
+    free(result);
+    fprintf(stderr, "Memory allocation error");
+    return NULL;
+  }
+
+  result->length = length;
+  return result;
+}
+
 void freeArray(Array* array, bool deleteElements)
 {
   if (deleteElements)

@@ -36,6 +36,21 @@ typedef struct Array_t
 Array* createArrayFromFile(const char* fileName);
 
 /* ------------------------------------------------------------------------- *
+ * Create an empty Array object.
+ *
+ * The Array object must later be deleted by calling freeArray().
+ *
+ * PARAMETER
+ * length           The length of the array
+ *
+ * RETURN
+ * Array            A new pointer to an Array object
+ * NULL             If an error has occured. The function produces an error
+ *                  message on the standard error output.
+ * ------------------------------------------------------------------------- */
+Array* createArray(size_t length);
+
+/* ------------------------------------------------------------------------- *
  * Free the allocated memory of the Array object $array$. If the flag
  * $deleteElements$ is true, the function free() is called on each element.
  *
