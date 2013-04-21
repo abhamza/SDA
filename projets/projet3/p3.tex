@@ -36,8 +36,8 @@ seront explorés par le biais du projet sont la récursion, le parcours
 de graphe, la programmation dynamique et l'utilisation de structures de
 données dynamiques simples.
 
-Le projet est à réaliser par groupes de maximum trois étudiants pour
-le {\bf 14 mai 2013} à {\bf 05h00} (du matin) au plus tard. Le projet
+Le projet est à réaliser par groupes de {\bf deux} étudiants pour
+le {\bf 17 mai 2013} à {\bf 05h00} (du matin) au plus tard. Le projet
 est à remettre via une interface web disponible sur
 \href{http://www.montefiore.ulg.ac.be/~glouppe/2012-2013/students.info0902.php}{la
   page des TPs}. Utilisez l'identifiant d'un des membres du groupe
@@ -134,21 +134,18 @@ Remarques:
 \item Dans le fichier \texttt{main.c} que nous vous proposons, le
   dictionnaire est préalablement chargé dans une structure de type
   \texttt{Array}. Pour implémenter la fonction
-  \texttt{getAllWordsByBoard} (voir \ref{sec:rechmot}) et vérifier les mots
-  rentrés par l'utilisateur, il est cependant nécessaire d'utiliser
-  une structure de données permettant de vérifier rapidement
-  l'existence d'un mot dans le dictionnaire, par exemple une table de
-  hachage. Vous pouvez créer cette structure directement à partir de
-  la structure de type \texttt{Array} et préserver ces deux structures en
-  mémoire, la structure de type \texttt{Array} étant plus appropriée pour les
-  fonctions \texttt{getAllWordsByDictionary} et
-  \texttt{getAllWordsByDynamicProgramming} (voir \ref{sec:rechmot}).
+  \texttt{getAllWordsByBoard} (voir \ref{sec:rechmot}), il est
+  cependant nécessaire d'utiliser une structure de données permettant
+  de vérifier rapidement l'existence d'un mot dans le dictionnaire,
+  par exemple une table de hachage. Vous pouvez créer cette structure
+  dans la fonction \texttt{getAllWordsByBoard} à partir de la
+  structure de type \texttt{Array}.
 \item Le nombre de mots entrés par le joueur, ainsi que le nombre de
   mots trouvés par l'ordinateur sur la grille n'est a priori pas
   connu. Vous devrez donc utiliser une structure de données dynamique
   pour les stocker. Etant donné que ces listes seront relativement
   courtes, vous pouvez utiliser des structures d'accès non efficace
-  (type liste liée ou vecteur).
+  (type \texttt{Array}).
 \item Il ne vous est pas demandé de développer un code générique par
   rapport à la taille de la grille. Vous pouvez donc fixer en dur les
   tailles de vos structures par rapport à la taille de cette dernière.
