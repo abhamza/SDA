@@ -106,6 +106,31 @@ de: $$R[c_1, c_{i_1}] \times R[c_{i_1}, c_{i_2}] \times ... \times
 R[c_{i_{k-1}}, c_{i_k}] \times R[c_{i_k}, c_{1}]   $$
 
 
+\section*{Exercice 6}
+
+En bioinformatique, l'alignement de séquences est un outil qui permet de représenter
+deux ou plusieurs séquences d'ADN de manière à en faire ressortir les régions
+homologues. L'objectif de l'alignement est de disposer les composants de sorte
+à identifier les zones de concordance.
+
+Par exemple, étant donné les deux séquences de bases:
+
+\begin{verbatim}
+AGGCTATCACCTGACCTCCAGGCCGATGCCC
+TAGCTATCACGACCGCGGTCGATTTGCCCGAC
+\end{verbatim}
+
+Leur alignement consiste à apparier une base de l'une soit avec une base de
+l'autre, soit avec un trou:
+
+\begin{verbatim}
+-AGGCTATCACCTGACCTCCAGGCCGA--TGCCC---
+TAG-CTATCAC--GACCGC--GGTCGATTTGCCCGAC
+\end{verbatim}
+
+Proposer un algorithme par programmation dynamique qui permet d'aligner deux séquences de bases.
+
+
 \section*{Exercice 7}
 
 Soit un tableau $N \times N$ de booléens (\texttt{0} ou \texttt{1}). Proposer un algorithme pour trouver le plus grand sous-tableau contigu contenant uniquement des valeurs \texttt{1}.
