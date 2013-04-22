@@ -66,12 +66,6 @@ horizontalement ou diagonalement. Chaque dé peut être utilisé au plus
 une fois pour former un mot et seuls les mots de plus de 3 lettres
 sont pris en compte.
 
-\begin{figure}[h]
-\centerline{\includegraphics[width=4cm]{grille.pdf}}
-\caption{Un exemple de grille. Les mots 'celeb', 'than', 'capo',
-  'thane', 'leap' sont présents sur la grille.\label{fig:grille}}
-\end{figure}
-
 Une partie contre l'ordinateur se déroule comme suit:
 \begin{enumerate}
 \item Une grille est tirée au hasard et affichée à l'écran.
@@ -94,6 +88,12 @@ Une partie contre l'ordinateur se déroule comme suit:
   a la possibilité de rejouer sur une nouvelle grille ou de quitter le
   programme.
 \end{enumerate}
+
+\begin{figure}[h]
+\centerline{\includegraphics[width=4cm]{grille.pdf}}
+\caption{Un exemple de grille. Les mots 'celeb', 'than', 'capo',
+  'thane', 'leap' sont présents sur la grille.\label{fig:grille}}
+\end{figure}
 
 \section{Implémentation}
 
@@ -149,6 +149,8 @@ Remarques:
 \item Il ne vous est pas demandé de développer un code générique par
   rapport à la taille de la grille. Vous pouvez donc fixer en dur les
   tailles de vos structures par rapport à la taille de cette dernière.
+\item Votre code sera compilé en utilisant la commande:\\
+  \texttt{gcc *.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o buggle}
 \end{itemize}
 
 \section{Algorithmes principaux}
