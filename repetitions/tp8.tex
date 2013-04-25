@@ -30,47 +30,32 @@
 \begin{document}
 \maketitle
 
+%% \section*{Exercice 1}
 
+%% On souhaite multiplier une série de $n$ matrices sous la forme: $$A = A_0 A_1 ... A_{n-1}$$
 
+%% On note $d_k \times d_{k+1}$ les dimensions de la matrice $A_k$.
 
-\section*{Exercice 1}
+%% \begin{enumerate}
+%% \item L'ordre des multiplications a-t-il un impact sur la complexité ?
+%% \item Quelle serait la complexité d'une méthode par force brute pour déterminer le parenthésage optimal à effectuer ?
+%% \item Proposer un algorithme par programmation dynamique pour déterminer le parenthésage optimal.
+%% \end{enumerate}
 
-On souhaite multiplier une série $n$ matrices sous la forme: $$A = A_0 A_1 ... A_{n-1}$$
+%% \section*{Exercice 2}
 
-On note $d_k \times d_{k+1}$ les dimensions de la matrice $A_k$.
+%% Soit une chaîne de caractères \texttt{S} au format ASCII.
 
-\begin{enumerate}
-\item L'ordre des multiplications importe t-il?
-\item Quelle serait la complexité d'une méthode par force brute pour déterminer le parenthésage optimal à effectuer?
-\item Proposer un algorithme par programmation dynamique pour déterminer le parenthésage optimal.
-\end{enumerate}
+%% \begin{enumerate}
+%% \item Ce codage est-il optimal en termes d'espace mémoire utilisé? Illustrer par un exemple.
+%% \item Comment réduire la mémoire utilisée?
+%% \item Proposer un algorithme glouton pour compresser \texttt{S}.
+%% \item Quel serait le codage de \texttt{S} pour l'exemple proposé en (a)?
+%% \end{enumerate}
 
+\section*{Exercice 1 {\small (B. Boigelot, 2009)}}
 
-\section*{Exercice 2}
-
-Soit une chaîne de caractères \texttt{S} au format ASCII.
-
-\begin{enumerate}
-\item Ce codage est-il optimal en termes d'espace mémoire utilisé? Illustrer par un exemple.
-\item Comment réduire la mémoire utilisée?
-\item Proposer un algorithme glouton pour compresser \texttt{S}.
-\item Quel serait le codage de \texttt{S} pour l'exemple proposé en (a)?
-\end{enumerate}
-
-
-\section*{Exercice 3}
-
-% http://people.csail.mit.edu/bdean/6.046/dp/
-
-Soit une expression booléenne composée des symboles \texttt{true},
-\texttt{false}, \texttt{and} et \texttt{or}. Proposer un algorithme qui
-détermine le nombre de façons de parenthèser l'expression de sorte qu'elle soit
-évaluée à \texttt{true}.
-
-
-\section*{Exercice 4 (B. Boigelot, 2009)}
-
-On considère un terrain de jeu rectangulaire possédant $n.m$ cases organisées en
+On considère un terrain de jeu rectangulaire possédant $n\times m$ cases organisées en
 $n$ lignes et $m$ colonnes. Des sommes d'argent sont initialement placées sur
 ces cases. Un joueur traverse le terrain à partir du coin supérieur gauche
 jusqu'au coin inférieur droit. A chaque étape de ce trajet, le joueur collecte
@@ -85,8 +70,16 @@ plus d'argent possible.
 \item Calculer la complexité en temps et en espace de l'algorithme proposé.
 \end{enumerate}
 
+\section*{Exercice 2}
 
-\section*{Exercice 5}
+% http://people.csail.mit.edu/bdean/6.046/dp/
+
+Soit une expression booléenne composée des symboles \texttt{true},
+\texttt{false}, \texttt{and} et \texttt{or}. Proposer un algorithme qui
+détermine le nombre de façons de parenthéser l'expression de sorte qu'elle soit
+évaluée à \texttt{true}.
+
+\section*{Exercice 3}
 
 % Problems on Algorithms: 416
 
@@ -106,7 +99,7 @@ de: $$R[c_1, c_{i_1}] \times R[c_{i_1}, c_{i_2}] \times ... \times
 R[c_{i_{k-1}}, c_{i_k}] \times R[c_{i_k}, c_{1}]   $$
 
 
-\section*{Exercice 6}
+\section*{Exercice 4}
 
 En bioinformatique, l'alignement de séquences est un outil qui permet de représenter
 deux ou plusieurs séquences d'ADN de manière à en faire ressortir les régions
@@ -120,18 +113,22 @@ AGGCTATCACCTGACCTCCAGGCCGATGCCC
 TAGCTATCACGACCGCGGTCGATTTGCCCGAC
 \end{verbatim}
 
-Leur alignement consiste à apparier une base de l'une soit avec une base de
-l'autre, soit avec un trou:
+Leur alignement consiste à apparier une base (un caractère) de l'une
+soit avec une base de l'autre, soit avec un trou:
 
 \begin{verbatim}
 -AGGCTATCACCTGACCTCCAGGCCGA--TGCCC---
 TAG-CTATCAC--GACCGC--GGTCGATTTGCCCGAC
 \end{verbatim}
 
-Proposer un algorithme par programmation dynamique qui permet d'aligner deux séquences de bases.
+Un alignement est d'autant meilleur que le nombre de bases alignées est grand.
+
+Proposer un algorithme par programmation dynamique qui permet
+d'aligner deux séquences de bases de manière optimale. Etudier sa
+complexité en temps et en espace.
 
 
-\section*{Exercice 7}
+\section*{Exercice 5}
 
 Soit un tableau $N \times N$ de booléens (\texttt{0} ou \texttt{1}). Proposer un algorithme pour trouver le plus grand sous-tableau contigu contenant uniquement des valeurs \texttt{1}.
 
@@ -149,12 +146,35 @@ Soit un tableau $N \times N$ de booléens (\texttt{0} ou \texttt{1}). Proposer u
 \end{verbatim}
 
 
-\section*{Exercice 8}
+\section*{Exercice 6}
 
 Soit un tableau $N \times N$ de booléens (\texttt{0} ou \texttt{1}). Proposer un algorithme pour trouver le plus grand sous-tableau contigu contenant autant de valeurs \texttt{0} que de valeurs \texttt{1}.
 
 
-\section*{Exercice 9 (P.-A. de Marneffe, 2006)}
+
+
+\section*{Exercice 7 {\small (adapté de CLRS, 16.2-4)}}
+
+Julien participe à une course à pied qui consiste à relier une ville
+$A$ à une ville $B$. Etant donné la contenance de son bidon, il sait
+qu'il peut parcourir $m$ mètres sans tomber à cours d'eau. Il a
+également pu obtenir des organisateurs du marathon la liste des
+endroits où il pourra remplir son bidon et les distances entre ces
+endroits.
+
+Julien aimerait minimiser le nombre d'arrêts qu'il devra effectuer
+lors de sa course pour remplir son bidon. Donner une méthode efficace
+pour déterminer quels arrêts il devrait faire. Montrer que votre
+stratégie donne une solution optimale et discuter sa complexité.
+
+\section*{Exercice 8 {\small (CLRS, 16.2-5)}}
+
+Etant donné un ensemble $\{x_1,x_2,\ldots,x_n\}$ de points sur l'axe
+réel, donner un algorithme efficace pour déterminer le plus petit
+ensemble d'intervalles fermés de longueur unitaire qui contient tous
+les points. Montrez que votre algorithme est correct.
+
+\section*{Exercice 9 {\small (P.-A. de Marneffe, 2006)}}
 
 Soit un tableau $B[0..M-1, 0..N-1]$ de $M$ lignes et $N$ colonnes, avec $0<M$ et
 $0<N$. Les élémetns du tableau sont des booléens.
@@ -179,7 +199,6 @@ $B[i,j]$ est origine d'une $\lambda 2$-figure$(s)$ si les trois conditions suiva
 \end{itemize}
 
 On demande de concevoir un algorithme qui détermine  dans une variable \texttt{smax} la valeur maximale de $s$ pour les $\lambda 2$-figure$(s)$ qui existent dans $B$.
-
 
 % \section*{Exercice 1}
 
