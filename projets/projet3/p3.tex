@@ -226,18 +226,33 @@ d'implémenter l'algorithme de recherche d'un mot sur la grille de
 manière efficace par programmation dynamique.
 
 Supposons que les positions dans la grille soient numérotées de 1 à
-16, de gauche à droite et de base en haut, et notons $N$ la taille du
-mot recherché. La solution par programmation dynamique consiste à
-remplir une table $M$ de taille $16\times N$ telle que $M[i][n]=true$
-($\forall i\in\{1,\ldots,16\}$ et $n\in\{1,\ldots,N\}$) s'il y a un
-chemin dans la grille qui s'arrête à la position $i$ et qui contient
-le préfixe du mot recherché de taille $n$, $false$ sinon. Un mot sera
-alors présent sur la grille, au sens relaxé, dès qu'il existe un $i$
-tel que $M[i][N]=true$. Du point de vue de votre implémentation de
-cette fonction, il est intéressant de noter que $M[i][n]=false$
-pour tout $i$ implique que $M[i][n']$ pour tout $i$ et pour tout
-$N\geq n'>n$ (dès qu'un préfixe du mot n'est pas accepté, on sait qu'il en
-sera de même pour le mot complet).
+16, de gauche à droite et de {\color{red} haut en bas}, et notons $N$
+la taille du mot recherché. La solution par programmation dynamique
+consiste à remplir une table $M$ de taille $16\times N$ telle que
+$M[i][n]=true$ ($\forall i\in\{1,\ldots,16\}$ et $n\in\{1,\ldots,N\}$)
+s'il y a un chemin dans la grille qui s'arrête à la position $i$ et
+qui {\color{red} correspond exactement} au préfixe du mot recherché de
+taille $n$, $false$ sinon. {\color{red} Exemples:
+\begin{itemize}
+\item Si on recherche le mot 'celeb' dans la grille de la figure
+  \ref{fig:grille}, la valeur de $M[6][3]$ sera $true$ car le chemin
+  3-2-6 se terminant à la position 6 correspond au préfixe de taille 3
+  du mot 'celeb' (c'est-à-dire 'cel').
+\item Si le mot recherché est 'cecity', $M[3][3]$ sera $true$ car le
+  chemin 3-7-3 (qui n'est pas un chemin valide selon les règles du
+  boggle puisqu'il passe deux fois par la position 3) correspond à
+  'cec' qui est le préfixe de taille 3 de 'cecity'.
+\end{itemize}}
+
+Un mot sera alors présent sur la grille, au sens relaxé, dès qu'il
+existe un $i$ tel que $M[i][N]=true$. Du point de vue de votre
+implémentation de cette fonction, il est intéressant de noter que
+$M[i][n]=false$ pour tout $i$ implique que
+$M[i][n']{\color{red}=false}$ pour tout $i$ et pour tout $n'$ tel
+$N\geq n'>n$ (dès qu'un préfixe du mot n'est pas accepté, on sait
+qu'il en sera de même pour le mot complet). {\color{red} Il est donc
+  inutile de poursuivre le remplissage de la table dès que tous les
+  éléments d'une colonne sont $false$.}
 
 Si un mot n'est pas trouvé sur la grille par cet algorithme, il ne
 sera évidemment pas non plus trouvé selon les règles
