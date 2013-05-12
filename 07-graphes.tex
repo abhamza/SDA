@@ -510,10 +510,14 @@ Parcours en profondeur à partir de $A$: $A$-$D$-$F$-$G$-$B$-$E$ ($C$ et $H$ pas
 
 \bigskip
 
-\item Chaque sommet est empilé au plus une fois
-\item Boucle $\While$ executées $O(|V|)$ fois
-\item Boucle interne: $O(|E|)$ \alert{au total}
-\item Complexité: $O(|V|+|E|)$
+\item Initialisation: $\Theta(|V|)$
+\item Boucle $\While$: $O(|E|+|V|)$ car:
+\begin{itemize}
+\item Ligne 8: $O(|V|)$ fois \alert{au total}
+\item Ligne 10-11: $O(|E|)$  fois au total
+\item Ligne 6: $O(|E|)$ fois au total
+\end{itemize}
+\item Complexité totale: $O(|V|+|E|)$
 \end{itemize}
 \end{column}
 \end{columns}
@@ -952,6 +956,8 @@ Un tri topologique
 
 \end{frame}
 
+\subsection{Définitions et algorithme général}
+
 % definition du probleme + propriétés (cycles négatifs, etc.)
 
 \begin{frame}{Définitions}
@@ -1054,7 +1060,7 @@ Différentes variantes du problème:
 \begin{itemize}
 \item \alert{Origine unique}: trouver tous les plus courts chemins d'un sommet à tous les autres
 \begin{itemize}
-\item Algorithmes de Dijkstra et Bellman-Ford
+\item Algorithmes de Dijkstra (glouton) et Bellman-Ford (programmation dynamique)
 \end{itemize}
 \item \alert{Destination unique}: trouver tous les plus courts chemins de tous les sommets vers un sommet donné
 \begin{itemize}
@@ -1091,7 +1097,7 @@ Différentes variantes du problème:
 
 \centerline{\includegraphics[width=5cm]{Figures/07-pcc-sssp.pdf}}
 
-\centerline{\small(Chaque n\oe ud $v$ est marqué de la valeur de $\delta(0,v)$)}
+\centerline{\small(Chaque n\oe ud $v$ est marqué de la valeur de $\delta(s,v)$)}
 
 \end{frame}
 
@@ -1324,6 +1330,8 @@ $$\delta(u,v)\leq \delta(u,x)+\delta(x,v)$$
 
 % Algorithme de Bellman-Ford
 
+\subsection{Bellman-Ford}
+
 \begin{frame}{Algorithme de Bellman-Ford}
 
 \begin{center}
@@ -1446,38 +1454,6 @@ $|V|-1$ itérations
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Détection des cycles négatifs}
-
-\begin{columns}
-\begin{column}{4.5cm}
-\begin{center}
-{\small
-\fcolorbox{white}{Lightgray}{%
-      \begin{codebox}
-        \Procname{$\proc{Bellman-Ford}(G,w,s)$}
-        \li $\proc{Init-single-source}(G,s)$
-        \li \For i=1 \To $|G.V|-1$
-        \li \Do \For each edge $(u,v)\in G.E$
-        \li \Do $\proc{Relax}(u,v,w)$\End\End
-        \li {\color{red}\For each edge $(u,v)\in G.E$}
-        \li \Do {\color{red}\If $v.d>u.d+w(u,v)$}
-        \li \Then {\color{red}\Return $\const{False}$}\End\End
-        \li {\color{red}\Return $\const{true}$}
-      \end{codebox}
-}}
-\end{center}
-\end{column}
-\begin{column}{5.5cm}
-\begin{itemize}
-\item Renvoie $\const{True}$ si un cycle négatif (accessible depuis
-  $s$) existe, $\const{False}$ sinon
-\item En cas de cycle négatif, il existe toujours (et donc aussi en sortie de boucle) au moins un $v.d$ qu'on
-  peut améliorer par relâchement d'un arc $(u,v)$
-\end{itemize}
-\end{column}
-\end{columns}
-
-\end{frame}
 
 \begin{frame}{Programmation dynamique}
 
@@ -1508,6 +1484,39 @@ $|V|-1$ itérations
 }
 \end{frame}
 
+\begin{frame}{Détection des cycles négatifs}
+
+\begin{columns}
+\begin{column}{4.5cm}
+\begin{center}
+{\small
+\fcolorbox{white}{Lightgray}{%
+      \begin{codebox}
+        \Procname{$\proc{Bellman-Ford}(G,w,s)$}
+        \li $\proc{Init-single-source}(G,s)$
+        \li \For i=1 \To $|G.V|-1$
+        \li \Do \For each edge $(u,v)\in G.E$
+        \li \Do $\proc{Relax}(u,v,w)$\End\End
+        \li {\color{red}\For each edge $(u,v)\in G.E$}
+        \li \Do {\color{red}\If $v.d>u.d+w(u,v)$}
+        \li \Then {\color{red}\Return $\const{True}$}\End\End
+        \li {\color{red}\Return $\const{False}$}
+      \end{codebox}
+}}
+\end{center}
+\end{column}
+\begin{column}{5.5cm}
+\begin{itemize}
+\item Renvoie $\const{True}$ si un cycle négatif (accessible depuis
+  $s$) existe, $\const{False}$ sinon
+\item En cas de cycle négatif, il existe toujours (et donc aussi en sortie de boucle) au moins un $v.d$ qu'on
+  peut améliorer par relâchement d'un arc $(u,v)$
+\end{itemize}
+\end{column}
+\end{columns}
+
+\end{frame}
+
 \begin{frame}{Graphe dirigé acyclique (DAG)}
 
 Version plus efficace dans le cas d'un graphe dirigé acyclique:
@@ -1536,7 +1545,7 @@ Complexité: $\Theta(|V|+|E|)$
 
 \end{frame}
 
-% Algorithme de Dijkstra
+\subsection{Dijkstra}
 
 \begin{frame}{Poids unitaires: parcours en largeur d'abord}
 
@@ -1631,8 +1640,7 @@ Complexité: $\Theta(|V|+|E|)$
 
 \bigskip
 
-Illustration sur un exemple:
-
+Illustration sur un exemple:\vspace{-0.5cm}
 \centerline{\includegraphics[width=5cm]{Figures/07-pcc-dijkstra-exemple.pdf}}
 
 \end{frame}
@@ -1655,7 +1663,7 @@ Illustration sur un exemple:
 \item $|E| \log |V|$ domine $|V|\log |V|$ si le graphe est connexe
 \end{itemize}
 \end{itemize}
-
+\note{Au moins autant d'arête que de noeuds dans un graphe connexe}
 \end{frame}
 
 % Calculer tous les chemins: algorithme de Floyd...
@@ -1695,6 +1703,7 @@ Illustration sur un exemple:
 
 \end{frame}
 
+\subsection{Floyd-Warshall}
 
 \begin{frame}{Plus court chemin pour toutes les paires de sommets}
 
