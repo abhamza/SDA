@@ -1,0 +1,124 @@
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{../../clrscode3epg}
+%\usepackage{fullpage}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+% Style
+\parskip=\smallskipamount
+
+% En-têtes
+\title{
+    \textbf{Structures de données et algorithmes}\\
+    Projet de seconde session 2012-2013:\\Résolution de problème
+}
+
+%\author{Julien \textsc{Becker} - Gilles \textsc{Louppe} - Pierre \textsc{Geurts}}
+\date{}
+
+% Corps
+\begin{document}
+\maketitle
+
+\section*{\'Enoncé}
+
+L'objectif du projet est de vous exercer à l'utilisation des techniques de résolutions de problèmes.
+
+Le projet est à réaliser {\bf individuellement} pour le {\bf 25 août
+  2013} à {\bf 23h59} au plus tard. Le projet est à remettre via une
+interface web disponible sur
+\href{http://www.montefiore.ulg.ac.be/~glouppe/2012-2013/students.info0902.php}{la
+  page des TPs}.
+
+Un projet non rendu à temps recevra automatiquement une cote nulle. En cas de
+plagiat avéré, l'étudiant se verra affecter une cote nulle à l'ensemble du
+projet. Les critères de correction sont précisés sur la page web des projets.
+
+\subsection*{Fichier fourni}
+\begin{description}
+\item[\texttt{SubSequence.h}] contient l'interface à implémenter.
+\end{description}
+\subsection*{Fichiers à rendre}
+Deux fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'archive n'a pas d'importance.
+\begin{description}
+\item[\texttt{SubSequence.c}] implémente les fonctions de l'interface \texttt{SubSequence.h}
+\item[\texttt{Rapport.pdf}] contient vos réponses aux questions
+\end{description}
+
+{\em Note}: Les noms de fichiers font partie de l'énoncé. Tout fichier ne
+correspondant pas à ceux demandés dans l'énoncé ne sera pas pris en compte.
+
+\subsection*{Implémentation}
+
+Une séquence $S=\langle x_0,\ldots,x_{m-1}\rangle$ est une liste
+ordonnée de valeurs entières. Une sous-séquence d'une séquence
+$S=\langle x_0,\ldots,x_{m-1}\rangle$ est une séquence $\langle
+x_{i_1},\ldots,x_{i_k}\rangle$ d'éléments de $S$ où $0\leq i_1<i_2<\ldots<i_k<m$. On
+dira qu'une sous-séquence $\langle x_{i_1},\ldots,x_{i_k}\rangle$ est
+{\bf contiguë} si $i_{j+1}=i_{j}+1, \forall j=1,\ldots,k-1$ et qu'une
+sous-séquence est constante si tous ses éléments sont {\bf identiques},
+$x_{i_1}=x_{i_2}=\ldots=x_{i_k}$.
+
+On vous demande d'implémenter au total quatre fonctions:
+
+\begin{itemize}
+\item Une fonction renvoyant les indices délimitant une plus longue
+  sous-séquence contiguë constante dans une séquence. Par exemple, si
+  la séquence d'entrée est $\langle 1,6,3,3,3,4,4,3,4\rangle$, la plus
+  longue sous-séquence contiguë est $\langle 3,3,3\rangle$ et la
+  fonction renverra $(2,4)$. Cette fonction devra être implémentée de
+  deux manières différentes:
+\begin{itemize}
+\item en utilisant une recherche exhaustive (\texttt{getCstContSubSeqES})
+\item en utilisant une approche diviser-pour-régner (\texttt{getCstContSubSeqDC})
+\end{itemize}
+
+\item Une fonction \texttt{getCstSubSeqDP} renvoyant la longueur (et la valeur correspondante)
+  d'une plus longue sous-séquence constante non nécessairement
+  contiguë dans une séquence. Par exemple, si la séquence d'entrée est
+  $\langle 1,6,3,3,3,4,4,3,4\rangle$, la plus longue sous-séquence
+  constante non contiguë est $\langle 3,3,3,3\rangle$ et la fonction
+  renverra $(4,3)$. Cette fonction devra être implémentée par
+ programmation dynamique.
+
+\item Une fonction \texttt{getLongestCommonCstSubSeqDP} renvoyant la longueur (et la valeur correspondante)
+  d'une plus longue sous-séquence constante (non nécessairement
+  contiguë) commune à deux séquences. Par exemple, si les deux
+  séquences d'entrée sont $\langle 1,6,3,3,3,4,4,3,4\rangle$ et
+  $\langle 3,4,6,4,5,3,4,4\rangle$, la plus longue sous-séquence
+  commune constante est $\langle 4,4,4 \rangle$ et la fonction
+  renverra $(3,4)$. Cette fonction devra également être implémentée
+  par programmation dynamique.\\
+
+{\it Suggestion: Soit $X$ et $Y$ les séquences d'entrée. Calculez pour
+  tout $i$ et $j$, la longueur $c[i,j]$ de la plus longue
+  sous-séquence constante commune à $X$ et $Y$ qui se {\bf termine} à
+  l'élément $i$ de $X$ et à l'élément $j$ de $Y$. Dans l'exemple
+  précédent, on aura $c[3,0]=1$ et $c[5,2]=0$.}
+\end{itemize}
+
+\subsection*{Rapport}
+
+
+Pour \textbf{chacune} des quatre fonctions à implémenter, on vous demande:
+\begin{itemize}
+\item d'expliquer le principe de votre solution;
+\item d'analyser sa complexité au pire cas.
+\end{itemize}
+
+Pour les deux fonctions à implémenter par programmation
+dynamique, on vous demande d'expliciter la récurrence à la
+base de votre solution.
+
+Vos réponses à ces questions doivent être rédigées dans un bref rapport (au format
+PDF) à joindre avec votre fichier source.
+
+\end{document}
