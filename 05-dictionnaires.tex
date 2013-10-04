@@ -483,7 +483,7 @@ Tous les parcours en profondeur sont $\Theta(n)$ en temps
 \item On a $T(n)=\Omega(n)$ (on doit au moins parcourir chaque n\oe ud).
 \item Etant donné la récurrence, on a:
 $$T(n)\leq T(n_L)+T(n-n_L-1) + d$$ où $n_L$ est le nombre de n\oe uds du sous-arbre à gauche et $d$ une constante
-\item On peut prouver par induction que $T(n)< (c+d) n +c$ où $c=T(0)$.
+\item On peut prouver par induction que $T(n)\leq (c+d) n +c$ où $c=T(0)$.
 \item $T(n)=\Omega(n)$ et $T(n)=O(n)$ $\Rightarrow$ $T(n)=\Theta(n)$
 \end{itemize}
 
