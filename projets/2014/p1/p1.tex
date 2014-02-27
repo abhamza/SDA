@@ -1,0 +1,203 @@
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{clrscode3epg}
+%\usepackage{fullpage}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+% Style
+\parskip=\smallskipamount
+
+% En-têtes
+\title{
+    \textbf{Structures de données et algorithmes}\\
+    Projet 1: Algorithmes de tri
+}
+
+\author{Gilles \textsc{Louppe} - Thomas \textsc{Désir} - Pierre \textsc{Geurts}}
+\date{28 février 2014}
+
+% Corps
+\begin{document}
+\maketitle
+
+%\section*{\'Enoncé}
+
+L'objectif du projet est d'implémenter, de comparer et d'analyser
+empiriquement trois algorithmes de tri : le tri par insertion, le tri rapide et
+le tri par tas. On vous demande également d'implémenter un
+algorithme de tri de liste liées.
+
+Le projet est à réaliser {\bf individuellement} pour le {\bf 16 mars
+  2014} à {\bf 23h59} au plus tard. Le projet est à remettre via la
+plateforme web disponible sur la page des TPs.
+
+Un projet non rendu à temps recevra automatiquement une cote nulle. En
+cas de plagiat avéré, l'étudiant se verra affecter une cote nulle à
+l'ensemble du projet. Soyez bref mais précis dans votre rapport, qui
+fera au maximum 3 pages, et respectez bien la numérotation des
+sous-questions de l'énoncé.
+
+Les critères de correction sont précisés sur la page web des projets.
+
+\section{Implémentation}
+
+On vous demande d'implémenter 3 algorithmes de tri vu au cours:
+\begin{enumerate}
+\item L'algorithme de tri par insertion ($\proc{InsertionSort}$) dans un fichier \texttt{InsertionSort.c},
+\item L'algorithme de tri rapide ($\proc{Quicksort}$) dans un fichier \texttt{QuickSort.c},
+\item L'algorithme de tri par tas ($\proc{HeapSort}$) dans un fichier \texttt{HeapSort.c}.
+\end{enumerate}
+Les trois implémentations doivent respecter l'interface de tri décrite
+dans le fichier \texttt{Sort.h}. Chaque tri doit être implémenté dans
+un fichier qui lui est propre.
+
+\subsection*{Exemple avec le BubbleSort}
+
+Afin de vous aider à prendre rapidement en main le code mis en place, nous avons
+implémenté à titre d'exemple l'algorithme BubbleSort dans le fichier
+\texttt{BubbleSort.c} ainsi qu'un petit programme d'essai \texttt{main.c}.
+
+Pour compiler le programme, vous pouvez utiliser la commande suivante:
+
+{\small \texttt{gcc main.c BubbleSort.c Event.c --std=c99 --pedantic -Wall -W -Wmissing-prototypes -o test}}
+
+Ce programme ne prend aucun argument.
+
+
+%% \subsection*{Robustesse}
+
+%% Nous compilerons votre code avec le compilateur GCC en spécifiant au
+%% minimum les options de compilation \texttt{--std=c99 --pedantic -Wall -W -Wmissing-
+%% prototypes}. Si la compilation échoue, le projet reçoit une note de zéro.
+
+%% \begin{itemize}
+%% \item Le projet doit être réalisé dans le standard C99 (flag \texttt{--std=c99});
+%% \item Vos implémentations doivent fonctionner correctement, pas de {\em segmentation fault}, ou tout autre crash;
+%% \item Pour vous aider à déboguer vos programmes, pensez à utiliser une débogueur tel que {\em gdb};
+%% \item En cas d'erreur (lors d'une allocation, par exemple), le programme peut afficher un message informatif sur {\em stderr} (le flux d'erreur standard). Cet erreur altérera certainement votre algorithme mais elle ne doit en aucun cas provoquer un crash de l'application;
+%% \item De même, vos implémentations ne doivent présenter aucun problème de mémoire (même non manifeste). En particulier, tout ce qui est alloué doit être libéré;
+%% \item Avec des pointeurs et l’allocation de mémoire dynamique, il est très facile d’introduire des erreurs de mémoire. Pour détecter ce genre de problèmes, il y a des outils extrêmement utiles tels que {\em valgrind};
+%% \end{itemize}
+
+\section{Analyse}
+
+Dans le cadre de ce travail, nous vous demandons également d'analyser
+expérimentalement les algorithmes que vous aurez implémentés en répondant aux
+questions suivantes. Vos réponses doivent être rédigées dans un bref rapport (au
+format PDF) à joindre avec vos fichiers sources.
+
+\begin{enumerate}
+\item Soit $n$ le nombre de données à trier dans un tableau. Calculez
+empiriquement le temps d'exécution moyen et son écart-type des trois
+algorithmes pour différentes valeurs de $n$ (10, 100, 1.000, 10.000,
+100.000 et 1.000.000). La moyenne et l'écart-type doivent être obtenus
+sur un ensemble de 10 expériences. Reportez ces résultats dans une table au format donné ci-dessous.
+
+\begin{center}
+\begin{tabular}{cccc}
+	\hline
+	n & InsertionSort & QuickSort & HeapSort \\
+	\hline
+	10 & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type\\
+	100 & & &\\
+	1.000 & & &\\
+	10.000 & & &\\
+	100.000 & & &\\
+	1.000.000 & & &\\
+\end{tabular}
+\end{center}
+\item Les algorithmes peuvent également être évalués en fonction du nombre de
+comparaisons qu'ils effectuent entre les éléments du tableau. Dès lors, calculez
+empiriquement le nombre de comparaisons moyenne et son écart-type des trois
+algorithmes pour différentes valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et
+1.000.000). La moyenne et l'écart-type doivent être obtenus sur un ensemble de
+10 expériences.
+\begin{center}
+\begin{tabular}{cccc}
+	\hline
+	n & InsertionSort & QuickSort & HeapSort \\
+	\hline
+	10 & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type & moyenne $\pm$ écart-type\\
+	100 & & &\\
+	1.000 & & &\\
+	10.000 & & &\\
+	100.000 & & &\\
+	1.000.000 & & &\\
+\end{tabular}
+\end{center}
+\item Commentez ces résultats en comparant les algorithmes:
+\begin{itemize}
+\item les uns par rapport aux autres
+\item par rapport à leur complexité théorique
+\end{itemize}
+\end{enumerate}
+
+{\em Note}: 
+\begin{itemize}
+\item Une fonction createRandomIntArray vous est fournie dans le
+  fichier \texttt{main.c} pour générer un tableau aléatoire de taille
+  $n$.
+\item Le temps d'exécution est une valeur peu précise qui dépend
+  fortement des capacités de l'ordinateur mais également de l'état
+  d'utilisation de celui-ci au moment des expériences. Pour limiter
+  cet effet, il vous est conseillé de réaliser toutes vos mesures de
+  manière séquentielle sur la même machine.
+\end{itemize}
+
+\section{Liste liée}
+
+Supposons à présent que la structure de données que nous désirons
+trier soit une liste liée, telle que décrite dans le fichier
+\texttt{LinkedList.h}, et non plus un tableau. Il vous est demandé
+d'implémenter un algorithme (de votre choix) permettant de trier une
+liste liée {\bf en place}, c'est-à-dire modifiant directement la
+structure de liste sans créer de structure supplémentaire en
+$O(n)$. La fonction est à implémenter dans le fichier
+\texttt{LinkedListSort.c} dont le prototype \texttt{sortLinkedList}
+est déclaré dans le fichier \texttt{Sort.h}.
+
+%% \textit{Bonus}: Toutes vos implémentations seront testées par nos soins
+%% sur les mêmes jeux de données et des points supplémentaires seront
+%% attribués aux algorithmes les plus performants en terme de temps
+%% d'exécution.
+
+Dans votre rapport:
+\begin{enumerate}
+\item Expliquez brièvement l'algorithme implémenté.
+\item \'Etudiez de manière théorique sa complexité en temps dans le meilleur et dans le pire cas
+(en utilisant les notations asymptotiques appropriées).
+\end{enumerate}
+
+\section*{Annexe: Liste des fichiers fournis et à rendre}
+
+\subsection*{Fichiers fournis}
+\begin{description}
+\item[\texttt{Sort.h}] interface à implémenter
+\item[\texttt{BubbleSort.c}] implémentation du BubbleSort. Il respecte d'interface décrite dans \texttt{Sort.h}
+\item[\texttt{LinkedList.h}] représentation d'une liste liée minimaliste
+\item[\texttt{main.c}] contient la fonction principale du programme
+\end{description}
+\subsection*{Fichiers à rendre}
+Cinq fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'archive n'a pas d'importance.
+\begin{description}
+\item[\texttt{QuickSort.c}] implémente la fonction \texttt{Sort} avec le QuickSort
+\item[\texttt{HeapSort.c}] implémente la fonction \texttt{Sort} avec le HeapSort
+\item[\texttt{InsertionSort.c}] implémente la fonction \texttt{Sort} avec le InsertionSort
+\item[\texttt{LinkedListSort.c}] implémente la fonction \texttt{sortLinkedList}
+\item[\texttt{Rapport.pdf}] contient vos réponses aux questions
+\end{description}
+
+{\em Note}: Les noms de fichiers font partie de l'énoncé. Tout fichier ne
+correspondant pas à ceux demandés dans l'énoncé ne sera pas pris en compte.
+
+\end{document}
+
+
