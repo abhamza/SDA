@@ -654,8 +654,16 @@ T(n) & = & T(n-1)+T(n-2)+2\\
 \begin{itemize}
 \item Comment croît $F_n$ avec $n$ ?
 $$T(n)\geq F_n=F_{n-1}+F_{n-2}$$
-Puisque $F_n\geq F_{n-1}\geq F_{n-2}\geq\ldots$
-$$F_n\geq 2 F_{n-2}\geq 2(2 F_{n-4})\geq 2(2(2 F_{n-6})) \geq 2^{\frac{n}{2}}$$
+Puisque $F_n\geq F_{n-1}\geq F_{n-2}\geq\ldots$, on a:
+{\small
+$$F_n\geq 2 F_{n-2}\geq 2(2 F_{n-4})\geq 2(2(2 F_{n-6})) \geq 2^{\frac{n}{2}-1} F_2 = \frac{(\sqrt{2})^n}{2}$$
+}
+si $n\geq 2$ est pair et
+{\small
+$$F_n\geq 2 F_{n-2}\geq 2(2 F_{n-4})\geq 2(2(2 F_{n-6})) \geq 2^{\frac{n-1}{2}} F_1 = \frac{(\sqrt{2})^n}{\sqrt{2}} \geq \frac{(\sqrt{2})^n}{2}$$
+}
+si $n\geq 1$ est impair.
+
 Et donc
 $$T(n)\geq \frac{(\sqrt{2})^n}{2} \approx \frac{(1.4)^n}{2}$$
 \item $T(n)$ croît \alert{exponentiellement} avec $n$

@@ -759,7 +759,7 @@ Démonstration:
 \item Cas inductif:
 \begin{itemize}
 \item Supposons $r-p>0$ et que pour tout $1\leq p'\leq r'\leq \attrib{A}{length}$ tels que $r'-p'<r-p$, $\proc{merge-sort}(A,p',r')$ trie $A[p'\twodots r']$
-\item Les appels $\proc{merge-sort}(A,p,q)$ et $\proc{merge-sort}(A,q+1,r)$ sont corrects par hypothèse inductive (puisque $q-p<r-p$ et $r-q+1<r-p$)
+\item Les appels $\proc{merge-sort}(A,p,q)$ et $\proc{merge-sort}(A,q+1,r)$ sont corrects par hypothèse inductive (puisque $q-p<r-p$ et $r-q-1<r-p$)
 \item En supposant $\proc{Merge}$ correct, $\proc{merge-sort}(A,p,r)$ est correct.
 \end{itemize}
 \end{itemize}\qed
