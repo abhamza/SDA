@@ -16,7 +16,7 @@ void swap(int* array, size_t firstIndex, size_t secondIndex) {
 }
 
 int Sort(int* array, size_t length) {
-    if (length <= 0) {
+    if (length <= 0 || !array) {
         return -1;
     }
 
