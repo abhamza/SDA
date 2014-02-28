@@ -14,7 +14,7 @@
  *
  * RETURN
  * seconds      The number of seconds used by Sort
-/* ------------------------------------------------------------------------- */
+ * ------------------------------------------------------------------------- */
 double cpuTimeUsedToSort(int* array, size_t length);
 
 /* ------------------------------------------------------------------------- *
@@ -25,7 +25,7 @@ double cpuTimeUsedToSort(int* array, size_t length);
  *
  * RETURN
  * array         The random array
-/* ------------------------------------------------------------------------- */
+ * ------------------------------------------------------------------------- */
 int* createRandomIntArray(size_t length);
 
 /* Functions */
@@ -57,8 +57,10 @@ int* createRandomIntArray(size_t length) {
 
 /* ------------------------------------------------------------------------- *
  * Main
-/* ------------------------------------------------------------------------- */
+ * ------------------------------------------------------------------------- */
 int main(void) {
+    srand(time(NULL));
+
     size_t sizeArray = 10000;
     printf("Size of the array: %d\n", (int) sizeArray);
     int* array = createRandomIntArray(sizeArray);

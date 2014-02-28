@@ -67,7 +67,7 @@ implémenté à titre d'exemple l'algorithme BubbleSort dans le fichier
 
 Pour compiler le programme, vous pouvez utiliser la commande suivante:
 
-{\small \texttt{gcc main.c BubbleSort.c Event.c --std=c99 --pedantic -Wall -W -Wmissing-prototypes -o test}}
+{\small \texttt{gcc main.c BubbleSort.c --std=c99 --pedantic -Wall -W -Wmissing-prototypes -o test}}
 
 Ce programme ne prend aucun argument.
 
@@ -133,6 +133,7 @@ algorithmes pour différentes valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et
 	1.000.000 & & &\\
 \end{tabular}
 \end{center}
+
 \item Commentez ces résultats en comparant les algorithmes:
 \begin{itemize}
 \item les uns par rapport aux autres
@@ -140,7 +141,7 @@ algorithmes pour différentes valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et
 \end{itemize}
 \end{enumerate}
 
-{\em Note}: 
+{\em Remarques}:
 \begin{itemize}
 \item Une fonction createRandomIntArray vous est fournie dans le
   fichier \texttt{main.c} pour générer un tableau aléatoire de taille
@@ -150,6 +151,11 @@ algorithmes pour différentes valeurs de $n$ (10, 100, 1.000, 10.000, 100.000 et
   d'utilisation de celui-ci au moment des expériences. Pour limiter
   cet effet, il vous est conseillé de réaliser toutes vos mesures de
   manière séquentielle sur la même machine.
+\item Pour compter le nombre de comparaisons, vous devrez
+nécessairement modifier l'implémentation de vos algorithms pour y
+insérer un compteur. La façon la plus propre de faire est de modifier
+le prototype de \text{Sort()} en y ajoutant un pointeur vers une variable compteur.
+Quelque soit la manière dont vous procédez, \textbf{ces modifications ne doivent cependant pas être rendues avec votre projet}
 \end{itemize}
 
 \section{Liste liée}
