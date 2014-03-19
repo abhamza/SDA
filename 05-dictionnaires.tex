@@ -496,7 +496,7 @@ $$T(n)\leq T(n_L)+T(n-n_L-1) + d$$ où $n_L$ est le nombre de n\oe uds du sous-a
 
 \begin{itemize}
 \item Parcours en largeur: on visite le n\oe ud le plus proche de la racine qui n'a pas déjà été visité. Correspond à une visite de n\oe ud de profondeur 1, puis 2, \ldots.
-\item Implémentation à l'aide d'une file en $\Theta(n)$
+\item<2> Implémentation à l'aide d'une file en $\Theta(n)$
 \end{itemize}
 
 %\bigskip
@@ -511,6 +511,7 @@ $\Rightarrow \langle F,B,H,A,D,K\rangle$
 \end{center}
 \end{column}~~~~~~~
 \begin{column}{5cm}
+\only<2>{
 \begin{center}
 \begin{footnotesize}
 \fcolorbox{white}{Lightgray}{%
@@ -529,12 +530,13 @@ $\Rightarrow \langle F,B,H,A,D,K\rangle$
 \end{codebox}}
 \end{footnotesize}
 \end{center}
+}
 \end{column}
 \end{columns}
 
 \medskip
 
-\emph{(Exercice: Implémenter les parcours en profondeur de manière non récursive)}
+\only<2>{\emph{(Exercice: Implémenter les parcours en profondeur de manière non récursive)}}
 \note{Solution: il faut utiliser une pile mais une solution simple peut être trouvée avec une comparaison de pointeurs (voir les solutions du bouquin)
 
 \bigskip
@@ -1460,6 +1462,7 @@ Illustrations:
 \item \url{http://people.ksp.sk/~kuko/bak/}
 \item \url{http://www.csi.uottawa.ca/~stan/csi2514/applets/avl/BT.html}
 \item \url{http://www.cs.jhu.edu/~goodrich/dsa/trees/avltree.html}
+\item \url{http://www.cs.usfca.edu/~galles/visualization/flash.html}
 \end{itemize}
 \end{small}
 

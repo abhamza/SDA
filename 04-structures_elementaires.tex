@@ -932,6 +932,12 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'
 \includegraphics[width=8cm]{Figures/04-fileprio.pdf}
 \end{center}
 
+\note{
+Leur demander comment on fait l'insertion. Où doit se trouver 11 ? on
+ne peut pas le mettre au dessus sinon où mettrions nous le 16 ? Donc,
+il faut le mettre le plus à droite et le remonter à sa position 
+}
+
 \end{frame}
 
 \begin{frame}{Implémentation à l'aide d'un tas: insertion}
@@ -961,7 +967,8 @@ File FIFO est un cas particulier ou la priorité est représenté par l'ordre d'
 
 \item Complexité: $O(\log n)$ (la longueur de la branche de la racine à $i$ étant $O(\log n)$ pour un tas de taille $n$).
 \end{itemize}
-\note{Montrer un exemple sur le slide précédent: augmenter le poids de $A[9]$ de 4 à 15: on échange les noeuds 4 et 9, puis les noeuds 4 et 2.}
+\note{Montrer un exemple sur le slide précédent: augmenter le poids de $A[9]$ de 4 à 15: on échange les noeuds 4 et 9, puis les noeuds 4 et 2.
+}
 \end{frame}
 
 \begin{frame}{Implémentation à l'aide d'un tas: insertion}
