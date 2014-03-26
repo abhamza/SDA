@@ -25,7 +25,6 @@ int main(void) {
     // Read words and definitions from file
     FILE* fd = fopen("dico.txt", "r");
     if (fd == NULL) {
-        freeBuffers(words, definitions, numWords);
         return -1;
     }
 
