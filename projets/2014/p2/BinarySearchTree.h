@@ -3,8 +3,8 @@
  * Interface of a binary search tree storing word/definition pairs.
  *
  * Remarks:
- * - All keys are assumed to be unique.
- * - All keys are associated to non-NULL objects.
+ * - All words are assumed to be unique.
+ * - All words and all definitions must be non-NULL.
  * - A tree cannot alter the object values.
 /* ------------------------------------------------------------------------- */
 
@@ -31,7 +31,7 @@ BinarySearchTree* createBinarySearchTree(void);
 
 /* ------------------------------------------------------------------------- *
  * Destroy a binary search tree that has been created by
- * createBinarySearchTree(). This function do not free the content stored
+ * createBinarySearchTree(). This function does not free the content stored
  * in the tree.
  *
  * PARAMETER
@@ -51,15 +51,15 @@ void freeBinarySearchTree(BinarySearchTree* tree);
 size_t getNumWords(BinarySearchTree* tree);
 
 /* ------------------------------------------------------------------------- *
- * Insert a word/definition pair in a binary search tree. The definition
- * must be different of NULL. NULL is considered as a special value.
- * If the word already exists then this function replaces the current
+ * Insert a word/definition pair in a binary search tree. Both the word and
+ * the definition must be different of NULL. NULL is considered as a special
+ * value. If the word already exists then this function replaces the current
  * definition by the new one and returns the old one.
  *
  * PARAMETERS
  * tree         Pointer to a binary search tree
  * word         The word to insert
- * definition   The definition associated to the key
+ * definition   The definition associated to the word
  *
  * RETURN
  * old def      Pointer to the replaced definition
@@ -89,7 +89,7 @@ char* removeWord(BinarySearchTree* tree, char* word);
  * word         The word to search
  *
  * RETURN
- * definition   The definition associated to the key
+ * definition   The definition associated to the word
  * NULL         If the word does not exist
 /* ------------------------------------------------------------------------- */
 char* findWord(BinarySearchTree* tree, char* word);
@@ -97,7 +97,7 @@ char* findWord(BinarySearchTree* tree, char* word);
 /* ------------------------------------------------------------------------- *
  * Search for all words starting with a given prefix.
  * The results parameter is used as a resulting variable. This function
- * allocates memory to this variable. The user must later deletes this
+ * allocates memory to this variable. The user must later delete this
  * memory by calling free().
  *
  * Example of usage:
@@ -118,6 +118,11 @@ size_t findWordsByPrefix(BinarySearchTree* tree, char* prefix, char*** results);
 
 /* ------------------------------------------------------------------------- *
  * Check whether a binary search tree is balanced.
+
+ * A tree is considered balanced if for all nodes in the tree
+ * - both the left and right sub-trees are balanced;
+ * - the difference between the heights of the left and right sub-trees
+ *   is at most 1.
  *
  * PARAMETERS
  * tree         Pointer to a binary search tree
@@ -136,7 +141,7 @@ bool isBalanced(BinarySearchTree* tree);
  * tree         Pointer to a binary search tree
  *
  * RETURN
- * tree         Pointer to the balanced binary search tree
+ * tree         Pointer to a new, balanced, binary search tree
  * NULL         if an error occured
 /* ------------------------------------------------------------------------- */
 BinarySearchTree* rebalanceTree(BinarySearchTree* tree);
