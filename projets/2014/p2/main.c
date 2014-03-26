@@ -96,8 +96,8 @@ int main(void) {
 
     fclose(fd);
 
-    // Do things
-    printf("%d\n", numWords);
+    // Do things (using words and definitions lists)
+    // ...
 
     // Free resources
     freeBuffers(words, definitions, numWords);
