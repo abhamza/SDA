@@ -8,8 +8,6 @@
 \usepackage{hyperref}
 \usepackage{a4wide}
 \usepackage{amsmath}
-%\usepackage{clrscode3epg}
-%\usepackage{fullpage}
 \renewcommand{\labelenumi}{(\alph{enumi})}
 
 % Style
@@ -30,49 +28,45 @@
 
 \section*{\'Enoncé}
 
-L'objectif du projet est d'implémenter une structure d'arbre binaire
-de recherche et de l'utiliser pour implémenter un (vrai) dictionnaire,
-c'est-à-dire une liste de mots accompagnés de leur définition. Nous
-vous demandons de remettre le code source correspondant à votre
-implémentation ainsi qu'un bref rapport répondant aux questions
-ci-dessous.
+L'objectif du projet est d'implémenter une structure d'arbre binaire de
+recherche et de l'utiliser pour implémenter un (vrai) dictionnaire,
+c'est-à-dire une liste de mots accompagnés de leurs définitions. Nous vous
+demandons de remettre le code source correspondant à votre implémentation ainsi
+qu'un bref rapport répondant aux questions ci-dessous.
 
-Le projet est à réaliser {\bf individuellement} pour le {\bf XX avril
-  2014} à {\bf 23h59} au plus tard. Le projet est à
-remettre via une interface web disponible sur
-\href{http://www.montefiore.ulg.ac.be/~glouppe/2013-2014/students.info0902.php}{la
-  page des TPs}.
+Le projet est à réaliser {\bf individuellement} pour le {\bf XX avril   2014} à
+{\bf 23h59} au plus tard. Le projet est à remettre via une interface web
+disponible sur \href{http://www.montefiore.ulg.ac.be/~glouppe/2013-2014/students.info0902.php}{la page des TPs}.
 
-Un projet non rendu à temps recevra automatiquement une cote nulle. En
-cas de plagiat avéré, l'étudiant se verra affecter une cote nulle à
-l'ensemble du projet. Soyez bref mais précis dans votre rapport, qui
-fera au maximum 3 pages, et respectez bien la numérotation des
-sous-questions de l'énoncé.
+Un projet non rendu à temps recevra automatiquement une cote nulle. En cas de
+plagiat avéré, l'étudiant se verra affecter une cote nulle à l'ensemble du
+projet. Soyez bref mais précis dans votre rapport, qui fera au \textbf{maximum 3 pages},
+et respectez bien la numérotation des sous-questions de l'énoncé.
 
 Les critères de correction sont précisés sur la page web des projets.
 
 \section{Implémentation de la structure de base}
 
-La structure à implémenter est un dictionnaire permettant de stocker
-des paires clé-valeur, où on supposera que les clés et les valeurs
-sont des chaînes de caractères. Ce dictionnaire doit être implémenté à
-partir d'un arbre binaire de recherche (simple) dont l'interface est
-décrite dans le fichier \texttt{BinarySeachTree.h}. Une structure de
-donnée opaque \texttt{BinarySearchTree\_t} ainsi que plusieurs méthodes
-réalisant diverses fonctions sur cette structure y sont définies.
+La structure à implémenter est un dictionnaire permettant de stocker des paires
+clé-valeur, où on supposera que les clés et les valeurs sont des chaînes de
+caractères. Ce dictionnaire doit être implémenté à partir d'un arbre binaire de
+recherche (simple) dont l'interface est décrite dans le fichier
+\texttt{BinarySeachTree.h}. Une structure de donnée opaque
+\texttt{BinarySearchTree\_t} ainsi que plusieurs méthodes réalisant diverses
+fonctions sur cette structure y sont définies.
 
 Nous vous demandons d'implémenter les opérations de base suivantes:
 \begin{description}
-\item[\texttt{createBinarySearchTree}] qui crée un nouvel arbre de recherche binaire vide.
-\item[\texttt{freeBinarySearchTree}]  qui libère la mémoire allouée par la structure de l'arbre.
-\item[\texttt{getNumWords}] qui retourne le nombre d'éléments dans l'arbre.
-\item[\texttt{insertWord}] qui permet d'ajouter une nouvelle paire clé-valeur dans l'arbre. Si la clé existe déjà, sa valeur est remplacée par la nouvelle.
-\item[\texttt{findWord}] qui retourne la valeur associée à une clé de l'arbre.
+\item[\texttt{createBinarySearchTree}] qui crée un nouvel arbre de recherche binaire vide ;
+\item[\texttt{freeBinarySearchTree}]  qui libère la mémoire allouée par la structure de l'arbre ;
+\item[\texttt{getNumWords}] qui retourne le nombre d'éléments dans l'arbre ;
+\item[\texttt{insertWord}] qui permet d'ajouter une nouvelle paire clé-valeur dans l'arbre. Si la clé existe déjà, sa valeur est remplacée par la nouvelle ;
+\item[\texttt{findWord}] qui retourne la valeur associée à une clé de l'arbre ;
 \item[\texttt{removeWord}] qui supprime une paire clé-valeur de l'arbre.
 \end{description}
-La définition du contenu de la structure \texttt{BinarySearchTree\_t}
-est libre d'implémentation. Les fonctions de modification de la
-structure ne doivent pas nécessairement maintenir l'arbre équilibré.
+La définition du contenu de la structure \texttt{BinarySearchTree\_t} est libre
+d'implémentation. Les fonctions de modification de la structure ne doivent pas
+nécessairement maintenir l'arbre équilibré.
 
 \section{Recherche sur base d'un préfixe}
 
@@ -82,12 +76,12 @@ donné.
 
 Dans votre rapport:
 \begin{enumerate}
-\item Expliquez brièvement le principe de votre implémentation
+\item Expliquez brièvement le principe de votre implémentation;
 \item \'Etudiez la complexité en temps dans le meilleur et le pire
   cas. Faites l'analyse dans le cas où l'arbre est équilibré et dans
   le cas où il ne le serait pas nécessairement et formulez ces
   complexités en fonction du nombre de mots à retrouver (noté $r$) et
-  du nombre total de mots dans l'arbre (noté $n$)
+  du nombre total de mots dans l'arbre (noté $n$).
 \end{enumerate}
 
 \section{Ré-équilibrage de l'arbre}
@@ -96,8 +90,8 @@ Plutôt que d'implémenter les opérations compliquées d'insertion et de
 suppression avec ré-équilibrage, on se propose d'implémenter une
 fonction permettant de vérifier que l'arbre est équilibré et une
 fonction permettant de ré-équilibrer l'arbre si nécessaire:
-\begin{itemize}
-\item[\texttt{isBalanced}] renverra 1 si l'arbre est équilibré, 0
+\begin{description}
+\item[\texttt{isBalanced}] renverra \texttt{true} si l'arbre est équilibré, \texttt{false}
   sinon. On dira qu'un arbre est équilibré si ses sous-arbres gauche
   et droit sont équilibrés et si la différence de hauteur entre ces
   sous-arbres est inférieure ou égale à 1. Un arbre vide est supposé
@@ -107,28 +101,28 @@ fonction permettant de ré-équilibrer l'arbre si nécessaire:
   d'implémenter le ré-équilibrage est de convertir l'arbre en un
   tableau trié et ensuite de convertir le tableau trié en un arbre
   équilibré.
-\end{itemize}
+\end{description}
 
 Dans votre rapport:
 \begin{enumerate}
-\item Expliquez brièvement le principe de votre implémentation de ces deux fonctions
+\item Expliquez brièvement le principe de votre implémentation de ces deux fonctions;
 \item \'Etudiez la complexité en temps dans le meilleur et pire cas de
   ces deux fonctions en fonction du nombre de mots stockés dans
-  l'arbre
+  l'arbre.
 \end{enumerate}
 
 \section*{Annexe: Liste des fichiers fournis et à rendre}
 
-\subsection*{Fichier fourni}
+\subsection*{Fichiers fournis}
 \begin{description}
-\item[\texttt{BinarySearchTree.h}:] contient l'interface à implémenter
-\item[\texttt{dico.txt}:] une liste de mots avec leur définition
-\item[\texttt{main.c}:] contient une fonction main chargeant les définitions du fichier dico.txt et les stockant dans le dictionnaire. Ce fichier vous est fourni pour vous permettre de tester votre implémentation.
+\item[\texttt{BinarySearchTree.h}:] contient l'interface à implémenter ;
+\item[\texttt{dico.txt}:] une liste de mots avec leurs définitions ;
+\item[\texttt{main.c}:] contient une fonction \texttt{main} chargeant les définitions du fichier dico.txt et les stockant dans le dictionnaire. Ce fichier vous est fourni pour vous permettre de tester votre implémentation.
 \end{description}
 \subsection*{Fichiers à rendre}
 Deux fichiers sont à rendre dans une archive \texttt{.tar.gz}. Le nom de l'archive n'a pas d'importance.
 \begin{description}
-\item[\texttt{BinarySearchTree.c}] implémente les fonctions de l'interface \texttt{BinarySeachTree.h}
+\item[\texttt{BinarySearchTree.c}] implémente les fonctions de l'interface \texttt{BinarySeachTree.h} ;
 \item[\texttt{Rapport.pdf}] contient vos réponses aux questions
 \end{description}
 
