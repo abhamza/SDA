@@ -341,18 +341,22 @@ compte du bord à gauche).
 
 \section{Directives d'implémentation}
 
-{\color{red} \textbf{Remarque.} Ces directives sont temporaires et sont sujettes
-à modifications. Nous les mettrons à jour dans les jours qui viennent, dès
-que les fichiers d'interface seront publiés.}
-
 On vous demande d'implémenter l'algorithme de mise en page intelligent
 décrit ci-dessus. Vous devrez implémenter les fonctions suivantes
-(voir le fichier 'ComicsPacking.h' pour les prototypes de ces
+(voir le fichier \texttt{Comic.h} pour les prototypes de ces
 fonctions).
 
-\paragraph{\texttt{BoxWrapping}.} Cette fonction calculera le placement optimal des cases. Elle prendra comme arguments le nombre de cases, un tableau reprennant la taille de chaque case et une largeur de page $W$. La sortie de cette fonction sera une table de taille $n$ reprenant pour chaque case la rangée à laquelle est doit être placée.
+\paragraph{\texttt{wrapImages}.} Cette fonction calculera le placement optimal
+des cases. Elle prendra comme arguments un tableau d'images (les cases de la
+BD), un nombre de cases, une largeur de page et une taille de bordure. La
+sortie de cette fonction sera une table de taille égale au nombre de cases et
+reprenant pour chacune la rangée à laquelle elle doit être placée.
 
-\paragraph{\texttt{ImageWidthReduction}.} Cette fonction implémentera la réduction d'une image par la technique décrite dans la section \ref{sec:reduc}. Elle prendra en argument une image (le format d'une image est décrit également dans le fichier 'ComicsPacking.h') et un nombre de pixels et elle renverra une nouvelle image obtenue en réduisant l'image initiale de $k$ pixels.
+\paragraph{\texttt{reduceImageWidth}.} Cette fonction implémentera la réduction
+d'une image par la technique décrite dans la section \ref{sec:reduc}. Elle
+prendra en argument une image (le format d'une image est décrit également dans
+le fichier \texttt{PPM.h}) et un nombre de pixels et elle renverra une nouvelle
+image obtenue en réduisant l'image initiale de $k$ pixels.
 
 %% Note:
 %% \begin{itemize}
@@ -363,25 +367,34 @@ fonctions).
 %%   à la couture.
 %% \end{itemize}
 
-\paragraph{\texttt{ImageWidthExpansion}.} Cette fonction implémentera l'élargissement d'image suivant la technique décrite dans la section \ref{sec:enlarge}. Elle prendra en argument une image et un nombre $k$ de pixels et renverra une nouvelle image élargie de $k$ pixels.
+\paragraph{\texttt{increaseImageWidth}.} Cette fonction implémentera
+l'élargissement d'image suivant la technique décrite dans la section
+\ref{sec:enlarge}. Elle prendra en argument une image et un nombre $k$ de
+pixels et renverra une nouvelle image élargie de $k$ pixels.
 
-\paragraph{\texttt{ComicPacking}.} Cette fonction sera la fonction principale de votre programme. Elle prendra en argument un nombre de cases, un tableau d'images (les cases de la BD), une largeur de page et une épaisseur de bord. Elle fournira en sortie une nouvelle image contenant la planche complète générée selon la procédure décrite dans la section \ref{sec:packing}.
+\paragraph{\texttt{packComic}.} Cette fonction sera la fonction  principale de
+votre programme. Elle prendra en argument un tableau d'images (les cases de la
+BD), un nombre de cases, un tableau d'images (les cases de la BD), une largeur
+de page et une épaisseur de bord. Elle fournira en sortie une nouvelle image
+contenant la planche complète générée selon la procédure décrite dans la
+section \ref{sec:packing}.
 
 Pour vous aider dans vos tests, nous vous fournissons également deux
 fichiers ``main'':
 \begin{itemize}
-\item mainSeamCarving.c: qui prend en argument sur la ligne de
-  commande un nom de fichier image et un nombre de pixels (positif ou
-  négatif) et renvoie dans un nouveau fichier l'image réduite (si le nombre
+\item mainSeamCarving.c: qui prend en arguments sur la ligne de
+  commande un nom de fichier image d'entrée, un nom de fichier d'image de sortie et un nombre de pixels (positif ou
+  négatif). Ce programme génère dans un nouveau fichier l'image réduite (si le nombre
   de pixels est négatif) ou étendue (si le nombre de pixels est
   positif) à l'aide de vos fonctions \texttt{ImageWidthReduction} et
   \texttt{ImageWidthExpansion}.
-\item mainComicPacking.c: qui prend en argument sur la ligne de
-  commande une largeur d'image, un nombre de cases et une entête de
-  nom de fichier et renvoie dans un fichier l'image de la bande
-  dessinée générée à partir des cases.
+\item mainComicPacking.c: qui prend en arguments sur la ligne de
+  commande une largeur d'image, une épaisseur de bord, le nom d'un fichier de
+  sortie et une liste de fichiers correspondant au cases de la BD. Ce
+  programme génère dans un nouveau fichier l'image de bande dessinée
+  formée à partir des cases.
 \end{itemize}
-Ces fichiers font appel aux fonctions de chargement et d'écriture d'images fournies dans les fichiers 'Image.h' et 'Image.c'.
+Ces fichiers font appel aux fonctions de chargement et d'écriture d'images fournies dans \texttt{PPM.h/c}.
 
 %% \subsection{\texttt{SeamCarvingCached}}
 
