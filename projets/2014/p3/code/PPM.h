@@ -1,12 +1,12 @@
 /* ------------------------------------------------------------------------- *
- * PPM.
- * Interface for loading and writing PPM images.
+ * PNM.
+ * Interface for loading and writing PNM images.
  *
  * Partly adapted from http://stackoverflow.com/a/2699908
  * ------------------------------------------------------------------------- */
 
-#ifndef _PPM_H_
-#define _PPM_H_
+#ifndef _PNM_H_
+#define _PNM_H_
 
 #include <stddef.h>
 
@@ -15,63 +15,63 @@
 
 typedef struct {
     unsigned char red, green, blue;
-} PPMPixel;
+} PNMPixel;
 
 typedef struct {
     size_t width;
     size_t height;
-    PPMPixel* data;     // Pixel (i, j) is at position i * width + j
-} PPMImage;
+    PNMPixel* data;     // Pixel (i, j) is at position i * width + j
+} PNMImage;
 
 
 // Methods --------------------------------------------------------------------
 
 /* ------------------------------------------------------------------------- *
- * Create an empty PPM image.
- * The PPM image must later be deleted by calling freePPM().
+ * Create an empty PNM image.
+ * The PNM image must later be deleted by calling freePNM().
  *
  * PARAMETERS
  * width        Width of the image (in pixels)
  * height       Height of the image (in pixels)
  *
  * RETURN
- * image        Pointer to an empty PPM image
+ * image        Pointer to an empty PNM image
  * NULL         if an error occured
  * ------------------------------------------------------------------------- */
-PPMImage* createPPM(size_t width, size_t height);
+PNMImage* createPNM(size_t width, size_t height);
 
 /* ------------------------------------------------------------------------- *
- * Free a PPM image.
+ * Free a PNM image.
  *
  * PARAMETER
- * image        Pointer to a PPM image
+ * image        Pointer to a PNM image
  * ------------------------------------------------------------------------- */
-void freePPM(PPMImage* image);
+void freePNM(PNMImage* image);
 
 /* ------------------------------------------------------------------------- *
- * Load a PPM image from a file.
- * The PPM image must later be deleted by calling freePPM().
+ * Load a PNM image from a file.
+ * The PNM image must later be deleted by calling freePNM().
  *
  * PARAMETERS
- * filename     Path to the PPM file
+ * filename     Path to the PNM file
  *
  * RETURN
- * image        Pointer to the loaded PPM image
+ * image        Pointer to the loaded PNM image
  * NULL         if an error occured
  * ------------------------------------------------------------------------- */
-PPMImage* readPPM(char* filename);
+PNMImage* readPNM(char* filename);
 
 /* ------------------------------------------------------------------------- *
- * Write a PPM image into a file.
+ * Write a PNM image into a file.
  *
  * PARAMETERS
- * filename     Path to the PPM file
- * image        Pointer to the PPM image to write
+ * filename     Path to the PNM file
+ * image        Pointer to the PNM image to write
  *
  * RETURN
  * 0            In case of success
  * -1           Otherwise
  * ------------------------------------------------------------------------- */
-int writePPM(char* filename, PPMImage* image);
+int writePNM(char* filename, PNMImage* image);
 
-#endif // _PPM_H_
+#endif // _PNM_H_

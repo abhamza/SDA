@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------------- *
- * Implementation of the PPM interface
+ * Implementation of the PNM interface
  *
  * Partly adapted from http://stackoverflow.com/a/2699908
  * ------------------------------------------------------------------------- */
@@ -9,12 +9,12 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-#include "PPM.h"
+#include "PNM.h"
 
 // Methods
 
-PPMImage* createPPM(size_t width, size_t height) {
-    PPMImage* image = (PPMImage*) malloc(sizeof(PPMImage));
+PNMImage* createPNM(size_t width, size_t height) {
+    PNMImage* image = (PNMImage*) malloc(sizeof(PNMImage));
     if (!image) {
         fprintf(stderr, "Unable to allocate memory\n");
         return NULL;
@@ -23,7 +23,7 @@ PPMImage* createPPM(size_t width, size_t height) {
     image->width = width;
     image->height = height;
 
-    image->data = (PPMPixel*) malloc(width * height * sizeof(PPMPixel));
+    image->data = (PNMPixel*) malloc(width * height * sizeof(PNMPixel));
     if (!image->data) {
         fprintf(stderr, "Unable to allocate memory\n");
         free(image);
@@ -33,19 +33,19 @@ PPMImage* createPPM(size_t width, size_t height) {
     return image;
 }
 
-void freePPM(PPMImage* image) {
+void freePNM(PNMImage* image) {
     if (image) {
         free(image->data);
         free(image);
     }
 }
 
-PPMImage* readPPM(char* filename) {
+PNMImage* readPNM(char* filename) {
     FILE* fp;
     char buffer[16];
     int c;
 
-    // Open PPM file for reading
+    // Open PNM file for reading
     fp = fopen(filename, "rb");
     if (!fp) {
         fprintf(stderr, "Unable to open file '%s'\n", filename);
@@ -94,7 +94,7 @@ PPMImage* readPPM(char* filename) {
     while (fgetc(fp) != '\n') ;
 
     // Allocate memory
-    PPMImage* image = createPPM(width, height);
+    PNMImage* image = createPNM(width, height);
     if (!image) {
         return NULL;
     }
@@ -103,7 +103,7 @@ PPMImage* readPPM(char* filename) {
     if (fread(image->data, 3 * image->width,
               image->height, fp) != image->height) {
         fprintf(stderr, "Error loading image '%s'\n", filename);
-        freePPM(image);
+        freePNM(image);
         return NULL;
     }
 
@@ -111,7 +111,7 @@ PPMImage* readPPM(char* filename) {
     return image;
 }
 
-int writePPM(char* filename, PPMImage* image) {
+int writePNM(char* filename, PNMImage* image) {
     // Open file
     FILE* fp;
 

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "Comic.h"
-#include "PPM.h"
+#include "PNM.h"
 
 int main(int argc, char* argv[]) {
     if (argc < 5) {
@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
     size_t comicWidth = (size_t) atoi(argv[1]);
     size_t comicBorder = (size_t) atoi(argv[2]);
 
-    PPMImage** images = (PPMImage**) malloc((argc - 4) * sizeof(PPMImage*));
+    PNMImage** images = (PNMImage**) malloc((argc - 4) * sizeof(PNMImage*));
     if (!images) {
         fprintf(stderr, "Unable to allocate memory\n");
         return -1;
@@ -23,11 +23,11 @@ int main(int argc, char* argv[]) {
     size_t nbImages = argc - 4;
 
     for (size_t i = 0; i < nbImages; i++) {
-        images[i] = readPPM(argv[i + 4]);
+        images[i] = readPNM(argv[i + 4]);
 
         if (!images[i]) {
             for (size_t k = 0; k < i; k++) {
-                freePPM(images[k]);
+                freePNM(images[k]);
             }
 
             free(images);
@@ -37,10 +37,10 @@ int main(int argc, char* argv[]) {
     }
 
     // Build comic
-    PPMImage* comic = packComic(images, nbImages, comicWidth, comicBorder);
+    PNMImage* comic = packComic(images, nbImages, comicWidth, comicBorder);
     if (!comic) {
         for (size_t k = 0; k < nbImages; k++) {
-            freePPM(images[k]);
+            freePNM(images[k]);
         }
 
         free(images);
@@ -48,13 +48,13 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    writePPM(argv[3], comic);
+    writePNM(argv[3], comic);
 
     // Free
-    freePPM(comic);
+    freePNM(comic);
 
     for (size_t k = 0; k < nbImages; k++) {
-        freePPM(images[k]);
+        freePNM(images[k]);
     }
 
     free(images);

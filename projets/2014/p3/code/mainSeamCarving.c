@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "Comic.h"
-#include "PPM.h"
+#include "PNM.h"
 
 int main(int argc, char* argv[]) {
     if (argc != 4) {
@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Load image
-    PPMImage* original = readPPM(argv[1]);
+    PNMImage* original = readPNM(argv[1]);
     if (!original) {
         fprintf(stderr, "Cannot load image '%s'\n", argv[1]);
         return -1;
@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     // Seam carving
     int k = atoi(argv[3]);
 
-    PPMImage* new;
+    PNMImage* new;
 
     if (k < 0) {
         new = reduceImageWidth(original, (size_t) -k);
@@ -31,14 +31,14 @@ int main(int argc, char* argv[]) {
 
     if (!new) {
         fprintf(stderr, "Cannot build new image\n");
-        freePPM(original);
+        freePNM(original);
         return -1;
     }
 
     // Save and free
-    writePPM(argv[2], new);
-    freePPM(original);
-    freePPM(new);
+    writePNM(argv[2], new);
+    freePNM(original);
+    freePNM(new);
 
     return 0;
 }

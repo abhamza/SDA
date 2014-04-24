@@ -7,39 +7,39 @@
 #define _COMICS_H_
 
 #include <stddef.h>
-#include "PPM.h"
+#include "PNM.h"
 
 /* ------------------------------------------------------------------------- *
- * Reduce the width of a PPM image to `image->width-k` using the seam carving
+ * Reduce the width of a PNM image to `image->width-k` using the seam carving
  * algorithm.
  *
- * The PPM image must later be deleted by calling freePPM().
+ * The PNM image must later be deleted by calling freePNM().
  *
  * PARAMETERS
- * image        Pointer to a PPM image
+ * image        Pointer to a PNM image
  * k            The number of pixels to be removed (along the width axis)
  *
  * RETURN
- * image        Pointer to a new PPM image
+ * image        Pointer to a new PNM image
  * NULL         if an error occured
  * ------------------------------------------------------------------------- */
-PPMImage* reduceImageWidth(PPMImage* image, size_t k);
+PNMImage* reduceImageWidth(PNMImage* image, size_t k);
 
 /* ------------------------------------------------------------------------- *
- * Increase the width of a PPM image to `image->width+k` using the seam
+ * Increase the width of a PNM image to `image->width+k` using the seam
  * carving algorithm.
  *
- * The PPM image must later be deleted by calling freePPM().
+ * The PNM image must later be deleted by calling freePNM().
  *
  * PARAMETERS
- * image        Pointer to a PPM image
+ * image        Pointer to a PNM image
  * k            The number of pixels to be added (along the width axis)
  *
  * RETURN
- * image        Pointer to a new PPM image
+ * image        Pointer to a new PNM image
  * NULL         if an error occured
  * ------------------------------------------------------------------------- */
-PPMImage* increaseImageWidth(PPMImage* image, size_t k);
+PNMImage* increaseImageWidth(PNMImage* image, size_t k);
 
 /* ------------------------------------------------------------------------- *
  * Compute the optimal positions of the images on the page.
@@ -58,13 +58,13 @@ PPMImage* increaseImageWidth(PPMImage* image, size_t k);
  *              configuration.
  * NULL         if an error occured
  * ------------------------------------------------------------------------- */
-size_t* wrapImages(PPMImage** images, size_t nbImages, size_t comicWidth,
+size_t* wrapImages(PNMImage** images, size_t nbImages, size_t comicWidth,
                    size_t comicBorder);
 
 /* ------------------------------------------------------------------------- *
  * Pack images into a single comic image.
  *
- * The returned image must later be deleted by calling freePPM().
+ * The returned image must later be deleted by calling freePNM().
  *
  * PARAMETERS
  * images       An array of images
@@ -76,7 +76,7 @@ size_t* wrapImages(PPMImage** images, size_t nbImages, size_t comicWidth,
  * image        The comic image
  * NULL         if an error occured
  * ------------------------------------------------------------------------- */
-PPMImage* packComic(PPMImage** images, size_t nbImages, size_t comicWidth,
+PNMImage* packComic(PNMImage** images, size_t nbImages, size_t comicWidth,
                     size_t comicBorder);
 
 #endif // _COMICS_H_
