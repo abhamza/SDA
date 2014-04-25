@@ -31,7 +31,6 @@ int main(int argc, char* argv[]) {
             }
 
             free(images);
-
             return -1;
         }
     }
@@ -44,7 +43,6 @@ int main(int argc, char* argv[]) {
         }
 
         free(images);
-
         return -1;
     }
 
